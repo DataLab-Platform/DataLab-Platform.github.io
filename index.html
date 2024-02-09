@@ -1,1 +1,26 @@
-This is a test
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Language Redirect</title>
+    <script type="text/javascript">
+        function redirectBasedOnLanguage() {
+            var userLang = navigator.language || navigator.userLanguage;
+            var baseURL = window.location.origin + window.location.pathname;
+
+            // Ensure the base URL does not end with a slash
+            if (baseURL.endsWith('/')) {
+                baseURL = baseURL.slice(0, -1);
+            }
+
+            if (userLang.includes("fr")) {
+                window.location.href = baseURL + "/fr/";
+            } else {
+                // Default to English if French is not detected
+                window.location.href = baseURL + "/en/";
+            }
+        }
+    </script>
+</head>
+<body onload="redirectBasedOnLanguage()">
+</body>
+</html>

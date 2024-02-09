@@ -1,0 +1,753 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8TG8R0SXX2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-8TG8R0SXX2');
+</script>
+
+
+    <title>Mise en place de l’environnement de développement &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../_static/documentation_options.js?v=e9405df3"></script>
+    <script src="../_static/doctools.js?v=888ff710"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/translations.js?v=d99ca74e"></script>
+    <script src="../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'contributing/environment';</script>
+    <link rel="canonical" href="https://DataLab-Platform.github.io/contributing/environment.html" />
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="next" title="Feuille de route" href="roadmap.html" />
+    <link rel="prev" title="Règles de codage" href="guidelines.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">v0.12.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Codra-Ingenierie-Informatique/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Codra-Ingenierie-Informatique/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation de la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+  <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="contribute_code.html">Contribuer au code</a></li>
+<li class="toctree-l1"><a class="reference internal" href="guidelines.html">Règles de codage</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Mise en place de l’environnement de développement</a></li>
+<li class="toctree-l1"><a class="reference internal" href="roadmap.html">Feuille de route</a></li>
+<li class="toctree-l1"><a class="reference internal" href="changelog.html">Historique des modifications</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Fil d'Ariane">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Contribuer</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Mise en...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="setting-up-development-environment">
+<h1>Mise en place de l’environnement de développement<a class="headerlink" href="#setting-up-development-environment" title="Link to this heading">#</a></h1>
+<p>Démarrer le développement dans le cadre du projet DataLab est facile.</p>
+<p>Voici ce dont vous aurez besoin :</p>
+<ol class="arabic simple">
+<li><p>Un environnement de développement intégré (IDE) pour Python. Nous recommandons <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a> ou <a class="reference external" href="https://code.visualstudio.com/">Visual Studio Code</a>, mais tout IDE fera l’affaire.</p></li>
+<li><p>Une distribution Python. Nous recommandons <a class="reference external" href="https://winpython.github.io/">WinPython</a>, sur Windows, ou <a class="reference external" href="https://www.anaconda.com/">Anaconda</a>, sur Linux ou Mac. Mais, encore une fois, n’importe quelle distribution Python fera l’affaire.</p></li>
+<li><p>Une structure de projet propre (voir ci-dessous).</p></li>
+<li><p>Des données de test (voir ci-dessous).</p></li>
+<li><p>Des variables d’environnement (voir ci-dessous).</p></li>
+<li><p>Des logiciels tiers (voir ci-dessous).</p></li>
+</ol>
+<section id="development-environment">
+<h2>Environnement de développement<a class="headerlink" href="#development-environment" title="Link to this heading">#</a></h2>
+<p>Si vous utilisez <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>, merci de soutenir la communauté scientifique Python open-source !</p>
+<p>Si vous utilisez Visual Studio Code, c’est aussi un excellent choix (pour d’autres raisons). Nous recommandons d’installer les extensions suivantes :</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Extension</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter">Black Formatter</a></p></td>
+<td><p>Formateur de code Python</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=mrorz.language-gettext">gettext</a></p></td>
+<td><p>Coloration syntaxique Gettext</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort">isort</a></p></td>
+<td><p>Classeur d’importations Python</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance">Pylance</a></p></td>
+<td><p>Serveur de langage Python</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.python">Python</a></p></td>
+<td><p>Extension Python</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=trond-snekvik.simple-rst">reStructuredText Syntax highlighting</a></p></td>
+<td><p>Coloration syntaxique reStructuredText</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=charliermarsh.ruff">Ruff</a></p></td>
+<td><p>Linter et formateur de code Python extrêmement rapide</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree">Todo Tree</a></p></td>
+<td><p>Arbre de tâches</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="python-environment">
+<h2>Environnement Python<a class="headerlink" href="#python-environment" title="Link to this heading">#</a></h2>
+<p>DataLab nécessite les éléments suivants :</p>
+<ul class="simple">
+<li><p>Python (p.ex. WinPython)</p></li>
+<li><p>Paquets Python supplémentaires</p></li>
+</ul>
+<p>Installation de tous les paquets requis :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>pip install --upgrade -r dev\requirements.txt
+</pre></div>
+</div>
+<p>Voir <a class="reference external" href="https://DataLab-Platform.github.io/en/intro/installation.html">Installation</a> pour plus de détails sur les versions de référence de Python et Qt.</p>
+<p>Si vous utilisez <a class="reference external" href="https://winpython.github.io/">WinPython</a>, merci de soutenir la communauté scientifique Python open-source !</p>
+<p>Le tableau suivant liste les distributions Python actuellement utilisées officiellement :</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Version de Python</p></th>
+<th class="head"><p>Statut</p></th>
+<th class="head"><p>Version de WinPython</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>3.8</p></td>
+<td><p>OK</p></td>
+<td><p>3.8.10.0</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.9</p></td>
+<td><p>OK</p></td>
+<td><p>3.9.10.0</p></td>
+</tr>
+<tr class="row-even"><td><p>3.10</p></td>
+<td><p>OK</p></td>
+<td><p>3.10.11.1</p></td>
+</tr>
+<tr class="row-odd"><td><p>3.11</p></td>
+<td><p>OK</p></td>
+<td><p>3.11.5.0</p></td>
+</tr>
+<tr class="row-even"><td><p>3.12</p></td>
+<td><p>OK</p></td>
+<td><p>3.12.0.1</p></td>
+</tr>
+</tbody>
+</table>
+<p>⚠ Nous recommandons fortement d’utiliser les versions <code class="docutils literal notranslate"><span class="pre">.dot</span></code> de WinPython qui sont légères et peuvent être personnalisées selon vos besoins (en utilisant <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">-r</span> <span class="pre">requirements.txt</span></code>).</p>
+<p>✅ Nous recommandons également d’utiliser une instance WinPython dédiée pour DataLab.</p>
+</section>
+<section id="test-data">
+<h2>Données de test<a class="headerlink" href="#test-data" title="Link to this heading">#</a></h2>
+<p>Les données de test de DataLab sont situées dans différents dossiers, selon leur nature ou leur origine.</p>
+<p>Les données requises pour les tests unitaires sont situées dans « cdl\data\tests » (données publiques)</p>
+<p>Un second dossier %CDL_DATA% (facultatif) peut être défini pour des tests supplémentaires qui sont encore en cours de développement (ou pour des données confidentielles).</p>
+</section>
+<section id="specific-environment-variables">
+<h2>Variables d’environnement spécifiques<a class="headerlink" href="#specific-environment-variables" title="Link to this heading">#</a></h2>
+<p>Activer le mode « debug » (pas de redirection stdin/stdout vers la console interne) :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@REM Mode DEBUG
+set DEBUG=1
+</pre></div>
+</div>
+<p>Générer la documentation PDF nécessite LaTeX. Sur Windows, l’environnement suivant :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@REM LaTeX executable must be in Windows PATH, for mathematical equations rendering
+@REM Example with MiKTeX :
+set PATH=C:\\Apps\\miktex-portable\\texmfs\\install\\miktex\\bin\\x64;%PATH%
+</pre></div>
+</div>
+<p>La configuration de Visual Studio Code utilisée dans <code class="docutils literal notranslate"><span class="pre">launch.json</span></code> et <code class="docutils literal notranslate"><span class="pre">tasks.json</span></code> (exemples) :</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>@REM Development environment
+set CDL_PYTHONEXE=C:\C2OIQ-DevCDL\python-3.8.10.amd64\python.exe
+@REM Folder containing additional working test data
+set CDL_DATA=C:\Dev\Projets\CDL_data
+</pre></div>
+</div>
+<p>Fichier <code class="docutils literal notranslate"><span class="pre">.env</span></code> de Visual Studio Code :</p>
+<ul class="simple">
+<li><p>Ce fichier est utilisé pour définir les variables d’environnement de l’application.</p></li>
+<li><p>Il est utilisé pour définir la variable d’environnement <code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code> à la racine du projet.</p></li>
+<li><p>Cela est nécessaire pour pouvoir importer les modules du projet depuis VS Code.</p></li>
+<li><p>Pour créer ce fichier, copiez le fichier <code class="docutils literal notranslate"><span class="pre">.env.template</span></code> en <code class="docutils literal notranslate"><span class="pre">.env</span></code> (et ajoutez éventuellement vos propres chemins).</p></li>
+</ul>
+</section>
+<section id="third-party-software">
+<h2>Logiciels tiers<a class="headerlink" href="#third-party-software" title="Link to this heading">#</a></h2>
+<p>Les logiciels suivants peuvent être nécessaires pour maintenir le projet :</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Logiciel</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://mlocati.github.io/articles/gettext-iconv-windows.html">gettext</a></p></td>
+<td><p>Traductions</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://git-scm.com/">Git</a></p></td>
+<td><p>Système de contrôle de version</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://imagemagick.org/">ImageMagick</a></p></td>
+<td><p>Utilitaires de manipulation d’images</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://inkscape.org/">Inkscape</a></p></td>
+<td><p>Editeur de graphiques vectoriels</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://miktex.org/">MikTeX</a></p></td>
+<td><p>Distribution LaTeX sur Windows</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="guidelines.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Règles de codage</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="roadmap.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Feuille de route</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#development-environment">Environnement de développement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-environment">Environnement Python</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data">Données de test</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-environment-variables">Variables d’environnement spécifiques</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-party-software">Logiciels tiers</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Codra - Pierre Raybaut.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

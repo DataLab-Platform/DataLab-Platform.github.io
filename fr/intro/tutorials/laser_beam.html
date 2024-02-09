@@ -1,0 +1,732 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-8TG8R0SXX2"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-8TG8R0SXX2');
+</script>
+
+
+    <title>Mesurer la taille d’un faisceau laser &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=5b4479735964841361fd" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=5b4479735964841361fd" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=5b4479735964841361fd" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=5b4479735964841361fd"></script>
+
+    <script src="../../_static/documentation_options.js?v=e9405df3"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=d99ca74e"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro/tutorials/laser_beam';</script>
+    <link rel="canonical" href="https://DataLab-Platform.github.io/intro/tutorials/laser_beam.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Prototypage d’une chaîne de traitement personnalisée" href="custom_func.html" />
+    <link rel="prev" title="Mesure de franges de Fabry-Perot" href="fabry_perot.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+  
+  
+    <p class="title logo__title">v0.12.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Codra-Ingenierie-Informatique/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item">
+<nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/Codra-Ingenierie-Informatique/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation de la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Sommaire :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Cas d’usage, principales fonctionnalités et points forts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../keyfeatures.html">Fonctionnalités principales</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutoriels</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M1.75 3.5a.25.25 0 00-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25v-8.5a.25.25 0 00-.25-.25H1.75zM0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5z" fill-rule="evenodd"></path><path d="M6 10.559V5.442a.25.25 0 01.379-.215l4.264 2.559a.25.25 0 010 .428l-4.264 2.559A.25.25 0 016 10.559z"></path></svg> Démo rapide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M1.75 3.5a.25.25 0 00-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25v-8.5a.25.25 0 00-.25-.25H1.75zM0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5z" fill-rule="evenodd"></path><path d="M6 10.559V5.442a.25.25 0 01.379-.215l4.264 2.559a.25.25 0 010 .428l-4.264 2.559A.25.25 0 016 10.559z"></path></svg> Ajouter vos propres fonctionnalités</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Traitement d’un spectre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Détection de taches sur une image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Mesure de franges de Fabry-Perot</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Mesurer la taille d’un faisceau laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> DataLab et Spyder : un mariage parfait</a></li>
+</ul>
+</li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Fil d'Ariane">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Premiers pas</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutoriels</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><svg...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-measuring-laser-beam-size">
+<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Mesurer la taille d’un faisceau laser<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-measuring-laser-beam-size" title="Link to this heading">#</a></h1>
+<p>Cet exemple montre comment mesurer la taille d’un faisceau laser le long de l’axe de propagation, en utilisant DataLab :</p>
+<ul class="simple">
+<li><p>Ouvrir toutes les images d’un dossier</p></li>
+<li><p>Appliquer un seuillage aux images</p></li>
+<li><p>Extraire le profil d’intensité le long d’une ligne horizontale</p></li>
+<li><p>Ajuster le profil d’intensité à une fonction gaussienne</p></li>
+<li><p>Calculer la largeur à mi-hauteur (FWHM) du profil d’intensité</p></li>
+<li><p>Essayer une autre méthode : extraire le profil d’intensité radial</p></li>
+<li><p>Calculer la FWHM du profil d’intensité radial</p></li>
+<li><p>Effectuer la même analyse sur une pile d’images et sur les profils résultants</p></li>
+<li><p>Tracer la taille du faisceau en fonction de la position le long de l’axe de propagation</p></li>
+</ul>
+<p>Tout d’abord, nous ouvrons DataLab et chargeons les images :</p>
+<figure class="align-default" id="id1">
+<img alt="../../_images/012.png" src="../../_images/012.png" />
+<figcaption>
+<p><span class="caption-text">Ouvrir les fichiers d’images avec « Fichier &gt; Ouvrir… », ou avec le bouton <a class="reference internal" href="../../_images/fileopen_ima.svg"><img alt="fileopen_ima" height="24px" src="../../_images/fileopen_ima.svg" width="24px" /></a> dans la barre d’outils, ou en faisant glisser et déposer les fichiers dans DataLab (sur le panneau de droite).</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id2">
+<img alt="../../_images/013.png" src="../../_images/013.png" />
+<figcaption>
+<p><span class="caption-text">Sélectionnez les images de test « TEM00_z_*.jpg » et cliquez sur « Ouvrir ».</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Les images sélectionnées sont chargées dans le panneau « Images ». La dernière image est affichée dans la fenêtre principale. Sur chaque image, nous pouvons zoomer en appuyant sur le bouton droit de la souris et en faisant glisser la souris vers le haut et vers le bas. Nous pouvons également déplacer l’image en appuyant sur le bouton du milieu de la souris et en faisant glisser la souris.</p>
+<figure class="align-default" id="id3">
+<img alt="../../_images/023.png" src="../../_images/023.png" />
+<figcaption>
+<p><span class="caption-text">Zoomer avec le bouton droit de la souris. Déplacer l’image avec le bouton du milieu de la souris.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Si nous voulons afficher les images côte à côte, nous pouvons sélectionner l’entrée « Distribuer sur une grille » <a class="reference internal" href="../../_images/distribute_on_grid.svg"><img alt="distribute_on_grid" height="24px" src="../../_images/distribute_on_grid.svg" width="24px" /></a> dans le menu « Opérations ».</p>
+<figure class="align-default" id="id4">
+<img alt="../../_images/033.png" src="../../_images/033.png" />
+<figcaption>
+<p><span class="caption-text">Images distribuées sur une grille de 4 lignes</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Mais, revenons à l’affichage initial en sélectionnant l’entrée « Réinitialiser les positions des images » dans le menu « Opérations ».</p>
+</div>
+<p>Si nous sélectionnons l’une des images, nous pouvons voir qu’il y a du bruit de fond, il peut donc être utile d’appliquer un seuillage aux images.</p>
+<figure class="align-default" id="id5">
+<img alt="../../_images/043.png" src="../../_images/043.png" />
+<figcaption>
+<p><span class="caption-text">Sélectionnez l’une des images dans le panneau « Images », sélectionnez l’image associée dans le panneau de visualisation, et activez l’outil « Section transversale » <img alt="cross_section" src="../../_images/csection.png" /> dans la barre d’outils verticale à gauche du panneau de visualisation (cet outil est une fonctionnalité <a class="reference external" href="https://github.com/PlotPyStack/plotpy">PlotPy</a>). Sur cette figure, nous pouvons voir que le bruit de fond est d’environ 30 lsb (pour afficher le marqueur de courbe, nous avons dû sélectionner la courbe de profil et cliquer avec le bouton droit de la souris dessus pour afficher le menu contextuel, puis sélectionner « Marqueurs &gt; Lié à l’élément actif »).</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id6">
+<img alt="../../_images/053.png" src="../../_images/053.png" />
+<figcaption>
+<p><span class="caption-text">Une autre façon de mesurer le bruit de fond est d’utiliser l’outil « Statistiques de l’image » <img alt="imagestats" src="../../_images/imagestats.png" /> dans la barre d’outils verticale à gauche du panneau de visualisation. Il affiche des statistiques sur une zone rectangulaire définie en faisant glisser la souris sur l’image. Cela confirme que le bruit de fond est d’environ 30 lsb.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id7">
+<img alt="../../_images/063.png" src="../../_images/063.png" />
+<figcaption>
+<p><span class="caption-text">Après avoir appliqué un seuil à 35 lsb (avec « Traitement &gt; Seuillage… »), nous pouvons calculer une position plus précise du centre du faisceau en utilisant « Calcul &gt; Centre de gravité ».</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id8">
+<img alt="../../_images/073.png" src="../../_images/073.png" />
+<figcaption>
+<p><span class="caption-text">Ensuite, nous pouvons extraire un profil de ligne le long de l’axe horizontal avec « Opérations &gt; Profils d’intensité &gt; Profil de ligne ». Nous définissons la position de la ligne sur la position du centre de gravité calculée précédemment (c’est-à-dire 668).</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id9">
+<img alt="../../_images/083.png" src="../../_images/083.png" />
+<figcaption>
+<p><span class="caption-text">Le profil d’intensité est affiché dans le panneau « Signaux ». Nous pouvons ajuster le profil à une fonction gaussienne avec « Traitement &gt; Ajustement &gt; Ajustement gaussien ». Ici, nous avons sélectionné les deux signaux.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id10">
+<img alt="../../_images/093.png" src="../../_images/093.png" />
+<figcaption>
+<p><span class="caption-text">Si nous revenons au premier signal, le profil d’intensité, nous pouvons également calculer directement la FWHM avec « Calcul &gt; Largeur à mi-hauteur ». La boîte de dialogue « Résultats » affiche beaucoup d’informations sur le calcul, y compris la valeur FWHM (qui est la colonne <cite>L</cite>, « L » pour « Longueur » car la forme du résultat est un segment et FWHM est la longueur du segment).</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id11">
+<img alt="../../_images/103.png" src="../../_images/103.png" />
+<figcaption>
+<p><span class="caption-text">La largeur à mi-hauteur est également affichée sur la courbe, avec une étiquette optionnelle (ici, le titre de cette mesure a été affiché avec « Affichage &gt; Afficher les titres des objets graphiques » ou le bouton <a class="reference internal" href="../../_images/show_titles.svg"><img alt="show_titles" height="24px" src="../../_images/show_titles.svg" width="24px" /></a> dans la barre d’outils).</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Maintenant, essayons une autre méthode pour mesurer la taille du faisceau.</p>
+<p>À partir du panneau « Images », nous pouvons extraire le profil d’intensité radial avec « Opérations &gt; Profils d’intensité &gt; Profil radial ».</p>
+<figure class="align-default" id="id12">
+<img alt="../../_images/113.png" src="../../_images/113.png" />
+<figcaption>
+<p><span class="caption-text">Le profil d’intensité radial peut être calculé autour de la position du centre de gravité, ou autour du centre de l’image, ou autour d’une position définie par l’utilisateur. Ici, nous avons sélectionné la position du centre de gravité.</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id13">
+<img alt="../../_images/122.png" src="../../_images/122.png" />
+<figcaption>
+<p><span class="caption-text">Le profil d’intensité radial est affiché dans le panneau « Signaux ». Il est plus lisse que le profil de ligne, car il est calculé à partir d’un plus grand nombre de pixels, ce qui permet de lisser le bruit.</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Toutes ces opérations et calculs que nous avons effectués sur une seule image peuvent être appliqués à toutes les images du panneau « Images ».</p>
+<p>Pour ce faire, nous commençons par nettoyer le panneau « Signaux » (avec « Édition &gt; Tout supprimer » ou le bouton <a class="reference internal" href="../../_images/delete_all.svg"><img alt="delete_all" height="24px" src="../../_images/delete_all.svg" width="24px" /></a> dans la barre d’outils). Nous nettoyons également les résultats intermédiaires dans le panneau « Images » en sélectionnant les images obtenues lors de notre prototypage et en les supprimant individuellement (avec « Édition &gt; Supprimer » ou le bouton <a class="reference internal" href="../../_images/delete.svg"><img alt="delete" height="24px" src="../../_images/delete.svg" width="24px" /></a>).</p>
+<p>Ensuite, nous sélectionnons toutes les images dans le panneau « Images » (individuellement, ou en sélectionnant l’ensemble du groupe « g001 »).</p>
+<figure class="align-default" id="id14">
+<img alt="../../_images/132.png" src="../../_images/132.png" />
+<figcaption>
+<p><span class="caption-text">Nous appliquons le seuil à toutes les images, puis nous extrayons le profil d’intensité radial pour toutes les images (après avoir sélectionné l’ensemble du groupe « g002 » - il devrait être automatiquement sélectionné si vous aviez sélectionné « g001 » avant d’appliquer le seuil).</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id15">
+<img alt="../../_images/141.png" src="../../_images/141.png" />
+<figcaption>
+<p><span class="caption-text">Le panneau « Signaux » contient maintenant tous les profils d’intensité radiaux.</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id16">
+<img alt="../../_images/151.png" src="../../_images/151.png" />
+<figcaption>
+<p><span class="caption-text">Nous pouvons calculer la FWHM de tous les profils d’intensité radiaux : la boîte de dialogue « Résultats » affiche les valeurs FWHM pour tous les profils.</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Si vous souhaitez afficher à nouveau les résultats de calcul, vous pouvez sélectionner l’entrée « Afficher les résultats » <a class="reference internal" href="../../_images/show_results.svg"><img alt="show_results" height="24px" src="../../_images/show_results.svg" width="24px" /></a> dans le menu « Calcul », ou le bouton « Afficher les résultats » <a class="reference internal" href="../../_images/show_results.svg"><img alt="show_results" height="24px" src="../../_images/show_results.svg" width="24px" /></a>, en dessous de la liste des images :</p>
+<img alt="../../_images/121.png" src="../../_images/121.png" />
+</div>
+<figure class="align-default" id="id17">
+<img alt="../../_images/161.png" src="../../_images/161.png" />
+<figcaption>
+<p><span class="caption-text">Enfin, nous pouvons tracer la taille du faisceau en fonction de la position le long de l’axe de propagation. Pour ce faire, nous utilisons la fonction « Tracer les résultats » <a class="reference internal" href="../../_images/plot_results.svg"><img alt="plot_results" height="24px" src="../../_images/plot_results.svg" width="24px" /></a> dans le menu « Calcul ». Cette fonction permet de tracer les ensembles de données de résultats en choisissant les axes x et y parmi les colonnes de résultats. Ici, nous choisissons de tracer les valeurs FWHM (<cite>L</cite>) en fonction de l’index de l’image (<cite>Indexes</cite>).</span><a class="headerlink" href="#id17" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id18">
+<img alt="../../_images/171.png" src="../../_images/171.png" />
+<figcaption>
+<p><span class="caption-text">Le tracé est affiché dans le panneau « Signaux » et montre que la taille du faisceau augmente avec la position le long de l’axe de propagation (la position est ici en unités arbitraires, l’index de l’image).</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<figure class="align-default" id="id19">
+<img alt="../../_images/181.png" src="../../_images/181.png" />
+<figcaption>
+<p><span class="caption-text">Nous pouvons également étalonner les axes X et Y en utilisant « Traitement &gt; Étalonnage linéaire ». Ici, nous avons réglé l’axe X sur la position en mm (et entré le titre et l’unité dans le groupe de boîtes « Propriétés »).</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Enfin, nous pouvons enregistrer l’espace de travail dans un fichier <a class="reference internal" href="../../_images/filesave_h5.svg"><img alt="filesave_h5" height="24px" src="../../_images/filesave_h5.svg" width="24px" /></a>. L’espace de travail contient toutes les images et signaux qui ont été chargés ou traités dans DataLab. Il contient également les résultats des calculs, les paramètres de visualisation (cartes de couleurs, contraste, etc.), les métadonnées et les annotations.</p>
+<p>Si vous souhaitez charger à nouveau l’espace de travail, vous pouvez utiliser « Fichier &gt; Ouvrir un fichier HDF5… » (ou le bouton <a class="reference internal" href="../../_images/fileopen_h5.svg"><img alt="fileopen_h5" height="24px" src="../../_images/fileopen_h5.svg" width="24px" /></a> dans la barre d’outils) pour charger l’ensemble de l’espace de travail, ou « Fichier &gt; Parcourir un fichier HDF5… » (ou le bouton <a class="reference internal" href="../../_images/h5browser.svg"><img alt="h5browser" height="24px" src="../../_images/h5browser.svg" width="24px" /></a> dans la barre d’outils) pour charger uniquement une sélection d’ensembles de données de l’espace de travail.</p>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="fabry_perot.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Mesure de franges de Fabry-Perot</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="custom_func.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=5b4479735964841361fd"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=5b4479735964841361fd"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, Codra - Pierre Raybaut.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.4.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
