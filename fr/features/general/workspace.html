@@ -7,8 +7,8 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
-<meta content="Esapce de travail et explorateur HDF5 dans DataLab, la plateforme open-source d'analyse et de visualisation de données scientifiques" name="description" translated="True" />
-<meta content="DataLab, espace de travail, HDF5, explorateur, scientifique, données, analyse, visualisation, plateforme" name="keywords" translated="True" />
+<meta content="Espace de travail dans DataLab, la plateforme open-source d'analyse et de visualisation de données scientifiques" name="description" translated="True" />
+<meta content="DataLab, espace de travail, scientifique, données, analyse, visualisation, plateforme" name="keywords" translated="True" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
@@ -52,7 +52,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../_static/documentation_options.js?v=337d8a3f"></script>
+    <script src="../../_static/documentation_options.js?v=b2ac6de6"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -64,7 +64,7 @@
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
-    <link rel="next" title="Macros" href="macros.html" />
+    <link rel="next" title="Explorateur HDF5" href="h5browser.html" />
     <link rel="prev" title="Fonctionnalités" href="../index.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
@@ -145,7 +145,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.12.0</p>
+    <p class="title logo__title">v0.14.0</p>
   
 </a></div>
     
@@ -285,10 +285,6 @@ document.write(`
   
 
   
-    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
-      <span class="fa-solid fa-outdent"></span>
-    </label>
-  
 </div>
 
     </nav>
@@ -414,6 +410,7 @@ document.write(`
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités générales :</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Espace de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h5browser.html">Explorateur HDF5</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
@@ -494,8 +491,6 @@ document.write(`
                   
   <section id="workspace">
 <span id="id1"></span><h1>Espace de travail<a class="headerlink" href="#workspace" title="Link to this heading">#</a></h1>
-<section id="basic-concepts">
-<h2>Concepts de base<a class="headerlink" href="#basic-concepts" title="Link to this heading">#</a></h2>
 <p>Travailler avec DataLab est très simple. L’interface est intuitive et appréhendable facilement. La fenêtre principale est divisée en deux zones principales :</p>
 <ul class="simple">
 <li><p>La zone de droite affiche la liste des jeux de données actuellement chargés dans DataLab, répartis sur deux onglets : <strong>Signaux</strong> et <strong>Images</strong>. L’utilisateur peut basculer entre les deux onglets en cliquant sur l’onglet correspondant : cela bascule la fenêtre principale vers le panneau correspondant, ainsi que le contenu du menu et de la barre d’outils. Sous la liste des jeux de données, une vue <strong>Propriétés</strong> affiche des informations sur le jeu de données actuellement sélectionné.</p></li>
@@ -509,27 +504,11 @@ document.write(`
 </figure>
 <p>DataLab a son propre modèle de données interne, dans lequel les jeux de données sont organisés autour d’une structure arborescente. Chaque panneau de la fenêtre principale correspond à une branche de l’arbre. Chaque jeu de données affiché dans les panneaux correspond à une feuille de l’arbre. À l’intérieur du jeu de données, les données sont organisées de manière orientée objet, avec un ensemble d’attributs et de méthodes. Le modèle de données est décrit plus en détail dans la section API (voir <a class="reference internal" href="../../api/obj.html#module-cdl.obj" title="cdl.obj"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.obj</span></code></a>).</p>
 <p>Pour chaque jeu de données (signal 1D ou image 2D), non seulement les données elles-mêmes sont stockées, mais aussi un ensemble de métadonnées, qui décrit les données ou la façon dont elles doivent être affichées. Les métadonnées sont stockées dans un dictionnaire, qui est accessible via l’attribut <code class="docutils literal notranslate"><span class="pre">metadata</span></code> du jeu de données (et peuvent également être parcourues dans la vue <strong>Propriétés</strong>, avec le bouton <strong>Métadonnées</strong>).</p>
-<p>L”<strong>Espace de travail</strong> de DataLab est défini comme l’ensemble de tous les jeux de données qui sont actuellement chargés dans DataLab, dans les panneaux <strong>Signaux</strong> et <strong>Images</strong>. L’espace de travail peut être enregistré dans un fichier HDF5, puis rechargé ultérieurement. Il est également possible d’importer des jeux de données à partir d’un fichier HDF5 dans l’espace de travail, en utilisant l”<a class="reference internal" href="#h5browser"><span class="std std-ref">Explorateur HDF5</span></a>.</p>
+<p>L”<strong>Espace de travail</strong> de DataLab est défini comme l’ensemble de tous les jeux de données qui sont actuellement chargés dans DataLab, dans les panneaux <strong>Signaux</strong> et <strong>Images</strong>. L’espace de travail peut être enregistré dans un fichier HDF5, puis rechargé ultérieurement. Il est également possible d’importer des jeux de données à partir d’un fichier HDF5 dans l’espace de travail, en utilisant l”<a class="reference internal" href="h5browser.html#h5browser"><span class="std std-ref">Explorateur HDF5</span></a>.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Les jeux de données peuvent également être enregistrés ou chargés individuellement, en utilisant des formats de données tels que <cite>.txt</cite> ou <cite>.npy</cite> pour les signaux 1D (voir <a class="reference internal" href="../signal/menus.html#open-signal"><span class="std std-ref">Ouvrir un signal</span></a> pour la liste des formats pris en charge), ou <cite>.tiff</cite> ou <cite>.dcm</cite> pour les images 2D (voir <a class="reference internal" href="../image/menus.html#open-image"><span class="std std-ref">Ouvrir une image</span></a> pour la liste des formats pris en charge).</p>
 </div>
-</section>
-<section id="hdf5-browser">
-<span id="h5browser"></span><h2>Explorateur HDF5<a class="headerlink" href="#hdf5-browser" title="Link to this heading">#</a></h2>
-<p>L’explorateur HDF5 est une boîte de dialogue modale permettant d’importer presque n’importe quelles données à 1 ou 2 dimensions dans l’espace de travail de DataLab. Dans certains cas, des métadonnées sont également importées.</p>
-<img alt="../../_images/h5browser.png" src="../../_images/h5browser.png" />
-<p>Les données de type courbe ou image sont affichées sous la forme d’une vue hiérarchique dans le panneau de gauche, de même que les données scalaires (les valeurs scalaires sont simplement affichées à titre d’informations contextuelles et ne peuvent pas être importées dans l’espace de travail de DataLab).</p>
-<dl class="simple">
-<dt>L’explorateur de fichiers HDF5 est très simple à utiliser :</dt><dd><ul class="simple">
-<li><p>Dans le panneau de gauche, sélectionner la courbe ou l’image à importer</p></li>
-<li><p>Les données sélectionnées peuvent être visualisées graphiquement dans le panneau de droite</p></li>
-<li><p>Cliquer sur « Cocher tout » pour importer toutes les données compatibles</p></li>
-<li><p>Valider ensuite en cliquant sur « OK »</p></li>
-</ul>
-</dd>
-</dl>
-</section>
 </section>
 
 
@@ -552,11 +531,11 @@ document.write(`
       </div>
     </a>
     <a class="right-next"
-       href="macros.html"
+       href="h5browser.html"
        title="page suivante">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">suivant</p>
-        <p class="prev-next-title">Macros</p>
+        <p class="prev-next-title">Explorateur HDF5</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -566,21 +545,6 @@ document.write(`
             </div>
             
             
-              
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
-
-  <div class="sidebar-secondary-item">
-  <div class="page-toc tocsection onthispage">
-    <i class="fa-solid fa-list"></i> Sur cette page
-  </div>
-  <nav class="bd-toc-nav page-toc">
-    <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-concepts">Concepts de base</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hdf5-browser">Explorateur HDF5</a></li>
-</ul>
-  </nav></div>
-
-</div></div>
               
             
           </div>
@@ -604,7 +568,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Codra - Pierre Raybaut.
+      © Copyright 2023, DataLab Platform Developers.
       <br/>
     
   </p>

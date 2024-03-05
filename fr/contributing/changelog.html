@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=337d8a3f"></script>
+    <script src="../_static/documentation_options.js?v=b2ac6de6"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.12.0</p>
+    <p class="title logo__title">v0.14.0</p>
   
 </a></div>
     
@@ -474,6 +474,62 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://DataLab-Platform.github.io/fr/contributing/roadmap.html">https://DataLab-Platform.github.io/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-14-0">
+<h2>DataLab Version 0.14.0<a class="headerlink" href="#datalab-version-0-14-0" title="Link to this heading">#</a></h2>
+<p>💥 Nouvelles fonctionnalités :</p>
+<ul class="simple">
+<li><p>Nouvelle fonctionnalité « Histogramme » dans le menu « Calculs » :</p>
+<ul>
+<li><p>Ajout de la fonctionnalité de calcul d’histogramme pour les signaux et les images</p></li>
+<li><p>L’histogramme est calculé sur les régions d’intérêt (ROI) le cas échéant, ou sur l’ensemble du signal/image si aucune ROI n’est définie</p></li>
+<li><p>Paramètres modifiables : nombre de classes, limites inférieure et supérieure</p></li>
+</ul>
+</li>
+<li><p>Explorateur HDF5 :</p>
+<ul>
+<li><p>Amélioration de la disposition de la vue arborescente (plus compacte et lisible)</p></li>
+<li><p>Plusieurs fichiers peuvent désormais être ouverts en même temps, en utilisant la boîte de dialogue de sélection de fichiers</p></li>
+<li><p>Ajout d’onglets avec des informations sous l’aperçu graphique :</p>
+<ul>
+<li><p>Informations sur le groupe : chemin, aperçu textuel, etc.</p></li>
+<li><p>Informations sur les attributs : nom, valeur</p></li>
+</ul>
+</li>
+<li><p>Ajout de la case à cocher « Afficher uniquement les données prises en charge » : lorsqu’elle est cochée, seules les données prises en charge (signaux et images) sont affichées dans la vue arborescente</p></li>
+<li><p>Ajout de la case à cocher « Afficher les valeurs », pour afficher/masquer les valeurs dans la vue arborescente</p></li>
+</ul>
+</li>
+<li><p>Panneau de macro-commandes :</p>
+<ul>
+<li><p>Les macro-commandes sont désormais numérotées, à partir de 1, comme les signaux et les images</p></li>
+</ul>
+</li>
+<li><p>API de contrôle à distance (<cite>RemoteProxy</cite> et <cite>LocalProxy</cite>) :</p>
+<ul>
+<li><p><cite>get_object_titles</cite> accepte désormais « macro » comme nom de panneau et retourne la liste des titres de macro</p></li>
+<li><p>Nouvelles méthodes <cite>run_macro</cite>, <cite>stop_macro</cite> et <cite>import_macro_from_file</cite></p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Version autonome - Intégration dans le menu de démarrage de Windows :</p>
+<ul>
+<li><p>Correction du raccourci « Désinstaller » (non cliquable en raison d’un nom générique)</p></li>
+<li><p>Traduction des raccourcis « Parcourir le répertoire d’installation » et « Désinstaller »</p></li>
+</ul>
+</li>
+<li><p>Correction de l”[Issue #55](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/55">DataLab-Platform/DataLab#55</a>) - Changer les limites de l’image dans la vue d’image n’a aucun effet sur les propriétés de l’objet image associé</p></li>
+<li><p>Correction de l”[Issue #56](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/56">DataLab-Platform/DataLab#56</a>) - Plugin « Données de test » : <cite>AttributeError: “NoneType” object has no attribute “data”</cite> lors de l’annulation de « Créer une image avec des pics »</p></li>
+<li><p>Ceci corrige l”[Issue #57](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/57">DataLab-Platform/DataLab#57</a>) - Les formes résultat cercle et ellipse ne sont pas transformées correctement</p></li>
+<li><p>Cycle de couleur et de style de courbe :</p>
+<ul>
+<li><p>Avant cette version, ce cycle était géré par le même mécanisme pour le Panneau Signal ou l’Explorateur HDF5, ce qui n’était pas le comportement attendu</p></li>
+<li><p>A présent, le cycle est géré séparément : l’Explorateur HDF5 ou l’Assistant d’importation de texte utilisent toujours la même couleur et le même style pour les courbes, et ils n’interfèrent pas avec le cycle du Panneau Signal</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-12-0">
 <h2>DataLab Version 0.12.0<a class="headerlink" href="#datalab-version-0-12-0" title="Link to this heading">#</a></h2>
 <p>🧹 Clarification de certains libellés des interfaces graphiques :</p>
@@ -1076,6 +1132,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-0">DataLab Version 0.14.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-12-0">DataLab Version 0.12.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-11-0">DataLab Version 0.11.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-10-1">DataLab Version 0.10.1</a></li>
@@ -1109,7 +1166,7 @@ document.write(`
         <div class="footer-item">
   <p class="copyright">
     
-      © Copyright 2023, Codra - Pierre Raybaut.
+      © Copyright 2023, DataLab Platform Developers.
       <br/>
     
   </p>
