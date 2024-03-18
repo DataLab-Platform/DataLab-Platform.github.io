@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=b2ac6de6"></script>
+    <script src="../_static/documentation_options.js?v=1bec1980"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.14.0</p>
+    <p class="title logo__title">v0.14.1</p>
   
 </a></div>
     
@@ -474,6 +474,51 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-14-1">
+<h2>DataLab Version 0.14.1<a class="headerlink" href="#datalab-version-0-14-1" title="Link to this heading">#</a></h2>
+<p>🎉 Nouveau nom de domaine : [datalab-platform.com](<a class="reference external" href="https://datalab-platform.com">https://datalab-platform.com</a>)</p>
+<p>💥 Nouvelles fonctionnalités :</p>
+<ul class="simple">
+<li><p>Ajout de la prise en charge de l’inversion de la palette de couleurs dans la Vue Image :</p>
+<ul>
+<li><p>Ajout de la nouvelle entrée « Inverser la palette de couleurs » dans le menu contextuel du graphique, les paramètres de l’image et dans les paramètres par défaut de la vue image</p></li>
+<li><p>Cette fonctionnalité nécessite <cite>PlotPy</cite> v2.3 ou ultérieur</p></li>
+</ul>
+</li>
+<li><p>Explorateur HDF5 :</p>
+<ul>
+<li><p>Ajout du bouton « Afficher le tableau » dans le coin des onglets « Groupe » et « Attributs », pour afficher le tableau dans une fenêtre séparée (utile pour copier/coller des données dans d’autres applications, par exemple)</p></li>
+<li><p>Attributs : ajout de la prise en charge de plus de types de données scalaires</p></li>
+</ul>
+</li>
+<li><p>Testabilité et maintenabilité :</p>
+<ul>
+<li><p>Les tests unitaires de DataLab utilisent désormais [pytest](<a class="reference external" href="https://pytest.org">https://pytest.org</a>). Cela a nécessité beaucoup de travail pour la transition, en particulier pour réadapter les tests afin qu’ils puissent être exécutés dans le même processus. Par exemple, une attention particulière a été portée à l’isolement des tests, afin qu’ils n’interfèrent pas les uns avec les autres.</p></li>
+<li><p>Ajout de l’intégration continue (CI) avec GitHub Actions</p></li>
+<li><p>Pour cette version, la couverture des tests est de 87%</p></li>
+</ul>
+</li>
+<li><p>Assistant d’importation de fichiers texte :</p>
+<ul>
+<li><p>Amélioration drastique des performances de l’aperçu du tableau lors de l’importation de fichiers texte volumineux (plus de barre de progression, et l’aperçu est désormais affiché presque instantanément)</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Le serveur XML-RPC n’était pas arrêté correctement lors de la fermeture de DataLab</p></li>
+<li><p>Correction de problèmes liés aux tests : certains cas limites étaient masqués par l’ancienne suite de tests, et ont été révélés par la transition vers <cite>pytest</cite>. Cela a conduit à des corrections de bugs et à des améliorations du code.</p></li>
+<li><p>Sur Linux, lors de l’exécution d’un calcul sur un signal ou une image, et à de rares occasions, le calcul restait bloqué comme s’il s’exécutait indéfiniment. Même si l’interface graphique était toujours réactive, le calcul n’avançait pas et l’utilisateur devait annuler l’opération et la redémarrer. Cela était dû à la méthode de démarrage du processus séparé utilisé pour le calcul (la méthode par défaut était « fork » sur Linux). Ceci est maintenant corrigé en utilisant la méthode « spawn » à la place, qui est la méthode recommandée pour les dernières versions de Python sur Linux lorsque le multithreading est employé.</p></li>
+<li><p>Correction de l”[Issue #60](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/60">DataLab-Platform/DataLab#60</a>) - <cite>OSError: Invalid HDF5 file […]</cite> lors de la tentative d’ouverture d’un fichier HDF5 avec une extension autre que « .h5 »</p></li>
+<li><p>Région d’intérêt (ROI) d’image : lors de la modification des limites de l’image dans la boîte de dialogue de confirmation, la ROI n’était pas mise à jour en conséquence jusqu’à ce que l’opération soit relancée</p></li>
+<li><p>Problèmes d’obsolescence :</p>
+<ul>
+<li><p>Correction de l’avertissement d’obsolescence <cite>scipy.ndimage.filters</cite></p></li>
+<li><p>Correction de l’avertissement d’obsolescence <cite>numpy.fromstring</cite></p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-14-0">
 <h2>DataLab Version 0.14.0<a class="headerlink" href="#datalab-version-0-14-0" title="Link to this heading">#</a></h2>
 <p>💥 Nouvelles fonctionnalités :</p>
@@ -1132,6 +1177,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-1">DataLab Version 0.14.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-0">DataLab Version 0.14.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-12-0">DataLab Version 0.12.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-11-0">DataLab Version 0.11.0</a></li>

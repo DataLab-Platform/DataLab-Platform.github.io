@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=361a893e"></script>
+    <script src="../_static/documentation_options.js?v=9f5afd58"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.14.0</p>
+    <p class="title logo__title">v0.14.1</p>
   
 </a></div>
     
@@ -474,6 +474,69 @@ document.write(`
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a>
 for future and past milestones.</p>
+<section id="datalab-version-0-14-1">
+<h2>DataLab Version 0.14.1<a class="headerlink" href="#datalab-version-0-14-1" title="Link to this heading">#</a></h2>
+<p>🎉 New domain name: <a class="reference external" href="https://datalab-platform.com">datalab-platform.com</a></p>
+<p>💥 New features:</p>
+<ul class="simple">
+<li><p>Added support for colormap inversion in Image View:</p>
+<ul>
+<li><p>New “Invert colormap” entry in plot context menu, image parameters, and in the
+default image view settings</p></li>
+<li><p>This requires <code class="docutils literal notranslate"><span class="pre">PlotPy</span></code> v2.3 or later</p></li>
+</ul>
+</li>
+<li><p>HDF5 Browser:</p>
+<ul>
+<li><p>Added “Show array” button at the corner of the “Group” and “Attributes” tabs,
+to show the array in a separate window (useful for copy/pasting data to other
+applications, for instance)</p></li>
+<li><p>Attributes: added support for more scalar data types</p></li>
+</ul>
+</li>
+<li><p>Testability and maintainability:</p>
+<ul>
+<li><p>DataLab’s unit tests are now using <a class="reference external" href="https://pytest.org">pytest</a>. This has required
+a lot of work for the transition, especially to readapt the tests so that they may
+be executed in the same process. For instance, a particular attention has been
+given to sandboxing the tests, so that they do not interfere with each other.</p></li>
+<li><p>Added continuous integration (CI) with GitHub Actions</p></li>
+<li><p>For this release, test coverage is 87%</p></li>
+</ul>
+</li>
+<li><p>Text file import assistant:</p>
+<ul>
+<li><p>Drastically improved the performance of the array preview when importing large
+text files (no more progress bar, and the preview is now displayed almost
+instantaneously)</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>XML-RPC server was not shut down properly when closing DataLab</p></li>
+<li><p>Fixed test-related issues: some edge cases were hidden by the old test suite, and
+have been revealed by the transition to <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. This has led to some bug fixes
+and improvements in the code.</p></li>
+<li><p>On Linux, when running a computation on a signal or an image, and on rare occasions,
+the computation was stuck as if it was running indefinitely. Even though the graphical
+user interface was still responsive, the computation was not progressing and the user
+had to cancel the operation and restart it. This was due to the start method of the
+separate process used for the computation (default method was “fork” on Linux). This
+is now fixed by using the “spawn” method instead, which is the recommended method for
+latest versions of Python on Linux when multithreading is involved.</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/60">Issue #60</a> - <code class="docutils literal notranslate"><span class="pre">OSError:</span> <span class="pre">Invalid</span> <span class="pre">HDF5</span> <span class="pre">file</span> <span class="pre">[...]</span></code> when trying to open an HDF5 file with an extension other than “.h5”</p></li>
+<li><p>Image Region of Interest (ROI) extraction: when modifying the image bounds in the
+confirmation dialog box, the ROI was not updated accordingly until the operation was
+run again</p></li>
+<li><p>Deprecation issues:</p>
+<ul>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">scipy.ndimage.filters</span></code> deprecation warning</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">numpy.fromstring</span></code> deprecation warning</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-14-0">
 <h2>DataLab Version 0.14.0<a class="headerlink" href="#datalab-version-0-14-0" title="Link to this heading">#</a></h2>
 <p>💥 New features:</p>
@@ -1295,6 +1358,7 @@ traceback links to the source code</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-1">DataLab Version 0.14.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-0">DataLab Version 0.14.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-12-0">DataLab Version 0.12.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-11-0">DataLab Version 0.11.0</a></li>
