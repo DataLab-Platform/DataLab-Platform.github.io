@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=9f5afd58"></script>
+    <script src="../_static/documentation_options.js?v=bfeb67b3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -115,6 +115,12 @@
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
 </form></div>
   </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab's Debian package is underway! Stay tuned for updates!</div>
+  </div>
+
   
     <nav class="bd-header navbar navbar-expand-lg bd-navbar">
 <div class="bd-header__inner bd-page-width">
@@ -142,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.14.1</p>
+    <p class="title logo__title">v0.14.2</p>
   
 </a></div>
     
@@ -408,13 +414,26 @@ document.write(`
         <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
      aria-label="Section Navigation">
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Public features:</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="algorithms.html">Algorithms (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="param.html">Parameters (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.param</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="obj.html">Object model (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.obj</span></code>)</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Computation (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.core.computation</span></code>)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.proxy</span></code>)</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Internal features:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="core.gui/index.html">GUI</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/main.html">Main window</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/panel.html">Panel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/actionhandler.html">Action handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/objectview.html">Object view</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/plothandler.html">Plot handler</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/roieditor.html">ROI editor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/processor.html">Processor</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/docks.html">Docks</a></li>
+<li class="toctree-l1"><a class="reference internal" href="core.gui/h5io.html">HDF5 I/O</a></li>
 </ul>
 </div>
 </nav></div>
@@ -494,7 +513,7 @@ and return a DataLab object as output (the result of the computation). The param
 object is used to configure the computation function (e.g. the size of the moving
 average window).</p>
 <p>In DataLab overall architecture, the purpose of this package is to provide the
-computation functions that are used by the <code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.core.gui.processor</span></code> module,
+computation functions that are used by the <a class="reference internal" href="core.gui/processor.html#module-cdl.core.gui.processor" title="cdl.core.gui.processor"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.core.gui.processor</span></code></a> module,
 based on the algorithms defined in the <a class="reference internal" href="algorithms.html#module-cdl.algorithms" title="cdl.algorithms"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms</span></code></a> module and on the
 data model defined in the <a class="reference internal" href="obj.html#module-cdl.obj" title="cdl.obj"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.obj</span></code></a> (or <code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.core.model</span></code>) module.</p>
 <p>The computation modules are organized in subpackages according to their purpose.
@@ -605,19 +624,17 @@ without copying the original object metadata, except for the “source” entry.
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.signal.dst_11">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">dst_11</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.signal.dst_11" title="Link to this definition">#</a></dt>
-<dd><p>Create result signal object for compute_11 function</p>
+<dd><p>Create a result signal object, as returned by the callback function of the
+<a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_11" title="cdl.core.gui.processor.base.BaseProcessor.compute_11"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.core.gui.processor.base.BaseProcessor.compute_11()</span></code></a> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – name of the function</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>name</strong> – name of the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -625,12 +642,13 @@ without copying the original object metadata, except for the “source” entry.
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.computation.signal.Wrap11Func">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">Wrap11Func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.core.computation.signal.Wrap11Func" title="Link to this definition">#</a></dt>
-<dd><p>Wrap a 1 array -&gt; 1 array function (the simple case of y1 = f(y0))
-to produce a 1 <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> -&gt; 1 <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> function, which can be used
-inside DataLab’s infrastructure to perform computations with <code class="docutils literal notranslate"><span class="pre">SignalProcessor</span></code>.</p>
+<dd><p>Wrap a 1 array → 1 array function (the simple case of y1 = f(y0)) to produce
+a 1 signal → 1 signal function, which can be used inside DataLab’s infrastructure
+to perform computations with <a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.signal.SignalProcessor" title="cdl.core.gui.processor.signal.SignalProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.signal.SignalProcessor</span></code></a>.</p>
 <p>This wrapping mechanism using a class is necessary for the resulted function to be
 pickable by the <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> module.</p>
-<p>The instance of this wrapper is callable and returns a <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> object.</p>
+<p>The instance of this wrapper is callable and returns a <a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.SignalObj</span></code></a>
+object.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cdl.core.computation.signal</span> <span class="kn">import</span> <span class="n">Wrap11Func</span>
@@ -646,7 +664,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>func</strong> – 1 array -&gt; 1 array function</p>
+<dd class="field-odd"><p><strong>func</strong> – 1 array → 1 array function</p>
 </dd>
 </dl>
 </dd></dl>
@@ -654,20 +672,18 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.signal.dst_n1n">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">dst_n1n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.core.computation.signal.dst_n1n" title="Link to this definition">#</a></dt>
-<dd><p>Create result signal object for compute_n1n function</p>
+<dd><p>Create a result signal object, as returned by the callback function of the
+<a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1n" title="cdl.core.gui.processor.base.BaseProcessor.compute_n1n"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.core.gui.processor.base.BaseProcessor.compute_n1n()</span></code></a> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
-<li><p><strong>name</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><em>str</em></a>) – name of the function</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
+<li><p><strong>name</strong> – name of the function</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -675,13 +691,16 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.signal.compute_add">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">compute_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.signal.compute_add" title="Link to this definition">#</a></dt>
-<dd><p>Add signal to result signal</p>
+<dd><p>Add <strong>dst</strong> and <strong>src</strong> signals and return <strong>dst</strong> signal modified in place</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dst</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – destination signal</p></li>
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
+<li><p><strong>dst</strong> – destination signal</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified <strong>dst</strong> signal</p>
 </dd>
 </dl>
 </dd></dl>
@@ -689,13 +708,16 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.signal.compute_product">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">compute_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.signal.compute_product" title="Link to this definition">#</a></dt>
-<dd><p>Multiply signal to result signal</p>
+<dd><p>Multiply <strong>dst</strong> and <strong>src</strong> signals and return <strong>dst</strong> signal modified in place</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>dst</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – destination signal</p></li>
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
+<li><p><strong>dst</strong> – destination signal</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Modified <strong>dst</strong> signal</p>
 </dd>
 </dl>
 </dd></dl>
@@ -704,18 +726,19 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dt class="sig sig-object py" id="cdl.core.computation.signal.compute_difference">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">compute_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.signal.compute_difference" title="Link to this definition">#</a></dt>
 <dd><p>Compute difference between two signals</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If uncertainty is available, it is propagated.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object <strong>src1</strong> - <strong>src2</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -724,18 +747,19 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dt class="sig sig-object py" id="cdl.core.computation.signal.compute_quadratic_difference">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.signal.</span></span><span class="sig-name descname"><span class="pre">compute_quadratic_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.signal.compute_quadratic_difference" title="Link to this definition">#</a></dt>
 <dd><p>Compute quadratic difference between two signals</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If uncertainty is available, it is propagated.</p>
+</div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object (<strong>src1</strong> - <strong>src2</strong>) / sqrt(2.0)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -747,15 +771,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object <strong>src1</strong> / <strong>src2</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -767,15 +788,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>group</strong> (<em>gds.DataSetGroup</em>) – group of parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>group</strong> – group of parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>signal with multiple regions of interest</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Signal with multiple regions of interest</p>
 </dd>
 </dl>
 </dd></dl>
@@ -787,15 +805,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<em>gds.DataSet</em>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>signal with single region of interest</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Signal with single region of interest</p>
 </dd>
 </dl>
 </dd></dl>
@@ -806,13 +821,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Swap axes</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -823,13 +835,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute absolute value</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -840,13 +849,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute real part</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -857,13 +863,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute imaginary part</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -897,13 +900,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute Log10</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -921,15 +921,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.signal.PeakDetectionParam" title="cdl.core.computation.signal.PeakDetectionParam"><em>PeakDetectionParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -947,15 +944,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.signal.NormalizeYParam" title="cdl.core.computation.signal.NormalizeYParam"><em>NormalizeYParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -966,13 +960,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute derivative</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -983,13 +974,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute integral</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1007,15 +995,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.signal.XYCalibrateParam" title="cdl.core.computation.signal.XYCalibrateParam"><em>XYCalibrateParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1027,15 +1012,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.ThresholdParam" title="cdl.core.computation.base.ThresholdParam"><em>ThresholdParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1047,15 +1029,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.ClipParam" title="cdl.core.computation.base.ClipParam"><em>ClipParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1067,15 +1046,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.GaussianParam" title="cdl.core.computation.base.GaussianParam"><em>GaussianParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1087,15 +1063,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.MovingAverageParam" title="cdl.core.computation.base.MovingAverageParam"><em>MovingAverageParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1107,15 +1080,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.MovingMedianParam" title="cdl.core.computation.base.MovingMedianParam"><em>MovingMedianParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1126,13 +1096,10 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dd><p>Compute Wiener filter</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p>
+<dd class="field-odd"><p><strong>src</strong> – source signal</p>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1144,15 +1111,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.FFTParam" title="cdl.core.computation.base.FFTParam"><em>FFTParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1164,15 +1128,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.FFTParam" title="cdl.core.computation.base.FFTParam"><em>FFTParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1208,15 +1169,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.base.HistogramParam" title="cdl.core.computation.base.HistogramParam"><em>HistogramParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1234,16 +1192,13 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.signal.InterpolationParam" title="cdl.core.computation.signal.InterpolationParam"><em>InterpolationParam</em></a>) – parameters</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1261,15 +1216,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<em>ResampleParam</em>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1287,15 +1239,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.signal.DetrendingParam" title="cdl.core.computation.signal.DetrendingParam"><em>DetrendingParam</em></a>) – parameters</p></li>
+<li><p><strong>src</strong> – source signal</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1307,15 +1256,12 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
-<li><p><strong>src1</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 1</p></li>
-<li><p><strong>src2</strong> (<a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><em>SignalObj</em></a>) – source signal 2</p></li>
+<li><p><strong>src1</strong> – source signal 1</p></li>
+<li><p><strong>src2</strong> – source signal 2</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>result signal object</p>
-</dd>
-<dt class="field-odd">Return type<span class="colon">:</span></dt>
-<dd class="field-odd"><p><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj">SignalObj</a></p>
+<dd class="field-even"><p>Result signal object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1328,7 +1274,8 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.image.dst_11">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">dst_11</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.image.dst_11" title="Link to this definition">#</a></dt>
-<dd><p>Create result image object for compute_11 function</p>
+<dd><p>Create a result image object, as returned by the callback function of the
+<a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_11" title="cdl.core.gui.processor.base.BaseProcessor.compute_11"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.core.gui.processor.base.BaseProcessor.compute_11()</span></code></a> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1345,12 +1292,13 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.computation.image.Wrap11Func">
 <em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">Wrap11Func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">func</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/collections.abc.html#collections.abc.Callable" title="(in Python v3.12)"><span class="pre">Callable</span></a></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.core.computation.image.Wrap11Func" title="Link to this definition">#</a></dt>
-<dd><p>Wrap a 1 array -&gt; 1 array function to produce a 1 <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> -&gt; 1 <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code>
-function, which can be used inside DataLab’s infrastructure to perform computations
-with <code class="docutils literal notranslate"><span class="pre">ImageProcessor</span></code>.</p>
+<dd><p>Wrap a 1 array → 1 array function to produce a 1 image → 1 image function,
+which can be used inside DataLab’s infrastructure to perform computations with
+<code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.signal.ImageProcessor</span></code>.</p>
 <p>This wrapping mechanism using a class is necessary for the resulted function to be
 pickable by the <code class="docutils literal notranslate"><span class="pre">multiprocessing</span></code> module.</p>
-<p>The instance of this wrapper is callable and returns a <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> object.</p>
+<p>The instance of this wrapper is callable and returns a <a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a>
+object.</p>
 <p class="rubric">Example</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="kn">from</span> <span class="nn">cdl.core.computation.signal</span> <span class="kn">import</span> <span class="n">Wrap11Func</span>
@@ -1365,7 +1313,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 </div>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>func</strong> – 1 array -&gt; 1 array function</p>
+<dd class="field-odd"><p><strong>func</strong> – 1 array → 1 array function</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1373,7 +1321,8 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.image.dst_11_signal">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">dst_11_signal</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.SignalObj" title="cdl.core.model.signal.SignalObj"><span class="pre">SignalObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.image.dst_11_signal" title="Link to this definition">#</a></dt>
-<dd><p>Create result signal object for compute_11 function</p>
+<dd><p>Create a result signal object, as returned by the callback function of the
+<a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_11" title="cdl.core.gui.processor.base.BaseProcessor.compute_11"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.core.gui.processor.base.BaseProcessor.compute_11()</span></code></a> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1390,7 +1339,8 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.image.dst_n1n">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">dst_n1n</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">src1</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">suffix</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.12)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.image.dst_n1n" title="Link to this definition">#</a></dt>
-<dd><p>Create result image object for compute_n1n function</p>
+<dd><p>Create a result image object, as returned by the callback function of the
+<a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1n" title="cdl.core.gui.processor.base.BaseProcessor.compute_n1n"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.core.gui.processor.base.BaseProcessor.compute_n1n()</span></code></a> method</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1408,7 +1358,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.image.compute_add">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">compute_add</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.image.compute_add" title="Link to this definition">#</a></dt>
-<dd><p>Compute addition between two images</p>
+<dd><p>Add <strong>dst</strong> and <strong>src</strong> images and return <strong>dst</strong> image modified in place</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
@@ -1416,19 +1366,25 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 <li><p><strong>src</strong> – input image object</p></li>
 </ul>
 </dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output image object</p>
+</dd>
 </dl>
 </dd></dl>
 
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.core.computation.image.compute_product">
 <span class="sig-prename descclassname"><span class="pre">cdl.core.computation.image.</span></span><span class="sig-name descname"><span class="pre">compute_product</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">dst</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">src</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="obj.html#cdl.obj.ImageObj" title="cdl.core.model.image.ImageObj"><span class="pre">ImageObj</span></a></span></span><a class="headerlink" href="#cdl.core.computation.image.compute_product" title="Link to this definition">#</a></dt>
-<dd><p>Compute product between two images</p>
+<dd><p>Multiply <strong>dst</strong> and <strong>src</strong> images and return <strong>dst</strong> image modified in place</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>dst</strong> – output image object</p></li>
 <li><p><strong>src</strong> – input image object</p></li>
 </ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Output image object</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1445,7 +1401,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Output image object</p>
+<dd class="field-even"><p>Result image object <strong>src1</strong> - <strong>src2</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -1462,7 +1418,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Output image object</p>
+<dd class="field-even"><p>Result image object (<strong>src1</strong> - <strong>src2</strong>) / sqrt(2.0)</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1479,7 +1435,7 @@ pickable by the <code class="docutils literal notranslate"><span class="pre">mul
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
-<dd class="field-even"><p>Output image object</p>
+<dd class="field-even"><p>Result image object <strong>src1</strong> / <strong>src2</strong></p>
 </dd>
 </dl>
 </dd></dl>
@@ -2243,7 +2199,7 @@ values above threshold (FWHM)</p>
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>src</strong> – input image object</p></li>
-<li><p><strong>p</strong> (<a class="reference internal" href="#cdl.core.computation.image.exposure.AdjustGammaParam" title="cdl.core.computation.image.exposure.AdjustGammaParam"><em>AdjustGammaParam</em></a>) – parameters</p></li>
+<li><p><strong>p</strong> – parameters</p></li>
 </ul>
 </dd>
 <dt class="field-even">Returns<span class="colon">:</span></dt>
