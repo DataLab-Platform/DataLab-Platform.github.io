@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=bfeb67b3"></script>
+    <script src="../_static/documentation_options.js?v=52d5597a"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -118,7 +118,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ DataLab's Debian package 📦 is underway! ▫️ ▫️ ▫️ Stay tuned for updates!</div>
+    <div class="bd-header-announcement__content">ℹ️ DataLab version 0.15 has just been released! 🎉 ▫️ ▫️ ▫️ Stay tuned for updates!</div>
   </div>
 
   
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.14.2</p>
+    <p class="title logo__title">v0.15.0</p>
   
 </a></div>
     
@@ -506,14 +506,8 @@ reasons). We recommend installing the following extensions:</p>
 </tr>
 </thead>
 <tbody>
-<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.black-formatter">Black Formatter</a></p></td>
-<td><p>Python code formatter</p></td>
-</tr>
-<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=mrorz.language-gettext">gettext</a></p></td>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=mrorz.language-gettext">gettext</a></p></td>
 <td><p>Gettext syntax highlighting</p></td>
-</tr>
-<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.isort">isort</a></p></td>
-<td><p>Python import sorter</p></td>
 </tr>
 <tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=ms-python.vscode-pylance">Pylance</a></p></td>
 <td><p>Python language server</p></td>
@@ -529,6 +523,12 @@ reasons). We recommend installing the following extensions:</p>
 </tr>
 <tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=Gruntfuggly.todo-tree">Todo Tree</a></p></td>
 <td><p>Todo tree</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=heaths.vscode-guid">Insert GUID</a></p></td>
+<td><p>Insert GUID</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://marketplace.visualstudio.com/items?itemName=DotJoshJohnson.xml">XML Tools</a></p></td>
+<td><p>XML Tools</p></td>
 </tr>
 </tbody>
 </table>
@@ -620,6 +620,29 @@ set CDL_DATA=C:\Dev\Projets\CDL_data
 (and eventually add your own paths).</p></li>
 </ul>
 </section>
+<section id="windows-installer">
+<h2>Windows installer<a class="headerlink" href="#windows-installer" title="Link to this heading">#</a></h2>
+<p>The Windows installer is built using <a class="reference external" href="https://wixtoolset.org/">WiX Toolset</a> V4.0.5.
+Using the WiX Toolset requires <a class="reference external" href="https://dotnet.microsoft.com/download/dotnet/">.NET SDK</a> V6.0 minimum.</p>
+<p>You may install .NET SDK using <code class="docutils literal notranslate"><span class="pre">winget</span></code>:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>winget install Microsoft.DotNet.SDK.8
+</pre></div>
+</div>
+<p>Once .NET SDK is installed, the WiX Toolset can be installed and configured using the
+following commands:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>dotnet tool install --global wix --version 4.0.5
+wix extension add WixToolset.UI.wixext/4.0.5
+</pre></div>
+</div>
+<p>First, you need to generate the installer script from a generic template:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>python wix/makewxs.py
+</pre></div>
+</div>
+<p>Building the installer is done using the following command:</p>
+<div class="highlight-none notranslate"><div class="highlight"><pre><span></span>wix build .\wix\DataLab.wxs -ext WixToolset.UI.wixext
+</pre></div>
+</div>
+</section>
 <section id="third-party-software">
 <h2>Third-party Software<a class="headerlink" href="#third-party-software" title="Link to this heading">#</a></h2>
 <p>The following software may be required for maintaining the project:</p>
@@ -697,6 +720,7 @@ set CDL_DATA=C:\Dev\Projets\CDL_data
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#python-environment">Python Environment</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#test-data">Test data</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#specific-environment-variables">Specific environment variables</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windows-installer">Windows installer</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#third-party-software">Third-party Software</a></li>
 </ul>
   </nav></div>

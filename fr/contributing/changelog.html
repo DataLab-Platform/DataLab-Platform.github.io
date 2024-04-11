@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=3b5d836b"></script>
+    <script src="../_static/documentation_options.js?v=d663bda2"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -118,7 +118,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ Le paquet Debian 📦 de DataLab est en cours de préparation! ▫️ ▫️ ▫️ Restez à l'écoute pour les mises à jour!</div>
+    <div class="bd-header-announcement__content">ℹ️ La version 0.15 de DataLab vient de sortir! 🎉 ▫️ ▫️ ▫️ Restez à l'écoute pour les mises à jour!</div>
   </div>
 
   
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.14.2</p>
+    <p class="title logo__title">v0.15.0</p>
   
 </a></div>
     
@@ -480,6 +480,69 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-15-0">
+<h2>DataLab Version 0.15.0<a class="headerlink" href="#datalab-version-0-15-0" title="Link to this heading">#</a></h2>
+<p>🎁 Nouvel installeur pour la version autonome sur Windows :</p>
+<ul class="simple">
+<li><p>La version autonome sur Windows est désormais distribuée en tant qu’installeur MSI (au lieu d’un installeur EXE)</p></li>
+<li><p>Cela évite la détection de faux positifs de la version autonome comme une menace potentielle par certains logiciels antivirus</p></li>
+<li><p>Le programme installera des fichiers et des raccourcis :</p>
+<ul>
+<li><p>Pour l’utilisateur actuel, si l’utilisateur n’a pas de privilèges d’administrateur</p></li>
+<li><p>Pour tous les utilisateurs, si l’utilisateur a des privilèges d’administrateur</p></li>
+<li><p>Le répertoire d’installation peut être personnalisé</p></li>
+</ul>
+</li>
+<li><p>L’installeur MSI permet d’intégrer l’installation de DataLab de manière transparente dans le système de déploiement d’une organisation</p></li>
+</ul>
+<p>💥 Nouvelles fonctionnalités et améliorations :</p>
+<ul class="simple">
+<li><p>Ajout de la prise en charge des fichiers texte/CSV volumineux :</p>
+<ul>
+<li><p>Les fichiers de plus de 1 Go (et avec un nombre raisonnable de lignes) peuvent désormais être importés en tant que signaux ou images sans quitter inopinément l’application ou même la ralentir</p></li>
+<li><p>Le fichier est lu par morceaux et, pour les signaux, les données sont rééchantillonnées à un nombre raisonnable de points pour la visualisation</p></li>
+<li><p>Les fichiers volumineux sont pris en charge lors de l’ouverture d’un fichier (ou du glisser-déposer d’un fichier dans le Panneau Signal) et lors de l’importation d’un fichier dans l’Assistant d’importation de texte</p></li>
+</ul>
+</li>
+<li><p>Nouvelle fonctionnalité de sous-échantillonnage automatique :</p>
+<ul>
+<li><p>Ajout de la fonctionnalité « Sous-échantillonnage automatique » aux paramètres de visualisation des signaux (voir la boîte de dialogue « Paramètres »)</p></li>
+<li><p>Cette fonctionnalité permet de rééchantillonner automatiquement les données du signal pour la visualisation lorsque le nombre de points est trop élevé et entraînerait un rendu lent</p></li>
+<li><p>Le facteur de sous-échantillonnage est automatiquement calculé en fonction du nombre maximal de points à afficher configuré</p></li>
+<li><p>Cette fonctionnalité est activée par défaut et peut être désactivée dans les paramètres de visualisation du signal</p></li>
+</ul>
+</li>
+<li><p>Gestion du format CSV :</p>
+<ul>
+<li><p>Amélioration de la prise en charge des fichiers CSV avec une ligne d’en-tête (noms de colonnes)</p></li>
+<li><p>Ajout de la prise en charge des fichiers CSV avec des colonnes vides</p></li>
+</ul>
+</li>
+<li><p>Gestion des erreurs d’ouverture/enregistrement de fichiers :</p>
+<ul>
+<li><p>Les messages d’erreur sont désormais plus explicites lorsque l’ouverture ou l’enregistrement d’un fichier échoue</p></li>
+<li><p>Ajout d’un lien vers le dossier contenant le fichier dans le message d’erreur</p></li>
+</ul>
+</li>
+<li><p>Ajout de la page « Plugins et fonctionnalités d’entrée/sortie » au Visualiseur d’installation et de configuration (voir le menu « Aide »)</p></li>
+<li><p>Réinitialisation de la configuration de DataLab :</p>
+<ul>
+<li><p>Dans certains cas, il peut être utile de réinitialiser le fichier de configuration de DataLab à ses valeurs par défaut (par exemple, lorsque le fichier de configuration est corrompu)</p></li>
+<li><p>Ajout de la nouvelle option de ligne de commande <cite>–reset</cite> pour supprimer le dossier de configuration</p></li>
+<li><p>Ajout du nouveau raccourci du Menu Démarer « Reset DataLab » à l’installeur Windows</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Correction de l”[Issue #64](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/64">DataLab-Platform/DataLab#64</a>) - L’explorateur HDF5 ne montre pas les ensembles de données de taille 1x1 :</p>
+<ul>
+<li><p>Les datasets HDF5 de taille 1x1 n’étaient pas affichés dans l’explorateur HDF5</p></li>
+<li><p>Même si ces données ne devraient pas être considérées comme des signaux ou des images, elles sont désormais affichées dans l’explorateur HDF5 (mais non sélectionnables, c’est-à-dire non importables en tant que signaux ou images)</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-14-2">
 <h2>DataLab Version 0.14.2<a class="headerlink" href="#datalab-version-0-14-2" title="Link to this heading">#</a></h2>
 <p>⚠️ Modifications de l’API nécessaires pour corriger la fonctionnalité de chargement de plusieurs signaux :</p>
@@ -974,7 +1037,7 @@ document.write(`
 </ul>
 </li>
 <li><p>Format de fichier HDF5 : lors de l’importation d’un ensemble de données HDF5 en tant que signal ou image, les attributs de l’ensemble de données étaient systématiquement copiés dans les métadonnées du signal/image : nous ne copions désormais que les attributs qui correspondent aux types de données standard (entiers, flottants, chaînes de caractères) pour éviter les erreurs lors de la sérialisation/désérialisation de l’objet signal/image</p></li>
-<li><p>Visionneuse d’installation/configuration : amélioration de la lisibilité (suppression de la coloration syntaxique)</p></li>
+<li><p>Visualiseur d’installation/configuration : amélioration de la lisibilité (suppression de la coloration syntaxique)</p></li>
 <li><p>Fichier de spécification de PyInstaller : ajout manuel des fichiers de données <cite>skimage</cite> manquants afin de continuer à prendre en charge Python 3.8 (voir [Issue #12](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/12">DataLab-Platform/DataLab#12</a>) - Version autonome sur Windows 7 : <cite>api-ms-win-core-path-l1-1-0.dll</cite> manquant)</p></li>
 <li><p>Correction de l”[Issue #13](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/13">DataLab-Platform/DataLab#13</a>) - ArchLinux : <cite>qt.qpa.plugin: Could not load the Qt platform plugin « xcb » in «  » even though it was found</cite></p></li>
 </ul>
@@ -1206,6 +1269,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-2">DataLab Version 0.14.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-1">DataLab Version 0.14.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-0">DataLab Version 0.14.0</a></li>
