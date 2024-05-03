@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=52d5597a"></script>
+    <script src="../_static/documentation_options.js?v=fb952d1c"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.0</p>
+    <p class="title logo__title">v0.15.1</p>
   
 </a></div>
     
@@ -480,6 +480,41 @@ document.write(`
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a>
 for future and past milestones.</p>
+<section id="datalab-version-0-15-1">
+<h2>DataLab Version 0.15.1<a class="headerlink" href="#datalab-version-0-15-1" title="Link to this heading">#</a></h2>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/68">Issue #68</a> - Slow loading of even simple plots:</p>
+<ul>
+<li><p>On macOS, the user experience was degraded when handling even simple plots</p></li>
+<li><p>This was due to the way macOS handles the pop-up windows, e.g. when refreshing the
+plot view (“Creating plot items” progress bar), hence causing a very annoying
+flickering effect and a global slowdown of the application</p></li>
+<li><p>This is now fixed by showing the progress bar only after a short delay (1s), that
+is when it is really needed (i.e. for long operations)</p></li>
+<li><p>Thanks to <a class="reference external" href="https://github.com/marcel-goldschen-ohm">&#64;marcel-goldschen-ohm</a> for the
+very thorough feedback and the help in testing the fix</p></li>
+</ul>
+</li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/69">Issue #69</a> - Annotations should be read-only in Signal/Image View</p>
+<ul>
+<li><p>Regarding the annotations, DataLab’s current behavior is the following:</p>
+<ul>
+<li><p>Annotations are created only when showing the signal/image in a separate window
+(double-click on the object, or “View” &gt; “View in a new window”)</p></li>
+<li><p>When displaying the objects in either the “Signal View” or the “Image View”, the
+annotations should be read-only (i.e. not movable, nor resizable or deletable)</p></li>
+</ul>
+</li>
+<li><p>However, some annotations were still deletable in the “Signal View” and the
+“Image View”: this is now fixed</p></li>
+<li><p>Note that the fact that annotations can’t be created in the “Signal View” or the
+“Image View” is a limitation of the current implementation, and may be improved in
+future versions</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-15-0">
 <h2>DataLab Version 0.15.0<a class="headerlink" href="#datalab-version-0-15-0" title="Link to this heading">#</a></h2>
 <p>🎁 New installer for the stand-alone version on Windows:</p>
@@ -1466,6 +1501,7 @@ traceback links to the source code</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-2">DataLab Version 0.14.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-1">DataLab Version 0.14.1</a></li>

@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=d663bda2"></script>
+    <script src="../_static/documentation_options.js?v=7f23c9c4"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.0</p>
+    <p class="title logo__title">v0.15.1</p>
   
 </a></div>
     
@@ -480,6 +480,32 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-15-1">
+<h2>DataLab Version 0.15.1<a class="headerlink" href="#datalab-version-0-15-1" title="Link to this heading">#</a></h2>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Correction de l”[Issue #68](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/68">DataLab-Platform/DataLab#68</a>) - Chargement lent même pour des graphiques simples :</p>
+<ul>
+<li><p>Sur macOS, l’expérience utilisateur était dégradée lors de la manipulation de graphiques simples</p></li>
+<li><p>Cela était dû à la manière dont macOS gère les fenêtres contextuelles, par exemple lors du rafraîchissement de la vue du graphique (barre de progression « Création d’éléments de graphique »), provoquant ainsi un effet de scintillement très gênant et un ralentissement global de l’application</p></li>
+<li><p>Le problème est maintenant résolu en affichant la barre de progression uniquement après un court délai (1s), c’est-à-dire lorsqu’elle est vraiment nécessaire (c’est-à-dire pour les opérations longues)</p></li>
+<li><p>Merci à [&#64;marcel-goldschen-ohm](<a class="github reference external" href="https://github.com/marcel-goldschen-ohm">marcel-goldschen-ohm</a>) pour la description très détaillée du problème et l’aide apportée pour tester la correction</p></li>
+</ul>
+</li>
+<li><p>Correction de l”[Issue #68](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/69">DataLab-Platform/DataLab#69</a>) - Les annotations devraient être en lecture seule dans la vue Signal/Image</p>
+<ul>
+<li><p>En ce qui concerne les annotations, le comportement actuel de DataLab est le suivant :</p>
+<ul>
+<li><p>Les annotations ne sont créées que lors de l’affichage du signal/image dans une fenêtre séparée (double-clic sur l’objet, ou « Affichage » &gt; « Afficher dans une nouvelle fenêtre »)</p></li>
+<li><p>Quand les objets sont affichés dans la « Vue Signal » ou la « Vue Image », les annotations devraient être en lecture seule (c’est-à-dire non déplaçables, ni redimensionnables ou supprimables)</p></li>
+</ul>
+</li>
+<li><p>Toutefois, certaines annotations étaient toujours supprimables dans la « Vue Signal » et la « Vue Image » : c’est maintenant corrigé</p></li>
+<li><p>Notons que le fait que les annotations ne peuvent pas être créées dans la « Vue Signal » ou la « Vue Image » est une limitation de l’implémentation actuelle, et peut être amélioré dans les versions futures</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-15-0">
 <h2>DataLab Version 0.15.0<a class="headerlink" href="#datalab-version-0-15-0" title="Link to this heading">#</a></h2>
 <p>🎁 Nouvel installeur pour la version autonome sur Windows :</p>
@@ -1269,6 +1295,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-2">DataLab Version 0.14.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-1">DataLab Version 0.14.1</a></li>
