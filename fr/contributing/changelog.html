@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=7f23c9c4"></script>
+    <script src="../_static/documentation_options.js?v=7b33cd6e"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -118,7 +118,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ La version 0.15 de DataLab vient de sortir! 🎉 ▫️ ▫️ ▫️ Restez à l'écoute pour les mises à jour!</div>
+    <div class="bd-header-announcement__content">DataLab sera présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> et <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.1</p>
+    <p class="title logo__title">v0.16.0</p>
   
 </a></div>
     
@@ -480,6 +480,150 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-16-0">
+<h2>DataLab Version 0.16.0<a class="headerlink" href="#datalab-version-0-16-0" title="Link to this heading">#</a></h2>
+<p>💥 Nouvelles fonctionnalités et améliorations :</p>
+<ul class="simple">
+<li><p>Refonte majeure de l’interface utilisateur :</p>
+<ul>
+<li><p>La barre de menu et les barres d’outils ont été réorganisées pour rendre l’application plus intuitive et plus facile à utiliser</p></li>
+<li><p>Les fonctionnalités d’opérations et de traitement ont été regroupées dans des sous-menus</p></li>
+<li><p>Toutes les actions liées à la visualisation sont désormais regroupées dans la barre d’outils verticale du panneau de visualisation</p></li>
+<li><p>Clarification de la gestion des « Annotations » (nouveaux boutons, action de la barre d’outils, …)</p></li>
+</ul>
+</li>
+<li><p>Nouveau processus de validation pour les fonctionnalités de traitement du signal et de l’image :</p>
+<ul>
+<li><p>Avant cette version, le processus de validation de DataLab était exclusivement effectué du point de vue du programmeur, en écrivant des tests unitaires et des tests d’intégration, garantissant ainsi que le code fonctionnait comme prévu (c’est-à-dire qu’aucune exception n’était levée et que le comportement était correct)</p></li>
+<li><p>Avec cette version, un nouveau processus de validation a été introduit, du point de vue de l’utilisateur, en ajoutant de nouvelles fonctions de validation (marquées avec le décorateur <cite>&#64;pytest.mark.validation</cite>) dans la suite de tests</p></li>
+<li><p>Une nouvelle section « Validation » dans la documentation explique comment la validation est effectuée et contient une liste de toutes les fonctions de validation avec les statistiques du processus de validation (générées à partir de la suite de tests)</p></li>
+<li><p>Le processus de validation est en cours et sera amélioré dans les versions futures</p></li>
+</ul>
+</li>
+<li><p>Groupe « Propriétés » :</p>
+<ul>
+<li><p>Ajout de l’onglet « Échelles », pour afficher et définir les échelles du graphique :</p>
+<ul>
+<li><p>X, Y pour les signaux</p></li>
+<li><p>X, Y, Z (plage de LUT) pour les images</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Options d’affichage :</p>
+<ul>
+<li><p>Nouvelle option « Afficher uniquement le premier » dans le menu « Affichage », pour afficher uniquement la première courbe (ou image) lorsque plusieurs courbes (ou images) sont affichées dans la vue du graphique</p></li>
+<li><p>Nouvelle étiquette (déplaçable) pour les calculs de FWHM, en plus de l’annotation de segment existante</p></li>
+</ul>
+</li>
+<li><p>Fonctionnalités d’E/S :</p>
+<ul>
+<li><p>Ajout de la prise en charge de la lecture et de l’écriture des fichiers .MAT (format MATLAB)</p></li>
+<li><p>Création d’un nouveau groupe lors de l’ouverture d’un fichier contenant plusieurs signaux ou images (par exemple, un fichier CSV avec plusieurs courbes)</p></li>
+</ul>
+</li>
+<li><p>Ajout de la prise en charge des images binaires</p></li>
+<li><p>Extraction de ROI de signal : ajout d’une nouvelle boîte de dialogue pour éditer manuellement les bornes inférieure et supérieure du ROI après avoir défini le ROI graphiquement</p></li>
+</ul>
+<p>ℹ️ Nouvelles fonctionnalités de traitement, de traitement et de calcul des <strong>Signaux</strong> :</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Menu</p></th>
+<th class="head"><p>Sous-menu</p></th>
+<th class="head"><p>Fonctionnalités</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Nouveau</p></td>
+<td><p>Nouveau signal</p></td>
+<td><p>Exponentielle, impulsion, polynomiale, expérimentale (entrée manuelle)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Opérations</p></td>
+<td><p></p></td>
+<td><p>Exponentielle, Racine carrée, Puissance</p></td>
+</tr>
+<tr class="row-even"><td><p>Opérations</p></td>
+<td><p>Opérations avec une constante</p></td>
+<td><p>+, -, *, /</p></td>
+</tr>
+<tr class="row-odd"><td><p>Traitement</p></td>
+<td><p>Transformation des axes</p></td>
+<td><p>Inverser l’axe X</p></td>
+</tr>
+<tr class="row-even"><td><p>Traitement</p></td>
+<td><p>Ajustement du niveau</p></td>
+<td><p>Correction d’offset</p></td>
+</tr>
+<tr class="row-odd"><td><p>Traitement</p></td>
+<td><p>Analyse de Fourier</p></td>
+<td><p>Spectre de puissance, Spectre de phase, Spectre de magnitude, Densité spectrale de puissance</p></td>
+</tr>
+<tr class="row-even"><td><p>Traitement</p></td>
+<td><p>Filtres fréquentiels</p></td>
+<td><p>Passe-bas, Passe-haut, Passe-bande, Coupure de bande</p></td>
+</tr>
+<tr class="row-odd"><td><p>Traitement</p></td>
+<td><p></p></td>
+<td><p>Fenêtrage (Hanning, Hamming, Blackman, Blackman-Harris, Nuttall, Flat-top, …)</p></td>
+</tr>
+<tr class="row-even"><td><p>Traitement</p></td>
+<td><p>Ajustement</p></td>
+<td><p>Ajustement linéaire, Ajustement sinusoïdal, Ajustement exponentiel, Ajustement CDF</p></td>
+</tr>
+<tr class="row-odd"><td><p>Calcul</p></td>
+<td><p></p></td>
+<td><p>LMH (Méthode du zéro-crossing), Valeur X &#64; min/max, Période/fréquence d’échantillonnage, Paramètres dynamiques (ENOB, SNR, SINAD, THD, SFDR), Largeur de bande -3dB, Contraste</p></td>
+</tr>
+</tbody>
+</table>
+<p>ℹ️ Nouvelles fonctionnalités de traitement, de traitement et de calcul des <strong>Images</strong> :</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Menu</p></th>
+<th class="head"><p>Sous-menu</p></th>
+<th class="head"><p>Fonctionnalités</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Opérations</p></td>
+<td><p></p></td>
+<td><p>Exponentielle</p></td>
+</tr>
+<tr class="row-odd"><td><p>Opérations</p></td>
+<td><p>Profils d’intensité</p></td>
+<td><p>Profil le long d’un segment</p></td>
+</tr>
+<tr class="row-even"><td><p>Opérations</p></td>
+<td><p>Opérations avec une constante</p></td>
+<td><p>+, -, *, /</p></td>
+</tr>
+<tr class="row-odd"><td><p>Traitement</p></td>
+<td><p>Ajustement du niveau</p></td>
+<td><p>Normalisation, Recadrage, Correction d’offset</p></td>
+</tr>
+<tr class="row-even"><td><p>Traitement</p></td>
+<td><p>Analyse de Fourier</p></td>
+<td><p>Spectre de puissance, Spectre de phase, Spectre de magnitude, Densité spectrale de puissance</p></td>
+</tr>
+<tr class="row-odd"><td><p>Traitement</p></td>
+<td><p>Seuillage</p></td>
+<td><p>Paramétrique, ISODATA, Li, Moyenne, Minimum, Otsu, Triangle, Yen</p></td>
+</tr>
+</tbody>
+</table>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Correction d’un problème de performance dû à un rafraîchissement inutile de la vue du graphique lors de l’ajout d’un nouveau signal ou d’une nouvelle image</p></li>
+<li><p>Correction de l”[Issue #77](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/77">DataLab-Platform/DataLab#77</a>) - Profils d’intensité : impossible d’accepter la boîte de dialogue la deuxième fois</p></li>
+<li><p>Correction de l”[Issue #75](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/75">DataLab-Platform/DataLab#75</a>) - Afficher dans une nouvelle fenêtre : l’anti-crénelage de la courbe n’est pas activé par défaut</p></li>
+<li><p>Annotations visibility is now correctly saved and restored:</p>
+<ul>
+<li><p>Before this release, when modifying the annotations visibility in the separate plot view, the visibility was not saved and restored when reopening the plot view</p></li>
+<li><p>This has been <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">fixed upstream</a> in PlotPy (v2.3.3)</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-15-1">
 <h2>DataLab Version 0.15.1<a class="headerlink" href="#datalab-version-0-15-1" title="Link to this heading">#</a></h2>
 <p>🛠️ Corrections de bugs :</p>
@@ -858,7 +1002,7 @@ document.write(`
 <li><p>Ajout de la méthode <cite>edit_new_image_parameters</cite> pour afficher une boîte de dialogue pour éditer les paramètres d’une nouvelle image (mise à jour du plugin <em>cdl_testdata.py</em> en conséquence)</p></li>
 </ul>
 </li>
-<li><p>API de calculs sur les signaux et les images (<cite>cdl.core.computations</cite>) :</p>
+<li><p>API de calculs sur les signaux et les images (<cite>cdl.computations</cite>) :</p>
 <ul>
 <li><p>Ajout de wrappers pour les calculs 1 -&gt; 1 sur les signaux et les images</p></li>
 <li><p>Ces wrappers visent à simplifier la création d’une fonction de calcul de base opérant sur les objets natifs de DataLab (<cite>SignalObj</cite> et <cite>ImageObj</cite>) à partir d’une fonction opérant sur des tableaux NumPy</p></li>
@@ -1295,6 +1439,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-0">DataLab Version 0.16.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-2">DataLab Version 0.14.2</a></li>

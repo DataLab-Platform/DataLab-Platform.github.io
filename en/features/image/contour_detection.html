@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../_static/documentation_options.js?v=fb952d1c"></script>
+    <script src="../../_static/documentation_options.js?v=ff8529b6"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -61,7 +61,7 @@
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Annotations (Images)" href="annotations.html" />
+    <link rel="next" title="API" href="../../api/index.html" />
     <link rel="prev" title="2D Peak Detection" href="2d_peak_detection.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -118,7 +118,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ DataLab version 0.15 has just been released! 🎉 ▫️ ▫️ ▫️ Stay tuned for updates!</div>
+    <div class="bd-header-announcement__content">DataLab will be presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> and <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.1</p>
+    <p class="title logo__title">v0.16.0</p>
   
 </a></div>
     
@@ -412,6 +412,7 @@ document.write(`
   <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">General features:</span></p>
 <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../general/validation.html">Validation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/workspace.html">Workspace</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/h5browser.html">HDF5 Browser</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/macros.html">Macros</a></li>
@@ -420,21 +421,26 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../general/plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/logviewer.html">Log viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/instviewer.html">Installation and configuration viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/settings.html">Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/command.html">Command line features</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../signal/menus.html">Menus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../signal/text_import.html">Signal Text File Import</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../signal/annotations.html">Annotations (Signals)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Create, open and save Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Operations on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Processing Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_computing.html">Computing features on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">View options for Signals</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Image processing:</span></p>
 <ul class="current nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="menus.html">Menus</a></li>
-<li class="toctree-l1"><a class="reference internal" href="text_import.html">Image Text File Import</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_file.html">Create, open and save Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_operations.html">Operations on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_processing.html">Processing Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_computing.html">Computing features on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_view.html">View options for Images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="2d_peak_detection.html">2D Peak Detection</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Contour Detection</a></li>
-<li class="toctree-l1"><a class="reference internal" href="annotations.html">Annotations (Images)</a></li>
 </ul>
 </div>
 </nav></div>
@@ -545,15 +551,16 @@ document.write(`
 from <code class="docutils literal notranslate"><span class="pre">cdl.algorithms</span></code> module:</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_contour_shapes</span><span class="p">(</span>
-    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ellipse&quot;</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">,</span>
+    <span class="n">shape</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;ellipse&quot;</span><span class="p">,</span> <span class="s2">&quot;polygon&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;ellipse&quot;</span><span class="p">,</span>
+    <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Find iso-valued contours in a 2D array, above relative level (.5 means FWHM),</span>
 <span class="sd">    then fit contours with shape (&#39;ellipse&#39; or &#39;circle&#39;)</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        data: Input data</span>
-<span class="sd">        shape: Shape to fit. Valid values: &#39;circle&#39;, &#39;ellipse&#39;, &#39;polygon&#39;.</span>
-<span class="sd">         (default: &#39;ellipse&#39;)</span>
+<span class="sd">        shape: Shape to fit. Default is &#39;ellipse&#39;</span>
 <span class="sd">        level: Relative level (default: 0.5)</span>
 
 <span class="sd">    Returns:</span>
@@ -625,11 +632,11 @@ from <code class="docutils literal notranslate"><span class="pre">cdl.algorithms
       </div>
     </a>
     <a class="right-next"
-       href="annotations.html"
+       href="../../api/index.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Annotations (Images)</p>
+        <p class="prev-next-title">API</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>

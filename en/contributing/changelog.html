@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=fb952d1c"></script>
+    <script src="../_static/documentation_options.js?v=ff8529b6"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -117,7 +117,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ DataLab version 0.15 has just been released! 🎉 ▫️ ▫️ ▫️ Stay tuned for updates!</div>
+    <div class="bd-header-announcement__content">DataLab will be presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> and <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.1</p>
+    <p class="title logo__title">v0.16.0</p>
   
 </a></div>
     
@@ -480,6 +480,159 @@ document.write(`
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a>
 for future and past milestones.</p>
+<section id="datalab-version-0-16-0">
+<h2>DataLab Version 0.16.0<a class="headerlink" href="#datalab-version-0-16-0" title="Link to this heading">#</a></h2>
+<p>💥 New features and enhancements:</p>
+<ul class="simple">
+<li><p>Major user interface overhaul:</p>
+<ul>
+<li><p>The menu bar and toolbars have been reorganized to make the application more
+intuitive and easier to use</p></li>
+<li><p>Operations and processing features have been regrouped in submenus</p></li>
+<li><p>All visualization-related actions are now grouped in the plot view vertical toolbar</p></li>
+<li><p>Clarified the “Annotations” management (new buttons, toolbar action, …)</p></li>
+</ul>
+</li>
+<li><p>New validation process for signal and image features:</p>
+<ul>
+<li><p>Before this release, DataLab’s validation process was exclusively done from the
+programmer’s point of view, by writing unit tests and integration tests, thus
+ensuring that the code was working as expected (i.e. that no exception was raised
+and that the behavior was correct)</p></li>
+<li><p>With this release, a new validation process has been introduced, from the user’s
+point of view, by adding new validation functions (marked with the
+<code class="docutils literal notranslate"><span class="pre">&#64;pytest.mark.validation</span></code> decorator) in the test suite</p></li>
+<li><p>A new “Validation” section in the documentation explains how validation is done
+and contains a list of all validation functions with the statistics of the
+validation process (generated from the test suite)</p></li>
+<li><p>The validation process is a work in progress and will be improved in future versions</p></li>
+</ul>
+</li>
+<li><p>“Properties” group box:</p>
+<ul>
+<li><p>Added “Scales” tab, to show and set the plot scales:</p>
+<ul>
+<li><p>X, Y for signals</p></li>
+<li><p>X, Y, Z (LUT range) for images</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>View options:</p>
+<ul>
+<li><p>New “Show first only” option in the “View” menu, to show only the first curve
+(or image) when multiple curves (or images) are displayed in the plot view</p></li>
+<li><p>New (movable) label for FWHM computations, additional to the existing segment annotation</p></li>
+</ul>
+</li>
+<li><p>I/O features:</p>
+<ul>
+<li><p>Added support for reading and writing .MAT files (MATLAB format)</p></li>
+<li><p>Create a new group when opening a file containing multiple signals or images (e.g. CSV file with multiple curves)</p></li>
+</ul>
+</li>
+<li><p>Add support for binary images</p></li>
+<li><p>Signal ROI extraction: added new dialog box to manually edit the ROI lower and upper bounds after defining the ROI graphically</p></li>
+</ul>
+<p>ℹ️ New <strong>Signal</strong> operations, processing and computing features:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Menu</p></th>
+<th class="head"><p>Submenu</p></th>
+<th class="head"><p>Features</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>New</p></td>
+<td><p>New signal</p></td>
+<td><p>Exponential, pulse, polynomial, experimental (manual input)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Operations</p></td>
+<td><p></p></td>
+<td><p>Exponential, Square root, Power</p></td>
+</tr>
+<tr class="row-even"><td><p>Operations</p></td>
+<td><p>Operations with a constant</p></td>
+<td><p>+, -, *, /</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processing</p></td>
+<td><p>Axis Transformation</p></td>
+<td><p>Reverse X-axis</p></td>
+</tr>
+<tr class="row-even"><td><p>Processing</p></td>
+<td><p>Level Adjustment</p></td>
+<td><p>Offset correction</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processing</p></td>
+<td><p>Fourier analysis</p></td>
+<td><p>Power spectrum, Phase spectrum, Magnitude spectrum, Power spectral density</p></td>
+</tr>
+<tr class="row-even"><td><p>Processing</p></td>
+<td><p>Frequency filters</p></td>
+<td><p>Low-pass, High-pass, Band-pass, Band-stop</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processing</p></td>
+<td><p></p></td>
+<td><p>Windowing (Hanning, Hamming, Blackman, Blackman-Harris, Nuttall, Flat-top, …)</p></td>
+</tr>
+<tr class="row-even"><td><p>Processing</p></td>
+<td><p>Fit</p></td>
+<td><p>Linear fit, Sinusoidal fit, Exponential fit, CDF fit</p></td>
+</tr>
+<tr class="row-odd"><td><p>Computing</p></td>
+<td><p></p></td>
+<td><p>FWHM (Zero-crossing method), X value &#64; min/max, Sampling period/frequency, Dynamic parameters (ENOB, SNR, SINAD, THD, SFDR), -3dB bandwidth, Contrast</p></td>
+</tr>
+</tbody>
+</table>
+<p>ℹ️ New <strong>Image</strong> operations, processing and computing features:</p>
+<table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Menu</p></th>
+<th class="head"><p>Submenu</p></th>
+<th class="head"><p>Features</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Operations</p></td>
+<td><p></p></td>
+<td><p>Exponential</p></td>
+</tr>
+<tr class="row-odd"><td><p>Operations</p></td>
+<td><p>Intensity profiles</p></td>
+<td><p>Profile along a segment</p></td>
+</tr>
+<tr class="row-even"><td><p>Operations</p></td>
+<td><p>Operations with a constant</p></td>
+<td><p>+, -, *, /</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processing</p></td>
+<td><p>Level Adjustment</p></td>
+<td><p>Normalization, Clipping, Offset correction</p></td>
+</tr>
+<tr class="row-even"><td><p>Processing</p></td>
+<td><p>Fourier analysis</p></td>
+<td><p>Power spectrum, Phase spectrum, Magnitude spectrum, Power spectral density</p></td>
+</tr>
+<tr class="row-odd"><td><p>Processing</p></td>
+<td><p>Thresholding</p></td>
+<td><p>Parametric, ISODATA, Li, Mean, Minimum, Otsu, Triangle, Yen</p></td>
+</tr>
+</tbody>
+</table>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed a performance issue due to an unnecessary refresh of the plot view when adding a new signal or image</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/77">Issue #77</a> - Intensity profiles: unable to accept dialog the second time</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/75">Issue #75</a> - View in a new window: curve anti-aliasing is not enabled by default</p></li>
+<li><p>Annotations visibility is now correctly saved and restored:</p>
+<ul>
+<li><p>Before this release, when modifying the annotations visibility in the separate plot view, the visibility was not saved and restored when reopening the plot view</p></li>
+<li><p>This has been <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">fixed upstream</a> in PlotPy (v2.3.3)</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-15-1">
 <h2>DataLab Version 0.15.1<a class="headerlink" href="#datalab-version-0-15-1" title="Link to this heading">#</a></h2>
 <p>🛠️ Bug fixes:</p>
@@ -949,7 +1102,7 @@ parameters for a new signal</p></li>
 parameters for a new image (updated the <em>cdl_testdata.py</em> plugin accordingly)</p></li>
 </ul>
 </li>
-<li><p>Signal and image computations API (<code class="docutils literal notranslate"><span class="pre">cdl.core.computations</span></code>):</p>
+<li><p>Signal and image computations API (<code class="docutils literal notranslate"><span class="pre">cdl.computations</span></code>):</p>
 <ul>
 <li><p>Added wrappers for signal and image 1 -&gt; 1 computations</p></li>
 <li><p>These wrappers aim at simplifying the creation of a basic computation function
@@ -1501,6 +1654,7 @@ traceback links to the source code</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-0">DataLab Version 0.16.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-14-2">DataLab Version 0.14.2</a></li>

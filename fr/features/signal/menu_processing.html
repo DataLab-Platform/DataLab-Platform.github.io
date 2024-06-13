@@ -1,0 +1,1079 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Traitement des signaux &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../_static/documentation_options.js?v=7b33cd6e"></script>
+    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=d99ca74e"></script>
+    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script async="async" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/signal/menu_processing';</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/signal/menu_processing.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Calculs sur les signaux" href="menu_computing.html" />
+    <link rel="prev" title="Opérations sur les signaux" href="menu_operations.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab sera présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> et <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">v0.16.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+    <label class="sidebar-toggle secondary-toggle" for="__secondary" tabindex="0">
+      <span class="fa-solid fa-outdent"></span>
+    </label>
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item current active">
+                      <a class="nav-link nav-internal" href="../index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+     aria-label="Navigation de la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités générales :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../general/validation.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/workspace.html">Espace de travail</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/remote.html">Contrôle à distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/command.html">Ligne de commande</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="menu_file.html">Créer, ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_computing.html">Calculs sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Créer, ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_computing.html">Calculs sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Fil d'Ariane">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">Traitement...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <section id="processing-signals">
+<span id="sig-menu-processing"></span><h1>Traitement des signaux<a class="headerlink" href="#processing-signals" title="Link to this heading">#</a></h1>
+<p>Cette section décrit les fonctionnalités de traitement de signal disponibles dans DataLab.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Voir aussi</p>
+<p><a class="reference internal" href="menu_operations.html#sig-menu-operations"><span class="std std-ref">Opérations sur les signaux</span></a> pour plus d’informations sur les opérations qui peuvent être effectuées sur les signaux, ou <a class="reference internal" href="menu_computing.html#sig-menu-computing"><span class="std std-ref">Calculs sur les signaux</span></a> pour des informations sur les fonctionnalités de calcul sur les signaux.</p>
+</div>
+<figure class="align-default" id="id2">
+<img alt="../../_images/s_processing.png" src="../../_images/s_processing.png" />
+<figcaption>
+<p><span class="caption-text">Capture d’écran du menu « Traitement ».</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Lorsque le « Panneau Signal » est sélectionné, les menus et barres d’outils sont mis à jour pour fournir les actions liées aux signaux.</p>
+<p>Le menu « Traitement » permet d’effectuer divers traitements sur les signaux sélectionnés, tels que le lissage, la normalisation, ou encore l’interpolation.</p>
+<section id="axis-transformation">
+<h2>Transformation des axes<a class="headerlink" href="#axis-transformation" title="Link to this heading">#</a></h2>
+<section id="linear-calibration">
+<h3>Étalonnage linéaire<a class="headerlink" href="#linear-calibration" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir de l’étalonnage linéaire (par rapport aux axes X et Y) de chaque signal sélectionné.</p>
+<table class="table">
+<colgroup>
+<col style="width: 40%" />
+<col style="width: 60%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Paramètre</p></th>
+<th class="head"><p>Étalonnage linéaire</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Axe des X</p></td>
+<td><p><span class="math notranslate nohighlight">\(x_{1} = a.x_{0} + b\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Axe des Y</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1} = a.y_{0} + b\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="swap-x-y-axes">
+<h3>Permuter les axes X/Y<a class="headerlink" href="#swap-x-y-axes" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir des données inversées X/Y du signal sélectionné.</p>
+</section>
+<section id="reverse-x-axis">
+<h3>Inverser l’axe des X<a class="headerlink" href="#reverse-x-axis" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir des données inversées de l’axe des X du signal sélectionné.</p>
+</section>
+</section>
+<section id="level-adjustment">
+<h2>Ajustement des niveaux<a class="headerlink" href="#level-adjustment" title="Link to this heading">#</a></h2>
+<section id="normalize">
+<h3>Normaliser<a class="headerlink" href="#normalize" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir de la normalisation de chaque signal sélectionné par maximum, amplitude, somme, énergie ou RMS :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Paramètre</p></th>
+<th class="head"><p>Normalisation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Maximum</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}= \dfrac{y_{0}}{max(y_{0})}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Amplitude</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}= \dfrac{y_{0}'}{max(y_{0}')}\)</span> avec <span class="math notranslate nohighlight">\(y_{0}'=y_{0}-min(y_{0})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Aire</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}= \dfrac{y_{0}}{\sum_{n=0}^{N}y_{0}[n]}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Energie</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}= \dfrac{y_{0}}{\sqrt{\sum_{n=0}^{N}|y_{0}[n]|^2}}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>RMS</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}= \dfrac{y_{0}}{\sqrt{\dfrac{1}{N}\sum_{n=0}^{N}|y_{0}[n]|^2}}\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="clipping">
+<h3>Ecrêtage<a class="headerlink" href="#clipping" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir de l’écrêtage de chaque signal sélectionné.</p>
+</section>
+<section id="offset-correction">
+<h3>Soustraction d’offset<a class="headerlink" href="#offset-correction" title="Link to this heading">#</a></h3>
+<p>Crée un signal à partir de la soustraction d’offset de chaque signal sélectionné. Cette opération est réalisée en soustrayant la valeur moyenne d’une plage définie par l’utilisateur.</p>
+</section>
+</section>
+<section id="noise-reduction">
+<h2>Rédution de bruit<a class="headerlink" href="#noise-reduction" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir du débruitage de chaque signal sélectionné.</p>
+<p>Les filtres suivants sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Filtre</p></th>
+<th class="head"><p>Formule/implémentation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Filtre gaussien</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.gaussian_filter.html">scipy.ndimage.gaussian_filter</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Moyenne mobile</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1}[i]=\dfrac{1}{M}\sum_{j=0}^{M-1}y_{0}[i+j]\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Médiane mobile</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.medfilt.html">scipy.signal.medfilt</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Filtre de Wiener</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.wiener.html">scipy.signal.wiener</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fourier-analysis">
+<h2>Analyse de Fourier<a class="headerlink" href="#fourier-analysis" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir de l’analyse de Fourier de chaque signal sélectionné.</p>
+<p>Les fonctions suivantes sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 30%" />
+<col style="width: 50%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fonction</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Formule/implémentation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>FFT</p></td>
+<td><p>Transformée de Fourier rapide</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.fft.fft.html">numpy.fft.fft</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>FFT inverse</p></td>
+<td><p>Transformée de Fourier rapide inverse</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.fft.ifft.html">numpy.fft.ifft</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Spectre d’amplitude</p></td>
+<td><p>Optionnel : utiliser une échelle logarithmique</p></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1} = |FFT(y_{0})|\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Spectre de phase</p></td>
+<td></td>
+<td><p><span class="math notranslate nohighlight">\(y_{1} = \angle FFT(y_{0})\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Densité spectrale de puissance (PSD)</p></td>
+<td><p>Optionnel : utiliser une échelle logarithmique. La PSD est estimée en utilisant la méthode de Welch (voir <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html">scipy.signal.welch</a>)</p></td>
+<td><p><span class="math notranslate nohighlight">\(Y_{k} = PSD(y_{k})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La FFT et la FFT inverse sont effectuées en utilisant un décalage de fréquence si l’option est activée dans les paramètres de DataLab (voir <a class="reference internal" href="../general/settings.html#settings"><span class="std std-ref">Settings</span></a>).</p>
+</div>
+</section>
+<section id="frequency-filters">
+<h2>Filtres fréquentiels<a class="headerlink" href="#frequency-filters" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir de l’application d’un filtre fréquentiel à chaque signal sélectionné.</p>
+<p>Les filtres suivants sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Filtre</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_images/lowpass.svg"><img alt="lowpass" height="24px" src="../../_images/lowpass.svg" width="24px" /></a> Low-pass</p></td>
+<td><p>Filtre les hautes fréquences, au-dessus d’une fréquence de coupure</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_images/highpass.svg"><img alt="highpass" height="24px" src="../../_images/highpass.svg" width="24px" /></a> High-pass</p></td>
+<td><p>Filtre les basses fréquences, en-dessous d’une fréquence de coupure</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference internal" href="../../_images/bandpass.svg"><img alt="bandpass" height="24px" src="../../_images/bandpass.svg" width="24px" /></a> Band-pass</p></td>
+<td><p>Filtre les fréquences en dehors d’une plage</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference internal" href="../../_images/bandstop.svg"><img alt="bandstop" height="24px" src="../../_images/bandstop.svg" width="24px" /></a> Band-stop</p></td>
+<td><p>Filtre les fréquences à l’intérieur d’une plage</p></td>
+</tr>
+</tbody>
+</table>
+<p>Pour chaque filtre, les méthodes suivantes sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Bessel</p></td>
+<td><p>Filtre de Bessel, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.bessel.html">scipy.signal.bessel</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Butterworth</p></td>
+<td><p>Filtre de Butterworth, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html">scipy.signal.butter</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Chebyshev I</p></td>
+<td><p>Filtre de Chebyshev de type I, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cheby1.html">scipy.signal.cheby1</a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Chebyshev II</p></td>
+<td><p>Filtre de Chebyshev de type II, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.cheby2.html">scipy.signal.cheby2</a></p></td>
+</tr>
+<tr class="row-even"><td><p>Elliptic</p></td>
+<td><p>Filtre elliptique, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.ellip.html">scipy.signal.ellip</a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="fitting">
+<h2>Ajustement<a class="headerlink" href="#fitting" title="Link to this heading">#</a></h2>
+<p>Ouvre une boîte de dialogue permettant de réaliser des ajustements de courbe de manière interactive.</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Modèle</p></th>
+<th class="head"><p>Equation</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linéaire</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = c_{0}+c_{1}.x\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Polynomial</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = c_{0}+c_{1}.x+c_{2}.x^2+...+c_{n}.x^n\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Gaussienne</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+\dfrac{A}{\sqrt{2\pi}.\sigma}.exp(-\dfrac{1}{2}.(\dfrac{x-x_{0}}{\sigma})^2)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Lorentzienne</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+\dfrac{A}{\sigma.\pi}.\dfrac{1}{1+(\dfrac{x-x_{0}}{\sigma})^2}\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Voigt</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+A.\dfrac{Re(exp(-z^2).erfc(-j.z))}{\sqrt{2\pi}.\sigma}\)</span> avec <span class="math notranslate nohighlight">\(z = \dfrac{x-x_{0}-j.\sigma}{\sqrt{2}.\sigma}\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Multi-gaussien</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+\sum_{i=0}^{K}\dfrac{A_{i}}{\sqrt{2\pi}.\sigma_{i}}.exp(-\dfrac{1}{2}.(\dfrac{x-x_{0,i}}{\sigma_{i}})^2)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Exponentielle</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+A.exp(B.x)\)</span></p></td>
+</tr>
+<tr class="row-odd"><td><p>Sinusoïdal</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+A.sin(2\pi.f.x+\phi)\)</span></p></td>
+</tr>
+<tr class="row-even"><td><p>Fonction de distribution cumulative (CDF)</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0}+A.erf(\dfrac{x-x_{0}}{\sigma.\sqrt{2}})\)</span></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="windowing">
+<h2>Fenêtrage<a class="headerlink" href="#windowing" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir de l’application d’une fonction de fenêtrage à chaque signal sélectionné.</p>
+<p>Les fonctions de fenêtrage suivantes sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 20%" />
+<col style="width: 80%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fonction de fenêtrage</p></th>
+<th class="head"><p>Référence</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Barthann</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.barthann.html#scipy.signal.windows.barthann" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.barthann()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Bartlett</p></td>
+<td><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.bartlett.html#numpy.bartlett" title="(disponible dans NumPy v1.26)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.bartlett()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Blackman</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.blackman.html#scipy.signal.windows.blackman" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.blackman()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Blackman-Harris</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.blackmanharris.html#scipy.signal.windows.blackmanharris" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.blackmanharris()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Bohman</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.bohman.html#scipy.signal.windows.bohman" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.bohman()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Boxcar</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.boxcar.html#scipy.signal.windows.boxcar" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.boxcar()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Cosinus</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.cosine.html#scipy.signal.windows.cosine" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.cosine()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Exponentielle</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.exponential.html#scipy.signal.windows.exponential" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.exponential()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Flat top</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.flattop.html#scipy.signal.windows.flattop" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.flattop()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Gaussienne</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.gaussian.html#scipy.signal.windows.gaussian" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.gaussian()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Hamming</p></td>
+<td><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hamming.html#numpy.hamming" title="(disponible dans NumPy v1.26)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.hamming()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Hanning</p></td>
+<td><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.hanning.html#numpy.hanning" title="(disponible dans NumPy v1.26)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.hanning()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Kaiser</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.kaiser.html#scipy.signal.windows.kaiser" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.kaiser()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Lanczos</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.lanczos.html#scipy.signal.windows.lanczos" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.lanczos()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Nuttall</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.nuttall.html#scipy.signal.windows.nuttall" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.nuttall()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Parzen</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.parzen.html#scipy.signal.windows.parzen" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.parzen()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Rectangulaire</p></td>
+<td><p><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ones.html#numpy.ones" title="(disponible dans NumPy v1.26)"><code class="xref py py-func docutils literal notranslate"><span class="pre">numpy.ones()</span></code></a></p></td>
+</tr>
+<tr class="row-odd"><td><p>Taylor</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.taylor.html#scipy.signal.windows.taylor" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.taylor()</span></code></a></p></td>
+</tr>
+<tr class="row-even"><td><p>Tukey</p></td>
+<td><p><a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.windows.tukey.html#scipy.signal.windows.tukey" title="(disponible dans SciPy v1.13.1)"><code class="xref py py-func docutils literal notranslate"><span class="pre">scipy.signal.windows.tukey()</span></code></a></p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="detrending">
+<h2>Elimination de tendance<a class="headerlink" href="#detrending" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir de l’élimination de tendance de chaque signal. Cette fonctionnalité est basée sur la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.detrend.html">scipy.signal.detrend</a> de SciPy.</p>
+<p>Les paramètres suivants sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Paramètre</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Méthode</p></td>
+<td><p>Méthode d’élimination de tendance : “linéaire” ou “constante”. Voir la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.detrend.html">scipy.signal.detrend</a> de SciPy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="interpolation">
+<h2>Interpolation<a class="headerlink" href="#interpolation" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir de l’interpolation de chaque signal sélectionné, par rapport à l’axe X d’un second signal (qui peut être l’un des signaux sélectionnés).</p>
+<p>Les méthodes d’interpolation suivantes sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Linéaire</p></td>
+<td><p>Interpolation linéaire, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.interp.html">interp</a> de NumPy.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Spline</p></td>
+<td><p>Interpolation par spline cubique, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.splev.html">scipy.interpolate.splev</a> de SciPy.</p></td>
+</tr>
+<tr class="row-even"><td><p>Quadratique</p></td>
+<td><p>Interpolation quadratique, utilisant la fonction <a class="reference external" href="https://docs.scipy.org/doc/numpy/reference/generated/numpy.polyval.html">polyval</a> de NumPy.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Cubique</p></td>
+<td><p>Interpolation cubique, utilisant la classe <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.Akima1DInterpolator.html">Akima1DInterpolator</a> de SciPy.</p></td>
+</tr>
+<tr class="row-even"><td><p>Barycentrique</p></td>
+<td><p>Interpolation barycentrique, utilisant la classe <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.BarycentricInterpolator.html">BarycentricInterpolator</a> de SciPy.</p></td>
+</tr>
+<tr class="row-odd"><td><p>PCHIP</p></td>
+<td><p>Interpolation par polynôme de Hermite cubique par morceaux (PCHIP), utilisant la classe <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.interpolate.PchipInterpolator.html">PchipInterpolator</a> de SciPy.</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="resampling">
+<h2>Rééchantillonnage<a class="headerlink" href="#resampling" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir du rééchantillonnage de chaque signal.</p>
+<p>Les paramètres suivants sont disponibles :</p>
+<table class="table">
+<colgroup>
+<col style="width: 25%" />
+<col style="width: 75%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Paramètre</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Méthode</p></td>
+<td><p>Méthode d’interpolation (voir section précédente)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Valeur de remplissage</p></td>
+<td><p>Valeur de remplissage pour l’interpolation (voir section précédente)</p></td>
+</tr>
+<tr class="row-even"><td><p>Xmin</p></td>
+<td><p>Borne inférieure</p></td>
+</tr>
+<tr class="row-odd"><td><p>Xmax</p></td>
+<td><p>Borne supérieure</p></td>
+</tr>
+<tr class="row-even"><td><p>Mode</p></td>
+<td><p>Mode de rééchantillonnage : pas ou nombre de points</p></td>
+</tr>
+<tr class="row-odd"><td><p>Pas</p></td>
+<td><p>Pas de rééchantillonnage</p></td>
+</tr>
+<tr class="row-even"><td><p>Nombre de points</p></td>
+<td><p>Nombre de points de rééchantillonnage</p></td>
+</tr>
+</tbody>
+</table>
+</section>
+<section id="roi-extraction">
+<h2>Extraction de ROI<a class="headerlink" href="#roi-extraction" title="Link to this heading">#</a></h2>
+<p>Crée un signal à partir d’une région d’intérêt (ROI) définie par l’utilisateur.</p>
+<figure class="align-default" id="id3">
+<img alt="../../_images/s_roi_dialog.png" src="../../_images/s_roi_dialog.png" />
+<figcaption>
+<p><span class="caption-text">Boîte de dialogue d’extraction de ROI : la région d’intérêt (ROI) est définie en ajustant la position et la largeur de l’échelle horizontale de sélection.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="menu_operations.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Opérations sur les signaux</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="menu_computing.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Calculs sur les signaux</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#axis-transformation">Transformation des axes</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-calibration">Étalonnage linéaire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-x-y-axes">Permuter les axes X/Y</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reverse-x-axis">Inverser l’axe des X</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-adjustment">Ajustement des niveaux</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalize">Normaliser</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clipping">Ecrêtage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#offset-correction">Soustraction d’offset</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#noise-reduction">Rédution de bruit</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fourier-analysis">Analyse de Fourier</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-filters">Filtres fréquentiels</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Ajustement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#windowing">Fenêtrage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detrending">Elimination de tendance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation">Interpolation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Rééchantillonnage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#roi-extraction">Extraction de ROI</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

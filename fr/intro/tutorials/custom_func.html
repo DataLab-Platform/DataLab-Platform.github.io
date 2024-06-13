@@ -52,7 +52,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../_static/documentation_options.js?v=7f23c9c4"></script>
+    <script src="../../_static/documentation_options.js?v=7b33cd6e"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -121,7 +121,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">ℹ️ La version 0.15 de DataLab vient de sortir! 🎉 ▫️ ▫️ ▫️ Restez à l'écoute pour les mises à jour!</div>
+    <div class="bd-header-announcement__content">DataLab sera présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> et <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -151,7 +151,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.15.1</p>
+    <p class="title logo__title">v0.16.0</p>
   
 </a></div>
     
@@ -756,7 +756,7 @@ document.write(`
 <li><p>Notre fonction sera exécutée dans un processus séparé, nous pouvons donc l’interrompre si elle prend trop de temps à s’exécuter.</p></li>
 <li><p>Les avertissements et les erreurs seront gérés par DataLab, nous n’avons donc pas besoin de les gérer nous-mêmes.</p></li>
 </ul>
-<p>Le changement le plus significatif est que nous devons définir une fonction qui fonctionnera sur les objets d’image natifs de DataLab (<a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a>), au lieu de fonctionner sur des tableaux NumPy. Nous devons donc trouver un moyen d’appeler notre fonction personnalisée <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> avec un <a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a> en entrée et en sortie. Pour éviter d’écrire beaucoup de code de base, nous pouvons utiliser l’enveloppe de fonction fournie par DataLab : <a class="reference internal" href="../../api/core.computation.html#cdl.core.computation.image.Wrap11Func" title="cdl.core.computation.image.Wrap11Func"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.computation.image.Wrap11Func</span></code></a>.</p>
+<p>Le changement le plus significatif est que nous devons définir une fonction qui fonctionnera sur les objets d’image natifs de DataLab (<a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a>), au lieu de fonctionner sur des tableaux NumPy. Nous devons donc trouver un moyen d’appeler notre fonction personnalisée <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> avec un <a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a> en entrée et en sortie. Pour éviter d’écrire beaucoup de code de base, nous pouvons utiliser l’enveloppe de fonction fournie par DataLab : <a class="reference internal" href="../../api/core.computation.html#cdl.computation.image.Wrap11Func" title="cdl.computation.image.Wrap11Func"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.computation.image.Wrap11Func</span></code></a>.</p>
 <p>Par ailleurs, nous devons définir une classe qui décrit notre plugin, qui doit hériter de <a class="reference internal" href="../../features/general/plugins.html#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> et nommer le script Python qui contient le code du plugin avec un nom qui commence par <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> (par exemple <code class="docutils literal notranslate"><span class="pre">cdl_custom_func.py</span></code>), afin que DataLab puisse le découvrir au démarrage.</p>
 <p>De plus, dans le code du plugin, nous voulons ajouter une entrée dans le menu « Plugins », afin que l’utilisateur puisse accéder à notre plugin depuis l’interface graphique.</p>
 <p>Voici le code du plugin :</p>
@@ -780,7 +780,7 @@ document.write(`
 <span class="linenos">18</span><span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="linenos">19</span><span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">spi</span>
 <span class="linenos">20</span>
-<span class="linenos">21</span><span class="kn">import</span> <span class="nn">cdl.core.computation.image</span> <span class="k">as</span> <span class="nn">cpi</span>
+<span class="linenos">21</span><span class="kn">import</span> <span class="nn">cdl.computation.image</span> <span class="k">as</span> <span class="nn">cpi</span>
 <span class="linenos">22</span><span class="kn">import</span> <span class="nn">cdl.obj</span>
 <span class="linenos">23</span><span class="kn">import</span> <span class="nn">cdl.param</span>
 <span class="linenos">24</span><span class="kn">import</span> <span class="nn">cdl.plugins</span>
