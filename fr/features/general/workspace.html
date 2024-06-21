@@ -52,7 +52,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../_static/documentation_options.js?v=7b33cd6e"></script>
+    <script src="../../_static/documentation_options.js?v=d273b908"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -151,7 +151,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.0</p>
+    <p class="title logo__title">v0.16.1</p>
   
 </a></div>
     
@@ -428,7 +428,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logviewer.html">Journaux de bord</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation et configuration</a></li>
-<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command.html">Ligne de commande</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
@@ -508,7 +508,7 @@ document.write(`
   <section id="workspace">
 <span id="id1"></span><h1>Espace de travail<a class="headerlink" href="#workspace" title="Link to this heading">#</a></h1>
 <section id="basic-concepts">
-<h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Link to this heading">#</a></h2>
+<h2>Concepts de base<a class="headerlink" href="#basic-concepts" title="Link to this heading">#</a></h2>
 <p>Travailler avec DataLab est très simple. L’interface est intuitive et appréhendable facilement. La fenêtre principale est divisée en deux zones principales :</p>
 <ul class="simple">
 <li><p>La zone de droite affiche la liste des jeux de données actuellement chargés dans DataLab, répartis sur deux onglets : <strong>Signaux</strong> et <strong>Images</strong>. L’utilisateur peut basculer entre les deux onglets en cliquant sur l’onglet correspondant : cela bascule la fenêtre principale vers le panneau correspondant, ainsi que le contenu du menu et de la barre d’outils. Sous la liste des jeux de données, une vue <strong>Propriétés</strong> affiche des informations sur le jeu de données actuellement sélectionné.</p></li>
@@ -522,20 +522,18 @@ document.write(`
 </figure>
 </section>
 <section id="internal-data-model-and-workspace">
-<h2>Internal data model and workspace<a class="headerlink" href="#internal-data-model-and-workspace" title="Link to this heading">#</a></h2>
+<h2>Modèle de données interne et espace de travail<a class="headerlink" href="#internal-data-model-and-workspace" title="Link to this heading">#</a></h2>
 <p>DataLab a son propre modèle de données interne, dans lequel les jeux de données sont organisés autour d’une structure arborescente. Chaque panneau de la fenêtre principale correspond à une branche de l’arbre. Chaque jeu de données affiché dans les panneaux correspond à une feuille de l’arbre. À l’intérieur du jeu de données, les données sont organisées de manière orientée objet, avec un ensemble d’attributs et de méthodes. Le modèle de données est décrit plus en détail dans la section API (voir <a class="reference internal" href="../../api/obj.html#module-cdl.obj" title="cdl.obj"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.obj</span></code></a>).</p>
 <p>Pour chaque jeu de données (signal 1D ou image 2D), non seulement les données elles-mêmes sont stockées, mais aussi un ensemble de métadonnées, qui décrit les données ou la façon dont elles doivent être affichées. Les métadonnées sont stockées dans un dictionnaire, qui est accessible via l’attribut <code class="docutils literal notranslate"><span class="pre">metadata</span></code> du jeu de données (et peuvent également être parcourues dans la vue <strong>Propriétés</strong>, avec le bouton <strong>Métadonnées</strong>).</p>
-<p>The DataLab <strong>Workspace</strong> is defined as the collection of all data sets which
-are currently loaded in DataLab, in both the <strong>Signals</strong> and <strong>Images</strong> panels.</p>
+<p>L”<strong>Espace de travail</strong> de DataLab est défini comme l’ensemble de tous les jeux de données actuellement chargés dans DataLab, dans les panneaux <strong>Signaux</strong> et <strong>Images</strong>.</p>
 </section>
 <section id="loading-and-saving-the-workspace">
-<h2>Loading and saving the workspace<a class="headerlink" href="#loading-and-saving-the-workspace" title="Link to this heading">#</a></h2>
-<p>The following actions are available to manage the workspace from the <strong>File</strong> menu:</p>
+<h2>Chargement et enregistrement de l’espace de travail<a class="headerlink" href="#loading-and-saving-the-workspace" title="Link to this heading">#</a></h2>
+<p>Les actions suivantes sont disponibles pour gérer l’espace de travail depuis le menu <strong>Fichier</strong> :</p>
 <ul class="simple">
-<li><p><strong>Open HDF5 file</strong>: load a workspace from an HDF5 file.</p></li>
-<li><p><strong>Save to HDF5 file</strong>: save the current workspace to an HDF5 file.</p></li>
-<li><p><strong>Browse HDF5 file</strong>: open the <a class="reference internal" href="h5browser.html#h5browser"><span class="std std-ref">Explorateur HDF5</span></a> to explore the content of an
-HDF5 file and import data sets into the workspace.</p></li>
+<li><p><strong>Ouvrir un fichier HDF5</strong> : charger un espace de travail à partir d’un fichier HDF5.</p></li>
+<li><p><strong>Enregistrer dans un fichier HDF5</strong> : enregistrer l’espace de travail actuel dans un fichier HDF5.</p></li>
+<li><p><strong>Parcourir un fichier HDF5</strong> : ouvrir le <a class="reference internal" href="h5browser.html#h5browser"><span class="std std-ref">Explorateur HDF5</span></a> pour explorer le contenu d’un fichier HDF5 et importer des jeux de données dans l’espace de travail.</p></li>
 </ul>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -587,9 +585,9 @@ HDF5 file and import data sets into the workspace.</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-concepts">Basic concepts</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-data-model-and-workspace">Internal data model and workspace</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-saving-the-workspace">Loading and saving the workspace</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-concepts">Concepts de base</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-data-model-and-workspace">Modèle de données interne et espace de travail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-saving-the-workspace">Chargement et enregistrement de l’espace de travail</a></li>
 </ul>
   </nav></div>
 

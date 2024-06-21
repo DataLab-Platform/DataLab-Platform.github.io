@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=7b33cd6e"></script>
+    <script src="../_static/documentation_options.js?v=d273b908"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.0</p>
+    <p class="title logo__title">v0.16.1</p>
   
 </a></div>
     
@@ -480,6 +480,46 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-16-1">
+<h2>DataLab Version 0.16.1<a class="headerlink" href="#datalab-version-0-16-1" title="Link to this heading">#</a></h2>
+<p>Depuis la version 0.16.0, de nombreuses fonctions de validation ont été ajoutées à la suite de tests. Le pourcentage de fonctions de calcul validées est passé de 37 % à 84 % dans cette version.</p>
+<p>NumPy 2.0 support has been added with this release.</p>
+<p>ℹ️ Nouvelles fonctionnalités mineures et améliorations :</p>
+<ul class="simple">
+<li><p>Filtres moyenne mobile et médiane pour les signaux et les images :</p>
+<ul>
+<li><p>Ajout du paramètre « Mode » pour choisir le mode du filtre (par exemple « reflect », « constant », « nearest », « mirror », « wrap »)</p></li>
+<li><p>Le mode par défaut est « reflect » pour la moyenne mobile et « nearest » pour la médiane mobile</p></li>
+<li><p>Cela permet de gérer les effets de bord lors du filtrage des signaux et des images</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Correction de la détection de bord de Canny pour renvoyer une image binaire en <cite>uint8</cite> au lieu de <cite>bool</cite> (par soucis de cohérence avec les autres fonctionnalités de traitement d’image)</p></li>
+<li><p>Correction de la normalisation d’image : la borne inférieure était mal définie pour la méthode <cite>maximum</cite></p></li>
+<li><p>Correction de l’erreur <cite>ValueError</cite> lors du calcul de la DSP avec une échelle logarithmique</p></li>
+<li><p>Correction de l’algorithme de dérivation d’un signal : utilisation de <cite>numpy.gradient</cite> au lieu d’une implémentation personnalisée</p></li>
+<li><p>Correction de l’obsolescence de <cite>cumtrapz</cite> de SciPy : utilisation de <cite>cumulative_trapezoid</cite> à la place</p></li>
+<li><p>La sélection de courbe affiche désormais les points individuels de la courbe (auparavant, seule la largeur de la ligne de la courbe était élargie)</p></li>
+<li><p>Installeur Windows : ajout de la prise en charge des versions instables (par exemple, 0.16.1.dev0), permettant ainsi d’installer facilement la dernière version de développement de DataLab sur Windows</p></li>
+<li><p>Correction de l”[Issue #81](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/81">DataLab-Platform/DataLab#81</a>) - Lors de l’ouverture de fichiers, afficher la boîte de dialogue de progression uniquement si nécessaire</p></li>
+<li><p>Correction de l”[Issue #80](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/80">DataLab-Platform/DataLab#80</a>) - Tracé des résultats : prise en charge de deux cas d’utilisation</p>
+<ul>
+<li><p>Les fonctionnalités du menu « Calcul » produisent des <em>résultats</em> (scalaires) : détection de taches (coordonnées de cercle), détection de pics 2D (coordonnées de points), etc. Selon la fonctionnalité, des tables de résultats sont affichées dans la boîte de dialogue « Résultats », et les résultats sont également stockés dans les métadonnées du signal ou de l’image : chaque ligne de la table de résultats est un résultat individuel, et chaque colonne est une propriété du résultat - certains résultats peuvent ne consister qu’en un seul résultat individuel (par exemple, le centroïde de l’image ou la FWHM de la courbe), tandis que d’autres peuvent consister en plusieurs résultats individuels (par exemple, détection de taches, détection de contours, etc.).</p></li>
+<li><p>Avant ce changement, la fonctionnalité « Tracer les résultats » ne prenait en charge que le tracé du premier résultat individuel d’une table de résultats, en fonction de l’index (des objets de signal ou d’image) ou de l’une des colonnes de la table de résultats. Cela n’était pas suffisant pour certains cas d’utilisation, où l’utilisateur souhaitait tracer plusieurs résultats individuels d’une table de résultats.</p></li>
+<li><p>A présent, la fonctionnalité « Tracer les résultats » prend en charge deux cas d’utilisation :</p>
+<ul>
+<li><p>« Une courbe par titre de résultat » : Tracer le premier résultat individuel d’une table de résultats, comme auparavant</p></li>
+<li><p>« Une courbe par objet (ou ROI) et par titre de résultat » : Tracer tous les résultats individuels d’une table de résultats, en fonction de l’index (des objets de signal ou d’image) ou de l’une des colonnes de la table de résultats</p></li>
+</ul>
+</li>
+<li><p>La sélection du cas d’utilisation se fait dans la boîte de dialogue « Tracer les résultats »</p></li>
+<li><p>Le cas d’utilisation par défaut est « Une courbe par titre de résultat » si la table de résultats ne comporte qu’une seule ligne, et « Une courbe par objet (ou ROI) et par titre de résultat » dans les autres cas</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-16-0">
 <h2>DataLab Version 0.16.0<a class="headerlink" href="#datalab-version-0-16-0" title="Link to this heading">#</a></h2>
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
@@ -616,10 +656,10 @@ document.write(`
 <li><p>Correction d’un problème de performance dû à un rafraîchissement inutile de la vue du graphique lors de l’ajout d’un nouveau signal ou d’une nouvelle image</p></li>
 <li><p>Correction de l”[Issue #77](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/77">DataLab-Platform/DataLab#77</a>) - Profils d’intensité : impossible d’accepter la boîte de dialogue la deuxième fois</p></li>
 <li><p>Correction de l”[Issue #75](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/75">DataLab-Platform/DataLab#75</a>) - Afficher dans une nouvelle fenêtre : l’anti-crénelage de la courbe n’est pas activé par défaut</p></li>
-<li><p>Annotations visibility is now correctly saved and restored:</p>
+<li><p>La visibilité des annotations est désormais correctement sauvegardée et restaurée :</p>
 <ul>
-<li><p>Before this release, when modifying the annotations visibility in the separate plot view, the visibility was not saved and restored when reopening the plot view</p></li>
-<li><p>This has been <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">fixed upstream</a> in PlotPy (v2.3.3)</p></li>
+<li><p>Avant cette version, lorsque la visibilité des annotations était modifiée dans la vue du graphique séparée, elle n’était pas sauvegardée et restaurée lors de la réouverture de la vue du graphique</p></li>
+<li><p>Cela a été [corrigé en amont](<a class="github reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">PlotPyStack/PlotPy</a>) dans PlotPy (v2.3.3)</p></li>
 </ul>
 </li>
 </ul>
@@ -1439,6 +1479,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-1">DataLab Version 0.16.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-0">DataLab Version 0.16.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>

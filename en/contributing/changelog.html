@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=ff8529b6"></script>
+    <script src="../_static/documentation_options.js?v=56c55dd0"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.0</p>
+    <p class="title logo__title">v0.16.1</p>
   
 </a></div>
     
@@ -480,6 +480,48 @@ document.write(`
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a>
 for future and past milestones.</p>
+<section id="datalab-version-0-16-1">
+<h2>DataLab Version 0.16.1<a class="headerlink" href="#datalab-version-0-16-1" title="Link to this heading">#</a></h2>
+<p>Since version 0.16.0, many validation functions have been added to the test suite.
+The percentage of validated compute functions has increased from 37% to 84% in this
+release.</p>
+<p>NumPy 2.0 support has been added with this release.</p>
+<p>ℹ️ Minor new features and enhancements:</p>
+<ul class="simple">
+<li><p>Signal and image moving average and median filters:</p>
+<ul>
+<li><p>Added “Mode” parameter to choose the mode of the filter (e.g. “reflect”, “constant”, “nearest”, “mirror”, “wrap”)</p></li>
+<li><p>The default mode is “reflect” for moving average and “nearest” for moving median</p></li>
+<li><p>This allows to handle edge effects when filtering signals and images</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed Canny edge detection to return binary image as <code class="docutils literal notranslate"><span class="pre">uint8</span></code> instead of <code class="docutils literal notranslate"><span class="pre">bool</span></code> (for consistency with other image processing features)</p></li>
+<li><p>Fixed Image normalization: lower bound was wrongly set for <code class="docutils literal notranslate"><span class="pre">maximum</span></code> method</p></li>
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> when computing PSD with logarithmic scale</p></li>
+<li><p>Fixed Signal derivative algorithm: now using <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code> instead of a custom implementation</p></li>
+<li><p>Fixed SciPy’s <code class="docutils literal notranslate"><span class="pre">cumtrapz</span></code> deprecation: use <code class="docutils literal notranslate"><span class="pre">cumulative_trapezoid</span></code> instead</p></li>
+<li><p>Curve selection now shows the individual points of the curve (before, only the curve line width was broadened)</p></li>
+<li><p>Windows installer: add support for unstable releases (e.g., 0.16.1.dev0), thus allowing to easily install the latest development version of DataLab on Windows</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/81">Issue #81</a> - When opening files, show progress dialog only if necessary</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/80">Issue #80</a> - Plotting results: support for two use cases</p>
+<ul>
+<li><p>The features of the “Computing” menu produce <em>results</em> (scalars): blob detection (circle coordinates), 2D peak detection (point coordinates), etc. Depending on the feature, result tables are displayed in the “Results” dialog box, and the results are also stored in the signal or image metadata: each line of the result table is an individual result, and each column is a property of the result - some results may consist only of a single individual result (e.g., image centroid or curve FHWM), while others may consist of multiple individual results (e.g., blob detection, contour detection, etc.).</p></li>
+<li><p>Before this change, the “Plot results” feature only supported plotting the first individual result of a result table, as a function of the index (of the signal or image objects) or any of the columns of the result table. This was not sufficient for some use cases, where the user wanted to plot multiple individual results of a result table.</p></li>
+<li><p>Now, the “Plot results” feature supports two use cases:</p>
+<ul>
+<li><p>“One curve per result title”: Plotting the first individual result of a result table, as before</p></li>
+<li><p>“One curve per object (or ROI) and per result title”: Plotting all individual results of a result table, as a function of the index (of the signal or image objects) or any of the columns of the result table</p></li>
+</ul>
+</li>
+<li><p>The selection of the use case is done in the “Plot results” dialog box</p></li>
+<li><p>The default use case is “One curve per result title” if the result table has only one line, and “One curve per object (or ROI) and per result title” otherwise</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-16-0">
 <h2>DataLab Version 0.16.0<a class="headerlink" href="#datalab-version-0-16-0" title="Link to this heading">#</a></h2>
 <p>💥 New features and enhancements:</p>
@@ -1654,6 +1696,7 @@ traceback links to the source code</p></li>
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-1">DataLab Version 0.16.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-0">DataLab Version 0.16.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-0">DataLab Version 0.15.0</a></li>
