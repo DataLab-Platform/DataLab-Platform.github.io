@@ -481,16 +481,41 @@ document.write(`
 <h1>Roadmap<a class="headerlink" href="#roadmap" title="Link to this heading">#</a></h1>
 <section id="future-milestones">
 <h2>Future milestones<a class="headerlink" href="#future-milestones" title="Link to this heading">#</a></h2>
-<section id="features">
-<h3>Features<a class="headerlink" href="#features" title="Link to this heading">#</a></h3>
+<section id="features-or-enhancements">
+<h3>Features or enhancements<a class="headerlink" href="#features-or-enhancements" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Add a Jupyter kernel interface to DataLab:</p>
+<li><p>Add support for data acquisition:</p>
 <ul>
-<li><p>This would allow to use DataLab from other software, such as Jupyter
-notebooks, Spyder or Visual Studio Code</p></li>
-<li><p>This would also allow to share data between DataLab and other software
-(e.g. display DataLab numerical results in Jupyter notebooks or the other
-way around, display Jupyter results in DataLab, etc.)</p></li>
+<li><p>It would be nice to be able to acquire data from various sources
+(e.g. a camera, a digitizer, a spectrometer, etc.) directly from DataLab</p></li>
+<li><p>This would allow to use DataLab as a data acquisition software, and to
+process the acquired data immediately after</p></li>
+<li><p>Although there is currently no design for this feature, it could be
+implemented by creating a new plugin family, and by defining a common
+API for data acquisition plugins</p></li>
+<li><p>One of the possible technical solutions could be to rely on <a class="reference external" href="https://pymodaq.cnrs.fr/">PyMoDAQ</a>,
+a Python package for data acquisition, which is already compatible with
+various hardware devices - <em>how about a collaboration with the PyMoDAQ
+developers?</em></p></li>
+</ul>
+</li>
+<li><p>Create a DataLab math library:</p>
+<ul>
+<li><p>This library would be a Python package, and would contain all the
+mathematical functions and algorithms used in DataLab:
+- A low-level algorithms API operating on NumPy arrays
+- The base non-GUI data model of DataLab (e.g. signals, images)
+- A high-level computing API operating on DataLab objects (e.g. signals, images)</p></li>
+<li><p>It would be used by DataLab itself, but could also be used by third-party software
+(e.g. Jupyter notebooks, Spyder, Visual Studio Code, etc.)</p></li>
+<li><p>Finally, this library would be a good way to share DataLab’s mathematical features
+with the scientific community: a collection of algorithms and functions
+that are well-tested, well-documented, and easy to use</p></li>
+<li><p><em>Note</em>: it is already possible to use DataLab’s processing features from outside
+DataLab by importing the <cite>cdl</cite> Python package, but this package also contains
+the GUI code, which is not always needed (e.g. when using DataLab from a Jupyter
+notebook). The idea here is to create a new package that would contain only the
+mathematical features of DataLab, without the GUI code.</p></li>
 </ul>
 </li>
 <li><p>Create a Jupyter plugin for interactive data analysis with DataLab:</p>
@@ -520,6 +545,19 @@ Spyder</p></li>
 </li>
 <li><p>Add support for time series (see
 <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/27">Issue #27</a>)</p></li>
+<li><p>Add a Jupyter kernel interface to DataLab:</p>
+<ul>
+<li><p>This would allow to use DataLab from other software, such as Jupyter
+notebooks, Spyder or Visual Studio Code</p></li>
+<li><p>This would also allow to share data between DataLab and other software
+(e.g. display DataLab numerical results in Jupyter notebooks or the other
+way around, display Jupyter results in DataLab, etc.)</p></li>
+<li><p>After a first and quick look, it seems that the Jupyter kernel interface
+is not straightforward to implement, so that it may not be worth the effort
+(the communication between DataLab and Jupyter is currently already possible
+thanks to the remote control features)</p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="maintenance">
@@ -538,8 +576,6 @@ and to the fact that <cite>PlotPyStack</cite> is already compatible with PyQt6)<
 <ul class="simple">
 <li><p>Create a DataLab plugin template (see
 <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/26">Issue #26</a>)</p></li>
-<li><p>Make tutorial videos: plugin system, remote control features, etc. (see
-<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/25">Issue #25</a>)</p></li>
 </ul>
 </section>
 </section>
@@ -666,7 +702,7 @@ open a HDF5 file, etc.) and processing features
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#future-milestones">Future milestones</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Features</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-or-enhancements">Features or enhancements</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance">Maintenance</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-tasks">Other tasks</a></li>
 </ul>

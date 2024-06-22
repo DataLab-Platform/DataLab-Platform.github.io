@@ -482,13 +482,23 @@ document.write(`
 <h1>Feuille de route<a class="headerlink" href="#roadmap" title="Link to this heading">#</a></h1>
 <section id="future-milestones">
 <h2>Jalons futurs<a class="headerlink" href="#future-milestones" title="Link to this heading">#</a></h2>
-<section id="features">
-<h3>Fonctionnalités<a class="headerlink" href="#features" title="Link to this heading">#</a></h3>
+<section id="features-or-enhancements">
+<h3>Fonctionnalités ou améliorations<a class="headerlink" href="#features-or-enhancements" title="Link to this heading">#</a></h3>
 <ul class="simple">
-<li><p>Ajouter une interface de noyau Jupyter à DataLab :</p>
+<li><p>Ajouter la prise en charge de l’acquisition de données :</p>
 <ul>
-<li><p>Cela permettrait d’utiliser DataLab à partir d’autres logiciels, tels que des notebooks Jupyter, Spyder ou Visual Studio Code</p></li>
-<li><p>Cela permettrait également de partager des données entre DataLab et d’autres logiciels (par exemple, afficher les résultats numériques de DataLab dans des notebooks Jupyter ou vice versa, afficher les résultats de Jupyter dans DataLab, etc.)</p></li>
+<li><p>Il serait intéressant de pouvoir acquérir des données de diverses sources (par exemple, une caméra, un numériseur, un spectromètre, etc.) directement depuis DataLab</p></li>
+<li><p>Cela permettrait d’utiliser DataLab comme logiciel d’acquisition de données, et de traiter les données acquises immédiatement après</p></li>
+<li><p>Bien qu’il n’y ait actuellement pas de conception pour cette fonctionnalité, elle pourrait être implémentée en créant une nouvelle famille de plugins, et en définissant une API commune pour les plugins d’acquisition de données</p></li>
+<li><p>Une des solutions techniques possibles pourrait être de s’appuyer sur <cite>PyMoDAQ &lt;https://pymodaq.cnrs.fr/&gt;</cite>, un paquet Python pour l’acquisition de données, qui est déjà compatible avec divers dispositifs matériels - <em>et si on collaborait avec les développeurs de PyMoDAQ ?</em></p></li>
+</ul>
+</li>
+<li><p>Créer une bibliothèque mathématique DataLab :</p>
+<ul>
+<li><p>Cette bibliothèque serait un paquet Python, et contiendrait toutes les fonctions et algorithmes mathématiques utilisés dans DataLab : - Une API d’algorithmes de bas niveau opérant sur des tableaux NumPy - Le modèle de données non-GUI de base de DataLab (par exemple, signaux, images) - Une API de calcul de haut niveau opérant sur les objets DataLab (par exemple, signaux, images)</p></li>
+<li><p>Elle serait utilisée par DataLab lui-même, mais pourrait également être utilisée par des logiciels tiers (par exemple, des notebooks Jupyter, Spyder, Visual Studio Code, etc.)</p></li>
+<li><p>Enfin, cette bibliothèque serait un bon moyen de partager les fonctionnalités mathématiques de DataLab avec la communauté scientifique : une collection d’algorithmes et de fonctions bien testés, bien documentés et faciles à utiliser</p></li>
+<li><p><em>Remarque</em> : il est déjà possible d’utiliser les fonctionnalités de traitement de DataLab depuis l’extérieur de DataLab en important le paquet <cite>cdl</cite>, mais ce paquet contient également le code GUI, qui n’est pas toujours nécessaire (par exemple, lors de l’utilisation de DataLab à partir d’un notebook Jupyter). L’idée ici est de créer un nouveau paquet qui ne contiendrait que les fonctionnalités mathématiques de DataLab, sans le code GUI.</p></li>
 </ul>
 </li>
 <li><p>Créer un plugin Jupyter pour l’analyse de données interactive avec DataLab :</p>
@@ -507,6 +517,13 @@ document.write(`
 </ul>
 </li>
 <li><p>Ajouter la prise en charge des séries temporelles (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/27">Issue #27</a>)</p></li>
+<li><p>Ajouter une interface de noyau Jupyter à DataLab :</p>
+<ul>
+<li><p>Cela permettrait d’utiliser DataLab à partir d’autres logiciels, tels que des notebooks Jupyter, Spyder ou Visual Studio Code</p></li>
+<li><p>Cela permettrait également de partager des données entre DataLab et d’autres logiciels (par exemple, afficher les résultats numériques de DataLab dans des notebooks Jupyter ou vice versa, afficher les résultats de Jupyter dans DataLab, etc.)</p></li>
+<li><p>Après un premier examen rapide, il semble que l’interface du noyau Jupyter ne soit pas simple à implémenter, de sorte qu’il peut ne pas être utile de s’y atteler (la communication entre DataLab et Jupyter est actuellement déjà possible grâce aux fonctionnalités de contrôle à distance)</p></li>
+</ul>
+</li>
 </ul>
 </section>
 <section id="maintenance">
@@ -520,7 +537,6 @@ document.write(`
 <h3>Autres tâches<a class="headerlink" href="#other-tasks" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Créer un modèle de plugin DataLab (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/26">Issue #26</a>)</p></li>
-<li><p>Réaliser des vidéos de démonstration : système de plugins, fonctionnalités de contrôle à distance, etc. (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/25">Issue #25</a>)</p></li>
 </ul>
 </section>
 </section>
@@ -629,7 +645,7 @@ document.write(`
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#future-milestones">Jalons futurs</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features">Fonctionnalités</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-or-enhancements">Fonctionnalités ou améliorations</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance">Maintenance</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-tasks">Autres tâches</a></li>
 </ul>
