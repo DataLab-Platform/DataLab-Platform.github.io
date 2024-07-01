@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=d273b908"></script>
+    <script src="../_static/documentation_options.js?v=f2c223e3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.1</p>
+    <p class="title logo__title">v0.16.2</p>
   
 </a></div>
     
@@ -480,6 +480,47 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-16-2">
+<h2>DataLab Version 0.16.2<a class="headerlink" href="#datalab-version-0-16-2" title="Link to this heading">#</a></h2>
+<p>Cette version nécessite PlotPy v2.4.0 ou ultérieure, qui apporte les corrections de bugs et les nouvelles fonctionnalités suivantes :</p>
+<ul class="simple">
+<li><p>Nouvelles fonctionnalités d’ajustement de contraste et corrections de bugs :</p>
+<ul>
+<li><p>Nouvelle disposition : la barre d’outils verticale (qui était contrainte dans une petite zone sur le côté droit du panneau) est désormais une barre d’outils horizontale en haut du panneau, à côté du titre</p></li>
+<li><p>Nouveau bouton « Définir l’échelle » : permet à l’utilisateur de définir manuellement les valeurs minimale et maximale de la plage de l’histogramme</p></li>
+<li><p>Correction des problèmes de mise à jour de l’histogramme lorsque aucune image n’était actuellement sélectionnée (même si une image était affichée et sélectionnée auparavant)</p></li>
+<li><p>La plage de l’histogramme n’était pas mise à jour lorsque la valeur minimale ou maximale était définie à l’aide des boutons « Valeur minimale » ou « Valeur maximale » (qui ont été renommés en « Min. » et « Max. » dans cette version)</p></li>
+<li><p>La plage de l’histogramme n’était pas mise à jour lorsque le bouton « Définir la plage complète » était cliqué, ou lorsque la plage de LUT était modifiée à l’aide du formulaire « Échelles / Plage de LUT » dans le groupe « Propriétés »</p></li>
+</ul>
+</li>
+<li><p>Menu contextuel de la Vue Image : nouvelle fonctionnalité « Inverser l’axe X »</p></li>
+</ul>
+<p>ℹ️ Nouvelles fonctionnalités mineures et améliorations :</p>
+<ul class="simple">
+<li><p>Types de fichiers image :</p>
+<ul>
+<li><p>Ajout de la prise en charge native de la lecture des fichiers image .SPE, .GEL, .NDPI et .REC</p></li>
+<li><p>Ajout de la prise en charge de tout format de fichier pris en charge par <cite>imageio</cite> via le fichier de configuration (l’entrée <cite>imageio_formats</cite> peut être personnalisée pour compléter la liste par défaut des formats pris en charge : voir la [documentation](<a class="reference external" href="https://datalab-platform.com/fr/features/image/menu_file.html#open-image">https://datalab-platform.com/fr/features/image/menu_file.html#open-image</a>) pour plus de détails)</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Analyse de Fourier des images :</p>
+<ul>
+<li><p>Correction de l’échelle logarithmique pour le spectre de magnitude (calcul en dB au lieu du logarithme naturel)</p></li>
+<li><p>Correction du calcul de la DSP avec une échelle logarithmique (calcul en dB au lieu du logarithme naturel)</p></li>
+<li><p>Mise à jour de la documentation pour mentionner explicitement que l’échelle logarithmique est en dB</p></li>
+</ul>
+</li>
+<li><p>Correction de l”[Issue #82](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/82">DataLab-Platform/DataLab#82</a>) - Les macros ne sont pas renommées dans DataLab après les avoir exportées vers des scripts Python</p></li>
+<li><p>L’objet <cite>ResultProperties</cite> peut désormais être ajouté aux métadonnées de <cite>SignalObj</cite> ou <cite>ImageObj</cite> même en dehors d’une boucle d’événements Qt (car l’élément d’étiquette n’est plus créé immédiatement)</p></li>
+<li><p>La barre de progression est désormais automatiquement fermée en cas d’erreur lors d’une opération longue (par exemple, lors de l’ouverture d’un fichier)</p></li>
+<li><p>Soustraction, division, … : la boîte de dialogue pour la sélection du second opérande permettait de sélectionner un groupe (seul un signal ou une image devrait être sélectionné)</p></li>
+<li><p>Lorsqu’une opération implique un objet (signal ou image) ayant un numéro d’ordre supérieur à l’objet actuel (par exemple, lors de la soustraction d’une image avec une image d’un groupe en dessous de l’image actuelle), le titre de l’objet résultant fait désormais correctement référence aux numéros d’ordre des objets impliqués dans l’opération (par exemple, pour continuer avec l’exemple de soustraction mentionné ci-dessus, le titre de l’objet résultant faisait précédemment référence au numéro d’ordre avant l’insertion de l’image résultante)</p></li>
+<li><p>Ajout de la prise en charge d’un dossier de données de test supplémentaire grâce à la variable d’environnement <cite>CDL_DATA</cite> (utile à des fins de test, et notamment dans le contexte de la préparation du paquet Debian de DataLab)</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-16-1">
 <h2>DataLab Version 0.16.1<a class="headerlink" href="#datalab-version-0-16-1" title="Link to this heading">#</a></h2>
 <p>Depuis la version 0.16.0, de nombreuses fonctions de validation ont été ajoutées à la suite de tests. Le pourcentage de fonctions de calcul validées est passé de 37 % à 84 % dans cette version.</p>
@@ -694,8 +735,10 @@ document.write(`
 <h2>DataLab Version 0.15.0<a class="headerlink" href="#datalab-version-0-15-0" title="Link to this heading">#</a></h2>
 <p>🎁 Nouvel installeur pour la version autonome sur Windows :</p>
 <ul class="simple">
-<li><p>La version autonome sur Windows est désormais distribuée en tant qu’installeur MSI (au lieu d’un installeur EXE)</p></li>
-<li><p>Cela évite la détection de faux positifs de la version autonome comme une menace potentielle par certains logiciels antivirus</p></li>
+<li><p>The stand-alone version on Windows is now distributed as an MSI installer (instead
+of an EXE installer)</p></li>
+<li><p>This avoids the false positive detection of the stand-alone version as a
+potential threat by some antivirus software</p></li>
 <li><p>Le programme installera des fichiers et des raccourcis :</p>
 <ul>
 <li><p>Pour l’utilisateur actuel, si l’utilisateur n’a pas de privilèges d’administrateur</p></li>
@@ -703,7 +746,8 @@ document.write(`
 <li><p>Le répertoire d’installation peut être personnalisé</p></li>
 </ul>
 </li>
-<li><p>L’installeur MSI permet d’intégrer l’installation de DataLab de manière transparente dans le système de déploiement d’une organisation</p></li>
+<li><p>MSI installer allows to integrate DataLab’s installation seemlessly in an
+organization’s deployment system</p></li>
 </ul>
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
 <ul class="simple">
@@ -757,12 +801,15 @@ document.write(`
 <h2>DataLab Version 0.14.2<a class="headerlink" href="#datalab-version-0-14-2" title="Link to this heading">#</a></h2>
 <p>⚠️ Modifications de l’API nécessaires pour corriger la fonctionnalité de chargement de plusieurs signaux :</p>
 <ul class="simple">
-<li><p>Fusion des méthodes <cite>open_object</cite> et <cite>open_objects</cite> en <cite>load_from_files</cite> dans les classes proxy, la fenêtre principale et les panneaux de données</p></li>
+<li><p>Merged <code class="docutils literal notranslate"><span class="pre">open_object</span></code> and <code class="docutils literal notranslate"><span class="pre">open_objects</span></code> methods to <code class="docutils literal notranslate"><span class="pre">load_from_files</span></code> in proxy
+classes, main window and data panels</p></li>
 <li><p>Pour des raisons de cohérence : fusion de <cite>save_object</cite> et <cite>save_objects</cite> en <cite>save_to_files</cite></p></li>
 <li><p>En résumé, ces changements mènent à la situation suivante :</p>
 <ul>
 <li><p><cite>load_from_files</cite> : charge une séquence d’objets à partir de plusieurs fichiers</p></li>
-<li><p><cite>save_to_files</cite> : sauvegarde une séquence d’objets dans plusieurs fichiers (pour le moment, il ne prend en charge que la sauvegarde d’un seul objet dans un seul fichier, mais il pourrait être étendu à l’avenir pour prendre en charge la sauvegarde de plusieurs objets dans un seul fichier)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_to_files</span></code>: save a sequence of objects to multiple files (at the moment,
+it only supports saving a single object to a single file, but it may be extended
+in the future to support saving multiple objects to a single file)</p></li>
 </ul>
 </li>
 </ul>
@@ -1479,6 +1526,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-2">DataLab Version 0.16.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-1">DataLab Version 0.16.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-0">DataLab Version 0.16.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-15-1">DataLab Version 0.15.1</a></li>

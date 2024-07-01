@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../_static/documentation_options.js?v=d273b908"></script>
+    <script src="../_static/documentation_options.js?v=f2c223e3"></script>
     <script src="../_static/doctools.js?v=888ff710"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -149,7 +149,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.1</p>
+    <p class="title logo__title">v0.16.2</p>
   
 </a></div>
     
@@ -505,7 +505,6 @@ document.write(`
 <li><p><a class="reference internal" href="#module-cdl.algorithms.image" title="cdl.algorithms.image"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms.image</span></code></a> : Algorithmes de traitement d’image</p></li>
 <li><p><a class="reference internal" href="#module-cdl.algorithms.datatypes" title="cdl.algorithms.datatypes"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms.datatypes</span></code></a> : Algorithmes de conversion de type de données</p></li>
 <li><p><a class="reference internal" href="#module-cdl.algorithms.coordinates" title="cdl.algorithms.coordinates"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms.coordinates</span></code></a> : Algorithmes de conversion de coordonnées</p></li>
-<li><p><a class="reference internal" href="#module-cdl.algorithms.fit" title="cdl.algorithms.fit"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms.fit</span></code></a> : Algorithmes de régression</p></li>
 </ul>
 <section id="module-cdl.algorithms.signal">
 <span id="signal-processing-algorithms"></span><h2>Algorithmes de traitement du signal<a class="headerlink" href="#module-cdl.algorithms.signal" title="Link to this heading">#</a></h2>
@@ -716,6 +715,120 @@ document.write(`
 </dl>
 </dd></dl>
 
+<dl class="py class">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">FitModel</span></span><a class="headerlink" href="#cdl.algorithms.signal.FitModel" title="Link to this definition">#</a></dt>
+<dd><p>Classe de base du modèle de régression</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel.func">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.FitModel.func" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la fonction de régression</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel.get_amp_from_amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.FitModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel.amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.FitModel.amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne l’amplitude de la fonction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel.fwhm">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.FitModel.fwhm" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la LMH de la fonction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.FitModel.half_max_segment">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">half_max_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.FitModel.half_max_segment" title="Link to this definition">#</a></dt>
+<dd><p>Retourne les coordonnées du segment pour l’intersection y=half-maximum</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.GaussianModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">GaussianModel</span></span><a class="headerlink" href="#cdl.algorithms.signal.GaussianModel" title="Link to this definition">#</a></dt>
+<dd><p>Modèle de régression gaussien à 1 dimension</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.GaussianModel.func">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.GaussianModel.func" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la fonction de régression</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.GaussianModel.get_amp_from_amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.GaussianModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.GaussianModel.amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.GaussianModel.amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne l’amplitude de la fonction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.GaussianModel.fwhm">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.GaussianModel.fwhm" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la LMH de la fonction</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.LorentzianModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">LorentzianModel</span></span><a class="headerlink" href="#cdl.algorithms.signal.LorentzianModel" title="Link to this definition">#</a></dt>
+<dd><p>Modèle de régression lorentzien à 1 dimension</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.LorentzianModel.func">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.LorentzianModel.func" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la fonction de régression</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.LorentzianModel.get_amp_from_amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.LorentzianModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.LorentzianModel.amplitude">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.LorentzianModel.amplitude" title="Link to this definition">#</a></dt>
+<dd><p>Retourne l’amplitude de la fonction</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.LorentzianModel.fwhm">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.LorentzianModel.fwhm" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la LMH de la fonction</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.VoigtModel">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">VoigtModel</span></span><a class="headerlink" href="#cdl.algorithms.signal.VoigtModel" title="Link to this definition">#</a></dt>
+<dd><p>Modèle de régression Voigt à 1 dimension</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.VoigtModel.func">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.VoigtModel.func" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la fonction de régression</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.VoigtModel.fwhm">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.signal.VoigtModel.fwhm" title="Link to this definition">#</a></dt>
+<dd><p>Retourne la LMH de la fonction</p>
+</dd></dl>
+
+</dd></dl>
+
 <dl class="py function">
 <dt class="sig sig-object py" id="cdl.algorithms.signal.find_nearest_zero_point_idx">
 <span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">find_nearest_zero_point_idx</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.find_nearest_zero_point_idx" title="Link to this definition">#</a></dt>
@@ -764,6 +877,20 @@ document.write(`
 </dd>
 <dt class="field-odd">Type renvoyé<span class="colon">:</span></dt>
 <dd class="field-odd"><p>Bandwidth of the signal at the given level</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.contrast">
+<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.contrast" title="Link to this definition">#</a></dt>
+<dd><p>Calculer le contraste</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>y</strong> – Tableau d’entrée</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Contraste</p>
 </dd>
 </dl>
 </dd></dl>
@@ -904,6 +1031,34 @@ document.write(`
 </dd></dl>
 
 <dl class="py function">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.sampling_period">
+<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">sampling_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.sampling_period" title="Link to this definition">#</a></dt>
+<dd><p>Calculer la période d’échantillonnage</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Données X</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Période d’échantillonnage</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="cdl.algorithms.signal.sampling_rate">
+<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">sampling_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.sampling_rate" title="Link to this definition">#</a></dt>
+<dd><p>Calculer le taux d’échantillonnage moyen</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>x</strong> – Données X</p>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Taux d’échantillonnage</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
 <dt class="sig sig-object py" id="cdl.algorithms.signal.fwhm">
 <span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">data</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">method</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/typing.html#typing.Literal" title="(disponible dans Python v3.12)"><span class="pre">Literal</span></a><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'zero-crossing'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'gauss'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'lorentz'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'voigt'</span></span><span class="p"><span class="pre">]</span></span></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'zero-crossing'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">xmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.12)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(disponible dans Python v3.12)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cdl.algorithms.signal.fwhm" title="Link to this definition">#</a></dt>
 <dd><p>Calculer la largeur totale à mi-hauteur (FWHM) des données d’entrée</p>
@@ -932,48 +1087,6 @@ document.write(`
 </dd>
 <dt class="field-even">Renvoie<span class="colon">:</span></dt>
 <dd class="field-even"><p>Coordonnées du segment LMH à 1/e²</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cdl.algorithms.signal.contrast">
-<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">y</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.contrast" title="Link to this definition">#</a></dt>
-<dd><p>Calculer le contraste</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>y</strong> – Tableau d’entrée</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Contraste</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cdl.algorithms.signal.sampling_period">
-<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">sampling_period</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.sampling_period" title="Link to this definition">#</a></dt>
-<dd><p>Calculer la période d’échantillonnage</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – Données X</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Période d’échantillonnage</p>
-</dd>
-</dl>
-</dd></dl>
-
-<dl class="py function">
-<dt class="sig sig-object py" id="cdl.algorithms.signal.sampling_rate">
-<span class="sig-prename descclassname"><span class="pre">cdl.algorithms.signal.</span></span><span class="sig-name descname"><span class="pre">sampling_rate</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://numpy.org/doc/stable/reference/generated/numpy.ndarray.html#numpy.ndarray" title="(disponible dans NumPy v2.0)"><span class="pre">ndarray</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(disponible dans Python v3.12)"><span class="pre">float</span></a></span></span><a class="headerlink" href="#cdl.algorithms.signal.sampling_rate" title="Link to this definition">#</a></dt>
-<dd><p>Calculer le taux d’échantillonnage moyen</p>
-<dl class="field-list simple">
-<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
-<dd class="field-odd"><p><strong>x</strong> – Données X</p>
-</dd>
-<dt class="field-even">Renvoie<span class="colon">:</span></dt>
-<dd class="field-even"><p>Taux d’échantillonnage</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1565,123 +1678,6 @@ document.write(`
 </dd></dl>
 
 </section>
-<section id="module-cdl.algorithms.fit">
-<span id="curve-fitting-algorithms"></span><h2>Algorithmes de régression<a class="headerlink" href="#module-cdl.algorithms.fit" title="Link to this heading">#</a></h2>
-<dl class="py class">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.fit.</span></span><span class="sig-name descname"><span class="pre">FitModel</span></span><a class="headerlink" href="#cdl.algorithms.fit.FitModel" title="Link to this definition">#</a></dt>
-<dd><p>Classe de base du modèle de régression</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel.func">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.FitModel.func" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la fonction de régression</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel.get_amp_from_amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.FitModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel.amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.FitModel.amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne l’amplitude de la fonction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel.fwhm">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.FitModel.fwhm" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la LMH de la fonction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.FitModel.half_max_segment">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">half_max_segment</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.FitModel.half_max_segment" title="Link to this definition">#</a></dt>
-<dd><p>Retourne les coordonnées du segment pour l’intersection y=half-maximum</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.GaussianModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.fit.</span></span><span class="sig-name descname"><span class="pre">GaussianModel</span></span><a class="headerlink" href="#cdl.algorithms.fit.GaussianModel" title="Link to this definition">#</a></dt>
-<dd><p>Modèle de régression gaussien à 1 dimension</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.GaussianModel.func">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.GaussianModel.func" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la fonction de régression</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.GaussianModel.get_amp_from_amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.GaussianModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.GaussianModel.amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.GaussianModel.amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne l’amplitude de la fonction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.GaussianModel.fwhm">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.GaussianModel.fwhm" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la LMH de la fonction</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.LorentzianModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.fit.</span></span><span class="sig-name descname"><span class="pre">LorentzianModel</span></span><a class="headerlink" href="#cdl.algorithms.fit.LorentzianModel" title="Link to this definition">#</a></dt>
-<dd><p>Modèle de régression lorentzien à 1 dimension</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.LorentzianModel.func">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.LorentzianModel.func" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la fonction de régression</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.LorentzianModel.get_amp_from_amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_amp_from_amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amplitude</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.LorentzianModel.get_amp_from_amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne amp à partir de l’amplitude de la fonction et de sigma</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.LorentzianModel.amplitude">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">amplitude</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.LorentzianModel.amplitude" title="Link to this definition">#</a></dt>
-<dd><p>Retourne l’amplitude de la fonction</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.LorentzianModel.fwhm">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.LorentzianModel.fwhm" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la LMH de la fonction</p>
-</dd></dl>
-
-</dd></dl>
-
-<dl class="py class">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.VoigtModel">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.algorithms.fit.</span></span><span class="sig-name descname"><span class="pre">VoigtModel</span></span><a class="headerlink" href="#cdl.algorithms.fit.VoigtModel" title="Link to this definition">#</a></dt>
-<dd><p>Modèle de régression Voigt à 1 dimension</p>
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.VoigtModel.func">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">func</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">x</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">x0</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">y0</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.VoigtModel.func" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la fonction de régression</p>
-</dd></dl>
-
-<dl class="py method">
-<dt class="sig sig-object py" id="cdl.algorithms.fit.VoigtModel.fwhm">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">fwhm</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">amp</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sigma</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#cdl.algorithms.fit.VoigtModel.fwhm" title="Link to this definition">#</a></dt>
-<dd><p>Retourne la LMH de la fonction</p>
-</dd></dl>
-
-</dd></dl>
-
-</section>
 </section>
 
 
@@ -1739,9 +1735,37 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.xpeak"><code class="docutils literal notranslate"><span class="pre">xpeak()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.interpolate"><code class="docutils literal notranslate"><span class="pre">interpolate()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.windowing"><code class="docutils literal notranslate"><span class="pre">windowing()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel"><code class="docutils literal notranslate"><span class="pre">FitModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel.func"><code class="docutils literal notranslate"><span class="pre">FitModel.func()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">FitModel.get_amp_from_amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel.amplitude"><code class="docutils literal notranslate"><span class="pre">FitModel.amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel.fwhm"><code class="docutils literal notranslate"><span class="pre">FitModel.fwhm()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.FitModel.half_max_segment"><code class="docutils literal notranslate"><span class="pre">FitModel.half_max_segment()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.GaussianModel"><code class="docutils literal notranslate"><span class="pre">GaussianModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.GaussianModel.func"><code class="docutils literal notranslate"><span class="pre">GaussianModel.func()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.GaussianModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">GaussianModel.get_amp_from_amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.GaussianModel.amplitude"><code class="docutils literal notranslate"><span class="pre">GaussianModel.amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.GaussianModel.fwhm"><code class="docutils literal notranslate"><span class="pre">GaussianModel.fwhm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.LorentzianModel"><code class="docutils literal notranslate"><span class="pre">LorentzianModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.LorentzianModel.func"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.func()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.LorentzianModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.get_amp_from_amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.LorentzianModel.amplitude"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.amplitude()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.LorentzianModel.fwhm"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.fwhm()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.VoigtModel"><code class="docutils literal notranslate"><span class="pre">VoigtModel</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.VoigtModel.func"><code class="docutils literal notranslate"><span class="pre">VoigtModel.func()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.VoigtModel.fwhm"><code class="docutils literal notranslate"><span class="pre">VoigtModel.fwhm()</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.find_nearest_zero_point_idx"><code class="docutils literal notranslate"><span class="pre">find_nearest_zero_point_idx()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.find_x_at_value"><code class="docutils literal notranslate"><span class="pre">find_x_at_value()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.bandwidth"><code class="docutils literal notranslate"><span class="pre">bandwidth()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.contrast"><code class="docutils literal notranslate"><span class="pre">contrast()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sinusoidal_model"><code class="docutils literal notranslate"><span class="pre">sinusoidal_model()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sinusoidal_fit"><code class="docutils literal notranslate"><span class="pre">sinusoidal_fit()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sinus_frequency"><code class="docutils literal notranslate"><span class="pre">sinus_frequency()</span></code></a></li>
@@ -1750,11 +1774,10 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.thd"><code class="docutils literal notranslate"><span class="pre">thd()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sfdr"><code class="docutils literal notranslate"><span class="pre">sfdr()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.snr"><code class="docutils literal notranslate"><span class="pre">snr()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.fwhm"><code class="docutils literal notranslate"><span class="pre">fwhm()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.fw1e2"><code class="docutils literal notranslate"><span class="pre">fw1e2()</span></code></a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.contrast"><code class="docutils literal notranslate"><span class="pre">contrast()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sampling_period"><code class="docutils literal notranslate"><span class="pre">sampling_period()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.sampling_rate"><code class="docutils literal notranslate"><span class="pre">sampling_rate()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.fwhm"><code class="docutils literal notranslate"><span class="pre">fwhm()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.signal.fw1e2"><code class="docutils literal notranslate"><span class="pre">fw1e2()</span></code></a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-cdl.algorithms.image">Algorithmes de traitement d’image</a><ul class="visible nav section-nav flex-column">
@@ -1796,36 +1819,6 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.coordinates.array_ellipse_to_diameters"><code class="docutils literal notranslate"><span class="pre">array_ellipse_to_diameters()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.coordinates.ellipse_to_center_axes_angle"><code class="docutils literal notranslate"><span class="pre">ellipse_to_center_axes_angle()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.coordinates.array_ellipse_to_center_axes_angle"><code class="docutils literal notranslate"><span class="pre">array_ellipse_to_center_axes_angle()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-cdl.algorithms.fit">Algorithmes de régression</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel"><code class="docutils literal notranslate"><span class="pre">FitModel</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel.func"><code class="docutils literal notranslate"><span class="pre">FitModel.func()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">FitModel.get_amp_from_amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel.amplitude"><code class="docutils literal notranslate"><span class="pre">FitModel.amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel.fwhm"><code class="docutils literal notranslate"><span class="pre">FitModel.fwhm()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.FitModel.half_max_segment"><code class="docutils literal notranslate"><span class="pre">FitModel.half_max_segment()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.GaussianModel"><code class="docutils literal notranslate"><span class="pre">GaussianModel</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.GaussianModel.func"><code class="docutils literal notranslate"><span class="pre">GaussianModel.func()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.GaussianModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">GaussianModel.get_amp_from_amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.GaussianModel.amplitude"><code class="docutils literal notranslate"><span class="pre">GaussianModel.amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.GaussianModel.fwhm"><code class="docutils literal notranslate"><span class="pre">GaussianModel.fwhm()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.LorentzianModel"><code class="docutils literal notranslate"><span class="pre">LorentzianModel</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.LorentzianModel.func"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.func()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.LorentzianModel.get_amp_from_amplitude"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.get_amp_from_amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.LorentzianModel.amplitude"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.amplitude()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.LorentzianModel.fwhm"><code class="docutils literal notranslate"><span class="pre">LorentzianModel.fwhm()</span></code></a></li>
-</ul>
-</li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.VoigtModel"><code class="docutils literal notranslate"><span class="pre">VoigtModel</span></code></a><ul class="nav section-nav flex-column">
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.VoigtModel.func"><code class="docutils literal notranslate"><span class="pre">VoigtModel.func()</span></code></a></li>
-<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.algorithms.fit.VoigtModel.fwhm"><code class="docutils literal notranslate"><span class="pre">VoigtModel.fwhm()</span></code></a></li>
-</ul>
-</li>
 </ul>
 </li>
 </ul>

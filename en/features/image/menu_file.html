@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
   <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
 
-    <script src="../../_static/documentation_options.js?v=56c55dd0"></script>
+    <script src="../../_static/documentation_options.js?v=7674c73b"></script>
     <script src="../../_static/doctools.js?v=888ff710"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -149,7 +149,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
   
   
-    <p class="title logo__title">v0.16.1</p>
+    <p class="title logo__title">v0.16.2</p>
   
 </a></div>
     
@@ -581,6 +581,18 @@ provide image-related actions.</p>
 <tr class="row-even"><td><p>Andor SIF files</p></td>
 <td><p>.sif</p></td>
 </tr>
+<tr class="row-odd"><td><p>Princeton Instruments SPE files</p></td>
+<td><p>.spe</p></td>
+</tr>
+<tr class="row-even"><td><p>Opticks GEL files</p></td>
+<td><p>.gel</p></td>
+</tr>
+<tr class="row-odd"><td><p>Hammamatsu NDPI files</p></td>
+<td><p>.ndpi</p></td>
+</tr>
+<tr class="row-even"><td><p>PCO Camera REC files</p></td>
+<td><p>.rec</p></td>
+</tr>
 <tr class="row-odd"><td><p>SPIRICON files</p></td>
 <td><p>.scor-data</p></td>
 </tr>
@@ -592,6 +604,23 @@ provide image-related actions.</p>
 </tr>
 </tbody>
 </table>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DataLab also supports any image format that can be read by the <cite>imageio</cite> library,
+provided that the associated plugin(s) are installed (see <a class="reference external" href="https://imageio.readthedocs.io/en/stable/formats/index.html">imageio documentation</a>)
+and that the output NumPy array data type and shape are supported by DataLab.</p>
+<p>To add a new file format, you may use the <cite>imageio_formats</cite> entry of DataLab configuration file.
+This entry is a formatted like the <cite>IMAGEIO_FORMATS</cite> object which represents the natively supported formats:</p>
+<dl class="py data">
+<dt class="sig sig-object py" id="cdl.config.IMAGEIO_FORMATS">
+<span class="sig-prename descclassname"><span class="pre">cdl.config.</span></span><span class="sig-name descname"><span class="pre">IMAGEIO_FORMATS</span></span><em class="property"><span class="w"> </span><span class="p"><span class="pre">=</span></span><span class="w"> </span><span class="pre">(('*.gel',</span> <span class="pre">'Opticks</span> <span class="pre">GEL'),</span> <span class="pre">('*.spe',</span> <span class="pre">'Princeton</span> <span class="pre">Instruments</span> <span class="pre">SPE'),</span> <span class="pre">('*.ndpi',</span> <span class="pre">'Hamamatsu</span> <span class="pre">Slide</span> <span class="pre">Scanner</span> <span class="pre">NDPI'),</span> <span class="pre">('*.rec',</span> <span class="pre">'PCO</span> <span class="pre">Camera</span> <span class="pre">REC'))</span></em><a class="headerlink" href="#cdl.config.IMAGEIO_FORMATS" title="Link to this definition">#</a></dt>
+<dd><p>Built-in immutable sequence.</p>
+<p>If no argument is given, the constructor returns an empty tuple.
+If iterable is specified the tuple is initialized from iterable’s items.</p>
+<p>If the argument is a tuple, the return value is the same object.</p>
+</dd></dl>
+
+</div>
 </section>
 <section id="save-image">
 <h2>Save image<a class="headerlink" href="#save-image" title="Link to this heading">#</a></h2>
@@ -704,7 +733,10 @@ more rows, they will be ignored.</p></li>
   <nav class="bd-toc-nav page-toc">
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#new-image">New image</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-image">Open image</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#open-image">Open image</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.config.IMAGEIO_FORMATS"><code class="docutils literal notranslate"><span class="pre">IMAGEIO_FORMATS</span></code></a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#save-image">Save image</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#import-text-file">Import text file</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#step-1-select-the-source">Step 1: Select the source</a></li>
