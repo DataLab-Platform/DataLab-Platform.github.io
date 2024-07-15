@@ -520,12 +520,17 @@ system, including specific graphical user interfaces.</p></li>
 <h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Link to this heading">#</a></h2>
 <p>A plugin is a Python module that is loaded at startup by DataLab. A plugin may
 add new features to DataLab, or modify existing features.</p>
-<p>A plugin is a Python module that contains a class derived from the
-<a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> class. The name of the class is not important,
-as long as it is derived from <a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> and has a
-<code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute that is an instance of the <a class="reference internal" href="#cdl.plugins.PluginInfo" title="cdl.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginInfo</span></code></a>
-class. The <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute is used by DataLab to retrieve information
-about the plugin.</p>
+<p>A plugin is a Python module which file name starts with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code>, and which
+contains a class derived from the <a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> class.
+The name of the class is not important, as long as it is derived from
+<a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> and has a <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute that is an
+instance of the <a class="reference internal" href="#cdl.plugins.PluginInfo" title="cdl.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginInfo</span></code></a> class. The <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute
+is used by DataLab to retrieve information about the plugin.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>DataLab’s plugin discovery mechanism will only load plugins that are defined
+in Python files which names start with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">cdl_myplugin.py</span></code>).</p>
+</div>
 </section>
 <section id="where-to-put-a-plugin">
 <h2>Where to put a plugin?<a class="headerlink" href="#where-to-put-a-plugin" title="Link to this heading">#</a></h2>
@@ -541,6 +546,33 @@ in case of a standalone installation.</p></li>
 <li><p>The <cite>plugins</cite> directory in the <cite>cdl</cite> package in case for internal plugins
 only (i.e. it is not recommended to put your own plugins there).</p></li>
 </ul>
+</section>
+<section id="how-to-develop-a-plugin">
+<h2>How to develop a plugin?<a class="headerlink" href="#how-to-develop-a-plugin" title="Link to this heading">#</a></h2>
+<p>To develop a plugin, you may start by deriving from one of the example plugins
+(see below) and modify it to suit your needs.</p>
+<p>If you want to code a plugin in your usual Python development environment (preferably
+with an IDE like <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>) and take advantage of the
+code completion, you can add the <cite>cdl</cite> package to your Python path.</p>
+<p>This can be done:</p>
+<ul class="simple">
+<li><p>By installing DataLab in your Python environment (using one of the following methods:
+<a class="reference internal" href="../../intro/installation.html#install-pip"><span class="std std-ref">Package manager pip</span></a>, <a class="reference internal" href="../../intro/installation.html#install-wheel"><span class="std std-ref">Wheel package</span></a>, or <a class="reference internal" href="../../intro/installation.html#install-source"><span class="std std-ref">Source package</span></a>),</p></li>
+<li><p>Or by adding the <cite>cdl</cite> package to your Python path manually:</p>
+<ul>
+<li><p>Download the DataLab source code from the <a class="reference external" href="https://pypi.org/project/cdl/">PyPI page</a>,</p></li>
+<li><p>Unzip the source code to a folder on your computer,</p></li>
+<li><p>Add the <cite>cdl</cite> package to your Python path (e.g. by using the <em>PYTHONPATH Manager</em> in Spyder).</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if you have installed the <cite>cdl</cite> package properly in your Python environment,
+you won’t be able to run the DataLab application from your development environment
+to test your plugin. You will need to run DataLab from the command line or from
+the shortcut created during the installation.</p>
+</div>
 </section>
 <section id="example-processing-plugin">
 <h2>Example: processing plugin<a class="headerlink" href="#example-processing-plugin" title="Link to this heading">#</a></h2>
@@ -1187,6 +1219,7 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-plugin">What is a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-put-a-plugin">Where to put a plugin?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-develop-a-plugin">How to develop a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-processing-plugin">Example: processing plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-input-output-plugin">Example: input/output plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
