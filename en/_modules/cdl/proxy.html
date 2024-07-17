@@ -115,7 +115,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 and will be presented <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+    <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and will be presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -511,14 +511,54 @@ document.write(`
 
 <span class="sd">.. _processor_methods:</span>
 
-<span class="sd">List of compute methods</span>
-<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^</span>
+<span class="sd">Calling processor methods using proxy objects</span>
+<span class="sd">^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^</span>
 
 <span class="sd">All the proxy objects provide access to the DataLab computing methods exposed by</span>
 <span class="sd">the processor classes:</span>
 
 <span class="sd">- :class:`cdl.core.gui.processor.signal.SignalProcessor`</span>
 <span class="sd">- :class:`cdl.core.gui.processor.image.ImageProcessor`</span>
+
+<span class="sd">.. seealso::</span>
+
+<span class="sd">    The list of processor methods is available in tables below.</span>
+
+<span class="sd">There are two ways to call a processor method:</span>
+
+<span class="sd">1. Using the :meth:`calc` method of the proxy object:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    # Call a method without parameter</span>
+<span class="sd">    proxy.calc(&quot;compute_average&quot;)</span>
+
+<span class="sd">    # This is equivalent to:</span>
+<span class="sd">    proxy.calc(&quot;average&quot;)</span>
+
+<span class="sd">    # Call a method with parameters</span>
+<span class="sd">    p = cdl.param.MovingAverageParam.create(n=30)</span>
+<span class="sd">    proxy.calc(&quot;compute_moving_average&quot;, p)</span>
+
+<span class="sd">2. Directly calling the processor method from the proxy object:</span>
+
+<span class="sd">.. code-block:: python</span>
+
+<span class="sd">    # Call a method without parameter</span>
+<span class="sd">    proxy.compute_average()</span>
+
+<span class="sd">    # Call a method with parameters</span>
+<span class="sd">    p = cdl.param.MovingAverageParam.create(n=30)</span>
+<span class="sd">    proxy.compute_moving_average(p)</span>
+
+<span class="sd">.. warning::</span>
+
+<span class="sd">    The `compute_{name}` methods are not statically defined in the proxy classes (and</span>
+<span class="sd">    not even dynamically). They are nevertheless available through the proxy objects</span>
+<span class="sd">    thanks to the magic method :meth:`__getattr__` which forwards the call to the</span>
+<span class="sd">    :meth:`calc` method. However, this means that the methods are not listed in the</span>
+<span class="sd">    proxy classes documentation, and they are not available in the auto-completion</span>
+<span class="sd">    feature of your IDE.</span>
 
 <span class="sd">Number of compute methods</span>
 <span class="sd">*************************</span>

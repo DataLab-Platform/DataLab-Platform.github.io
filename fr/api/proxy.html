@@ -119,7 +119,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et sera présenté à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+    <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -495,7 +495,7 @@ document.write(`
   <section id="proxy-objects-cdl-proxy">
 <span id="module-cdl.proxy"></span><h1>Objets proxy (<a class="reference internal" href="#module-cdl.proxy" title="cdl.proxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.proxy</span></code></a>)<a class="headerlink" href="#proxy-objects-cdl-proxy" title="Link to this heading">#</a></h1>
 <p>Le module <a class="reference internal" href="#module-cdl.proxy" title="cdl.proxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.proxy</span></code></a> fournit un moyen d’accéder aux fonctionnalités de DataLab à partir d’une classe proxy.</p>
-<p>La liste des méthodes de calcul accessibles à partir des objets proxy est disponible dans la section <a class="reference internal" href="#processor-methods"><span class="std std-ref">Liste des méthodes de calcul</span></a>.</p>
+<p>La liste des méthodes de calcul accessibles à partir des objets proxy est disponible dans la section <a class="reference internal" href="#processor-methods"><span class="std std-ref">Appel des méthodes de calcul à l’aide d’objets proxy</span></a>.</p>
 <section id="remote-proxy">
 <h2>Proxy distant<a class="headerlink" href="#remote-proxy" title="Link to this heading">#</a></h2>
 <p>Le proxy distant est utilisé lorsque DataLab est démarré à partir d’un processus différent du proxy. Dans ce cas, le proxy se connecte au serveur XML-RPC de DataLab.</p>
@@ -519,7 +519,7 @@ document.write(`
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The proxy object also allows to access DataLab computing methods exposed by
-the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Liste des méthodes de calcul</span></a>).</p>
+the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Appel des méthodes de calcul à l’aide d’objets proxy</span></a>).</p>
 </div>
 <p class="rubric">Exemples</p>
 <p>Voici un exemple simple de l’utilisation de RemoteProxy dans un script Python ou dans un notebook Jupyter :</p>
@@ -1064,7 +1064,7 @@ the processor classes (see <a class="reference internal" href="#processor-method
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The proxy object also allows to access DataLab computing methods exposed by
-the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Liste des méthodes de calcul</span></a>).</p>
+the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Appel des méthodes de calcul à l’aide d’objets proxy</span></a>).</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.proxy.LocalProxy.add_signal">
@@ -1569,13 +1569,47 @@ the processor classes (see <a class="reference internal" href="#processor-method
 </dd></dl>
 
 </section>
-<section id="list-of-compute-methods">
-<span id="processor-methods"></span><h2>Liste des méthodes de calcul<a class="headerlink" href="#list-of-compute-methods" title="Link to this heading">#</a></h2>
+<section id="calling-processor-methods-using-proxy-objects">
+<span id="processor-methods"></span><h2>Appel des méthodes de calcul à l’aide d’objets proxy<a class="headerlink" href="#calling-processor-methods-using-proxy-objects" title="Link to this heading">#</a></h2>
 <p>Tous les objets proxy permettent d’accéder aux méthodes de calcul exposées par les classes de processeur de DataLab :</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.signal.SignalProcessor" title="cdl.core.gui.processor.signal.SignalProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.signal.SignalProcessor</span></code></a></p></li>
 <li><p><a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.image.ImageProcessor" title="cdl.core.gui.processor.image.ImageProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.image.ImageProcessor</span></code></a></p></li>
 </ul>
+<div class="admonition seealso">
+<p class="admonition-title">Voir aussi</p>
+<p>La liste des méthodes de calcul est disponible dans les tableaux ci-dessous.</p>
+</div>
+<p>Il existe deux façons d’appeler une méthode de calcul :</p>
+<ol class="arabic simple">
+<li><p>En utilisant la méthode <code class="xref py py-meth docutils literal notranslate"><span class="pre">calc()</span></code> de l’objet proxy :</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call a method without parameter</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;compute_average&quot;</span><span class="p">)</span>
+
+<span class="c1"># This is equivalent to:</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">)</span>
+
+<span class="c1"># Call a method with parameters</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingAverageParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;compute_moving_average&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>En appelant directement la méthode de calcul du processeur à partir de l’objet proxy :</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call a method without parameter</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">compute_average</span><span class="p">()</span>
+
+<span class="c1"># Call a method with parameters</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingAverageParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">compute_moving_average</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Les méthodes <cite>compute_{name}</cite> ne sont pas définies statiquement dans les classes proxy (et même pas dynamiquement). Elles sont néanmoins disponibles via les objets proxy grâce à la méthode magique <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> qui transfère l’appel à la méthode <code class="xref py py-meth docutils literal notranslate"><span class="pre">calc()</span></code>. Cependant, cela signifie que les méthodes ne sont pas répertoriées dans la documentation des classes proxy, et elles ne sont pas disponibles dans la fonction d’auto-complétion de votre IDE.</p>
+</div>
 <section id="number-of-compute-methods">
 <h3>Nombre de méthodes de calcul<a class="headerlink" href="#number-of-compute-methods" title="Link to this heading">#</a></h3>
 <table class="table" id="id1">
@@ -2231,7 +2265,7 @@ the processor classes (see <a class="reference internal" href="#processor-method
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.proxy.proxy_context"><code class="docutils literal notranslate"><span class="pre">proxy_context()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-of-compute-methods">Liste des méthodes de calcul</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-processor-methods-using-proxy-objects">Appel des méthodes de calcul à l’aide d’objets proxy</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-compute-methods">Nombre de méthodes de calcul</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#signal-processing">Traitement du signal</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing">Traitement d’image</a></li>

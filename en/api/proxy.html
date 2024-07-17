@@ -118,7 +118,7 @@
 
 
   <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 and will be presented <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+    <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and will be presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
   </div>
 
   
@@ -496,7 +496,7 @@ document.write(`
 <p>The <a class="reference internal" href="#module-cdl.proxy" title="cdl.proxy"><code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.proxy</span></code></a> module provides a way to access DataLab features from a proxy
 class.</p>
 <p>The list of compute methods accessible from the proxy objects is available in the
-<a class="reference internal" href="#processor-methods"><span class="std std-ref">List of compute methods</span></a> section.</p>
+<a class="reference internal" href="#processor-methods"><span class="std std-ref">Calling processor methods using proxy objects</span></a> section.</p>
 <section id="remote-proxy">
 <h2>Remote proxy<a class="headerlink" href="#remote-proxy" title="Link to this heading">#</a></h2>
 <p>The remote proxy is used when DataLab is started from a different process than the
@@ -523,7 +523,7 @@ process than the proxy.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The proxy object also allows to access DataLab computing methods exposed by
-the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">List of compute methods</span></a>).</p>
+the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Calling processor methods using proxy objects</span></a>).</p>
 </div>
 <p class="rubric">Examples</p>
 <p>Here is a simple example of how to use RemoteProxy in a Python script
@@ -1089,7 +1089,7 @@ process as the proxy.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>The proxy object also allows to access DataLab computing methods exposed by
-the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">List of compute methods</span></a>).</p>
+the processor classes (see <a class="reference internal" href="#processor-methods"><span class="std std-ref">Calling processor methods using proxy objects</span></a>).</p>
 </div>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.proxy.LocalProxy.add_signal">
@@ -1615,14 +1615,53 @@ RemoteProxy if what == “remote” or “remote:port”</p>
 </dd></dl>
 
 </section>
-<section id="list-of-compute-methods">
-<span id="processor-methods"></span><h2>List of compute methods<a class="headerlink" href="#list-of-compute-methods" title="Link to this heading">#</a></h2>
+<section id="calling-processor-methods-using-proxy-objects">
+<span id="processor-methods"></span><h2>Calling processor methods using proxy objects<a class="headerlink" href="#calling-processor-methods-using-proxy-objects" title="Link to this heading">#</a></h2>
 <p>All the proxy objects provide access to the DataLab computing methods exposed by
 the processor classes:</p>
 <ul class="simple">
 <li><p><a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.signal.SignalProcessor" title="cdl.core.gui.processor.signal.SignalProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.signal.SignalProcessor</span></code></a></p></li>
 <li><p><a class="reference internal" href="core.gui/processor.html#cdl.core.gui.processor.image.ImageProcessor" title="cdl.core.gui.processor.image.ImageProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.image.ImageProcessor</span></code></a></p></li>
 </ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The list of processor methods is available in tables below.</p>
+</div>
+<p>There are two ways to call a processor method:</p>
+<ol class="arabic simple">
+<li><p>Using the <code class="xref py py-meth docutils literal notranslate"><span class="pre">calc()</span></code> method of the proxy object:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call a method without parameter</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;compute_average&quot;</span><span class="p">)</span>
+
+<span class="c1"># This is equivalent to:</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;average&quot;</span><span class="p">)</span>
+
+<span class="c1"># Call a method with parameters</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingAverageParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;compute_moving_average&quot;</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<ol class="arabic simple" start="2">
+<li><p>Directly calling the processor method from the proxy object:</p></li>
+</ol>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Call a method without parameter</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">compute_average</span><span class="p">()</span>
+
+<span class="c1"># Call a method with parameters</span>
+<span class="n">p</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingAverageParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">30</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">compute_moving_average</span><span class="p">(</span><span class="n">p</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>The <cite>compute_{name}</cite> methods are not statically defined in the proxy classes (and
+not even dynamically). They are nevertheless available through the proxy objects
+thanks to the magic method <code class="xref py py-meth docutils literal notranslate"><span class="pre">__getattr__()</span></code> which forwards the call to the
+<code class="xref py py-meth docutils literal notranslate"><span class="pre">calc()</span></code> method. However, this means that the methods are not listed in the
+proxy classes documentation, and they are not available in the auto-completion
+feature of your IDE.</p>
+</div>
 <section id="number-of-compute-methods">
 <h3>Number of compute methods<a class="headerlink" href="#number-of-compute-methods" title="Link to this heading">#</a></h3>
 <table class="table" id="id1">
@@ -2280,7 +2319,7 @@ generated from the source code:</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#cdl.proxy.proxy_context"><code class="docutils literal notranslate"><span class="pre">proxy_context()</span></code></a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#list-of-compute-methods">List of compute methods</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#calling-processor-methods-using-proxy-objects">Calling processor methods using proxy objects</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#number-of-compute-methods">Number of compute methods</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#signal-processing">Signal processing</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#image-processing">Image processing</a></li>
