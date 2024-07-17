@@ -411,9 +411,14 @@ document.write(`
         <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
      aria-label="Navigation de la section">
   <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités générales :</span></p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
 <ul class="nav bd-sidenav">
-<li class="toctree-l1"><a class="reference internal" href="../general/validation.html">Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/scientific.html">Validation scientifique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités générales :</span></p>
+<ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../general/workspace.html">Espace de travail</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/h5browser.html">Explorateur HDF5</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/macros.html">Macros</a></li>
@@ -425,7 +430,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../general/settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/command.html">Ligne de commande</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Créer, ouvrir et enregistrer des signaux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
@@ -433,7 +438,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../signal/menu_computing.html">Calculs sur les signaux</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
 </ul>
-<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="menu_file.html">Créer, ouvrir et enregistrer des images</a></li>
 <li class="toctree-l1"><a class="reference internal" href="menu_operations.html">Opérations sur les images</a></li>
@@ -509,7 +514,7 @@ document.write(`
 </figcaption>
 </figure>
 <dl class="simple">
-<dt>La fonctionnalité s’utilise de la façon suivante :</dt><dd><ul class="simple">
+<dt>La fonctionnalité s’utilise de la façon suivante :</dt><dd><ul class="simple">
 <li><p>Créer ou ouvrir une image dans l’espace de travail de DataLab</p></li>
 <li><p>Sélectionner « Détection de pics 2D » dans le menu « Calculs »</p></li>
 <li><p>Saisir les paramètres « Taille de voisinage » et « Seuil relatif »</p></li>
@@ -524,7 +529,7 @@ document.write(`
 </figcaption>
 </figure>
 <dl class="simple">
-<dt>Les résultats sont affichés dans un tableau :</dt><dd><ul class="simple">
+<dt>Les résultats sont affichés dans un tableau :</dt><dd><ul class="simple">
 <li><p>Chaque ligne est associée à un pic détecté</p></li>
 <li><p>La première colonne contient l’indice de la ROI (0 si aucune ROI n’est définie)</p></li>
 <li><p>Les deuxième et troisième colonnes contiennent les coordonnées des pics</p></li>
@@ -538,7 +543,7 @@ document.write(`
 </figcaption>
 </figure>
 <dl class="simple">
-<dt>L’algorithme de détection de pics 2D fonctionne de la manière suivante :</dt><dd><ul class="simple">
+<dt>L’algorithme de détection de pics 2D fonctionne de la manière suivante :</dt><dd><ul class="simple">
 <li><p>Tout d’abord, des images filtrées minimum-maximum sont calculées en utilisant un algorithme de fenêtre glissante dont la taille est définie par l’utilisateur (implémentation basée sur <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.minimum_filter.html">scipy.ndimage.minimum_filter</a> et <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.maximum_filter.html">scipy.ndimage.maximum_filter</a>)</p></li>
 <li><p>Ensuite, la différence entre ces deux images filtrées est ecrêtée à une valeur correspondant à un seuil défini par l’utilisateur</p></li>
 <li><p>L’image résultante est étiquetée en utilisant <a class="reference external" href="https://docs.scipy.org/doc/scipy/reference/generated/scipy.ndimage.label.html">scipy.ndimage.label</a></p></li>
@@ -546,13 +551,13 @@ document.write(`
 <li><p>Les doublons sont éventuellement supprimés</p></li>
 </ul>
 </dd>
-<dt>Les paramètrees de la détection de pics 2D sont les suivants :</dt><dd><ul class="simple">
+<dt>Les paramètrees de la détection de pics 2D sont les suivants :</dt><dd><ul class="simple">
 <li><p>« Taille de voisinage »: taille de la fenêtre glissante (cf. plus haut)</p></li>
 <li><p>« Seuil relatif »: seuil de détection</p></li>
 </ul>
 </dd>
 </dl>
-<p>La fonctionnalité est basée sur la fonction <code class="docutils literal notranslate"><span class="pre">get_2d_peaks_coords</span></code> du module <code class="docutils literal notranslate"><span class="pre">cdl.algorithms</span></code> :</p>
+<p>La fonctionnalité est basée sur la fonction <code class="docutils literal notranslate"><span class="pre">get_2d_peaks_coords</span></code> du module <code class="docutils literal notranslate"><span class="pre">cdl.algorithms</span></code> :</p>
 <blockquote>
 <div><div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">get_2d_peaks_coords</span><span class="p">(</span>
     <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">0.5</span>

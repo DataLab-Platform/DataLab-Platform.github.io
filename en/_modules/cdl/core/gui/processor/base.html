@@ -1,0 +1,1550 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>cdl.core.gui.processor.base &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../../../../_static/documentation_options.js?v=3717f2ed"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/cdl/core/gui/processor/base';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/cdl/core/gui/processor/base.html" />
+    <link rel="icon" href="../../../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 and will be presented <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">v0.16.4</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../intro/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../features/index.html">
+                        Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contributing/index.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../intro/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../features/index.html">
+                        Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contributing/index.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">cdl.core.gui...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for cdl.core.gui.processor.base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. Base processor object (see parent package :mod:`cdl.core.gui.processor`)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">import</span> <span class="nn">multiprocessing</span>
+<span class="kn">import</span> <span class="nn">time</span>
+<span class="kn">import</span> <span class="nn">warnings</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">guidata.dataset</span> <span class="kn">import</span> <span class="n">update_dataset</span>
+<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">exec_dialog</span>
+<span class="kn">from</span> <span class="nn">guidata.widgets.arrayeditor</span> <span class="kn">import</span> <span class="n">ArrayEditor</span>
+<span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtCore</span> <span class="k">as</span> <span class="n">QC</span>
+<span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
+
+<span class="kn">from</span> <span class="nn">cdl</span> <span class="kn">import</span> <span class="n">env</span>
+<span class="kn">from</span> <span class="nn">cdl.algorithms.datatypes</span> <span class="kn">import</span> <span class="n">is_complex_dtype</span><span class="p">,</span> <span class="n">is_integer_dtype</span>
+<span class="kn">from</span> <span class="nn">cdl.computation.base</span> <span class="kn">import</span> <span class="n">ROIDataParam</span>
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.core.gui.processor.catcher</span> <span class="kn">import</span> <span class="n">CompOut</span><span class="p">,</span> <span class="n">wng_err_func</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span>
+<span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">create_progress_bar</span><span class="p">,</span> <span class="n">qt_try_except</span>
+<span class="kn">from</span> <span class="nn">cdl.widgets.warningerror</span> <span class="kn">import</span> <span class="n">show_warning_error</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">AsyncResult</span>
+
+    <span class="kn">from</span> <span class="nn">plotpy.plot</span> <span class="kn">import</span> <span class="n">PlotWidget</span>
+
+    <span class="kn">from</span> <span class="nn">cdl.computation.base</span> <span class="kn">import</span> <span class="p">(</span>
+        <span class="n">ClipParam</span><span class="p">,</span>
+        <span class="n">ConstantOperationParam</span><span class="p">,</span>
+        <span class="n">GaussianParam</span><span class="p">,</span>
+        <span class="n">MovingAverageParam</span><span class="p">,</span>
+        <span class="n">MovingMedianParam</span><span class="p">,</span>
+        <span class="n">NormalizeParam</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="kn">from</span> <span class="nn">cdl.core.gui.panel.image</span> <span class="kn">import</span> <span class="n">ImagePanel</span>
+    <span class="kn">from</span> <span class="nn">cdl.core.gui.panel.signal</span> <span class="kn">import</span> <span class="n">SignalPanel</span>
+    <span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">ImageObj</span>
+    <span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">SignalObj</span>
+
+    <span class="n">Obj</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">]</span>
+
+
+<span class="c1"># Enable multiprocessing support for Windows, with frozen executable (e.g. PyInstaller)</span>
+<span class="n">multiprocessing</span><span class="o">.</span><span class="n">freeze_support</span><span class="p">()</span>
+
+<span class="c1"># Set start method to &#39;spawn&#39; for Linux (default is &#39;fork&#39; which is not safe here</span>
+<span class="c1"># because of the use of Qt and multithreading) - for other OS, the default is</span>
+<span class="c1"># &#39;spawn&#39; anyway</span>
+<span class="k">try</span><span class="p">:</span>
+    <span class="n">multiprocessing</span><span class="o">.</span><span class="n">set_start_method</span><span class="p">(</span><span class="s2">&quot;spawn&quot;</span><span class="p">)</span>
+<span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
+    <span class="c1"># This exception is raised if the method is already set (this may happen because</span>
+    <span class="c1"># this module is imported more than once, e.g. when running tests)</span>
+    <span class="k">pass</span>
+
+
+<span class="n">COMPUTATION_TIP</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span>
+    <span class="s2">&quot;DataLab relies on various libraries to perform the computation. During the &quot;</span>
+    <span class="s2">&quot;computation, errors may occur because of the data (e.g. division by zero, &quot;</span>
+    <span class="s2">&quot;unexpected data type, etc.) or because of the libraries (e.g. memory error, &quot;</span>
+    <span class="s2">&quot;etc.). If you encounter an error, before reporting it, please ensure that &quot;</span>
+    <span class="s2">&quot;the computation is correct, by checking the data and the parameters.&quot;</span>
+<span class="p">)</span>
+
+
+<span class="n">POOL</span><span class="p">:</span> <span class="n">Pool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+
+<div class="viewcode-block" id="Worker">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker">[docs]</a>
+<span class="k">class</span> <span class="nc">Worker</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Multiprocessing worker, to run long-running tasks in a separate process&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span><span class="p">:</span> <span class="n">AsyncResult</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span><span class="p">:</span> <span class="n">Any</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="Worker.create_pool">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.create_pool">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">create_pool</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create multiprocessing pool&quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">POOL</span>  <span class="c1"># pylint: disable=global-statement</span>
+        <span class="c1"># Create a pool with one process</span>
+        <span class="n">POOL</span> <span class="o">=</span> <span class="n">Pool</span><span class="p">(</span><span class="n">processes</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>  <span class="c1"># pylint: disable=not-callable,consider-using-with</span></div>
+
+
+<div class="viewcode-block" id="Worker.terminate_pool">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.terminate_pool">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">terminate_pool</span><span class="p">(</span><span class="n">wait</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate multiprocessing pool.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            wait: wait for all tasks to finish. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">POOL</span>  <span class="c1"># pylint: disable=global-statement</span>
+        <span class="k">if</span> <span class="n">POOL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">wait</span><span class="p">:</span>
+                <span class="c1"># Close the pool properly (wait for all tasks to finish)</span>
+                <span class="n">POOL</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Terminate the pool and stop the timer</span>
+                <span class="n">POOL</span><span class="o">.</span><span class="n">terminate</span><span class="p">()</span>
+            <span class="n">POOL</span><span class="o">.</span><span class="n">join</span><span class="p">()</span>
+            <span class="n">POOL</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="Worker.restart_pool">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.restart_pool">[docs]</a>
+    <span class="k">def</span> <span class="nf">restart_pool</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Terminate and recreate the pool&quot;&quot;&quot;</span>
+        <span class="c1"># Terminate the process and stop the timer</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_pool</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="c1"># Recreate the pool for the next computation</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">create_pool</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Worker.run">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.run">[docs]</a>
+    <span class="k">def</span> <span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run computation.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func: function to run</span>
+<span class="sd">            args: arguments</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">global</span> <span class="n">POOL</span>  <span class="c1"># pylint: disable=global-statement,global-variable-not-assigned</span>
+        <span class="k">assert</span> <span class="n">POOL</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span> <span class="o">=</span> <span class="n">POOL</span><span class="o">.</span><span class="n">apply_async</span><span class="p">(</span><span class="n">wng_err_func</span><span class="p">,</span> <span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="Worker.close">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close worker: close pool properly and wait for all tasks to finish&quot;&quot;&quot;</span>
+        <span class="c1"># Close multiprocessing Pool properly, but only if no computation is running,</span>
+        <span class="c1"># to avoid blocking the GUI at exit (so, when wait=True, we wait for the</span>
+        <span class="c1"># task to finish before closing the pool but there is actually no task running,</span>
+        <span class="c1"># so the pool is closed immediately but *properly*)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">terminate_pool</span><span class="p">(</span><span class="n">wait</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="Worker.is_computation_finished">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.is_computation_finished">[docs]</a>
+    <span class="k">def</span> <span class="nf">is_computation_finished</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if computation is finished.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if computation is finished</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span><span class="o">.</span><span class="n">ready</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="Worker.get_result">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.Worker.get_result">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_result</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompOut</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return computation result.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            CompOut: computation result</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">asyncresult</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="BaseProcessor">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor">[docs]</a>
+<span class="k">class</span> <span class="nc">BaseProcessor</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">QObject</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling data processing: operations, processing, computing.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        panel: panel</span>
+<span class="sd">        plotwidget: plot widget</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">SIG_ADD_SHAPE</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">PARAM_DEFAULTS</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="n">SignalPanel</span> <span class="o">|</span> <span class="n">ImagePanel</span><span class="p">,</span> <span class="n">plotwidget</span><span class="p">:</span> <span class="n">PlotWidget</span><span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span> <span class="o">=</span> <span class="n">panel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span> <span class="o">=</span> <span class="n">plotwidget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="p">:</span> <span class="n">Worker</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_process_isolation_enabled</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">process_isolation_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+
+<div class="viewcode-block" id="BaseProcessor.close">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.close">[docs]</a>
+    <span class="k">def</span> <span class="nf">close</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close processor properly&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.set_process_isolation_enabled">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.set_process_isolation_enabled">[docs]</a>
+    <span class="k">def</span> <span class="nf">set_process_isolation_enabled</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enabled</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set process isolation enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            enabled: enabled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">enabled</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="o">=</span> <span class="n">Worker</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">create_pool</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">terminate_pool</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="o">=</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.has_param_defaults">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.has_param_defaults">[docs]</a>
+    <span class="k">def</span> <span class="nf">has_param_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if parameter defaults are available.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            paramclass: parameter class</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if parameter defaults are available</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">paramclass</span><span class="o">.</span><span class="vm">__name__</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAM_DEFAULTS</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.update_param_defaults">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.update_param_defaults">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_param_defaults</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update parameter defaults.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param: parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">key</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span>
+        <span class="n">pdefaults</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">PARAM_DEFAULTS</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">pdefaults</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">update_dataset</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">pdefaults</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">PARAM_DEFAULTS</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.init_param">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.init_param">[docs]</a>
+    <span class="k">def</span> <span class="nf">init_param</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">],</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">bool</span><span class="p">,</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize processing parameters.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param: parameter</span>
+<span class="sd">            paramclass: parameter class</span>
+<span class="sd">            title: title</span>
+<span class="sd">            comment: comment</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple (edit, param) where edit is True if parameters have been edited,</span>
+<span class="sd">            False otherwise.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">edit</span> <span class="o">=</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">edit</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">paramclass</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_param_defaults</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">edit</span><span class="p">,</span> <span class="n">param</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_11">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_11">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_11</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 11 function: 1 object in → 1 object out.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func: function</span>
+<span class="sd">            param: parameter</span>
+<span class="sd">            paramclass: parameter class</span>
+<span class="sd">            title: title</span>
+<span class="sd">            comment: comment</span>
+<span class="sd">            edit: edit parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compute_11_subroutine</span><span class="p">([</span><span class="n">func</span><span class="p">],</span> <span class="p">[</span><span class="n">param</span><span class="p">],</span> <span class="n">title</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_1n">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_1n">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_1n</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">funcs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">]</span> <span class="o">|</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">params</span><span class="p">:</span> <span class="nb">list</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 1n function: 1 object in → n objects out.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            funcs: list of functions</span>
+<span class="sd">            params: list of parameters</span>
+<span class="sd">            title: title</span>
+<span class="sd">            edit: edit parameters</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="n">Callable</span><span class="p">)</span>
+            <span class="n">params</span> <span class="o">=</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">funcs</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">group</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Parameters&quot;</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">group</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="n">Callable</span><span class="p">):</span>
+                <span class="n">funcs</span> <span class="o">=</span> <span class="p">[</span><span class="n">funcs</span><span class="p">]</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">funcs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_compute_11_subroutine</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="n">params</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.handle_output">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.handle_output">[docs]</a>
+    <span class="k">def</span> <span class="nf">handle_output</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">compout</span><span class="p">:</span> <span class="n">CompOut</span><span class="p">,</span> <span class="n">context</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">progress</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QProgressDialog</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="n">ResultProperties</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Handle computation output: if error, display error message,</span>
+<span class="sd">        if warning, display warning message.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            compout: computation output</span>
+<span class="sd">            context: context (e.g. &quot;Computing: Gaussian filter&quot;)</span>
+<span class="sd">            progress: progress dialog</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Output object: a signal or image object, or a result shape object,</span>
+<span class="sd">             or None if error</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">compout</span><span class="o">.</span><span class="n">error_msg</span> <span class="ow">or</span> <span class="n">compout</span><span class="o">.</span><span class="n">warning_msg</span><span class="p">:</span>
+            <span class="n">mindur</span> <span class="o">=</span> <span class="n">progress</span><span class="o">.</span><span class="n">minimumDuration</span><span class="p">()</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">setMinimumDuration</span><span class="p">(</span><span class="mi">1000000</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">compout</span><span class="o">.</span><span class="n">error_msg</span><span class="p">:</span>
+                <span class="n">show_warning_error</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="s2">&quot;error&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">compout</span><span class="o">.</span><span class="n">error_msg</span><span class="p">,</span> <span class="n">COMPUTATION_TIP</span>
+                <span class="p">)</span>
+            <span class="k">if</span> <span class="n">compout</span><span class="o">.</span><span class="n">warning_msg</span><span class="p">:</span>
+                <span class="n">show_warning_error</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="s2">&quot;warning&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">compout</span><span class="o">.</span><span class="n">warning_msg</span><span class="p">)</span>
+            <span class="n">progress</span><span class="o">.</span><span class="n">setMinimumDuration</span><span class="p">(</span><span class="n">mindur</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">compout</span><span class="o">.</span><span class="n">error_msg</span><span class="p">:</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">compout</span><span class="o">.</span><span class="n">result</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__exec_func</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">args</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">,</span>
+        <span class="n">progress</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QProgressDialog</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CompOut</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Execute function, eventually in a separate process.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func: function to execute</span>
+<span class="sd">            args: function arguments</span>
+<span class="sd">            progress: progress dialog</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Computation output object or None if canceled</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">QW</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">wng_err_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">run</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">)</span>
+            <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">is_computation_finished</span><span class="p">():</span>
+                <span class="n">QW</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
+                <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">restart_pool</span><span class="p">()</span>
+                    <span class="k">break</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">is_computation_finished</span><span class="p">():</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">worker</span><span class="o">.</span><span class="n">get_result</span><span class="p">()</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">_compute_11_subroutine</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">funcs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">Callable</span><span class="p">],</span> <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 11 subroutine: used by compute 11 and compute 1n methods.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            funcs: list of functions to execute</span>
+<span class="sd">            params: list of parameters</span>
+<span class="sd">            title: title of progress bar</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="nb">len</span><span class="p">(</span><span class="n">funcs</span><span class="p">)</span> <span class="o">==</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">grps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
+        <span class="n">new_gids</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span> <span class="o">*</span> <span class="nb">len</span><span class="p">(</span><span class="n">params</span><span class="p">)</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i_row</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                <span class="k">for</span> <span class="n">i_param</span><span class="p">,</span> <span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">func</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">funcs</span><span class="p">)):</span>
+                    <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;compute_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                    <span class="n">i_title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">i_row</span><span class="w"> </span><span class="o">+</span><span class="w"> </span><span class="mi">1</span><span class="si">}</span><span class="s2">/</span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">i_title</span><span class="p">)</span>
+                    <span class="n">pvalue</span> <span class="o">=</span> <span class="p">(</span><span class="n">i_row</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">i_param</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">pvalue</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pvalue</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pvalue</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,)</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                        <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Computing: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">i_title</span><span class="p">,</span> <span class="n">progress</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">new_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">continue</span>
+
+                    <span class="c1"># Is new object a native object (i.e. a Signal object for a Signal</span>
+                    <span class="c1"># Panel, or an Image object for an Image Panel) ?</span>
+                    <span class="c1"># (example of non-native object use case: image profile extraction)</span>
+                    <span class="n">is_new_obj_native</span> <span class="o">=</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">PARAMCLASS</span><span class="p">)</span>
+
+                    <span class="n">new_gid</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">if</span> <span class="n">grps</span> <span class="ow">and</span> <span class="n">is_new_obj_native</span><span class="p">:</span>
+                        <span class="c1"># If groups are selected, then it means that there is no</span>
+                        <span class="c1"># individual object selected: we work on groups only</span>
+                        <span class="n">old_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                        <span class="n">new_gid</span> <span class="o">=</span> <span class="n">new_gids</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">old_gid</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">new_gid</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="c1"># Create a new group for each selected group</span>
+                            <span class="n">old_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">old_gid</span><span class="p">)</span>
+                            <span class="n">new_g</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">old_g</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+                            <span class="n">new_gids</span><span class="p">[</span><span class="n">old_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_gid</span> <span class="o">=</span> <span class="n">new_g</span><span class="o">.</span><span class="n">uuid</span>
+                    <span class="k">if</span> <span class="n">is_new_obj_native</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">new_gid</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">)</span>
+        <span class="c1"># Select newly created groups, if any</span>
+        <span class="k">for</span> <span class="n">group_id</span> <span class="ow">in</span> <span class="n">new_gids</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">group_id</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+<div class="viewcode-block" id="BaseProcessor.compute_10">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_10">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_10</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute 10 function: 1 object in → 0 object out</span>
+<span class="sd">        (the result of this method is stored in original object&#39;s metadata).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            func: function to execute</span>
+<span class="sd">            param: parameters. Defaults to None.</span>
+<span class="sd">            paramclass: parameters class. Defaults to None.</span>
+<span class="sd">            title: title of progress bar. Defaults to None.</span>
+<span class="sd">            comment: comment. Defaults to None.</span>
+<span class="sd">            edit: if True, edit parameters. Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary of results (keys: object uuid, values: ResultShape or</span>
+<span class="sd">             ResultProperties objects)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">current_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;compute_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="n">results</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="n">ResultProperties</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="n">xlabels</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">ylabels</span> <span class="o">=</span> <span class="p">[]</span>
+            <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                <span class="n">pvalue</span> <span class="o">=</span> <span class="n">idx</span> <span class="o">+</span> <span class="mi">1</span>
+                <span class="n">pvalue</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">pvalue</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="n">pvalue</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">pvalue</span><span class="p">)</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,)</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+                <span class="c1"># Execute function</span>
+                <span class="n">compout</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">compout</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                    <span class="n">compout</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Computing: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+
+                <span class="c1"># Add result shape to object&#39;s metadata</span>
+                <span class="n">result</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">Param&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+                <span class="n">results</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">]</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="n">xlabels</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">headers</span>
+                <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="n">current_obj</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">i_row_res</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
+                    <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
+                    <span class="n">i_roi</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">i_row_res</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
+                    <span class="k">if</span> <span class="n">i_roi</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">:</span>
+                        <span class="n">ylabel</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;|ROI</span><span class="si">{</span><span class="n">i_roi</span><span class="si">}</span><span class="s2">&quot;</span>
+                    <span class="n">ylabels</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ylabel</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+                <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+                <span class="n">dlg</span> <span class="o">=</span> <span class="n">ArrayEditor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+                <span class="n">title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Results&quot;</span><span class="p">)</span>
+                <span class="n">res</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="n">result</span><span class="o">.</span><span class="n">shown_array</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">results</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">setup_and_check</span><span class="p">(</span>
+                    <span class="n">res</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">readonly</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">xlabels</span><span class="o">=</span><span class="n">xlabels</span><span class="p">,</span> <span class="n">ylabels</span><span class="o">=</span><span class="n">ylabels</span>
+                <span class="p">)</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_results&quot;</span><span class="p">)</span>
+                <span class="n">dlg</span><span class="o">.</span><span class="n">resize</span><span class="p">(</span><span class="mi">750</span><span class="p">,</span> <span class="mi">300</span><span class="p">)</span>
+                <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">results</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_n1">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_n1</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">func_objs</span><span class="p">:</span> <span class="n">Callable</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute n1 function: N(&gt;=2) objects in → 1 object out.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: name of function</span>
+<span class="sd">            func: function to execute</span>
+<span class="sd">            param: parameters. Defaults to None.</span>
+<span class="sd">            paramclass: parameters class. Defaults to None.</span>
+<span class="sd">            title: title of progress bar. Defaults to None.</span>
+<span class="sd">            comment: comment. Defaults to None.</span>
+<span class="sd">            func_objs: function to execute on objects. Defaults to None.</span>
+<span class="sd">            edit: if True, edit parameters. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
+
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+        <span class="c1"># [new_objs dictionary] keys: old group id, values: new object</span>
+        <span class="n">dst_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Obj</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># [src_dtypes dictionary] keys: old group id, values: old data type</span>
+        <span class="n">src_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="c1"># [src_objs dictionary] keys: old group id, values: list of old objects</span>
+        <span class="n">src_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">src_obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                <span class="n">src_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src_gid</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
+                    <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
+                    <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
+                    <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj</span><span class="p">]</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">dst_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                        <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span>
+                    <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">,</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">))</span>
+
+        <span class="n">grps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">grps</span><span class="p">:</span>
+            <span class="c1"># (Group exclusive selection)</span>
+            <span class="c1"># At least one group is selected: create a new group</span>
+            <span class="n">dst_gname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">grp</span><span class="o">.</span><span class="n">short_id</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">grp</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">grps</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span>
+            <span class="n">dst_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">dst_gname</span><span class="p">)</span><span class="o">.</span><span class="n">uuid</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># (Object exclusive selection)</span>
+            <span class="c1"># No group is selected: use each object&#39;s group</span>
+            <span class="n">dst_gid</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="k">for</span> <span class="n">src_gid</span><span class="p">,</span> <span class="n">dst_obj</span> <span class="ow">in</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">func_objs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">func_objs</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">is_integer_dtype</span><span class="p">(</span><span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]):</span>
+                <span class="n">dst_obj</span><span class="o">.</span><span class="n">set_data_type</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">])</span>
+            <span class="n">short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]]</span>
+            <span class="n">dst_obj</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">short_ids</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+            <span class="n">group_id</span> <span class="o">=</span> <span class="n">dst_gid</span> <span class="k">if</span> <span class="n">dst_gid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">src_gid</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span>
+
+        <span class="c1"># Select newly created group, if any</span>
+        <span class="k">if</span> <span class="n">dst_gid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">dst_gid</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_n1n">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1n">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_n1n</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">obj2_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute n1n function: N(&gt;=1) objects + 1 object in → N objects out.</span>
+
+<span class="sd">        Examples: subtract, divide</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj2: second object</span>
+<span class="sd">            obj2_name: name of second object</span>
+<span class="sd">            func: function to execute</span>
+<span class="sd">            param: parameters. Defaults to None.</span>
+<span class="sd">            paramclass: parameters class. Defaults to None.</span>
+<span class="sd">            title: title of progress bar. Defaults to None.</span>
+<span class="sd">            comment: comment. Defaults to None.</span>
+<span class="sd">            edit: if True, edit parameters. Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
+        <span class="k">if</span> <span class="n">obj2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_object_with_dialog</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Select </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">obj2_name</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">obj2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="c1"># name = func.__name__.replace(&quot;compute_&quot;, &quot;&quot;)</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">)</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">break</span>
+                <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                    <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">new_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">continue</span>
+                <span class="n">group_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ------Data Operations-------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="BaseProcessor.compute_sum">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_sum">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_sum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sum&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_normalize">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_normalize">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">NormalizeParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize data&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_average">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_average">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_average</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute average&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_product">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_product">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_product</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute product&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_difference">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_difference">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_quadratic_difference">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_quadratic_difference">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute quadratic difference&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_division">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_division">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division&quot;&quot;&quot;</span></div>
+
+
+    <span class="k">def</span> <span class="nf">_get_roidataparam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ROIDataParam</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Eventually open ROI Editing Dialog, and return ROI editor data.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            param: ROI data parameters.</span>
+<span class="sd">                Defaults to None.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ROI data parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Expected behavior:</span>
+        <span class="c1"># -----------------</span>
+        <span class="c1"># * If param.roidata argument is not None, skip the ROI dialog</span>
+        <span class="c1"># * If first selected obj has a ROI, use this ROI as default but open</span>
+        <span class="c1">#   ROI Editor dialog anyway</span>
+        <span class="c1"># * If multiple objs are selected, then apply the first obj ROI to all</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">ROIDataParam</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_regions_of_interest</span><span class="p">(</span>
+                <span class="n">extract</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">singleobj</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">singleobj</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">param</span><span class="o">.</span><span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># This only happens in unattended mode (forcing QDialog accept)</span>
+                <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="n">param</span>
+
+<div class="viewcode-block" id="BaseProcessor.compute_roi_extraction">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_roi_extraction">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_swap_axes">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_swap_axes">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_swap_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap data axes&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_abs">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_abs">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_abs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute absolute value&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_re">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_re">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_re</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute real part&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_im">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_im">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_im</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute imaginary part&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_astype">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_astype">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_astype</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert data type&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_log10">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_log10">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_log10</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Log10&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_exp">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_exp">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute exponential&quot;&quot;&quot;</span></div>
+
+
+    <span class="c1"># ------Data Processing-------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="BaseProcessor.compute_calibration">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_calibration">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_calibration</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute data linear calibration&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_clip">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_clip">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ClipParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute maximum data clipping&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_gaussian_filter">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_gaussian_filter">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_gaussian_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">GaussianParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute gaussian filter&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_moving_average">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_moving_average">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_moving_average</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">MovingAverageParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute moving average&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_moving_median">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_moving_median">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_moving_median</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">MovingMedianParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute moving median&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_wiener">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_wiener">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_wiener</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Wiener filter&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_fft">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_fft">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute iFFT&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_ifft">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_ifft">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_ifft</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute FFT&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_addition_constant">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_addition_constant">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_addition_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ConstantOperationParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sum with a constant&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_difference_constant">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_difference_constant">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_difference_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ConstantOperationParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference with a constant&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_product_constant">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_product_constant">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_product_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ConstantOperationParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute product with a constant&quot;&quot;&quot;</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_division_constant">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_division_constant">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_division_constant</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ConstantOperationParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division by a constant&quot;&quot;&quot;</span></div>
+
+
+    <span class="c1"># ------Computing-------------------------------------------------------------------</span>
+
+<div class="viewcode-block" id="BaseProcessor.edit_regions_of_interest">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.edit_regions_of_interest">[docs]</a>
+    <span class="k">def</span> <span class="nf">edit_regions_of_interest</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">extract</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">singleobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">add_roi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Define Region Of Interest (ROI) for computing functions.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            extract: If True, ROI is extracted from data. Defaults to False.</span>
+<span class="sd">            singleobj: If True, ROI is extracted from first selected object only.</span>
+<span class="sd">             If False, ROI is extracted from all selected objects. If None, ROI is</span>
+<span class="sd">             extracted from all selected objects only if they all have the same ROI.</span>
+<span class="sd">             Defaults to None.</span>
+<span class="sd">            add_roi: If True, add ROI to data immediately after opening the ROI editor.</span>
+<span class="sd">             Defaults to False.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ROI data parameters or None if ROI dialog has been canceled.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_roi_dialog</span><span class="p">(</span>
+            <span class="n">extract</span><span class="o">=</span><span class="n">extract</span><span class="p">,</span> <span class="n">singleobj</span><span class="o">=</span><span class="n">singleobj</span><span class="p">,</span> <span class="n">add_roi</span><span class="o">=</span><span class="n">add_roi</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">roieditordata</span><span class="p">,</span> <span class="n">modified</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">roigroup</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roidata_to_params</span><span class="p">(</span><span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>
+            <span class="ow">or</span> <span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="ow">or</span> <span class="n">roigroup</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+        <span class="p">):</span>
+            <span class="n">roidata</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">params_to_roidata</span><span class="p">(</span><span class="n">roigroup</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
+                <span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span> <span class="o">=</span> <span class="n">roidata</span>
+                <span class="c1"># If ROI has been modified, save ROI (even in &quot;extract mode&quot;)</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">roidata</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_SHAPE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">roieditordata</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.delete_regions_of_interest">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.delete_regions_of_interest">[docs]</a>
+    <span class="k">def</span> <span class="nf">delete_regions_of_interest</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete Regions Of Interest&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseProcessor.compute_stats">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_stats">[docs]</a>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute data statistics&quot;&quot;&quot;</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

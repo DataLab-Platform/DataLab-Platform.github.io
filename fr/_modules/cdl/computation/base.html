@@ -1,0 +1,838 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>cdl.computation.base &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../../_static/documentation_options.js?v=b3a11635"></script>
+    <script src="../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=d99ca74e"></script>
+    <script src="../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/cdl/computation/base';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/cdl/computation/base.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et sera présenté à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">v0.16.4</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Fil d'Ariane">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Code du module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">cdl.computation.base</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Code source de cdl.computation.base</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. Common computation objects (see parent package :mod:`cdl.computation`)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="c1"># Note:</span>
+<span class="c1"># ----</span>
+<span class="c1"># All dataset classes must also be imported in the cdl.computation.param module.</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">create_signal</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+    <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">SignalObj</span>
+
+
+<div class="viewcode-block" id="GaussianParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.GaussianParam">[docs]</a>
+<span class="k">class</span> <span class="nc">GaussianParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Gaussian filter parameters&quot;&quot;&quot;</span>
+
+    <span class="n">sigma</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="s2">&quot;σ&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span></div>
+
+
+
+<span class="n">HELP_MODE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;&quot;&quot;Mode of the filter:</span>
+<span class="s2">- &#39;reflect&#39;: Reflect the data at the boundary</span>
+<span class="s2">- &#39;constant&#39;: Pad with a constant value</span>
+<span class="s2">- &#39;nearest&#39;: Pad with the nearest value</span>
+<span class="s2">- &#39;mirror&#39;: Reflect the data at the boundary with the data itself</span>
+<span class="s2">- &#39;wrap&#39;: Circular boundary&quot;&quot;&quot;</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="MovingAverageParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.MovingAverageParam">[docs]</a>
+<span class="k">class</span> <span class="nc">MovingAverageParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Moving average parameters&quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Size of the moving window&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="s2">&quot;mirror&quot;</span><span class="p">,</span> <span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">modes</span><span class="p">,</span> <span class="n">modes</span><span class="p">)),</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">HELP_MODE</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="MovingMedianParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.MovingMedianParam">[docs]</a>
+<span class="k">class</span> <span class="nc">MovingMedianParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Moving median parameters&quot;&quot;&quot;</span>
+
+    <span class="n">n</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Size of the moving window&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">even</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">modes</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;reflect&quot;</span><span class="p">,</span> <span class="s2">&quot;constant&quot;</span><span class="p">,</span> <span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="s2">&quot;mirror&quot;</span><span class="p">,</span> <span class="s2">&quot;wrap&quot;</span><span class="p">)</span>
+    <span class="n">mode</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Mode&quot;</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">modes</span><span class="p">,</span> <span class="n">modes</span><span class="p">)),</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;nearest&quot;</span><span class="p">,</span> <span class="n">help</span><span class="o">=</span><span class="n">HELP_MODE</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ClipParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.ClipParam">[docs]</a>
+<span class="k">class</span> <span class="nc">ClipParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Data clipping parameters&quot;&quot;&quot;</span>
+
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Lower clipping value&quot;</span><span class="p">),</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Upper clipping value&quot;</span><span class="p">),</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="NormalizeParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.NormalizeParam">[docs]</a>
+<span class="k">class</span> <span class="nc">NormalizeParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Normalize parameters&quot;&quot;&quot;</span>
+
+    <span class="n">methods</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="p">(</span><span class="s2">&quot;maximum&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Maximum&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;amplitude&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Amplitude&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;area&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Area&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;energy&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Energy&quot;</span><span class="p">)),</span>
+        <span class="p">(</span><span class="s2">&quot;rms&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;RMS&quot;</span><span class="p">)),</span>
+    <span class="p">)</span>
+    <span class="n">method</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Normalize with respect to&quot;</span><span class="p">),</span> <span class="n">methods</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="HistogramParam">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.HistogramParam">[docs]</a>
+<span class="k">class</span> <span class="nc">HistogramParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Histogram parameters&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="HistogramParam.get_suffix">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.HistogramParam.get_suffix">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_suffix</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return suffix for the histogram computation</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            data: data array</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;bins=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">bins</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, ymin=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">lower</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lower</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">suffix</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, ymax=</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">upper</span><span class="si">:</span><span class="s2">.3f</span><span class="si">}</span><span class="s2">&quot;</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">upper</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">data</span><span class="p">)</span></div>
+
+
+    <span class="n">bins</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Number of bins&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">lower</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Lower limit&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+    <span class="n">upper</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Upper limit&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">check</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ROIDataParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.ROIDataParam">[docs]</a>
+<span class="k">class</span> <span class="nc">ROIDataParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI Editor data&quot;&quot;&quot;</span>
+
+    <span class="n">roidata</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatArrayItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ROI data&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">_</span><span class="p">(</span>
+            <span class="s2">&quot;For convenience, this item accepts a 2D NumPy array, a list of list &quot;</span>
+            <span class="s2">&quot;of numbers, or None. In the end, the data is converted to a 2D NumPy &quot;</span>
+            <span class="s2">&quot;array of integers (if not None).&quot;</span>
+        <span class="p">),</span>
+    <span class="p">)</span>
+    <span class="n">singleobj</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Single object&quot;</span><span class="p">),</span>
+        <span class="n">help</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Whether to extract the ROI as a single object or not.&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if there is no ROI&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span></div>
+
+
+
+<div class="viewcode-block" id="FFTParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.FFTParam">[docs]</a>
+<span class="k">class</span> <span class="nc">FFTParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;FFT parameters&quot;&quot;&quot;</span>
+
+    <span class="n">shift</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Shift&quot;</span><span class="p">),</span> <span class="n">help</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Shift zero frequency to center&quot;</span><span class="p">))</span></div>
+
+
+
+<div class="viewcode-block" id="SpectrumParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.SpectrumParam">[docs]</a>
+<span class="k">class</span> <span class="nc">SpectrumParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Spectrum parameters&quot;&quot;&quot;</span>
+
+    <span class="n">log</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Logarithmic scale&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ConstantOperationParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.ConstantOperationParam">[docs]</a>
+<span class="k">class</span> <span class="nc">ConstantOperationParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameter used to set a constant value to used in operations (sum,</span>
+<span class="sd">    multiplication, ...)&quot;&quot;&quot;</span>
+
+    <span class="n">value</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Constant value&quot;</span><span class="p">))</span></div>
+
+
+
+<span class="c1"># MARK: Helper functions for creating result objects -----------------------------------</span>
+
+
+<div class="viewcode-block" id="dst_11">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.dst_11">[docs]</a>
+<span class="k">def</span> <span class="nf">dst_11</span><span class="p">(</span>
+    <span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a result object, as returned by the callback function of the</span>
+<span class="sd">    :func:`cdl.core.gui.processor.base.BaseProcessor.compute_11` method</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal or image object</span>
+<span class="sd">        name: name of the function. If provided, the title of the result object</span>
+<span class="sd">         will be `{name}({src.short_id})|{suffix})`, unless the name is a single</span>
+<span class="sd">         character, in which case the title will be `{src.short_id}{name}{suffix}`</span>
+<span class="sd">         where `name` is an operator and `suffix` is the other term of the operation.</span>
+<span class="sd">        suffix: suffix to add to the title. Optional.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal or image object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># This is an operator</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">short_id</span><span class="si">}{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;|&quot;</span>
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="n">suffix</span>
+    <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="dst_n1n">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.dst_n1n">[docs]</a>
+<span class="k">def</span> <span class="nf">dst_n1n</span><span class="p">(</span>
+    <span class="n">src1</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+    <span class="n">src2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create a result  object, as returned by the callback function of the</span>
+<span class="sd">    :func:`cdl.core.gui.processor.base.BaseProcessor.compute_n1n` method</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src1: input signal or image object</span>
+<span class="sd">        src2: input signal or image object</span>
+<span class="sd">        name: name of the processing function</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Output signal or image object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>  <span class="c1"># This is an operator</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">src1</span><span class="o">.</span><span class="n">short_id</span><span class="si">}{</span><span class="n">name</span><span class="si">}{</span><span class="n">src2</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">src1</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">src2</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="n">suffix</span>
+    <span class="k">return</span> <span class="n">src1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="new_signal_result">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.new_signal_result">[docs]</a>
+<span class="k">def</span> <span class="nf">new_signal_result</span><span class="p">(</span>
+    <span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="n">suffix</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">units</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">labels</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Create new signal object as a result of a compute_11 function</span>
+
+<span class="sd">    As opposed to the `dst_11` functions, this function creates a new signal object</span>
+<span class="sd">    without copying the original object metadata, except for the &quot;source&quot; entry.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: input signal or image object</span>
+<span class="sd">        name: name of the processing function</span>
+<span class="sd">        suffix: suffix to add to the title</span>
+<span class="sd">        units: units of the output signal</span>
+<span class="sd">        labels: labels of the output signal</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Output signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">src</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">create_signal</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">units</span><span class="o">=</span><span class="n">units</span><span class="p">,</span> <span class="n">labels</span><span class="o">=</span><span class="n">labels</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="n">suffix</span>
+    <span class="k">if</span> <span class="s2">&quot;source&quot;</span> <span class="ow">in</span> <span class="n">src</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span>  <span class="c1"># Keep track of the source</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="calc_resultproperties">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.base.calc_resultproperties">[docs]</a>
+<span class="k">def</span> <span class="nf">calc_resultproperties</span><span class="p">(</span>
+    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">labeledfuncs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Callable</span><span class="p">]</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultProperties</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate result properties by executing a computation function</span>
+<span class="sd">    on a signal/image object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        title: title of the result properties</span>
+<span class="sd">        obj: signal or image object</span>
+<span class="sd">        labeledfuncs: dictionary of labeled computation functions. The keys are</span>
+<span class="sd">         the labels of the computation functions and the values are the functions</span>
+<span class="sd">         themselves (each function must take a single argument - which is the data</span>
+<span class="sd">         of the ROI or the whole signal/image - and return a float)</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result properties object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">k</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="n">labeledfuncs</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Keys of labeledfuncs must be strings&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="nb">callable</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">labeledfuncs</span><span class="o">.</span><span class="n">values</span><span class="p">()):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Values of labeledfuncs must be functions&quot;</span><span class="p">)</span>
+
+    <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">roi_nb</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">roi_nb</span><span class="p">)):</span>
+        <span class="n">data_roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span>
+        <span class="n">val_roi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span>
+        <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val_roi</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">data_roi</span><span class="p">)</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">labeledfuncs</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
+    <span class="k">return</span> <span class="n">ResultProperties</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="nb">list</span><span class="p">(</span><span class="n">labeledfuncs</span><span class="o">.</span><span class="n">keys</span><span class="p">()))</span></div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

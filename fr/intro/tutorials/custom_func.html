@@ -417,7 +417,7 @@ document.write(`
         <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
      aria-label="Navigation de la section">
   <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
-  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Sommaire :</span></p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Sommaire :</span></p>
 <ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Cas d’usage, principales fonctionnalités et points forts</a></li>
@@ -495,7 +495,7 @@ document.write(`
                   
   <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-prototyping-a-custom-processing-pipeline">
 <span id="tutorial-custom-func"></span><h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg>  Prototypage d’une chaîne de traitement personnalisée<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-prototyping-a-custom-processing-pipeline" title="Link to this heading">#</a></h1>
-<p>Cet exemple montre comment prototyper une chaîne de traitement d’image personnalisée en utilisant DataLab :</p>
+<p>Cet exemple montre comment prototyper une chaîne de traitement d’image personnalisée en utilisant DataLab :</p>
 <ul class="simple">
 <li><p>Définir une fonction de traitement personnalisée</p></li>
 <li><p>Créer une macro-commande pour appliquer la fonction à une image</p></li>
@@ -506,7 +506,7 @@ document.write(`
 <h2>Définir une fonction de traitement personnalisée<a class="headerlink" href="#define-a-custom-processing-function" title="Link to this heading">#</a></h2>
 <p>Pour illustrer l’extensibilité de DataLab, nous utiliserons une fonction de traitement d’image simple qui n’est pas disponible dans la distribution standard de DataLab, et qui représente un cas d’utilisation typique pour le prototypage d’une chaîne de traitement personnalisée.</p>
 <p>La fonction sur laquelle nous allons travailler est un filtre de débruitage qui combine les idées de moyennage et de détection de contours. Ce filtre va moyenner les valeurs de pixels dans le voisinage, mais avec une particularité : il donnera moins de poids aux pixels qui sont significativement différents du pixel central, en supposant qu’ils pourraient faire partie d’un bord ou d’un bruit.</p>
-<p>Voici le code de la fonction <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> :</p>
+<p>Voici le code de la fonction <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="k">def</span> <span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom denoising filter to an image.</span>
 
@@ -553,7 +553,7 @@ document.write(`
 <section id="create-a-macro-command">
 <h2>Créer une macro-commande<a class="headerlink" href="#create-a-macro-command" title="Link to this heading">#</a></h2>
 <p>Revenons à notre fonction personnalisée. Nous pouvons créer une nouvelle macro-commande qui appliquera la fonction à l’image actuelle. Pour ce faire, nous ouvrons le « Gestionnaire de Macros » et cliquons sur le bouton « Nouvelle macro » <img alt="libre-gui-add" class="dark-light no-scaled-link" height="24px" src="../../_images/libre-gui-add.svg" width="24px" />.</p>
-<p>DataLab crée une nouvelle macro-commande qui n’est pas vide : elle contient un code d’exemple qui montre comment créer une nouvelle image et l’ajouter au « Panneau Image ». Nous pouvons supprimer ce code et le remplacer par le nôtre :</p>
+<p>DataLab crée une nouvelle macro-commande qui n’est pas vide : elle contient un code d’exemple qui montre comment créer une nouvelle image et l’ajouter au « Panneau Image ». Nous pouvons supprimer ce code et le remplacer par le nôtre :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import the necessary modules</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">spi</span>
@@ -589,7 +589,7 @@ document.write(`
 <span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;My custom filtered data&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 </pre></div>
 </div>
-<p>Dans DataLab, les macro-commandes sont simplement des scripts Python :</p>
+<p>Dans DataLab, les macro-commandes sont simplement des scripts Python :</p>
 <ul class="simple">
 <li><p>Les macros font partie de l”<strong>espace de travail</strong> de DataLab, ce qui signifie qu’elles sont sauvegardées et restaurées lors de l’exportation et de l’importation vers/depuis un fichier HDF5.</p></li>
 <li><p>Les macros sont exécutées dans un processus séparé, nous devons donc importer les modules nécessaires et initialiser le proxy vers DataLab. Le proxy est un objet spécial qui permet de communiquer avec DataLab.</p></li>
@@ -598,7 +598,7 @@ document.write(`
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>La macro-commande est exécutée dans l’environnement Python de DataLab, nous pouvons donc utiliser les modules disponibles dans DataLab. Cependant, nous pouvons également utiliser nos propres modules, tant qu’ils sont installés dans l’environnement Python de DataLab ou dans une distribution Python compatible avec l’environnement Python de DataLab.</p>
-<p>Si vos modules personnalisés ne sont pas installés dans l’environnement Python de DataLab, et s’ils sont compatibles avec la version Python de DataLab, vous pouvez préfixer <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> avec le chemin vers la distribution Python qui contient vos modules :</p>
+<p>Si vos modules personnalisés ne sont pas installés dans l’environnement Python de DataLab, et s’ils sont compatibles avec la version Python de DataLab, vous pouvez préfixer <code class="docutils literal notranslate"><span class="pre">sys.path</span></code> avec le chemin vers la distribution Python qui contient vos modules :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span> <span class="nn">sys</span>
 <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;/path/to/my/python/distribution&quot;</span><span class="p">)</span>
 </pre></div>
@@ -609,10 +609,10 @@ document.write(`
 <p>Si vous utilisez cette méthode, assurez-vous que vos modules sont compatibles avec la version Python de DataLab. Sinon, vous obtiendrez des erreurs lors de leur importation.</p>
 </div>
 </div>
-<p>Maintenant, exécutons la macro-commande en cliquant sur le bouton « Exécuter la macro » <img alt="libre-camera-flash-on" class="dark-light no-scaled-link" height="24px" src="../../_images/libre-camera-flash-on.svg" width="24px" /> :</p>
+<p>Maintenant, exécutons la macro-commande en cliquant sur le bouton « Exécuter la macro » <img alt="libre-camera-flash-on" class="dark-light no-scaled-link" height="24px" src="../../_images/libre-camera-flash-on.svg" width="24px" /> :</p>
 <ul class="simple">
 <li><p>La macro-commande est exécutée dans un processus séparé, nous pouvons donc continuer à travailler dans DataLab pendant que la macro-commande s’exécute. Et, si la macro-commande prend trop de temps à s’exécuter, nous pouvons l’arrêter en cliquant sur le bouton « Arrêter la macro » <img alt="libre-camera-flash-off" class="dark-light no-scaled-link" height="24px" src="../../_images/libre-camera-flash-off.svg" width="24px" />.</p></li>
-<li><p>Pendant l’exécution de la macro-commande, nous pouvons voir la progression dans la fenêtre « Gestionnaire de Macros » : la sortie standard du processus est affichée dans la « Console » en dessous de l’éditeur de macro. Nous pouvons voir les messages suivants :</p>
+<li><p>Pendant l’exécution de la macro-commande, nous pouvons voir la progression dans la fenêtre « Gestionnaire de Macros » : la sortie standard du processus est affichée dans la « Console » en dessous de l’éditeur de macro. Nous pouvons voir les messages suivants :</p>
 <ul>
 <li><p><code class="docutils literal notranslate"><span class="pre">---[...]---[#</span> <span class="pre">==&gt;</span> <span class="pre">Running</span> <span class="pre">'Untitled</span> <span class="pre">01'</span> <span class="pre">macro...]</span></code> : la macro-commande démarre</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">Connecting</span> <span class="pre">to</span> <span class="pre">DataLab</span> <span class="pre">XML-RPC</span> <span class="pre">server...OK</span> <span class="pre">[...]</span></code> : le proxy est connecté à DataLab</p></li>
@@ -631,20 +631,20 @@ document.write(`
 <h2>Prototypage avec un IDE externe<a class="headerlink" href="#prototyping-with-an-external-ide" title="Link to this heading">#</a></h2>
 <p>Maintenant que nous avons un prototype fonctionnel de notre chaîne de traitement, nous pouvons utiliser le même code dans un IDE externe pour le développer davantage.</p>
 <p>Par exemple, nous pouvons utiliser l’IDE Spyder pour déboguer notre code. Pour ce faire, nous devons installer Spyder mais pas nécessairement dans l’environnement Python de DataLab (dans le cas de la version autonome de DataLab, ce ne serait de toute façon pas possible).</p>
-<p>Le seul prérequis est d’installer un client DataLab dans l’environnement Python de Spyder :</p>
+<p>Le seul prérequis est d’installer un client DataLab dans l’environnement Python de Spyder :</p>
 <ul>
-<li><p>Si vous utilisez la version autonome de DataLab ou si vous voulez ou devez garder DataLab et Spyder dans des environnements Python séparés, vous pouvez installer le <a class="reference external" href="https://pypi.org/project/cdlclient/">DataLab Simple Client</a> (<code class="docutils literal notranslate"><span class="pre">cdl-client</span></code>) en utilisant le gestionnaire de paquets <code class="docutils literal notranslate"><span class="pre">pip</span></code> :</p>
+<li><p>Si vous utilisez la version autonome de DataLab ou si vous voulez ou devez garder DataLab et Spyder dans des environnements Python séparés, vous pouvez installer le <a class="reference external" href="https://pypi.org/project/cdlclient/">DataLab Simple Client</a> (<code class="docutils literal notranslate"><span class="pre">cdl-client</span></code>) en utilisant le gestionnaire de paquets <code class="docutils literal notranslate"><span class="pre">pip</span></code> :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cdl</span><span class="o">-</span><span class="n">client</span>
 </pre></div>
 </div>
-<p>Ou vous pouvez également installer le <a class="reference external" href="https://pypi.org/project/cdl/">paquet Python DataLab</a> (<code class="docutils literal notranslate"><span class="pre">cdl</span></code>) qui inclut le client (mais aussi d’autres modules, donc nous ne recommandons pas cette méthode si vous n’avez pas besoin de toutes les fonctionnalités de DataLab dans cet environnement Python) :</p>
+<p>Ou vous pouvez également installer le <a class="reference external" href="https://pypi.org/project/cdl/">paquet Python DataLab</a> (<code class="docutils literal notranslate"><span class="pre">cdl</span></code>) qui inclut le client (mais aussi d’autres modules, donc nous ne recommandons pas cette méthode si vous n’avez pas besoin de toutes les fonctionnalités de DataLab dans cet environnement Python) :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">pip</span> <span class="n">install</span> <span class="n">cdl</span>
 </pre></div>
 </div>
 </li>
 <li><p>Si vous utilisez le paquet Python DataLab, vous pouvez exécuter Spyder dans le même environnement Python que DataLab, vous n’avez donc pas besoin d’installer le client : il est déjà disponible dans le paquet principal DataLab (le paquet <code class="docutils literal notranslate"><span class="pre">cdl</span></code>).</p></li>
 </ul>
-<p>Une fois le client installé, nous pouvons démarrer Spyder et créer un nouveau script Python :</p>
+<p>Une fois le client installé, nous pouvons démarrer Spyder et créer un nouveau script Python :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="linenos"> 2</span><span class="sd">&quot;&quot;&quot;</span>
 <span class="linenos"> 3</span><span class="sd">Example of remote control of DataLab current session,</span>
@@ -751,15 +751,15 @@ document.write(`
 <p class="admonition-title">Voir aussi</p>
 <p>Le système de plugins est décrit dans la section <a class="reference internal" href="../../features/general/plugins.html#about-plugins"><span class="std std-ref">Plugins</span></a>.</p>
 </div>
-<p>Mis à part l’intégration de la fonctionnalité à l’interface graphique de DataLab qui est plus pratique pour l’utilisateur, l’avantage de créer un plugin est que nous pouvons tirer parti de l’infrastructure de DataLab, si nous encapsulons notre fonction de traitement d’une certaine manière (voir ci-dessous) :</p>
+<p>Mis à part l’intégration de la fonctionnalité à l’interface graphique de DataLab qui est plus pratique pour l’utilisateur, l’avantage de créer un plugin est que nous pouvons tirer parti de l’infrastructure de DataLab, si nous encapsulons notre fonction de traitement d’une certaine manière (voir ci-dessous) :</p>
 <ul class="simple">
 <li><p>Notre fonction sera exécutée dans un processus séparé, nous pouvons donc l’interrompre si elle prend trop de temps à s’exécuter.</p></li>
 <li><p>Les avertissements et les erreurs seront gérés par DataLab, nous n’avons donc pas besoin de les gérer nous-mêmes.</p></li>
 </ul>
-<p>Le changement le plus significatif est que nous devons définir une fonction qui fonctionnera sur les objets d’image natifs de DataLab (<a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a>), au lieu de fonctionner sur des tableaux NumPy. Nous devons donc trouver un moyen d’appeler notre fonction personnalisée <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> avec un <a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a> en entrée et en sortie. Pour éviter d’écrire beaucoup de code de base, nous pouvons utiliser l’enveloppe de fonction fournie par DataLab : <a class="reference internal" href="../../api/core.computation.html#cdl.computation.image.Wrap11Func" title="cdl.computation.image.Wrap11Func"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.computation.image.Wrap11Func</span></code></a>.</p>
+<p>Le changement le plus significatif est que nous devons définir une fonction qui fonctionnera sur les objets d’image natifs de DataLab (<a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a>), au lieu de fonctionner sur des tableaux NumPy. Nous devons donc trouver un moyen d’appeler notre fonction personnalisée <code class="docutils literal notranslate"><span class="pre">weighted_average_denoise</span></code> avec un <a class="reference internal" href="../../api/obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></a> en entrée et en sortie. Pour éviter d’écrire beaucoup de code de base, nous pouvons utiliser l’enveloppe de fonction fournie par DataLab : <a class="reference internal" href="../../api/computation.html#cdl.computation.image.Wrap11Func" title="cdl.computation.image.Wrap11Func"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.computation.image.Wrap11Func</span></code></a>.</p>
 <p>Par ailleurs, nous devons définir une classe qui décrit notre plugin, qui doit hériter de <a class="reference internal" href="../../features/general/plugins.html#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> et nommer le script Python qui contient le code du plugin avec un nom qui commence par <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> (par exemple <code class="docutils literal notranslate"><span class="pre">cdl_custom_func.py</span></code>), afin que DataLab puisse le découvrir au démarrage.</p>
 <p>De plus, dans le code du plugin, nous voulons ajouter une entrée dans le menu « Plugins », afin que l’utilisateur puisse accéder à notre plugin depuis l’interface graphique.</p>
-<p>Voici le code du plugin :</p>
+<p>Voici le code du plugin :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="linenos"> 1</span><span class="c1"># -*- coding: utf-8 -*-</span>
 <span class="linenos"> 2</span>
 <span class="linenos"> 3</span><span class="sd">&quot;&quot;&quot;</span>

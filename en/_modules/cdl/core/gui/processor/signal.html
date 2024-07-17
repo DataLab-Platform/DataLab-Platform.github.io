@@ -1,0 +1,1294 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>cdl.core.gui.processor.signal &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../../../../_static/documentation_options.js?v=3717f2ed"></script>
+    <script src="../../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/cdl/core/gui/processor/signal';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/cdl/core/gui/processor/signal.html" />
+    <link rel="icon" href="../../../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Skip to main content</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 and will be presented <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">v0.16.4</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../intro/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../features/index.html">
+                        Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contributing/index.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Site Navigation">
+    Site Navigation
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../intro/index.html">
+                        Getting started
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../features/index.html">
+                        Features
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../../contributing/index.html">
+                        Contributing
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Breadcrumb">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../../index.html" class="nav-link">Module code</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">cdl.core.gui...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Source code for cdl.core.gui.processor.signal</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">.. Signal processor object (see parent package :mod:`cdl.core.gui.processor`)</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">re</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
+
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">exec_dialog</span>
+
+<span class="kn">import</span> <span class="nn">cdl.computation.base</span> <span class="k">as</span> <span class="nn">cpb</span>
+<span class="kn">import</span> <span class="nn">cdl.computation.signal</span> <span class="k">as</span> <span class="nn">cps</span>
+<span class="kn">import</span> <span class="nn">cdl.param</span>
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.core.gui.processor.base</span> <span class="kn">import</span> <span class="n">BaseProcessor</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">ROI1DParam</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">create_signal</span>
+<span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">qt_try_except</span>
+<span class="kn">from</span> <span class="nn">cdl.widgets</span> <span class="kn">import</span> <span class="n">fitdialog</span><span class="p">,</span> <span class="n">signalbaseline</span><span class="p">,</span> <span class="n">signalpeak</span>
+
+
+<div class="viewcode-block" id="SignalProcessor">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor">[docs]</a>
+<span class="k">class</span> <span class="nc">SignalProcessor</span><span class="p">(</span><span class="n">BaseProcessor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling signal processing: operations, processing, computing&quot;&quot;&quot;</span>
+
+    <span class="c1"># pylint: disable=duplicate-code</span>
+
+<div class="viewcode-block" id="SignalProcessor.compute_sum">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_sum">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_sum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sum&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1</span><span class="p">(</span><span class="s2">&quot;Σ&quot;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">compute_addition</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sum&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_addition_constant">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_addition_constant">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_addition_constant</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sum with a constant&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_addition_constant</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sum with constant&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_average">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_average">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_average</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute average&quot;&quot;&quot;</span>
+
+        <span class="k">def</span> <span class="nf">func_objs</span><span class="p">(</span><span class="n">new_obj</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">old_objs</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">            </span><span class="sd">&quot;&quot;&quot;Finalize average computation&quot;&quot;&quot;</span>
+            <span class="n">new_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">new_obj</span><span class="o">.</span><span class="n">data</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_objs</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">new_obj</span><span class="o">.</span><span class="n">dy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">new_obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">/</span> <span class="nb">float</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">old_objs</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1</span><span class="p">(</span>
+            <span class="s2">&quot;μ&quot;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">compute_addition</span><span class="p">,</span> <span class="n">func_objs</span><span class="o">=</span><span class="n">func_objs</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Average&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_product">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_product">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_product</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute product&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1</span><span class="p">(</span><span class="s2">&quot;Π&quot;</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">compute_product</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Product&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_product_constant">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_product_constant">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_product_constant</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute product with a constant&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_product_constant</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Product with constant&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_roi_extraction">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_roi_extraction">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_roidataparam</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roidata_to_params</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">singleobj</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_multiple_roi</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract ROI&quot;</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_single_roi</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;ROI&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_swap_axes">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_swap_axes">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_swap_axes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Swap data axes&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_swap_axes</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Swap axes&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_abs">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_abs">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_abs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute absolute value&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_abs</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Absolute value&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_re">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_re">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_re</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute real part&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_re</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Real part&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_im">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_im">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_im</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute imaginary part&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_im</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Imaginary part&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_astype">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_astype">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_astype</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">DataTypeSParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert data type&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_astype</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">DataTypeSParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Convert data type&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_log10">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_log10">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_log10</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Log10&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_log10</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Log10&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_exp">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_exp">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_exp</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Log10&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_exp</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Exponential&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_sqrt">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_sqrt">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_sqrt</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute square root&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_sqrt</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Square root&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_power">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_power">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_power</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cps</span><span class="o">.</span><span class="n">PowerParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute power&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">cps</span><span class="o">.</span><span class="n">PowerParam</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_power</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">PowerParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;Power&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_difference">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_difference">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference between two signals&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
+            <span class="n">obj2</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal to subtract&quot;</span><span class="p">),</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_difference</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Difference&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_difference_constant">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_difference_constant">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_difference_constant</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference with a constant&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_difference_constant</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Difference with constant&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_quadratic_difference">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_quadratic_difference">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute quadratic difference between two signals&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
+            <span class="n">obj2</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal to subtract&quot;</span><span class="p">),</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_quadratic_difference</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Quadratic difference&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_division">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_division">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division between two signals&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
+            <span class="n">obj2</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;divider&quot;</span><span class="p">),</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_division</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Division&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+    <span class="n">qt_try_except</span><span class="p">()</span>
+
+<div class="viewcode-block" id="SignalProcessor.compute_division_constant">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_division_constant">[docs]</a>
+    <span class="k">def</span> <span class="nf">compute_division_constant</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division by a constant&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_division_constant</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantOperationParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Division by constant&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_peak_detection">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_peak_detection">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_peak_detection</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">PeakDetectionParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect peaks from data&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span>
+            <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">PeakDetectionParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Peak detection&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">edit</span><span class="p">:</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">signalpeak</span><span class="o">.</span><span class="n">SignalPeakDetectionDialog</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">threshold</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">dlg</span><span class="o">.</span><span class="n">get_threshold</span><span class="p">()</span> <span class="o">*</span> <span class="mi">100</span><span class="p">)</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">min_dist</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_min_dist</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_peak_detection</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_reverse_x">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_reverse_x">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_reverse_x</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reverse X axis&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_reverse_x</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Reverse X axis&quot;</span><span class="p">))</span></div>
+
+
+    <span class="c1"># ------Signal Processing</span>
+<div class="viewcode-block" id="SignalProcessor.compute_normalize">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_normalize">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_normalize</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">NormalizeParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Normalize data&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_normalize</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">NormalizeParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Normalize&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_derivative">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_derivative">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_derivative</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute derivative&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_derivative</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Derivative&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_integral">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_integral">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_integral</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute integral&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_integral</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Integral&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_calibration">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_calibration">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_calibration</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">XYCalibrateParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute data linear calibration&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_calibration</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">XYCalibrateParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Linear calibration&quot;</span><span class="p">),</span>
+            <span class="n">comment</span><span class="o">=</span><span class="s2">&quot;y = a.x + b&quot;</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_clip">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_clip">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_clip</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ClipParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute maximum data clipping&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_clip</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cpb</span><span class="o">.</span><span class="n">ClipParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Clipping&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_offset_correction">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_offset_correction">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_offset_correction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ROI1DParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute offset correction&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">signalbaseline</span><span class="o">.</span><span class="n">SignalBaselineDialog</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+            <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
+                <span class="n">param</span> <span class="o">=</span> <span class="n">ROI1DParam</span><span class="p">()</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">xmin</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_x_range</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_offset_correction</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_gaussian_filter">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_gaussian_filter">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_gaussian_filter</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">GaussianParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute gaussian filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_gaussian_filter</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cpb</span><span class="o">.</span><span class="n">GaussianParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Gaussian filter&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_moving_average">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_moving_average">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_moving_average</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">MovingAverageParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute moving average&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_moving_average</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cpb</span><span class="o">.</span><span class="n">MovingAverageParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Moving average&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_moving_median">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_moving_median">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_moving_median</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cpb</span><span class="o">.</span><span class="n">MovingMedianParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute moving median&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_moving_median</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cpb</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Moving median&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_wiener">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_wiener">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_wiener</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Wiener filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_wiener</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Wiener filter&quot;</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__freq_filter</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">LowPassFilterParam</span>
+        <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">HighPassFilterParam</span>
+        <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandPassFilterParam</span>
+        <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandStopFilterParam</span><span class="p">,</span>
+        <span class="n">paramclass</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span>
+            <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">LowPassFilterParam</span>
+            <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">HighPassFilterParam</span>
+            <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandPassFilterParam</span>
+            <span class="o">|</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandStopFilterParam</span>
+        <span class="p">],</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute frequency filter&quot;&quot;&quot;</span>
+        <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">edit</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="n">param</span><span class="o">.</span><span class="n">update_from_signal</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_filter</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="n">edit</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignalProcessor.compute_lowpass">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_lowpass">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_lowpass</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">LowPassFilterParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute high-pass filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__freq_filter</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">LowPassFilterParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Low-pass filter&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_highpass">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_highpass">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_highpass</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">HighPassFilterParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute high-pass filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__freq_filter</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">HighPassFilterParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;High-pass filter&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_bandpass">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_bandpass">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_bandpass</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandPassFilterParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute band-pass filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__freq_filter</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandPassFilterParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Band-pass filter&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_bandstop">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_bandstop">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_bandstop</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandStopFilterParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute band-stop filter&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__freq_filter</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BandStopFilterParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Band-stop filter&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_fft">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_fft">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_fft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">FFTParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute iFFT&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">cpb</span><span class="o">.</span><span class="n">FFTParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">shift</span><span class="o">=</span><span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">fft_shift_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_fft</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FFT&quot;</span><span class="p">),</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_ifft">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_ifft">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_ifft</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">FFTParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute FFT&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">cpb</span><span class="o">.</span><span class="n">FFTParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">shift</span><span class="o">=</span><span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">fft_shift_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_ifft</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;iFFT&quot;</span><span class="p">),</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_magnitude_spectrum">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_magnitude_spectrum">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_magnitude_spectrum</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">SpectrumParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute magnitude spectrum&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_magnitude_spectrum</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">SpectrumParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Magnitude spectrum&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_phase_spectrum">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_phase_spectrum">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_phase_spectrum</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute phase spectrum&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_phase_spectrum</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Phase spectrum&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_psd">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_psd">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_psd</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">SpectrumParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute power spectral density&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_psd</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">SpectrumParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;PSD&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_interpolation">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_interpolation">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_interpolation</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">InterpolationParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute interpolation&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
+            <span class="n">obj2</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal for X values&quot;</span><span class="p">),</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_interpolation</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">InterpolationParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Interpolation&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_resampling">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_resampling">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_resampling</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">ResamplingParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute resampling&quot;&quot;&quot;</span>
+        <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">ResamplingParam</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Resampling&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">edit</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xmin</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">xmin</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xmax</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">xmax</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">dx</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">dx</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">nbpts</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">nbpts</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_resampling</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">ResamplingParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Resampling&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="n">edit</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_detrending">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_detrending">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_detrending</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">DetrendingParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute detrending&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_detrending</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">DetrendingParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Detrending&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_convolution">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_convolution">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_convolution</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute convolution&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
+            <span class="n">obj2</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal to convolve with&quot;</span><span class="p">),</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_convolution</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Convolution&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_windowing">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_windowing">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_windowing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">WindowingParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute windowing&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_windowing</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">WindowingParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Windowing&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_fit">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_fit">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_fit</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fitdlgfunc</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute fitting curve&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__row_compute_fit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">fitdlgfunc</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_polyfit">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_polyfit">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_polyfit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">PolynomialFitParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute polynomial fitting curve&quot;&quot;&quot;</span>
+        <span class="n">txt</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Polynomial fit&quot;</span><span class="p">)</span>
+        <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">PolynomialFitParam</span><span class="p">,</span> <span class="n">txt</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">edit</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+            <span class="n">dlgfunc</span> <span class="o">=</span> <span class="n">fitdialog</span><span class="o">.</span><span class="n">polynomialfit</span>
+
+            <span class="k">def</span> <span class="nf">polynomialfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">                </span><span class="sd">&quot;&quot;&quot;Polynomial fit dialog function&quot;&quot;&quot;</span>
+                <span class="k">return</span> <span class="n">dlgfunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">degree</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">compute_fit</span><span class="p">(</span><span class="n">txt</span><span class="p">,</span> <span class="n">polynomialfit</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span> <span class="nf">__row_compute_fit</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">fitdlgfunc</span><span class="p">:</span> <span class="n">Callable</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Curve fitting computing sub-method&quot;&quot;&quot;</span>
+        <span class="n">output</span> <span class="o">=</span> <span class="n">fitdlgfunc</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">y</span><span class="p">,</span> <span class="n">params</span> <span class="o">=</span> <span class="n">output</span>
+            <span class="n">params</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">fitdialog</span><span class="o">.</span><span class="n">FitParam</span><span class="p">]</span>
+            <span class="n">pvalues</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;[\S\_]*\d</span><span class="si">{2}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+                    <span class="n">shname</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">[:</span><span class="o">-</span><span class="mi">2</span><span class="p">]</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="n">pvalues</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">shname</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([]))</span>
+                    <span class="n">pvalues</span><span class="p">[</span><span class="n">shname</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="n">value</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">value</span><span class="p">])</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">pvalues</span><span class="p">[</span><span class="n">param</span><span class="o">.</span><span class="n">name</span><span class="p">]</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">value</span>
+            <span class="c1"># Creating new signal</span>
+            <span class="n">metadata</span> <span class="o">=</span> <span class="p">{</span><span class="n">fitdlgfunc</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span> <span class="n">pvalues</span><span class="p">}</span>
+            <span class="n">signal</span> <span class="o">=</span> <span class="n">create_signal</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">metadata</span><span class="o">=</span><span class="n">metadata</span><span class="p">)</span>
+            <span class="c1"># Creating new plot item</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignalProcessor.compute_multigaussianfit">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_multigaussianfit">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_multigaussianfit</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute multi-Gaussian fitting curve&quot;&quot;&quot;</span>
+        <span class="n">fitdlgfunc</span> <span class="o">=</span> <span class="n">fitdialog</span><span class="o">.</span><span class="n">multigaussianfit</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">():</span>
+            <span class="n">dlg</span> <span class="o">=</span> <span class="n">signalpeak</span><span class="o">.</span><span class="n">SignalPeakDetectionDialog</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
+                <span class="c1"># Computing x, y</span>
+                <span class="n">peaks</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_peak_indexes</span><span class="p">()</span>
+
+                <span class="k">def</span> <span class="nf">multigaussianfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+<span class="w">                    </span><span class="sd">&quot;&quot;&quot;Multi-Gaussian fit dialog function&quot;&quot;&quot;</span>
+                    <span class="c1"># pylint: disable=cell-var-from-loop</span>
+                    <span class="k">return</span> <span class="n">fitdlgfunc</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">peaks</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">)</span>
+
+                <span class="bp">self</span><span class="o">.</span><span class="n">__row_compute_fit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Multi-Gaussian fit&quot;</span><span class="p">),</span> <span class="n">multigaussianfit</span><span class="p">)</span></div>
+
+
+    <span class="c1"># ------Signal Computing</span>
+<div class="viewcode-block" id="SignalProcessor.compute_fwhm">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_fwhm">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_fwhm</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">FWHMParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute FWHM&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_fwhm</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">FWHMParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FWHM&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_fw1e2">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_fw1e2">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_fw1e2</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute FW at 1/e²&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_fw1e2</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;FW&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;1/e²&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_stats">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_stats">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_stats</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute data statistics&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_stats</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Statistics&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_histogram">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_histogram">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_histogram</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">HistogramParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute histogram&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_histogram</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">cps</span><span class="o">.</span><span class="n">HistogramParam</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Histogram&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_contrast">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_contrast">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_contrast</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute contrast&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_contrast</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Contrast&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_x_at_minmax">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_x_at_minmax">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_x_at_minmax</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute x at min/max&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_x_at_minmax</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">&quot;X @ min,max&quot;</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_sampling_rate_period">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_sampling_rate_period">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_sampling_rate_period</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute sampling rate and period (mean and std)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_sampling_rate_period</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Sampling rate and period&quot;</span><span class="p">)</span>
+        <span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_bandwidth_3db">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_bandwidth_3db">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_bandwidth_3db</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute bandwidth&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">compute_bandwidth_3db</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Bandwidth&quot;</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SignalProcessor.compute_dynamic_parameters">
+<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_dynamic_parameters">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_dynamic_parameters</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cps</span><span class="o">.</span><span class="n">DynamicParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">ResultProperties</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute Dynamic Parameters (ENOB, SINAD, THD, SFDR, SNR)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">compute_10</span><span class="p">(</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">compute_dynamic_parameters</span><span class="p">,</span>
+            <span class="n">param</span><span class="p">,</span>
+            <span class="n">cps</span><span class="o">.</span><span class="n">DynamicParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Dynamic parameters&quot;</span><span class="p">),</span>
+        <span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

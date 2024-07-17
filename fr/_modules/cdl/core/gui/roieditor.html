@@ -1,0 +1,835 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>cdl.core.gui.roieditor &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+
+  
+  <link href="../../../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=a746c00c" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
+  <script src="../../../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+
+    <script src="../../../../_static/documentation_options.js?v=b3a11635"></script>
+    <script src="../../../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../../_static/translations.js?v=d99ca74e"></script>
+    <script src="../../../../_static/design-tabs.js?v=36754332"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/cdl/core/gui/roieditor';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/cdl/core/gui/roieditor.html" />
+    <link rel="icon" href="../../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>
+    Back to top
+  </button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__primary"
+          id="__primary"/>
+  <label class="overlay overlay-primary" for="__primary"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          name="__secondary"
+          id="__secondary"/>
+  <label class="overlay overlay-secondary" for="__secondary"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+
+  <div class="bd-header-announcement container-fluid bd-header-announcement">
+    <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et sera présenté à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  </div>
+
+  
+    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+<div class="bd-header__inner bd-page-width">
+  <label class="sidebar-toggle primary-toggle" for="__primary">
+    <span class="fa-solid fa-bars"></span>
+  </label>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+  
+
+<a class="navbar-brand logo" href="../../../../index.html">
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
+    <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+  
+  
+    <p class="title logo__title">v0.16.4</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+        </div>
+      
+      
+        <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+ <script>
+ document.write(`
+   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Recherche</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script>
+    </div>
+  
+
+  
+</div>
+
+    </nav>
+  
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      <div class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          <div class="navbar-item"><nav class="navbar-nav">
+  <p class="sidebar-header-items__title"
+     role="heading"
+     aria-level="1"
+     aria-label="Navigation du site">
+    Navigation du site
+  </p>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../intro/index.html">
+                        Premiers pas
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../features/index.html">
+                        Fonctionnalités
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../api/index.html">
+                        API
+                      </a>
+                    </li>
+                
+
+                    <li class="nav-item">
+                      <a class="nav-link nav-internal" href="../../../../contributing/index.html">
+                        Contribuer
+                      </a>
+                    </li>
+                
+  </ul>
+</nav></div>
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+<script>
+document.write(`
+  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
+    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  </button>
+`);
+</script></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+
+
+<nav aria-label="Fil d'Ariane">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../../index.html" class="nav-link">Code du module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page">cdl.core.gui...</li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article" role="main">
+                  
+  <h1>Code source de cdl.core.gui.roieditor</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">ROI editor</span>
+<span class="sd">==========</span>
+
+<span class="sd">The :mod:`cdl.core.gui.roieditor` module provides the ROI editor widgets</span>
+<span class="sd">for signals and images.</span>
+
+<span class="sd">Signal ROI editor</span>
+<span class="sd">-----------------</span>
+
+<span class="sd">.. autoclass:: SignalROIEditor</span>
+<span class="sd">    :members:</span>
+
+<span class="sd">Image ROI editor</span>
+<span class="sd">----------------</span>
+
+<span class="sd">.. autoclass:: ImageROIEditor</span>
+<span class="sd">    :members:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span> <span class="nn">abc</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Union</span>
+
+<span class="kn">from</span> <span class="nn">guidata.configtools</span> <span class="kn">import</span> <span class="n">get_icon</span>
+<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span>
+<span class="kn">from</span> <span class="nn">plotpy.builder</span> <span class="kn">import</span> <span class="n">make</span>
+<span class="kn">from</span> <span class="nn">plotpy.interfaces</span> <span class="kn">import</span> <span class="n">IImageItemType</span>
+<span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">AnnotatedCircle</span><span class="p">,</span> <span class="n">ObjectInfo</span>
+<span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
+
+<span class="kn">from</span> <span class="nn">cdl.computation.base</span> <span class="kn">import</span> <span class="n">ROIDataParam</span>
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">RoiDataGeometries</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span> <span class="nn">plotpy.plot</span> <span class="kn">import</span> <span class="n">PlotDialog</span>
+
+    <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">SignalObj</span>
+
+    <span class="n">AnyObj</span> <span class="o">=</span> <span class="n">Union</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">]</span>
+
+
+<span class="k">class</span> <span class="nc">BaseROIEditorMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">),</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixed metaclass to avoid conflicts&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">BaseROIEditor</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">BaseROIEditorMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI Editor&quot;&quot;&quot;</span>
+
+    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">PlotDialog</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">AnyObj</span><span class="p">,</span>
+        <span class="n">extract</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
+        <span class="n">singleobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">):</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="n">parent</span><span class="o">.</span><span class="n">accepted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dialog_accepted</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">extract</span> <span class="o">=</span> <span class="n">extract</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__modified</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span> <span class="o">=</span> <span class="n">ROIDataParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">singleobj</span><span class="o">=</span><span class="n">singleobj</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">fmt</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span> <span class="kc">True</span><span class="p">))</span>
+
+        <span class="k">for</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_btn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_widget</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">SIG_ITEMS_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_plt</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">SIG_ITEM_REMOVED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_removed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">SIG_RANGE_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_rng</span><span class="p">,</span> <span class="n">_min</span><span class="p">,</span> <span class="n">_max</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_moved</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">SIG_ANNOTATION_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_plt</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_moved</span><span class="p">())</span>
+
+        <span class="c1">#  In &quot;extract mode&quot;, the dialog box OK button should always been enabled</span>
+        <span class="c1">#  when at least one ROI is defined,</span>
+        <span class="c1">#  whereas in non-extract mode (when editing ROIs) the OK button is by default</span>
+        <span class="c1">#  disabled (until ROI data is modified)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="n">extract</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return dialog modified state&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__modified</span>
+
+    <span class="nd">@modified</span><span class="o">.</span><span class="n">setter</span>
+    <span class="k">def</span> <span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set dialog modified state&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__modified</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract</span><span class="p">:</span>
+            <span class="c1">#  In &quot;extract mode&quot;, OK button is enabled when at least one ROI is defined</span>
+            <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">button_box</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">dialog_accepted</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parent dialog was accepted: updating ROI Editor data&quot;&quot;&quot;</span>
+        <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">:</span>
+            <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_roi_item_coords</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="o">.</span><span class="n">roidata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">roi_coords_to_indexes</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">singleobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">isChecked</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="o">.</span><span class="n">singleobj</span> <span class="o">=</span> <span class="n">singleobj</span>
+            <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">singleobj</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_roieditor_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">ROIDataParam</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get ROI editor results</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            A tuple containing the ROI data parameters and ROI modified state.</span>
+<span class="sd">            ROI modified state is True if the ROI data has been modified within</span>
+<span class="sd">            the dialog box.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modified</span>
+
+    <span class="k">def</span> <span class="nf">setup_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup ROI editor widget&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_btn</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span>
+            <span class="n">get_icon</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ICON_NAME</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add region of interest&quot;</span><span class="p">),</span> <span class="bp">self</span>
+        <span class="p">)</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_btn</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">extract</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract all regions of interest into a single </span><span class="si">%s</span><span class="s2"> object&quot;</span><span class="p">)</span>
+                <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJ_NAME</span><span class="p">,</span>
+                <span class="bp">self</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="p">)</span>
+            <span class="n">singleobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__data</span><span class="o">.</span><span class="n">singleobj</span>
+            <span class="k">if</span> <span class="n">singleobj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">singleobj</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">singleobj</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addStretch</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">layout</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">add_roi_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi_item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add ROI item to plot and refresh titles&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">unselect_all</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">update_roi_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI annotation titles&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">item_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Item was removed. Since all items are read-only except ROIs...</span>
+<span class="sd">        this must be an ROI.&quot;&quot;&quot;</span>
+        <span class="k">assert</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">item_moved</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;ROI plot item has just been moved&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_roi_item_coords</span><span class="p">(</span><span class="n">roi_item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI item coords&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">ROIRangeInfo</span><span class="p">(</span><span class="n">ObjectInfo</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;ObjectInfo for ROI selection&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi_items</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span> <span class="o">=</span> <span class="n">roi_items</span>
+
+    <span class="k">def</span> <span class="nf">get_text</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">textlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">):</span>
+            <span class="n">x0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">roi_item</span><span class="o">.</span><span class="n">get_range</span><span class="p">()</span>
+            <span class="n">textlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROI</span><span class="si">{</span><span class="n">index</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2"> ≤ x ≤ </span><span class="si">{</span><span class="n">x1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="s2">&quot;&lt;br&gt;&quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textlist</span><span class="p">)</span>
+
+
+<div class="viewcode-block" id="SignalROIEditor">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.SignalROIEditor">[docs]</a>
+<span class="k">class</span> <span class="nc">SignalROIEditor</span><span class="p">(</span><span class="n">BaseROIEditor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Signal ROI Editor&quot;&quot;&quot;</span>
+
+    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">&quot;signal_roi_new.svg&quot;</span>
+    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SignalROIEditor.setup_widget">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.SignalROIEditor.setup_widget">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup ROI editor widget&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_widget</span><span class="p">()</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="n">ROIRangeInfo</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span>
+        <span class="n">info_label</span> <span class="o">=</span> <span class="n">make</span><span class="o">.</span><span class="n">info_label</span><span class="p">(</span><span class="s2">&quot;BL&quot;</span><span class="p">,</span> <span class="n">info</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">info_label</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span> <span class="o">=</span> <span class="n">info_label</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_btn</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">add_roi</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalROIEditor.add_roi">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.SignalROIEditor.add_roi">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Simply add an ROI&quot;&quot;&quot;</span>
+        <span class="n">roi_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">new_roi_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_roi_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SignalROIEditor.update_roi_titles">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.SignalROIEditor.update_roi_titles">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_roi_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI annotation titles&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">info_label</span><span class="o">.</span><span class="n">update_text</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SignalROIEditor.get_roi_item_coords">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.SignalROIEditor.get_roi_item_coords">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_roi_item_coords</span><span class="p">(</span><span class="n">roi_item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI item coords&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">roi_item</span><span class="o">.</span><span class="n">get_range</span><span class="p">()</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ImageROIEditor">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.ImageROIEditor">[docs]</a>
+<span class="k">class</span> <span class="nc">ImageROIEditor</span><span class="p">(</span><span class="n">BaseROIEditor</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Image ROI Editor&quot;&quot;&quot;</span>
+
+    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">&quot;image_roi_new.svg&quot;</span>
+    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImageROIEditor.setup_widget">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.ImageROIEditor.setup_widget">[docs]</a>
+    <span class="k">def</span> <span class="nf">setup_widget</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup ROI editor widget&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_widget</span><span class="p">()</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_items</span><span class="p">(</span><span class="n">item_type</span><span class="o">=</span><span class="n">IImageItemType</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">set_mask_visible</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">menu</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span><span class="p">()</span>
+        <span class="n">rectact</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rectangular ROI&quot;</span><span class="p">),</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_roi</span><span class="p">,</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;rectangle.png&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">circact</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Circular ROI&quot;</span><span class="p">),</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">RoiDataGeometries</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;circle.png&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">add_actions</span><span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="p">(</span><span class="n">rectact</span><span class="p">,</span> <span class="n">circact</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_btn</span><span class="o">.</span><span class="n">setMenu</span><span class="p">(</span><span class="n">menu</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImageROIEditor.add_roi">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.ImageROIEditor.add_roi">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">geometry</span><span class="p">:</span> <span class="n">RoiDataGeometries</span> <span class="o">=</span> <span class="n">RoiDataGeometries</span><span class="o">.</span><span class="n">RECTANGLE</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add new ROI&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">new_roi_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">fmt</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">geometry</span><span class="o">=</span><span class="n">geometry</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_roi_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImageROIEditor.update_roi_titles">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.ImageROIEditor.update_roi_titles">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_roi_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI annotation titles&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">update_roi_titles</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">):</span>
+            <span class="n">roi_item</span><span class="o">.</span><span class="n">annotationparam</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;ROI</span><span class="si">{</span><span class="n">index</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">roi_item</span><span class="o">.</span><span class="n">annotationparam</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImageROIEditor.get_roi_item_coords">
+<a class="viewcode-back" href="../../../../api/core.gui/roieditor.html#cdl.core.gui.roieditor.ImageROIEditor.get_roi_item_coords">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_roi_item_coords</span><span class="p">(</span><span class="n">roi_item</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI item coords&quot;&quot;&quot;</span>
+        <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">roi_item</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi_item</span><span class="p">,</span> <span class="n">AnnotatedCircle</span><span class="p">):</span>
+            <span class="n">y0</span> <span class="o">=</span> <span class="n">y1</span> <span class="o">=</span> <span class="mf">0.5</span> <span class="o">*</span> <span class="p">(</span><span class="n">y0</span> <span class="o">+</span> <span class="n">y1</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer">
+                  <!-- Previous / next buttons -->
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../../../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
+<script src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item"><p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
