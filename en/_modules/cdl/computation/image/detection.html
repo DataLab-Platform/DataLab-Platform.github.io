@@ -477,14 +477,7 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 
-<span class="kn">from</span> <span class="nn">cdl.algorithms.image</span> <span class="kn">import</span> <span class="p">(</span>
-    <span class="n">find_blobs_dog</span><span class="p">,</span>
-    <span class="n">find_blobs_doh</span><span class="p">,</span>
-    <span class="n">find_blobs_log</span><span class="p">,</span>
-    <span class="n">find_blobs_opencv</span><span class="p">,</span>
-    <span class="n">get_2d_peaks_coords</span><span class="p">,</span>
-    <span class="n">get_contour_shapes</span><span class="p">,</span>
-<span class="p">)</span>
+<span class="kn">import</span> <span class="nn">cdl.algorithms.image</span> <span class="k">as</span> <span class="nn">alg</span>
 <span class="kn">from</span> <span class="nn">cdl.computation.image</span> <span class="kn">import</span> <span class="n">calc_resultshape</span>
 <span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">,</span> <span class="n">ShapeTypes</span>
@@ -532,6 +525,7 @@ document.write(`
     <span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">Peak2DDetectionParam</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute 2D peak detection</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.get_2d_peaks_coords`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        imageOutput: input image</span>
@@ -541,7 +535,7 @@ document.write(`
 <span class="sd">        Peak coordinates</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">calc_resultshape</span><span class="p">(</span>
-        <span class="s2">&quot;peak&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">get_2d_peaks_coords</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">threshold</span>
+        <span class="s2">&quot;peak&quot;</span><span class="p">,</span> <span class="s2">&quot;point&quot;</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">alg</span><span class="o">.</span><span class="n">get_2d_peaks_coords</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">size</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">threshold</span>
     <span class="p">)</span></div>
 
 
@@ -571,9 +565,10 @@ document.write(`
 <div class="viewcode-block" id="compute_contour_shape">
 <a class="viewcode-back" href="../../../../api/computation.html#cdl.computation.image.detection.compute_contour_shape">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_contour_shape</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">ContourShapeParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute contour shape fit&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute contour shape fit</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.get_contour_shapes`&quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">calc_resultshape</span><span class="p">(</span>
-        <span class="s2">&quot;contour&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">get_contour_shapes</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">threshold</span>
+        <span class="s2">&quot;contour&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">alg</span><span class="o">.</span><span class="n">get_contour_shapes</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">shape</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">threshold</span>
     <span class="p">)</span></div>
 
 
@@ -642,6 +637,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../api/computation.html#cdl.computation.image.detection.compute_blob_dog">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_blob_dog</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">BlobDOGParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute blobs using Difference of Gaussian method</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.find_blobs_dog`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        imageOutput: input image</span>
@@ -654,7 +650,7 @@ document.write(`
         <span class="s2">&quot;blob_dog&quot;</span><span class="p">,</span>
         <span class="s2">&quot;circle&quot;</span><span class="p">,</span>
         <span class="n">image</span><span class="p">,</span>
-        <span class="n">find_blobs_dog</span><span class="p">,</span>
+        <span class="n">alg</span><span class="o">.</span><span class="n">find_blobs_dog</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">min_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">max_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">overlap</span><span class="p">,</span>
@@ -685,6 +681,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../api/computation.html#cdl.computation.image.detection.compute_blob_doh">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_blob_doh</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">BlobDOHParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute blobs using Determinant of Hessian method</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.find_blobs_doh`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        imageOutput: input image</span>
@@ -697,7 +694,7 @@ document.write(`
         <span class="s2">&quot;blob_doh&quot;</span><span class="p">,</span>
         <span class="s2">&quot;circle&quot;</span><span class="p">,</span>
         <span class="n">image</span><span class="p">,</span>
-        <span class="n">find_blobs_doh</span><span class="p">,</span>
+        <span class="n">alg</span><span class="o">.</span><span class="n">find_blobs_doh</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">min_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">max_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">overlap</span><span class="p">,</span>
@@ -724,6 +721,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../api/computation.html#cdl.computation.image.detection.compute_blob_log">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_blob_log</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">BlobLOGParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute blobs using Laplacian of Gaussian method</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.find_blobs_log`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        imageOutput: input image</span>
@@ -736,7 +734,7 @@ document.write(`
         <span class="s2">&quot;blob_log&quot;</span><span class="p">,</span>
         <span class="s2">&quot;circle&quot;</span><span class="p">,</span>
         <span class="n">image</span><span class="p">,</span>
-        <span class="n">find_blobs_log</span><span class="p">,</span>
+        <span class="n">alg</span><span class="o">.</span><span class="n">find_blobs_log</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">min_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">max_sigma</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">overlap</span><span class="p">,</span>
@@ -891,6 +889,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../api/computation.html#cdl.computation.image.detection.compute_blob_opencv">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_blob_opencv</span><span class="p">(</span><span class="n">image</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">BlobOpenCVParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultShape</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute blobs using OpenCV</span>
+<span class="sd">    using :py:func:`cdl.algorithms.image.find_blobs_opencv`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        imageOutput: input image</span>
@@ -903,7 +902,7 @@ document.write(`
         <span class="s2">&quot;blob_opencv&quot;</span><span class="p">,</span>
         <span class="s2">&quot;circle&quot;</span><span class="p">,</span>
         <span class="n">image</span><span class="p">,</span>
-        <span class="n">find_blobs_opencv</span><span class="p">,</span>
+        <span class="n">alg</span><span class="o">.</span><span class="n">find_blobs_opencv</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">min_threshold</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">max_threshold</span><span class="p">,</span>
         <span class="n">p</span><span class="o">.</span><span class="n">min_repeatability</span><span class="p">,</span>
