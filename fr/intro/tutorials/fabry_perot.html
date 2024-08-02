@@ -2,11 +2,11 @@
 <!DOCTYPE html>
 
 
-<html lang="fr" >
+<html lang="fr" data-content_root="../../" >
 
   <head>
     <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="generator" content="Docutils 0.18.1: http://docutils.sourceforge.net/" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
 <meta content="Tutoriel: mesurer des franges de Fabry-Perot à l'aide de DataLab, la plateforme open-source d'analyse et de visualisation de données scientifiques" name="description" translated="True" />
 <meta content="DataLab, fabry-perot, interféromètre, frange, traitement d'image, détection de contour, ajustement de cercle, profil d'intensité, traitement de signal, métadonnées, annotations, espace de travail, hdf5" name="keywords" translated="True" />
 
@@ -29,36 +29,36 @@
   
   <script data-cfasync="false">
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
-    document.documentElement.dataset.theme = localStorage.getItem("theme") || "light";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=ac02cc09edc035673794" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
 
   
-  <link href="../../_static/vendor/fontawesome/6.1.2/css/all.min.css?digest=ac02cc09edc035673794" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.1.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/design-style.1e8bd061cd6da7fc9cf755528e8ffc24.min.css?v=0a3b3ea7" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
   
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794" />
-  <script src="../../_static/vendor/fontawesome/6.1.2/js/all.min.js?digest=ac02cc09edc035673794"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=b3a11635"></script>
-    <script src="../../_static/doctools.js?v=888ff710"></script>
+    <script src="../../_static/documentation_options.js?v=84b1388f"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/translations.js?v=d99ca74e"></script>
-    <script src="../../_static/design-tabs.js?v=36754332"></script>
+    <script src="../../_static/translations.js?v=041d0952"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro/tutorials/fabry_perot';</script>
     <link rel="canonical" href="https://datalab-platform.com/intro/tutorials/fabry_perot.html" />
     <link rel="icon" href="../../_static/favicon.ico"/>
@@ -75,28 +75,23 @@
 
   
   
-  <a class="skip-link" href="#main-content">Passer au contenu principal</a>
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
   
   <div id="pst-scroll-pixel-helper"></div>
-
   
   <button type="button" class="btn rounded-pill" id="pst-back-to-top">
-    <i class="fa-solid fa-arrow-up"></i>
-    Back to top
-  </button>
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
 
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__primary"
-          id="__primary"/>
-  <label class="overlay overlay-primary" for="__primary"></label>
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
   
   <input type="checkbox"
           class="sidebar-toggle"
-          name="__secondary"
-          id="__secondary"/>
-  <label class="overlay overlay-secondary" for="__secondary"></label>
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
   
   <div class="search-button__wrapper">
     <div class="search-button__overlay"></div>
@@ -119,25 +114,31 @@
 </form></div>
   </div>
 
-
-  <div class="bd-header-announcement container-fluid bd-header-announcement">
-    <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
-  </div>
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+</aside>
 
   
-    <nav class="bd-header navbar navbar-expand-lg bd-navbar">
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
 <div class="bd-header__inner bd-page-width">
-  <label class="sidebar-toggle primary-toggle" for="__primary">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
     <span class="fa-solid fa-bars"></span>
-  </label>
+  </button>
   
   
   <div class="col-lg-3 navbar-header-items__start">
     
       <div class="navbar-item">
+
+  
+    
   
 
 <a class="navbar-brand logo" href="../../index.html">
+  
   
   
   
@@ -147,11 +148,11 @@
       
     
     
-    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt="Logo image"/>
-    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt="Logo image"/>`);</script>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.16.4</p>
+    <p class="title logo__title">v0.17.0</p>
   
 </a></div>
     
@@ -161,42 +162,37 @@
     
     <div class="me-auto navbar-header-items__center">
       
-        <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Navigation du site">
-    Navigation du site
-  </p>
+        <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Premiers pas
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Premiers pas
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../features/index.html">
-                        Fonctionnalités
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api/index.html">
-                        API
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../contributing/index.html">
-                        Contribuer
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
   </ul>
 </nav></div>
       
@@ -207,9 +203,10 @@
       
         <div class="navbar-item navbar-persistent--container">
           
+
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Recherche</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -220,17 +217,18 @@
       
       
         <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
       
-        <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+        <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -241,7 +239,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -255,7 +253,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
         </li>
         <li class="nav-item">
             
@@ -268,7 +266,7 @@ document.write(`
           
           
           
-          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+          <a href="https://codra.net" title="Codra" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
         </li>
 </ul></div>
       
@@ -278,9 +276,10 @@ document.write(`
   
   
     <div class="navbar-persistent--mobile">
+
  <script>
  document.write(`
-   <button class="btn navbar-btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
     <i class="fa-solid fa-magnifying-glass"></i>
     <span class="search-button__default-text">Recherche</span>
     <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
@@ -293,10 +292,13 @@ document.write(`
   
 </div>
 
-    </nav>
+    </header>
   
+
   <div class="bd-container">
     <div class="bd-container__inner bd-page-width">
+      
+      
       
       <div class="bd-sidebar-primary bd-sidebar">
         
@@ -307,44 +309,42 @@ document.write(`
     
       <div class="sidebar-header-items__center">
         
-          <div class="navbar-item"><nav class="navbar-nav">
-  <p class="sidebar-header-items__title"
-     role="heading"
-     aria-level="1"
-     aria-label="Navigation du site">
-    Navigation du site
-  </p>
+          
+          
+            <div class="navbar-item">
+<nav>
   <ul class="bd-navbar-elements navbar-nav">
     
-                    <li class="nav-item current active">
-                      <a class="nav-link nav-internal" href="../index.html">
-                        Premiers pas
-                      </a>
-                    </li>
-                
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Premiers pas
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../features/index.html">
-                        Fonctionnalités
-                      </a>
-                    </li>
-                
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../api/index.html">
-                        API
-                      </a>
-                    </li>
-                
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
 
-                    <li class="nav-item">
-                      <a class="nav-link nav-internal" href="../../contributing/index.html">
-                        Contribuer
-                      </a>
-                    </li>
-                
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../api/index.html">
+    API
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
   </ul>
 </nav></div>
+          
         
       </div>
     
@@ -353,17 +353,18 @@ document.write(`
       <div class="sidebar-header-items__end">
         
           <div class="navbar-item">
+
 <script>
 document.write(`
-  <button class="btn btn-sm navbar-btn theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <span class="theme-switch nav-link" data-mode="light"><i class="fa-solid fa-sun fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="dark"><i class="fa-solid fa-moon fa-lg"></i></span>
-    <span class="theme-switch nav-link" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg"></i></span>
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
   </button>
 `);
 </script></div>
         
-          <div class="navbar-item"><ul class="navbar-icon-links navbar-nav"
+          <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
         <li class="nav-item">
           
@@ -374,7 +375,7 @@ document.write(`
           
           
           
-          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><span><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i></span>
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
             <span class="sr-only">GitHub</span></a>
         </li>
         <li class="nav-item">
@@ -388,7 +389,7 @@ document.write(`
           
           
           
-          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+          <a href="https://pypi.org/project/cdl" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
         </li>
         <li class="nav-item">
             
@@ -401,7 +402,7 @@ document.write(`
           
           
           
-          <a href="https://codra.net" title="Codra" class="nav-link" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
+          <a href="https://codra.net" title="Codra" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="Codra"/></a>
         </li>
 </ul></div>
         
@@ -410,7 +411,8 @@ document.write(`
   </div>
   
     <div class="sidebar-primary-items__start sidebar-primary__section">
-        <div class="sidebar-primary-item"><nav class="bd-docs-nav bd-links"
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
      aria-label="Navigation de la section">
   <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Sommaire :</span></p>
@@ -418,17 +420,17 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../introduction.html">Cas d’usage, principales fonctionnalités et points forts</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../keyfeatures.html">Fonctionnalités principales</a></li>
-<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutoriels</a><input checked="" class="toctree-checkbox" id="toctree-checkbox-1" name="toctree-checkbox-1" type="checkbox"/><label class="toctree-toggle" for="toctree-checkbox-1"><i class="fa-solid fa-chevron-down"></i></label><ul class="current">
-<li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M1.75 3.5a.25.25 0 00-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25v-8.5a.25.25 0 00-.25-.25H1.75zM0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5z" fill-rule="evenodd"></path><path d="M6 10.559V5.442a.25.25 0 01.379-.215l4.264 2.559a.25.25 0 010 .428l-4.264 2.559A.25.25 0 016 10.559z"></path></svg> Démo rapide</a></li>
-<li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M1.75 3.5a.25.25 0 00-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 00.25-.25v-8.5a.25.25 0 00-.25-.25H1.75zM0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0114.25 14H1.75A1.75 1.75 0 010 12.25v-8.5z" fill-rule="evenodd"></path><path d="M6 10.559V5.442a.25.25 0 01.379-.215l4.264 2.559a.25.25 0 010 .428l-4.264 2.559A.25.25 0 016 10.559z"></path></svg> Ajouter vos propres fonctionnalités</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Traitement d’un spectre</a></li>
-<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Détection de taches sur une image</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Mesure de franges de Fabry-Perot</a></li>
-<li class="toctree-l2"><a class="reference internal" href="laser_beam.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> Mesurer la taille d’un faisceau laser</a></li>
-<li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</a></li>
-<li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z" fill-rule="evenodd"></path></svg> DataLab et Spyder : un mariage parfait</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutoriels</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Démo rapide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Ajouter vos propres fonctionnalités</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Traitement d’un spectre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Détection de taches sur une image</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesure de franges de Fabry-Perot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="laser_beam.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab et Spyder : un mariage parfait</a></li>
 </ul>
-</li>
+</details></li>
 </ul>
 </div>
 </nav></div>
@@ -443,13 +445,13 @@ document.write(`
 
       </div>
       
-      <main id="main-content" class="bd-main">
+      <main id="main-content" class="bd-main" role="main">
         
         
           <div class="bd-content">
             <div class="bd-article-container">
               
-              <div class="bd-header-article">
+              <div class="bd-header-article d-print-none">
 <div class="header-article-items header-article__inner">
   
     <div class="header-article-items__start">
@@ -458,7 +460,7 @@ document.write(`
 
 
 
-<nav aria-label="Fil d'Ariane">
+<nav aria-label="Fil d'Ariane" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
     <li class="breadcrumb-item breadcrumb-home">
@@ -487,10 +489,10 @@ document.write(`
               
                 
 <div id="searchbox"></div>
-                <article class="bd-article" role="main">
+                <article class="bd-article">
                   
-  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-measuring-fabry-perot-fringes">
-<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Mesure de franges de Fabry-Perot<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-fill-rule-evenodd-d-m0-1-75a-75-75-0-01-75-1h4-253c1-227-0-2-317-59-3-1-501a3-744-3-744-0-0111-006-1h4-245a-75-75-0-01-75-75v10-5a-75-75-0-01-75-75h-4-507a2-25-2-25-0-00-1-591-659l-622-621a-75-75-0-01-1-06-0l-622-621a2-25-2-25-0-005-258-13h-75a-75-75-0-01-75-75v1-75zm8-755-3a2-25-2-25-0-012-25-2-25h14-5v9h-3-757c-71-0-1-4-201-1-992-572l-004-7-322zm-1-504-7-324l-004-5-073-002-2-253a2-25-2-25-0-005-003-2-5h1-5v9h3-757a3-75-3-75-0-011-994-574z-path-svg-measuring-fabry-perot-fringes" title="Link to this heading">#</a></h1>
+  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-fabry-perot-fringes">
+<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesure de franges de Fabry-Perot<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-fabry-perot-fringes" title="Lien vers cette rubrique">#</a></h1>
 <p>Cet exemple montre comment mesurer des franges de Fabry-Perot à l’aide des fonctionnalités de traitement d’image de DataLab :</p>
 <ul class="simple">
 <li><p>Charger une image d’un interféromètre de Fabry-Perot</p></li>
@@ -506,30 +508,30 @@ document.write(`
 <figure class="align-default" id="id1">
 <img alt="../../_images/012.png" src="../../_images/012.png" />
 <figcaption>
-<p><span class="caption-text">Ouvrir les fichiers d’image avec « Fichier &gt; Ouvrir… », ou avec le bouton <img alt="fileopen_ima" class="dark-light no-scaled-link" height="24px" src="../../_images/fileopen_ima.svg" width="24px" /> dans la barre d’outils, ou en faisant glisser-déposer les fichiers dans DataLab (sur le panneau de droite).</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-text">Ouvrir les fichiers d’image avec « Fichier &gt; Ouvrir… », ou avec le bouton <img alt="fileopen_ima" class="dark-light no-scaled-link" src="../../_images/fileopen_ima.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils, ou en faisant glisser-déposer les fichiers dans DataLab (sur le panneau de droite).</span><a class="headerlink" href="#id1" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id2">
 <img alt="../../_images/022.png" src="../../_images/022.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez les images de test « fabry_perot1.jpg » et « fabry_perot2.jpg » et cliquez sur « Ouvrir ».</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez les images de test « fabry_perot1.jpg » et « fabry_perot2.jpg » et cliquez sur « Ouvrir ».</span><a class="headerlink" href="#id2" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>L’image sélectionnée est affichée dans la fenêtre principale. Nous pouvons zoomer en appuyant sur le bouton droit de la souris et en faisant glisser la souris vers le haut et vers le bas. Nous pouvons également déplacer l’image en appuyant sur le bouton du milieu de la souris et en faisant glisser la souris.</p>
 <figure class="align-default" id="id3">
 <img alt="../../_images/032.png" src="../../_images/032.png" />
 <figcaption>
-<p><span class="caption-text">Zoomer avec le bouton droit de la souris. Déplacer l’image avec le bouton du milieu de la souris.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+<p><span class="caption-text">Zoomer avec le bouton droit de la souris. Déplacer l’image avec le bouton du milieu de la souris.</span><a class="headerlink" href="#id3" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
 <p>Lorsque vous travaillez sur des images spécifiques à une application (par exemple des images de radiographie X, ou des images de microscopie optique), il est souvent utile de changer la colormap en une colormap en niveaux de gris. Si vous voyez une colormap d’image différente de celle affichée dans l’image, vous pouvez la modifier en sélectionnant l’image dans le panneau de visualisation, puis en sélectionnant la colormap dans la barre d’outils verticale à gauche du panneau de visualisation.</p>
-<p>Ou, encore mieux, vous pouvez modifier la colormap par défaut dans les paramètres de DataLab en sélectionnant « Edition &gt; Paramètres… » dans le menu, ou le bouton <img alt="libre-gui-settings" class="dark-light no-scaled-link" height="24px" src="../../_images/libre-gui-settings.svg" width="24px" /> dans la barre d’outils.</p>
+<p>Ou, encore mieux, vous pouvez modifier la colormap par défaut dans les paramètres de DataLab en sélectionnant « Edition &gt; Paramètres… » dans le menu, ou le bouton <img alt="libre-gui-settings" class="dark-light no-scaled-link" src="../../_images/libre-gui-settings.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils.</p>
 <figure class="align-default" id="id4">
 <img alt="../../_images/default_colormap.png" src="../../_images/default_colormap.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’onglet « Visualisation », et sélectionnez la colormap « gray ».</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’onglet « Visualisation », et sélectionnez la colormap « gray ».</span><a class="headerlink" href="#id4" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 </div>
@@ -537,180 +539,180 @@ document.write(`
 <figure class="align-default" id="id5">
 <img alt="../../_images/042.png" src="../../_images/042.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’outil « Modifier les régions d’intérêt » dans le menu « Calcul ».</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’outil « Modifier les régions d’intérêt » dans le menu Analyse ».</span><a class="headerlink" href="#id5" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id6">
 <img alt="../../_images/052.png" src="../../_images/052.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Régions d’intérêt » s’ouvre. Cliquez sur « Ajouter une région d’intérêt » et sélectionnez une ROI circulaire. Redimensionnez la ROI prédéfinie en faisant glisser les poignées. Notez que vous pouvez modifier le rayon de la ROI tout en gardant son centre fixe en appuyant sur la touche « Ctrl ». Cliquez sur « OK » pour fermer la boîte de dialogue.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Régions d’intérêt » s’ouvre. Cliquez sur « Ajouter une ROI » et sélectionnez une ROI circulaire. Redimensionnez la ROI prédéfinie en faisant glisser les poignées. Notez que vous pouvez modifier le rayon de la ROI tout en gardant son centre fixe en appuyant sur la touche « Ctrl ». Cliquez sur « OK » pour fermer la boîte de dialogue.</span><a class="headerlink" href="#id6" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id7">
 <img alt="../../_images/062.png" src="../../_images/062.png" />
 <figcaption>
-<p><span class="caption-text">Une autre boîte de dialogue s’ouvre et vous demande de confirmer les paramètres de la ROI. Cliquez sur « OK ».</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+<p><span class="caption-text">Une autre boîte de dialogue s’ouvre et vous demande de confirmer les paramètres de la ROI. Cliquez sur « OK ».</span><a class="headerlink" href="#id7" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id8">
 <img alt="../../_images/072.png" src="../../_images/072.png" />
 <figcaption>
-<p><span class="caption-text">La ROI est affichée sur l’image : les pixels masqués sont grisés, et la limite de la ROI est affichée en bleu (notez que, en interne, la ROI est définie par un masque binaire, c’est-à-dire que les données d’image sont représentées sous la forme d’un tableau masqué NumPy).</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+<p><span class="caption-text">La ROI est affichée sur l’image : les pixels masqués sont grisés, et la limite de la ROI est affichée en bleu (notez que, en interne, la ROI est définie par un masque binaire, c’est-à-dire que les données d’image sont représentées sous la forme d’un tableau masqué NumPy).</span><a class="headerlink" href="#id8" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>A présent, détectons les contours dans la ROI et ajustons-les à des cercles.</p>
 <figure class="align-default" id="id9">
 <img alt="../../_images/082.png" src="../../_images/082.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’outil « Détection de contour » dans le menu « Calcul ».</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’outil « Détection de contour » dans le menu Analyse ».</span><a class="headerlink" href="#id9" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id10">
 <img alt="../../_images/092.png" src="../../_images/092.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Contour » s’ouvre. Sélectionnez la forme « Cercle » et cliquez sur « OK ».</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Contour » s’ouvre. Sélectionnez la forme « Cercle » et cliquez sur « OK ».</span><a class="headerlink" href="#id10" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id11">
 <img alt="../../_images/102.png" src="../../_images/102.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Résultats » s’ouvre et affiche les paramètres du cercle ajusté. Cliquez sur « OK ».</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Résultats » s’ouvre et affiche les paramètres du cercle ajusté. Cliquez sur « OK ».</span><a class="headerlink" href="#id11" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id12">
 <img alt="../../_images/112.png" src="../../_images/112.png" />
 <figcaption>
-<p><span class="caption-text">Les cercles ajustés sont affichés sur l’image.</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+<p><span class="caption-text">Les cercles ajustés sont affichés sur l’image.</span><a class="headerlink" href="#id12" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Si vous souhaitez afficher à nouveau les résultats de calcul, vous pouvez sélectionner l’entrée « Afficher les résultats » <img alt="show_results" class="dark-light no-scaled-link" height="24px" src="../../_images/show_results.svg" width="24px" /> dans le menu « Calcul », ou le bouton « Afficher les résultats » <img alt="show_results" class="dark-light no-scaled-link" height="24px" src="../../_images/show_results.svg" width="24px" />, en dessous de la liste des images :</p>
+<p>Si vous souhaitez afficher à nouveau les résultats d’analyse, vous pouvez sélectionner l’entrée « Afficher les résultats » <img alt="show_results" class="dark-light no-scaled-link" src="../../_images/show_results.svg" style="width: 24px; height: 24px;" /> dans le menu Analyse », ou le bouton « Afficher les résultats » <img alt="show_results" class="dark-light no-scaled-link" src="../../_images/show_results.svg" style="width: 24px; height: 24px;" />, en dessous de la liste des images :</p>
 <img alt="../../_images/121.png" src="../../_images/121.png" />
 </div>
-<p>Les images (ou signaux) peuvent également être affichés dans une fenêtre séparée, en cliquant sur l’entrée « Afficher dans une nouvelle fenêtre » dans le menu « Affichage » (ou le bouton <img alt="new_window" class="dark-light no-scaled-link" height="24px" src="../../_images/new_window.svg" width="24px" /> dans la barre d’outils). Ceci est utile pour comparer côte à côte des images ou des signaux.</p>
+<p>Les images (ou signaux) peuvent également être affichés dans une fenêtre séparée, en cliquant sur l’entrée « Afficher dans une nouvelle fenêtre » dans le menu « Affichage » (ou le bouton <img alt="new_window" class="dark-light no-scaled-link" src="../../_images/new_window.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils). Ceci est utile pour comparer côte à côte des images ou des signaux.</p>
 <figure class="align-default" id="id13">
 <img alt="../../_images/131.png" src="../../_images/131.png" />
 <figcaption>
-<p><span class="caption-text">L’image est affichée dans une fenêtre séparée. La ROI et les cercles ajustés sont également affichés. Des annotations peuvent être ajoutées à l’image en cliquant sur les boutons en bas de la fenêtre. Les annotations sont stockées dans les métadonnées de l’image, et avec les données de l’image lorsque l’espace de travail est sauvegardé. Cliquez sur « OK » pour fermer la fenêtre.</span><a class="headerlink" href="#id13" title="Link to this image">#</a></p>
+<p><span class="caption-text">L’image est affichée dans une fenêtre séparée. La ROI et les cercles ajustés sont également affichés. Des annotations peuvent être ajoutées à l’image en cliquant sur les boutons en bas de la fenêtre. Les annotations sont stockées dans les métadonnées de l’image, et avec les données de l’image lorsque l’espace de travail est sauvegardé. Cliquez sur « OK » pour fermer la fenêtre.</span><a class="headerlink" href="#id13" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id14">
 <img alt="../../_images/14.png" src="../../_images/14.png" />
 <figcaption>
-<p><span class="caption-text">L’image est affichée dans la fenêtre principale, avec les annotations.</span><a class="headerlink" href="#id14" title="Link to this image">#</a></p>
+<p><span class="caption-text">L’image est affichée dans la fenêtre principale, avec les annotations.</span><a class="headerlink" href="#id14" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Si vous souhaitez examiner de plus près les métadonnées, vous pouvez ouvrir la boîte de dialogue « Métadonnées ».</p>
 <figure class="align-default" id="id15">
 <img alt="../../_images/15.png" src="../../_images/15.png" />
 <figcaption>
-<p><span class="caption-text">Le bouton « Métadonnées » est situé en dessous de la liste des images.</span><a class="headerlink" href="#id15" title="Link to this image">#</a></p>
+<p><span class="caption-text">Le bouton « Métadonnées » est situé en dessous de la liste des images.</span><a class="headerlink" href="#id15" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id16">
 <img alt="../../_images/16.png" src="../../_images/16.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Métadonnées » s’ouvre. Parmi d’autres informations, elle affiche les annotations (dans un format JSON), des informations de style (par exemple la colormap), et la ROI.</span><a class="headerlink" href="#id16" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Métadonnées » s’ouvre. Parmi d’autres informations, elle affiche les annotations (dans un format JSON), des informations de style (par exemple la colormap), et la ROI.</span><a class="headerlink" href="#id16" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Maintenant, supprimons les métadonnées de l’image (y compris les annotations) pour nettoyer l’image.</p>
 <figure class="align-default" id="id17">
 <img alt="../../_images/17.png" src="../../_images/17.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’entrée « Supprimer les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_delete" class="dark-light no-scaled-link" height="24px" src="../../_images/metadata_delete.svg" width="24px" /> dans la barre d’outils.</span><a class="headerlink" href="#id17" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’entrée « Supprimer les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_delete" class="dark-light no-scaled-link" src="../../_images/metadata_delete.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils.</span><a class="headerlink" href="#id17" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id18">
 <img alt="../../_images/18.png" src="../../_images/18.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Supprimer les métadonnées » s’ouvre. Cliquez sur « Non » pour conserver la ROI et supprimer le reste des métadonnées.</span><a class="headerlink" href="#id18" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Supprimer les métadonnées » s’ouvre. Cliquez sur « Non » pour conserver la ROI et supprimer le reste des métadonnées.</span><a class="headerlink" href="#id18" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Si nous voulons définir la même ROI sur la deuxième image, nous pouvons copier/coller la ROI de la première image vers la deuxième image, en utilisant les métadonnées.</p>
 <figure class="align-default" id="id19">
 <img alt="../../_images/19.png" src="../../_images/19.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’entrée « Copier les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_copy" class="dark-light no-scaled-link" height="24px" src="../../_images/metadata_copy.svg" width="24px" /> dans la barre d’outils.</span><a class="headerlink" href="#id19" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’entrée « Copier les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_copy" class="dark-light no-scaled-link" src="../../_images/metadata_copy.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils.</span><a class="headerlink" href="#id19" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id20">
 <img alt="../../_images/20.png" src="../../_images/20.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez la deuxième image dans le panneau « Images », puis sélectionnez l’entrée « Coller les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_paste" class="dark-light no-scaled-link" height="24px" src="../../_images/metadata_paste.svg" width="24px" /> dans la barre d’outils.</span><a class="headerlink" href="#id20" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez la deuxième image dans le panneau « Images », puis sélectionnez l’entrée « Coller les métadonnées » dans le menu « Edition », ou le bouton <img alt="metadata_paste" class="dark-light no-scaled-link" src="../../_images/metadata_paste.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils.</span><a class="headerlink" href="#id20" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id21">
 <img alt="../../_images/21.png" src="../../_images/21.png" />
 <figcaption>
-<p><span class="caption-text">La ROI est ajoutée à la deuxième image.</span><a class="headerlink" href="#id21" title="Link to this image">#</a></p>
+<p><span class="caption-text">La ROI est ajoutée à la deuxième image.</span><a class="headerlink" href="#id21" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id22">
 <img alt="../../_images/22.png" src="../../_images/22.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’outil « Détection de contour » dans le menu « Calcul », avec les mêmes paramètres qu’auparavant (forme « Cercle »). Sur cette image, il y a deux franges, donc quatre cercles sont ajustés. La boîte de dialogue « Résultats » s’ouvre et affiche les paramètres du cercle ajusté. Cliquez sur « OK ».</span><a class="headerlink" href="#id22" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’outil « Détection de contour » dans le menu Analyse », avec les mêmes paramètres qu’auparavant (forme « Cercle »). Sur cette image, il y a deux franges, donc quatre cercles sont ajustés. La boîte de dialogue « Résultats » s’ouvre et affiche les paramètres du cercle ajusté. Cliquez sur « OK ».</span><a class="headerlink" href="#id22" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id23">
 <img alt="../../_images/23.png" src="../../_images/23.png" />
 <figcaption>
-<p><span class="caption-text">Les cercles ajustés sont affichés sur l’image.</span><a class="headerlink" href="#id23" title="Link to this image">#</a></p>
+<p><span class="caption-text">Les cercles ajustés sont affichés sur l’image.</span><a class="headerlink" href="#id23" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Pour extraire le profil d’intensité le long de l’axe X, nous avons deux options :</p>
 <ul class="simple">
-<li><p>Soit sélectionner l’entrée « Profil rectiligne… » <img alt="profile" class="dark-light no-scaled-link" height="24px" src="../../_images/profile.svg" width="24px" /> dans le menu « Opérations &gt; Profils d’intensité ».</p></li>
+<li><p>Soit sélectionner l’entrée « Profil rectiligne… » <img alt="profile" class="dark-light no-scaled-link" src="../../_images/profile.svg" style="width: 24px; height: 24px;" /> dans le menu « Opérations &gt; Profils d’intensité ».</p></li>
 <li><p>Soit activer l’outil « Profil rectiligne » <img alt="cross_section" src="../../_images/csection.png" /> dans la barre d’outils verticale à gauche du panneau de visualisation.</p></li>
 </ul>
-<p>Essayons la première option, en sélectionnant l’entrée « Extraire le profil… » <img alt="profile" class="dark-light no-scaled-link" height="24px" src="../../_images/profile.svg" width="24px" /> : c’est la façon la plus simple d’extraire un profil d’une image, et cela correspond à la méthode <code class="docutils literal notranslate"><span class="pre">compute_profile</span></code> de l’API de DataLab (donc elle peut être utilisée dans un script, un plugin ou une macro).</p>
+<p>Essayons la première option, en sélectionnant l’entrée « Extraire le profil… » <img alt="profile" class="dark-light no-scaled-link" src="../../_images/profile.svg" style="width: 24px; height: 24px;" /> : c’est la façon la plus simple d’extraire un profil d’une image, et cela correspond à la méthode <code class="docutils literal notranslate"><span class="pre">compute_profile</span></code> de l’API de DataLab (donc elle peut être utilisée dans un script, un plugin ou une macro).</p>
 <figure class="align-default" id="id24">
 <img alt="../../_images/24.png" src="../../_images/24.png" />
 <figcaption>
-<p><span class="caption-text">Sélectionnez l’entrée « Profil rectiligne… » <img alt="profile" class="dark-light no-scaled-link" height="24px" src="../../_images/profile.svg" width="24px" /> dans le menu « Opérations ».</span><a class="headerlink" href="#id24" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sélectionnez l’entrée « Profil rectiligne… » <img alt="profile" class="dark-light no-scaled-link" src="../../_images/profile.svg" style="width: 24px; height: 24px;" /> dans le menu « Opérations ».</span><a class="headerlink" href="#id24" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id25">
 <img alt="../../_images/25.png" src="../../_images/25.png" />
 <figcaption>
-<p><span class="caption-text">La boîte de dialogue « Profil » s’ouvre. Entrez la ligne du profil horizontal (ou la colonne du profil vertical) dans la boîte de dialogue qui s’ouvre. Cliquez sur « OK ».</span><a class="headerlink" href="#id25" title="Link to this image">#</a></p>
+<p><span class="caption-text">La boîte de dialogue « Profil » s’ouvre. Entrez la ligne du profil horizontal (ou la colonne du profil vertical) dans la boîte de dialogue qui s’ouvre. Cliquez sur « OK ».</span><a class="headerlink" href="#id25" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id26">
 <img alt="../../_images/26.png" src="../../_images/26.png" />
 <figcaption>
-<p><span class="caption-text">Le profil d’intensité est ajouté au panneau « Signaux », et DataLab bascule vers ce panneau pour afficher le profil.</span><a class="headerlink" href="#id26" title="Link to this image">#</a></p>
+<p><span class="caption-text">Le profil d’intensité est ajouté au panneau « Signaux », et DataLab bascule vers ce panneau pour afficher le profil.</span><a class="headerlink" href="#id26" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
-<p>Si vous souhaitez effectuer des mesures sur le profil, ou ajouter des annotations, vous pouvez ouvrir le signal dans une fenêtre séparée, en cliquant sur l’entrée « Afficher dans une nouvelle fenêtre » dans le menu « Affichage » (ou le bouton <img alt="new_window" class="dark-light no-scaled-link" height="24px" src="../../_images/new_window.svg" width="24px" /> dans la barre d’outils).</p>
+<p>Si vous souhaitez effectuer des mesures sur le profil, ou ajouter des annotations, vous pouvez ouvrir le signal dans une fenêtre séparée, en cliquant sur l’entrée « Afficher dans une nouvelle fenêtre » dans le menu « Affichage » (ou le bouton <img alt="new_window" class="dark-light no-scaled-link" src="../../_images/new_window.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils).</p>
 <figure class="align-default" id="id27">
 <img alt="../../_images/27.png" src="../../_images/27.png" />
 <figcaption>
-<p><span class="caption-text">Le signal est affiché dans une fenêtre séparée. Ici, nous avons ajouté des curseurs verticaux et une étiquette de texte très intéressante. Comme pour les images, les annotations sont stockées dans les métadonnées du signal, et avec les données du signal lorsque l’espace de travail est sauvegardé. Cliquez sur « OK » pour fermer la fenêtre.</span><a class="headerlink" href="#id27" title="Link to this image">#</a></p>
+<p><span class="caption-text">Le signal est affiché dans une fenêtre séparée. Ici, nous avons ajouté des curseurs verticaux et une étiquette de texte très intéressante. Comme pour les images, les annotations sont stockées dans les métadonnées du signal, et avec les données du signal lorsque l’espace de travail est sauvegardé. Cliquez sur « OK » pour fermer la fenêtre.</span><a class="headerlink" href="#id27" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Maintenant, essayons la deuxième option pour extraire le profil d’intensité le long de l’axe X, en activant l’outil « Profil rectiligne » <img alt="cross_section" src="../../_images/csection.png" /> dans la barre d’outils verticale à gauche du panneau de visualisation (cet outil est une fonctionnalité de <a class="reference external" href="https://github.com/PlotPyStack/plotpy">PlotPy</a>). Avant de pouvoir l’utiliser, nous devons sélectionner l’image dans le panneau de visualisation (sinon l’outil est grisée). Ensuite, nous pouvons cliquer sur l’image pour afficher le profil d’intensité le long de l’axe X. DataLab intègre une version modifiée de cet outil, qui permet de transférer le profil vers le panneau « Signaux » pour un traitement ultérieur.</p>
 <figure class="align-default" id="id28">
 <img alt="../../_images/28.png" src="../../_images/28.png" />
 <figcaption>
-<p><span class="caption-text">Revenez au panneau « Images » et sélectionnez l’image <em>dans le panneau de visualisation</em> (sinon l’outil « Section transversale » <img alt="cross_section" src="../../_images/csection.png" /> est grisée). Sélectionnez l’outil « Section transversale » <img alt="cross_section" src="../../_images/csection.png" /> dans la barre d’outils verticale, et cliquez sur l’image pour afficher les profils d’intensité le long des axes X et Y.</span><a class="headerlink" href="#id28" title="Link to this image">#</a></p>
+<p><span class="caption-text">Revenez au panneau « Images » et sélectionnez l’image <em>dans le panneau de visualisation</em> (sinon l’outil « Section transversale » <img alt="cross_section" src="../../_images/csection.png" /> est grisée). Sélectionnez l’outil « Section transversale » <img alt="cross_section" src="../../_images/csection.png" /> dans la barre d’outils verticale, et cliquez sur l’image pour afficher les profils d’intensité le long des axes X et Y.</span><a class="headerlink" href="#id28" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
-<p>Ensuite, cliquez sur le bouton « Traiter le signal » <img alt="to_signal" class="dark-light no-scaled-link" height="24px" src="../../_images/to_signal.svg" width="24px" /> dans la barre d’outils près du profil pour transférer le profil vers le panneau « Signaux ».</p>
+<p>Ensuite, cliquez sur le bouton « Traiter le signal » <img alt="to_signal" class="dark-light no-scaled-link" src="../../_images/to_signal.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils près du profil pour transférer le profil vers le panneau « Signaux ».</p>
 <figure class="align-default" id="id29">
 <img alt="../../_images/29.png" src="../../_images/29.png" />
 <figcaption>
-<p><span class="caption-text">Le profil d’intensité est ajouté au panneau « Signaux », et DataLab bascule vers ce panneau pour afficher le profil.</span><a class="headerlink" href="#id29" title="Link to this image">#</a></p>
+<p><span class="caption-text">Le profil d’intensité est ajouté au panneau « Signaux », et DataLab bascule vers ce panneau pour afficher le profil.</span><a class="headerlink" href="#id29" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
-<p>Enfin, nous pouvons sauvegarder l’espace de travail dans un fichier. L’espace de travail contient toutes les images et signaux qui ont été chargés ou traités dans DataLab. Il contient également les résultats de calcul, les paramètres de visualisation (colormaps, contraste, etc.), les métadonnées et les annotations.</p>
+<p>Enfin, nous pouvons sauvegarder l’espace de travail dans un fichier. L’espace de travail contient toutes les images et signaux qui ont été chargés ou traités dans DataLab. Il contient également les résultats d’analyse, les paramètres de visualisation (colormaps, contraste, etc.), les métadonnées et les annotations.</p>
 <figure class="align-default" id="id30">
 <img alt="../../_images/30.png" src="../../_images/30.png" />
 <figcaption>
-<p><span class="caption-text">Sauvegardez l’espace de travail dans un fichier avec « Fichier &gt; Sauvegarder dans un fichier HDF5… », ou le bouton <img alt="filesave_h5" class="dark-light no-scaled-link" height="24px" src="../../_images/filesave_h5.svg" width="24px" /> dans la barre d’outils.</span><a class="headerlink" href="#id30" title="Link to this image">#</a></p>
+<p><span class="caption-text">Sauvegardez l’espace de travail dans un fichier avec « Fichier &gt; Sauvegarder dans un fichier HDF5… », ou le bouton <img alt="filesave_h5" class="dark-light no-scaled-link" src="../../_images/filesave_h5.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils.</span><a class="headerlink" href="#id30" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
-<p>Si vous souhaitez charger à nouveau l’espace de travail, vous pouvez utiliser « Fichier &gt; Ouvrir un fichier HDF5… » (ou le bouton <img alt="fileopen_h5" class="dark-light no-scaled-link" height="24px" src="../../_images/fileopen_h5.svg" width="24px" /> dans la barre d’outils) pour charger l’ensemble de l’espace de travail, ou « Fichier &gt; Parcourir un fichier HDF5… » (ou le bouton <img alt="h5browser" class="dark-light no-scaled-link" height="24px" src="../../_images/h5browser.svg" width="24px" /> dans la barre d’outils) pour charger uniquement une sélection d’ensembles de données de l’espace de travail.</p>
+<p>Si vous souhaitez charger à nouveau l’espace de travail, vous pouvez utiliser « Fichier &gt; Ouvrir un fichier HDF5… » (ou le bouton <img alt="fileopen_h5" class="dark-light no-scaled-link" src="../../_images/fileopen_h5.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils) pour charger l’ensemble de l’espace de travail, ou « Fichier &gt; Parcourir un fichier HDF5… » (ou le bouton <img alt="h5browser" class="dark-light no-scaled-link" src="../../_images/h5browser.svg" style="width: 24px; height: 24px;" /> dans la barre d’outils) pour charger uniquement une sélection d’ensembles de données de l’espace de travail.</p>
 </section>
 
 
@@ -720,8 +722,8 @@ document.write(`
               
               
               
-                <footer class="prev-next-footer">
-                  <!-- Previous / next buttons -->
+                <footer class="prev-next-footer d-print-none">
+                  
 <div class="prev-next-area">
     <a class="left-prev"
        href="blobs.html"
@@ -729,7 +731,7 @@ document.write(`
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">précédent</p>
-        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Détection de taches sur une image</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Détection de taches sur une image</p>
       </div>
     </a>
     <a class="right-next"
@@ -737,7 +739,7 @@ document.write(`
        title="page suivante">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">suivant</p>
-        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path fill-rule="evenodd" d="M0 1.75A.75.75 0 01.75 1h4.253c1.227 0 2.317.59 3 1.501A3.744 3.744 0 0111.006 1h4.245a.75.75 0 01.75.75v10.5a.75.75 0 01-.75.75h-4.507a2.25 2.25 0 00-1.591.659l-.622.621a.75.75 0 01-1.06 0l-.622-.621A2.25 2.25 0 005.258 13H.75a.75.75 0 01-.75-.75V1.75zm8.755 3a2.25 2.25 0 012.25-2.25H14.5v9h-3.757c-.71 0-1.4.201-1.992.572l.004-7.322zm-1.504 7.324l.004-5.073-.002-2.253A2.25 2.25 0 005.003 2.5H1.5v9h3.757a3.75 3.75 0 011.994.574z"></path></svg> Mesurer la taille d’un faisceau laser</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -759,8 +761,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=ac02cc09edc035673794"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=ac02cc09edc035673794"></script>
+  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -768,6 +770,7 @@ document.write(`
     <div class="footer-items__start">
       
         <div class="footer-item">
+
   <p class="copyright">
     
       © Copyright 2023, DataLab Platform Developers.
@@ -777,8 +780,9 @@ document.write(`
 </div>
       
         <div class="footer-item">
+
   <p class="sphinx-version">
-    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.2.6.
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
     <br/>
   </p>
 </div>
@@ -789,8 +793,9 @@ document.write(`
   
     <div class="footer-items__end">
       
-        <div class="footer-item"><p class="theme-version">
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.14.1.
+        <div class="footer-item">
+<p class="theme-version">
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.15.4.
 </p></div>
       
     </div>
