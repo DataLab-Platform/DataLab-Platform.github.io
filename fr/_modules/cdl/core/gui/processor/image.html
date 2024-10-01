@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=84b1388f"></script>
+    <script src="../../../../../_static/documentation_options.js?v=20c9bc96"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,7 +113,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.0</p>
+    <p class="title logo__title">v0.17.1</p>
   
 </a></div>
     
@@ -661,20 +661,20 @@ document.write(`
                     <span class="c1"># Distributing images over rows</span>
                     <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">rows</span><span class="p">)</span>
                     <span class="n">g_row</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_row</span> <span class="o">+</span> <span class="n">sign</span><span class="p">)</span> <span class="o">%</span> <span class="n">param</span><span class="o">.</span><span class="n">rows</span>
-                    <span class="n">y0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">rowspac</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span>
+                    <span class="n">y0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">rowspac</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span>
                     <span class="k">if</span> <span class="n">g_row</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">g_col</span> <span class="o">+=</span> <span class="mi">1</span>
-                        <span class="n">x0</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dx</span> <span class="o">*</span> <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">colspac</span>
+                        <span class="n">x0</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">colspac</span>
                         <span class="n">y0</span> <span class="o">=</span> <span class="n">y0_0</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="c1"># Distributing images over columns</span>
                     <span class="n">sign</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">cols</span><span class="p">)</span>
                     <span class="n">g_col</span> <span class="o">=</span> <span class="p">(</span><span class="n">g_col</span> <span class="o">+</span> <span class="n">sign</span><span class="p">)</span> <span class="o">%</span> <span class="n">param</span><span class="o">.</span><span class="n">cols</span>
-                    <span class="n">x0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">dx</span> <span class="o">*</span> <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">colspac</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span>
+                    <span class="n">x0</span> <span class="o">+=</span> <span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">width</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">colspac</span><span class="p">)</span> <span class="o">*</span> <span class="n">sign</span>
                     <span class="k">if</span> <span class="n">g_col</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                         <span class="n">g_row</span> <span class="o">+=</span> <span class="mi">1</span>
                         <span class="n">x0</span> <span class="o">=</span> <span class="n">x0_0</span>
-                        <span class="n">y0</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">rowspac</span>
+                        <span class="n">y0</span> <span class="o">+=</span> <span class="n">obj</span><span class="o">.</span><span class="n">height</span> <span class="o">+</span> <span class="n">param</span><span class="o">.</span><span class="n">rowspac</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
 

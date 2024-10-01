@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=0c3dd48d"></script>
+    <script src="../../../../../_static/documentation_options.js?v=a8455094"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -112,7 +112,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and will be presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.0</p>
+    <p class="title logo__title">v0.17.1</p>
   
 </a></div>
     
@@ -475,7 +475,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">guidata.config</span> <span class="kn">import</span> <span class="n">CONF</span>
 <span class="kn">from</span> <span class="nn">guidata.configtools</span> <span class="kn">import</span> <span class="n">get_font</span><span class="p">,</span> <span class="n">get_icon</span>
-<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span><span class="p">,</span> <span class="n">is_dark_mode</span>
+<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span>
 <span class="kn">from</span> <span class="nn">guidata.widgets.console.shell</span> <span class="kn">import</span> <span class="n">PythonShellWidget</span>
 <span class="kn">from</span> <span class="nn">guidata.widgets.dockable</span> <span class="kn">import</span> <span class="n">DockableWidgetMixin</span>
 <span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtCore</span> <span class="k">as</span> <span class="n">QC</span>
@@ -665,7 +665,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget_tb</span><span class="o">.</span><span class="n">setOrientation</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">Vertical</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="o">=</span> <span class="n">PythonShellWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">read_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">set_light_background</span><span class="p">(</span><span class="ow">not</span> <span class="n">is_dark_mode</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">setMaximumBlockCount</span><span class="p">(</span><span class="mi">5000</span><span class="p">)</span>
         <span class="n">font</span> <span class="o">=</span> <span class="n">get_font</span><span class="p">(</span><span class="n">CONF</span><span class="p">,</span> <span class="s2">&quot;console&quot;</span><span class="p">)</span>
         <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
@@ -708,7 +707,6 @@ document.write(`
     <span class="k">def</span> <span class="nf">update_color_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update color mode according to the current theme&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__macros</span><span class="p">:</span>
             <span class="n">macro</span><span class="o">.</span><span class="n">editor</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span></div>
 

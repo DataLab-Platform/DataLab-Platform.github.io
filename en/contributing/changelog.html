@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=0c3dd48d"></script>
+    <script src="../_static/documentation_options.js?v=a8455094"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -114,7 +114,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and will be presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA) and presented thoroughly at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.0</p>
+    <p class="title logo__title">v0.17.1</p>
   
 </a></div>
     
@@ -481,6 +481,36 @@ document.write(`
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a> for future and past milestones.</p>
+<section id="datalab-version-0-17-1">
+<h2>DataLab Version 0.17.1<a class="headerlink" href="#datalab-version-0-17-1" title="Link to this heading">#</a></h2>
+<p>ℹ️ PlotPy v2.6.2 is required for this release.</p>
+<p>💥 New features and enhancements:</p>
+<ul class="simple">
+<li><p>Image View:</p>
+<ul>
+<li><p>Before this release, when selecting a high number of images (e.g. when selecting a group of images), the application was very slow because all the images were displayed in the image view, even if they were all superimposed on the same image</p></li>
+<li><p>The workaround was to enable the “Show first only” option</p></li>
+<li><p>Now, to improve performance, if multiple images are selected, only the last image of the selection is displayed in the image view if this last image has no transparency and if the other images are completely covered by this last image</p></li>
+</ul>
+</li>
+<li><p>Clarification: action “Show first only” was renamed to “Show first object only”, and a new icon was added to the action</p></li>
+<li><p>API: added <code class="docutils literal notranslate"><span class="pre">width</span></code> and <code class="docutils literal notranslate"><span class="pre">height</span></code> properties to <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> class (returns the width and height of the image in physical units)</p></li>
+<li><p>Windows launcher “start.pyw”: writing a log file “datalab_error.log” when an exception occurs at startup</p></li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Changing the color theme now correctly updates all DataLab’s user interface components without the need to restart the application</p></li>
+</ul>
+<p>ℹ️ Other changes:</p>
+<ul class="simple">
+<li><p>OpenCV is now an optional dependency:</p>
+<ul>
+<li><p>This change is motivated by the fact that the OpenCV conda package is not maintained on Windows (at least), which leads to an error when installing DataLab with conda</p></li>
+<li><p>When OpenCV is not installed, only the “OpenCV blob detection” feature won’t work, and a warning message will be displayed when trying to use this feature</p></li>
+</ul>
+</li>
+</ul>
+</section>
 <section id="datalab-version-0-17-0">
 <h2>DataLab Version 0.17.0<a class="headerlink" href="#datalab-version-0-17-0" title="Link to this heading">#</a></h2>
 <p>ℹ️ PlotPy v2.6 is required for this release.</p>
@@ -1661,6 +1691,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-1">DataLab Version 0.17.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-0">DataLab Version 0.17.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-4">DataLab Version 0.16.4</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-3">DataLab Version 0.16.3</a></li>

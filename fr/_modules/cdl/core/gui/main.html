@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=84b1388f"></script>
+    <script src="../../../../_static/documentation_options.js?v=20c9bc96"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,7 +113,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.0</p>
+    <p class="title logo__title">v0.17.1</p>
   
 </a></div>
     
@@ -490,11 +490,12 @@ document.write(`
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">spi</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sps</span>
+<span class="kn">from</span> <span class="nn">guidata</span> <span class="kn">import</span> <span class="n">qthelpers</span> <span class="k">as</span> <span class="n">guidata_qth</span>
 <span class="kn">from</span> <span class="nn">guidata.configtools</span> <span class="kn">import</span> <span class="n">get_icon</span>
-<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span><span class="p">,</span> <span class="n">win32_fix_title_bar_background</span>
+<span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span>
 <span class="kn">from</span> <span class="nn">guidata.widgets.console</span> <span class="kn">import</span> <span class="n">DockableConsole</span>
+<span class="kn">from</span> <span class="nn">plotpy</span> <span class="kn">import</span> <span class="n">config</span> <span class="k">as</span> <span class="n">plotpy_config</span>
 <span class="kn">from</span> <span class="nn">plotpy.builder</span> <span class="kn">import</span> <span class="n">make</span>
-<span class="kn">from</span> <span class="nn">plotpy.config</span> <span class="kn">import</span> <span class="n">set_plotpy_dark_mode</span>
 <span class="kn">from</span> <span class="nn">plotpy.constants</span> <span class="kn">import</span> <span class="n">PlotType</span>
 <span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtCore</span> <span class="k">as</span> <span class="n">QC</span>
 <span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtGui</span> <span class="k">as</span> <span class="n">QG</span>
@@ -643,7 +644,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
-        <span class="bp">self</span><span class="o">.</span><span class="n">__update_color_mode</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_color_mode</span><span class="p">(</span><span class="n">startup</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__is_modified</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_modified</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
@@ -1375,9 +1376,9 @@ document.write(`
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showfirstonly_action</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Show first only&quot;</span><span class="p">),</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Show first object only&quot;</span><span class="p">),</span>
             <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;show_first.svg&quot;</span><span class="p">),</span>
-            <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Show only the first selected object&quot;</span><span class="p">),</span>
+            <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Show only the first selected object (signal or image)&quot;</span><span class="p">),</span>
             <span class="n">toggled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">toggle_show_first_only</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showlabel_action</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
@@ -2189,22 +2190,35 @@ document.write(`
 <span class="s2">              &lt;p&gt;</span><span class="si">{</span><span class="n">adv_conf</span><span class="si">}</span><span class="s2">&quot;&quot;&quot;</span><span class="p">,</span>
         <span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__update_color_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update color mode&quot;&quot;&quot;</span>
-        <span class="n">color_mode</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">color_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">color_mode</span> <span class="o">!=</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
-            <span class="n">set_plotpy_dark_mode</span><span class="p">(</span><span class="n">color_mode</span> <span class="o">==</span> <span class="s2">&quot;dark&quot;</span><span class="p">)</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">docks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">dock</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
-                    <span class="n">widget</span> <span class="o">=</span> <span class="n">dock</span><span class="o">.</span><span class="n">widget</span><span class="p">()</span>
-                    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">DockablePlotWidget</span><span class="p">):</span>
-                        <span class="n">widget</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">macropanel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">macropanel</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
-        <span class="n">win32_fix_title_bar_background</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">__update_color_mode</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">startup</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update color mode</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            startup: True if method is called during application startup (in that case,</span>
+<span class="sd">             color theme is applied only if mode != &quot;auto&quot;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">mode</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">color_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">startup</span> <span class="ow">and</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;auto&quot;</span><span class="p">:</span>
+            <span class="n">guidata_qth</span><span class="o">.</span><span class="n">win32_fix_title_bar_background</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Prevent Qt from refreshing the window when changing the color mode:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUpdatesEnabled</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="n">plotpy_config</span><span class="o">.</span><span class="n">set_plotpy_color_mode</span><span class="p">(</span><span class="n">mode</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">macropanel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">macropanel</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">docks</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">dock</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+                <span class="n">widget</span> <span class="o">=</span> <span class="n">dock</span><span class="o">.</span><span class="n">widget</span><span class="p">()</span>
+                <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">widget</span><span class="p">,</span> <span class="n">DockablePlotWidget</span><span class="p">):</span>
+                    <span class="n">widget</span><span class="o">.</span><span class="n">update_color_mode</span><span class="p">()</span>
+
+        <span class="c1"># Allow Qt to refresh the window:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setUpdatesEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">__edit_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Edit settings&quot;&quot;&quot;</span>

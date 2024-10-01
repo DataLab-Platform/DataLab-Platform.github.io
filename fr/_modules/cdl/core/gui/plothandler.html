@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=84b1388f"></script>
+    <script src="../../../../_static/documentation_options.js?v=20c9bc96"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -113,7 +113,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et sera présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.0</p>
+    <p class="title logo__title">v0.17.1</p>
   
 </a></div>
     
@@ -727,6 +727,21 @@ document.write(`
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span>
 
+    <span class="k">def</span> <span class="nf">reduce_shown_oids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduce the number of shown objects to visible items only. The base</span>
+<span class="sd">        implementation is to show only the first selected item if the option</span>
+<span class="sd">        &quot;Show first only&quot; is enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oids: list of object uuids</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: reduced list of object uuids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">oids</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">oids</span>
+
     <span class="k">def</span> <span class="nf">refresh_plot</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -787,8 +802,7 @@ document.write(`
         <span class="n">scales_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">oids</span><span class="p">:</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span><span class="p">:</span>
-                <span class="n">oids</span> <span class="o">=</span> <span class="n">oids</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
             <span class="n">ref_item</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creating plot items&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
@@ -945,6 +959,54 @@ document.write(`
             <span class="n">item</span><span class="o">.</span><span class="n">set_lut_range</span><span class="p">(</span><span class="n">ref_item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">())</span>
             <span class="n">plot</span><span class="p">:</span> <span class="n">BasePlot</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">plot</span><span class="p">()</span>
             <span class="n">plot</span><span class="o">.</span><span class="n">update_colormap_axis</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ImagePlotHandler.reduce_shown_oids">
+<a class="viewcode-back" href="../../../../api/core.gui/plothandler.html#cdl.core.gui.plothandler.ImagePlotHandler.reduce_shown_oids">[docs]</a>
+    <span class="k">def</span> <span class="nf">reduce_shown_oids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduce the number of shown objects to visible items only. The base</span>
+<span class="sd">        implementation is to show only the first selected item if the option</span>
+<span class="sd">        &quot;Show first only&quot; is enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oids: list of object uuids</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            list[str]: reduced list of object uuids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oids</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+
+        <span class="c1"># For Image View, we show only the last image (which is the highest z-order</span>
+        <span class="c1"># plot item) if more than one image is selected, if last image has no</span>
+        <span class="c1"># transparency and if the other images are all completely covered by the last</span>
+        <span class="c1"># image.</span>
+        <span class="c1"># TODO: [P4] Enhance this algorithm to handle more complex cases</span>
+        <span class="c1"># (not sure it&#39;s worth it)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Get objects associated to the oids</span>
+            <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+            <span class="c1"># First condition is about the image transparency</span>
+            <span class="n">last_obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">alpha_cond</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">last_obj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.0</span>
+                <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;alpha_function&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">alpha_cond</span><span class="p">:</span>
+                <span class="c1"># Second condition is about the image size and position</span>
+                <span class="n">geom_cond</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="n">geom_cond</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="n">geom_cond</span>
+                        <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">&lt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span>
+                        <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">&lt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span>
+                        <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">width</span>
+                        <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">height</span> <span class="o">&gt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">height</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">geom_cond</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">geom_cond</span><span class="p">:</span>
+                    <span class="n">oids</span> <span class="o">=</span> <span class="n">oids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">oids</span></div>
 
 
 <div class="viewcode-block" id="ImagePlotHandler.refresh_plot">
