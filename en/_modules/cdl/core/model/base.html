@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -473,9 +473,9 @@ document.write(`
 <span class="kn">import</span> <span class="nn">enum</span>
 <span class="kn">import</span> <span class="nn">json</span>
 <span class="kn">import</span> <span class="nn">sys</span>
-<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Iterable</span>
+<span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generator</span><span class="p">,</span> <span class="n">Iterable</span>
 <span class="kn">from</span> <span class="nn">copy</span> <span class="kn">import</span> <span class="n">deepcopy</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Iterator</span><span class="p">,</span> <span class="n">Literal</span><span class="p">,</span> <span class="n">Type</span><span class="p">,</span> <span class="n">TypeVar</span>
 
 <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -483,6 +483,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">guidata.configtools</span> <span class="kn">import</span> <span class="n">get_font</span>
 <span class="kn">from</span> <span class="nn">guidata.dataset</span> <span class="kn">import</span> <span class="n">update_dataset</span>
 <span class="kn">from</span> <span class="nn">guidata.io</span> <span class="kn">import</span> <span class="n">JSONReader</span><span class="p">,</span> <span class="n">JSONWriter</span>
+<span class="kn">from</span> <span class="nn">numpy</span> <span class="kn">import</span> <span class="n">ma</span>
 <span class="kn">from</span> <span class="nn">plotpy.builder</span> <span class="kn">import</span> <span class="n">make</span>
 <span class="kn">from</span> <span class="nn">plotpy.io</span> <span class="kn">import</span> <span class="n">load_items</span><span class="p">,</span> <span class="n">save_items</span>
 <span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="p">(</span>
@@ -503,10 +504,12 @@ document.write(`
         <span class="n">AbstractShape</span><span class="p">,</span>
         <span class="n">AnnotatedCircle</span><span class="p">,</span>
         <span class="n">AnnotatedEllipse</span><span class="p">,</span>
+        <span class="n">AnnotatedPolygon</span><span class="p">,</span>
         <span class="n">AnnotatedRectangle</span><span class="p">,</span>
         <span class="n">CurveItem</span><span class="p">,</span>
         <span class="n">Marker</span><span class="p">,</span>
         <span class="n">MaskedImageItem</span><span class="p">,</span>
+        <span class="n">XRangeSelection</span><span class="p">,</span>
     <span class="p">)</span>
     <span class="kn">from</span> <span class="nn">plotpy.styles</span> <span class="kn">import</span> <span class="n">AnnotationParam</span><span class="p">,</span> <span class="n">ShapeParam</span>
 
@@ -667,9 +670,9 @@ document.write(`
     <span class="n">item</span><span class="p">:</span> <span class="n">AnnotatedShape</span><span class="p">,</span>
     <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">lbl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
-    <span class="n">section</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">option</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-    <span class="n">cmp</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">section</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">option</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">show_computations</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
 <span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Configurate annotated shape.</span>
 
@@ -679,20 +682,21 @@ document.write(`
 <span class="sd">        lbl: Show label</span>
 <span class="sd">        section: Shape style section (e.g. &quot;plot&quot;)</span>
 <span class="sd">        option: Shape style option (e.g. &quot;shape/drag&quot;)</span>
-<span class="sd">        cmp: Show computations</span>
+<span class="sd">        show_computations: Show computations</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">param</span><span class="p">:</span> <span class="n">AnnotationParam</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">annotationparam</span>
     <span class="n">param</span><span class="o">.</span><span class="n">format</span> <span class="o">=</span> <span class="n">fmt</span>
     <span class="n">param</span><span class="o">.</span><span class="n">show_label</span> <span class="o">=</span> <span class="n">lbl</span>
-    <span class="k">if</span> <span class="n">cmp</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="n">param</span><span class="o">.</span><span class="n">show_computations</span> <span class="o">=</span> <span class="n">cmp</span>
+    <span class="k">if</span> <span class="n">show_computations</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">show_computations</span> <span class="o">=</span> <span class="n">show_computations</span>
 
     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">AnnotatedSegment</span><span class="p">):</span>
         <span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">labelparam</span><span class="o">.</span><span class="n">anchor</span> <span class="o">=</span> <span class="s2">&quot;T&quot;</span>
         <span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="o">.</span><span class="n">labelparam</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">label</span><span class="p">)</span>
 
     <span class="n">param</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-    <span class="n">item</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">section</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">option</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
 
 
 <span class="c1"># TODO: [P3] Move this function as a method of plot items in PlotPy</span>
@@ -1370,21 +1374,17 @@ document.write(`
 
 
 
-<span class="k">def</span> <span class="nf">make_roi_item</span><span class="p">(</span>
-    <span class="n">func</span><span class="p">,</span>
-    <span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span>
-    <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+<span class="k">def</span> <span class="nf">configure_roi_item</span><span class="p">(</span>
+    <span class="n">item</span><span class="p">,</span>
     <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
     <span class="n">lbl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">editable</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span>
     <span class="n">option</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;s&quot;</span><span class="p">,</span> <span class="s2">&quot;i&quot;</span><span class="p">],</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Make ROI item shape.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure ROI plot item.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        func: function to create ROI item</span>
-<span class="sd">        coords: coordinates</span>
-<span class="sd">        title: title</span>
+<span class="sd">        item: plot item</span>
 <span class="sd">        fmt: numeric format (e.g. &quot;%.3f&quot;)</span>
 <span class="sd">        lbl: if True, show shape labels</span>
 <span class="sd">        editable: if True, make shape editable</span>
@@ -1393,11 +1393,12 @@ document.write(`
 <span class="sd">    Returns:</span>
 <span class="sd">        Plot item</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">item</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">coords</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
     <span class="n">option</span> <span class="o">+=</span> <span class="s2">&quot;/&quot;</span> <span class="o">+</span> <span class="p">(</span><span class="s2">&quot;editable&quot;</span> <span class="k">if</span> <span class="n">editable</span> <span class="k">else</span> <span class="s2">&quot;readonly&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="ow">not</span> <span class="n">editable</span><span class="p">:</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">AnnotatedShape</span><span class="p">):</span>
-            <span class="n">config_annotated_shape</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">,</span> <span class="s2">&quot;roi&quot;</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">cmp</span><span class="o">=</span><span class="n">editable</span><span class="p">)</span>
+            <span class="n">config_annotated_shape</span><span class="p">(</span>
+                <span class="n">item</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">,</span> <span class="s2">&quot;roi&quot;</span><span class="p">,</span> <span class="n">option</span><span class="p">,</span> <span class="n">show_computations</span><span class="o">=</span><span class="n">editable</span>
+            <span class="p">)</span>
         <span class="n">item</span><span class="o">.</span><span class="n">set_movable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">item</span><span class="o">.</span><span class="n">set_resizable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="n">item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
@@ -1440,11 +1441,371 @@ document.write(`
     <span class="k">return</span> <span class="n">items</span>
 
 
+<span class="n">TypeSingleROI</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypeSingleROI&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseSingleROI&quot;</span><span class="p">)</span>
+<span class="n">TypeROI</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypeROI&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseROI&quot;</span><span class="p">)</span>
+<span class="n">TypeROIParam</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypeROIParam&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseROIParam&quot;</span><span class="p">)</span>
+<span class="n">TypeObj</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypeObj&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseObj&quot;</span><span class="p">)</span>
+<span class="n">TypePlotItem</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypePlotItem&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;CurveItem | MaskedImageItem&quot;</span><span class="p">)</span>
+<span class="n">TypeROIItem</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span>
+    <span class="s2">&quot;TypeROIItem&quot;</span><span class="p">,</span>
+    <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;XRangeSelection | AnnotatedPolygon | AnnotatedRectangle | AnnotatedCircle&quot;</span><span class="p">,</span>
+<span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BaseROIParamMeta</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetMeta</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixed metaclass to avoid conflicts&quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">BaseROIParam</span><span class="p">(</span>
+    <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeSingleROI</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">BaseROIParamMeta</span>
+<span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for ROI parameters&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">to_single_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeSingleROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert parameters to single ROI</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+<span class="sd">            title: ROI title</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Single ROI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+
+<span class="k">class</span> <span class="nc">BaseSingleROI</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeROIParam</span><span class="p">,</span> <span class="n">TypeROIItem</span><span class="p">],</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base class for single ROI</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        coords: ROI edge (physical coordinates for signal)</span>
+<span class="sd">        indices: if True, coords are indices (pixels) instead of physical coordinates</span>
+<span class="sd">        title: ROI title</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;ROI&quot;</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">coords</span><span class="p">,</span> <span class="nb">int</span> <span class="k">if</span> <span class="n">indices</span> <span class="k">else</span> <span class="nb">float</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">=</span> <span class="n">indices</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">check_coords</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="fm">__eq__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">BaseSingleROI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Test equality with another single ROI&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span> <span class="o">==</span> <span class="n">other</span><span class="o">.</span><span class="n">indices</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_physical_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return physical coords</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Physical coords</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">indices_to_physical</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span>
+
+    <span class="k">def</span> <span class="nf">get_indices_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return indices coords</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Indices coords</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span>
+        <span class="k">return</span> <span class="n">obj</span><span class="o">.</span><span class="n">physical_to_indices</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">set_indices_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set indices coords</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+<span class="sd">            coords: indices coords</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="n">coords</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">coords</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">indices_to_physical</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">check_coords</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if coords are valid</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: invalid coords</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">to_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create mask from ROI</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: signal or image object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mask (boolean array where True values are inside the ROI)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">to_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROIParam</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROI to parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image), for physical-indices coordinates conversion</span>
+<span class="sd">            title: ROI title</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROIItem</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make ROI plot item from ROI.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image), for physical-indices coordinates conversion</span>
+<span class="sd">            title: ROI title</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Plot item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">from_plot_item</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TypeSingleROI</span><span class="p">],</span> <span class="n">item</span><span class="p">:</span> <span class="n">AbstractShape</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeSingleROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create single ROI from plot item</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item: plot item</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Single ROI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROI to dictionary</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;coords&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">coords</span><span class="p">,</span>
+            <span class="s2">&quot;indices&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indices</span><span class="p">,</span>
+            <span class="s2">&quot;title&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="s2">&quot;type&quot;</span><span class="p">:</span> <span class="nb">type</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TypeSingleROI</span><span class="p">],</span> <span class="n">dictdata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeSingleROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert dictionary to ROI</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dictdata: dictionary</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ROI</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">cls</span><span class="p">(</span><span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;coords&quot;</span><span class="p">],</span> <span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;indices&quot;</span><span class="p">],</span> <span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;title&quot;</span><span class="p">])</span>
+
+
+<span class="k">class</span> <span class="nc">BaseROI</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeSingleROI</span><span class="p">,</span> <span class="n">TypeROIParam</span><span class="p">,</span> <span class="n">TypeROIItem</span><span class="p">],</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABC</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Abstract base class for ROIs (Regions of Interest)</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        singleobj: if True, when extracting data defined by ROIs, only one object</span>
+<span class="sd">         is created (default to True). If False, one object is created per single ROI.</span>
+<span class="sd">         If None, the value is get from the user configuration</span>
+<span class="sd">        inverse: if True, ROI is outside the region of interest</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">PREFIX</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># This is overriden in children classes</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">singleobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">inverse</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TypeSingleROI</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">if</span> <span class="n">singleobj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">singleobj</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">singleobj</span> <span class="o">=</span> <span class="n">singleobj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">inverse</span> <span class="o">=</span> <span class="n">inverse</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_compatible_single_roi_classes</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Type</span><span class="p">[</span><span class="n">BaseSingleROI</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return compatible single ROI classes&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of ROIs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TypeSingleROI</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over single ROIs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">get_single_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeSingleROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return single ROI at index</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            index: ROI index</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="p">[</span><span class="n">index</span><span class="p">]</span>
+
+    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if no ROI is defined&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">create</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseROI</span><span class="p">],</span> <span class="n">single_roi</span><span class="p">:</span> <span class="n">TypeSingleROI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create Regions of Interest object from a single ROI.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            single_roi: single ROI</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Regions of Interest object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">roi</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">single_roi</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">roi</span>
+
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a copy of ROIs&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">deepcopy</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Empty ROIs&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+    <span class="k">def</span> <span class="nf">add_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi</span><span class="p">:</span> <span class="n">TypeSingleROI</span> <span class="o">|</span> <span class="n">TypeROI</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add ROI.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            roi: ROI</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            TypeError: if roi type is not supported (not a single ROI or a ROI)</span>
+<span class="sd">            ValueError: if `singleobj` or `inverse` values are incompatible</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">BaseSingleROI</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roi</span><span class="p">,</span> <span class="n">BaseROI</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">roi</span><span class="o">.</span><span class="n">single_rois</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">roi</span><span class="o">.</span><span class="n">singleobj</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible `singleobj` values&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">roi</span><span class="o">.</span><span class="n">inverse</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Incompatible `inverse` values&quot;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported ROI type: </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">to_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">[</span><span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create mask from ROI</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: signal or image object</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Mask (boolean array where True values are inside the ROI)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">to_params</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROIParam</span> <span class="o">|</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROIs to group of parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image), for physical to pixel conversion</span>
+<span class="sd">            title: group title</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">(</span>
+            <span class="p">[</span><span class="n">iroi</span><span class="o">.</span><span class="n">to_param</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;ROI</span><span class="si">{</span><span class="n">idx</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">iroi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">)],</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">title</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_params</span><span class="p">(</span>
+        <span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">BaseROI</span><span class="p">],</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">TypeROIParam</span> <span class="o">|</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create ROIs from parameters</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+<span class="sd">            params: ROI parameters</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ROIs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">roi</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">params</span><span class="p">,</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">param</span> <span class="ow">in</span> <span class="n">params</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
+                <span class="n">param</span><span class="p">:</span> <span class="n">TypeROIParam</span>
+                <span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">to_single_roi</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">params</span><span class="o">.</span><span class="n">to_single_roi</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">roi</span>
+
+    <span class="k">def</span> <span class="nf">iterate_roi_items</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lbl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">editable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TypeROIItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over ROI plot items associated to each single ROI composing</span>
+<span class="sd">        the object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image), for physical-indices coordinates conversion</span>
+<span class="sd">            fmt: format string</span>
+<span class="sd">            lbl: if True, add label</span>
+<span class="sd">            editable: if True, ROI is editable</span>
+
+<span class="sd">        Yields:</span>
+<span class="sd">            Plot item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">single_roi</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+            <span class="n">title</span> <span class="o">=</span> <span class="s2">&quot;ROI&quot;</span> <span class="k">if</span> <span class="n">index</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;ROI</span><span class="si">{</span><span class="n">index</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span>
+            <span class="n">roi_item</span> <span class="o">=</span> <span class="n">single_roi</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+            <span class="k">yield</span> <span class="n">configure_roi_item</span><span class="p">(</span><span class="n">roi_item</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">editable</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PREFIX</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">to_dict</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROIs to dictionary</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="s2">&quot;singleobj&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj</span><span class="p">,</span>
+            <span class="s2">&quot;inverse&quot;</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">inverse</span><span class="p">,</span>
+            <span class="s2">&quot;single_rois&quot;</span><span class="p">:</span> <span class="p">[</span><span class="n">roi</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span> <span class="k">for</span> <span class="n">roi</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">single_rois</span><span class="p">],</span>
+        <span class="p">}</span>
+
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">from_dict</span><span class="p">(</span><span class="bp">cls</span><span class="p">:</span> <span class="n">Type</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">],</span> <span class="n">dictdata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert dictionary to ROIs</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dictdata: dictionary</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            ROIs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">instance</span> <span class="o">=</span> <span class="bp">cls</span><span class="p">()</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">singleobj</span> <span class="o">=</span> <span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;singleobj&quot;</span><span class="p">]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">inverse</span> <span class="o">=</span> <span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;inverse&quot;</span><span class="p">]</span>
+        <span class="n">instance</span><span class="o">.</span><span class="n">single_rois</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">single_roi</span> <span class="ow">in</span> <span class="n">dictdata</span><span class="p">[</span><span class="s2">&quot;single_rois&quot;</span><span class="p">]:</span>
+            <span class="k">for</span> <span class="n">single_roi_class</span> <span class="ow">in</span> <span class="n">instance</span><span class="o">.</span><span class="n">get_compatible_single_roi_classes</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">single_roi</span><span class="p">[</span><span class="s2">&quot;type&quot;</span><span class="p">]</span> <span class="o">==</span> <span class="n">single_roi_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">:</span>
+                    <span class="n">instance</span><span class="o">.</span><span class="n">single_rois</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">single_roi_class</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">single_roi</span><span class="p">))</span>
+                    <span class="k">break</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported single ROI type: </span><span class="si">{</span><span class="n">single_roi</span><span class="p">[</span><span class="s1">&#39;type&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">instance</span>
+
+
 <span class="k">class</span> <span class="nc">BaseObjMeta</span><span class="p">(</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">,</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixed metaclass to avoid conflicts&quot;&quot;&quot;</span>
 
 
-<span class="k">class</span> <span class="nc">BaseObj</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">BaseObjMeta</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BaseObj</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">],</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">BaseObjMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object (signal/image) interface&quot;&quot;&quot;</span>
 
     <span class="n">PREFIX</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># This is overriden in children classes</span>
@@ -1461,7 +1822,13 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">__onb</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__roi_changed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">reset_metadata_to_defaults</span><span class="p">()</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_roi_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI class&quot;&quot;&quot;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -1469,7 +1836,7 @@ document.write(`
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__onb</span>
 
     <span class="nd">@number</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onb</span><span class="p">:</span> <span class="nb">int</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">number</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">onb</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object number (used for short ID).</span>
 
 <span class="sd">        Args:</span>
@@ -1478,7 +1845,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">__onb</span> <span class="o">=</span> <span class="n">onb</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">short_id</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">short_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Short object ID&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}{</span><span class="bp">self</span><span class="o">.</span><span class="n">__onb</span><span class="si">:</span><span class="s2">03d</span><span class="si">}</span><span class="s2">&quot;</span>
 
@@ -1510,10 +1877,10 @@ document.write(`
             <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">VALID_DTYPES</span><span class="p">:</span>
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported data type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">iterate_roi_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over object ROI indexes ([0] if there is no ROI)&quot;&quot;&quot;</span>
+    <span class="k">def</span> <span class="nf">iterate_roi_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over object ROI indices (if there is no ROI, yield None)&quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">yield</span> <span class="mi">0</span>
+            <span class="k">yield</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="k">yield from</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="p">))</span>
 
@@ -1531,7 +1898,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">BaseObj</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">copy</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">dtype</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Copy object.</span>
 
 <span class="sd">        Args:</span>
@@ -1551,7 +1918,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_from</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
+    <span class="k">def</span> <span class="nf">make_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">update_from</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make plot item from data.</span>
 
 <span class="sd">        Args:</span>
@@ -1562,7 +1929,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">update_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">data_changed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">update_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">,</span> <span class="n">data_changed</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plot item from data.</span>
 
 <span class="sd">        Args:</span>
@@ -1571,59 +1938,25 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">roi_coords_to_indexes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROI coordinates to indexes.</span>
+    <span class="k">def</span> <span class="nf">physical_to_indices</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">coords</span><span class="p">:</span> <span class="nb">list</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert coordinates from physical (real world) to (array) indices</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            coords: coordinates</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Indexes</span>
+<span class="sd">            Indices</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">get_roi_param</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="o">*</span><span class="n">defaults</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI parameters dataset.</span>
+    <span class="k">def</span> <span class="nf">indices_to_physical</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">indices</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert coordinates from (array) indices to physical (real world)</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title: title</span>
-<span class="sd">            *defaults: default values</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-    <span class="k">def</span> <span class="nf">roidata_to_params</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">roidata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROI array data to ROI dataset group.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            roidata: ROI array data (array or list of lists, floating point values</span>
-<span class="sd">             are accepted and will be converted to integers)</span>
+<span class="sd">            indices: indices</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ROI dataset group</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">roi_params</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="k">try</span><span class="p">:</span>
-            <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roidata</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
-        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">TypeError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid ROI data: </span><span class="si">{</span><span class="n">roidata</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span> <span class="nn">exc</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">2</span> <span class="ow">and</span> <span class="n">data</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid ROI data shape: </span><span class="si">{</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">parameters</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-            <span class="n">roi_param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roi_param</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ROI</span><span class="si">{</span><span class="n">index</span><span class="si">:</span><span class="s2">02d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="o">*</span><span class="n">parameters</span><span class="p">)</span>
-            <span class="n">roi_params</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">roi_param</span><span class="p">)</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">(</span><span class="n">roi_params</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">group</span>
-
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">params_to_roidata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">params</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert ROI dataset group to ROI array data.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            params: ROI dataset group</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ROI array data</span>
+<span class="sd">            Coordinates</span>
 <span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">roi_has_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
@@ -1644,29 +1977,64 @@ document.write(`
         <span class="k">return</span> <span class="n">returned_value</span>
 
     <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">roi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return object regions of interest array (one ROI per line).</span>
+    <span class="k">def</span> <span class="nf">roi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return object regions of interest object.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Regions of interest array</span>
+<span class="sd">            Regions of interest object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">roidata</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">ROI_KEY</span><span class="p">)</span>
-        <span class="k">assert</span> <span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roidata</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">roidata</span>
+        <span class="k">if</span> <span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">roidata</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+            <span class="c1"># Old or unsupported format: remove it</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ROI_KEY</span><span class="p">)</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roi_class</span><span class="p">()</span><span class="o">.</span><span class="n">from_dict</span><span class="p">(</span><span class="n">roidata</span><span class="p">)</span>
 
     <span class="nd">@roi</span><span class="o">.</span><span class="n">setter</span>
-    <span class="k">def</span> <span class="nf">roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roidata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object regions of interest array, using a list or ROI dataset params.</span>
+    <span class="k">def</span> <span class="nf">roi</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi</span><span class="p">:</span> <span class="n">TypeROI</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object regions of interest.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            roidata: regions of interest array</span>
+<span class="sd">            roi: regions of interest object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">if</span> <span class="n">ROI_KEY</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ROI_KEY</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">ROI_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roidata</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">ROI_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">to_dict</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__roi_changed</span> <span class="o">=</span> <span class="kc">True</span>
+
+    <span class="nd">@property</span>
+    <span class="k">def</span> <span class="nf">maskdata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return masked data (areas outside defined regions of interest)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Masked data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">roi_changed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_has_changed</span><span class="p">()</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">roi_changed</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">elif</span> <span class="n">roi_changed</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">to_mask</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span>
+
+    <span class="k">def</span> <span class="nf">get_masked_view</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return masked view for data</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Masked view</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
+        <span class="n">view</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">view</span><span class="p">(</span><span class="n">ma</span><span class="o">.</span><span class="n">MaskedArray</span><span class="p">)</span>
+        <span class="n">view</span><span class="o">.</span><span class="n">mask</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">maskdata</span>
+        <span class="k">return</span> <span class="n">view</span>
+
+    <span class="k">def</span> <span class="nf">invalidate_maskdata_cache</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Invalidate mask data cache: force to rebuild it&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_maskdata_cache</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span> <span class="nf">iterate_resultshapes</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterable</span><span class="p">[</span><span class="n">ResultShape</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Iterate over object result shapes.</span>
@@ -1696,7 +2064,7 @@ document.write(`
             <span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">update_resultshapes_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">BaseObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">update_resultshapes_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update geometric shape from another object (merge metadata).</span>
 
 <span class="sd">        Args:</span>
@@ -1750,19 +2118,6 @@ document.write(`
             <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
-
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="k">def</span> <span class="nf">iterate_roi_items</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lbl</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">editable</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make plot item representing a Region of Interest.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            fmt: format string</span>
-<span class="sd">            lbl: if True, add label</span>
-<span class="sd">            editable: if True, ROI is editable</span>
-
-<span class="sd">        Yields:</span>
-<span class="sd">            Plot item</span>
-<span class="sd">        &quot;&quot;&quot;</span>
 
     <span class="k">def</span> <span class="nf">__set_annotations</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">annotations</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object annotations (JSON string describing annotation plot items)</span>
@@ -1827,18 +2182,19 @@ document.write(`
         <span class="n">lbl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;showlabel&quot;</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
             <span class="k">if</span> <span class="n">key</span> <span class="o">==</span> <span class="n">ROI_KEY</span><span class="p">:</span>
-                <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterate_roi_items</span><span class="p">(</span><span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="n">lbl</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">roi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi</span>
+                <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">yield from</span> <span class="n">roi</span><span class="o">.</span><span class="n">iterate_roi_items</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="p">,</span> <span class="n">fmt</span><span class="o">=</span><span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="n">lbl</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">False</span>
+                    <span class="p">)</span>
             <span class="k">elif</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
                 <span class="n">mshape</span><span class="p">:</span> <span class="n">ResultShape</span> <span class="o">=</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">from_metadata_entry</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
                 <span class="k">yield from</span> <span class="n">mshape</span><span class="o">.</span><span class="n">iterate_plot_items</span><span class="p">(</span><span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">PREFIX</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">json_to_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">annotations</span><span class="p">):</span>
-                    <span class="n">section</span><span class="p">,</span> <span class="n">option</span> <span class="o">=</span> <span class="s2">&quot;annotations&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">/shape&quot;</span>
                     <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">AnnotatedShape</span><span class="p">):</span>
-                        <span class="n">config_annotated_shape</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">,</span> <span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
-                    <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">PolygonShape</span><span class="p">):</span>
-                        <span class="n">item</span><span class="o">.</span><span class="n">set_style</span><span class="p">(</span><span class="n">section</span><span class="p">,</span> <span class="n">option</span><span class="p">)</span>
+                        <span class="n">config_annotated_shape</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="p">)</span>
                     <span class="n">set_plot_item_editable</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">editable</span><span class="p">)</span>
                     <span class="k">yield</span> <span class="n">item</span>
             <span class="k">except</span> <span class="n">json</span><span class="o">.</span><span class="n">decoder</span><span class="o">.</span><span class="n">JSONDecodeError</span><span class="p">:</span>
@@ -1933,7 +2289,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata view settings from Conf.view&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__get_def_dict</span><span class="p">())</span>
 
-    <span class="k">def</span> <span class="nf">update_plot_item_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">update_plot_item_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plot item parameters from object data/metadata</span>
 
 <span class="sd">        Takes into account a subset of plot item parameters. Those parameters may</span>
@@ -1952,7 +2308,7 @@ document.write(`
         <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">selected</span><span class="p">:</span>
             <span class="n">item</span><span class="o">.</span><span class="n">select</span><span class="p">()</span>
 
-    <span class="k">def</span> <span class="nf">update_metadata_from_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">update_metadata_from_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata from plot item.</span>
 
 <span class="sd">        Takes into account a subset of plot item parameters. Those parameters may</span>

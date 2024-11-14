@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=20c9bc96"></script>
+    <script src="../../../_static/documentation_options.js?v=32a2970b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -1076,7 +1076,7 @@ document.write(`
 <div class="viewcode-block" id="compute_peak_detection">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_peak_detection">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_peak_detection</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">PeakDetectionParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Peak detection with :py:func:`cdl.algorithms.signal.peak_indexes`</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Peak detection with :py:func:`cdl.algorithms.signal.peak_indices`</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        src: source signal</span>
@@ -1089,8 +1089,8 @@ document.write(`
         <span class="n">src</span><span class="p">,</span> <span class="s2">&quot;peak_detection&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;threshold=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">threshold</span><span class="si">}</span><span class="s2">%, min_dist=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">min_dist</span><span class="si">}</span><span class="s2">pts&quot;</span>
     <span class="p">)</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
-    <span class="n">indexes</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">peak_indexes</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">threshold</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">min_dist</span><span class="p">)</span>
-    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indexes</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">indexes</span><span class="p">])</span>
+    <span class="n">indices</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">peak_indices</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">thres</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">threshold</span> <span class="o">*</span> <span class="mf">0.01</span><span class="p">,</span> <span class="n">min_dist</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">min_dist</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">indices</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">indices</span><span class="p">])</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;curvestyle&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;Sticks&quot;</span>
     <span class="k">return</span> <span class="n">dst</span></div>
 
@@ -1925,7 +1925,7 @@ document.write(`
 <span class="sd">        or a tuple) containing the result of the computation.</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indexes</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indices</span><span class="p">():</span>
         <span class="n">data_roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">results</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">data_roi</span><span class="p">)</span>
@@ -1941,7 +1941,7 @@ document.write(`
                 <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
                     <span class="s2">&quot;The computation function must return a 1D NumPy array&quot;</span>
                 <span class="p">)</span>
-            <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">i_roi</span><span class="p">]</span> <span class="o">+</span> <span class="n">results</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span><span class="p">]</span> <span class="o">+</span> <span class="n">results</span><span class="o">.</span><span class="n">tolist</span><span class="p">())</span>
             <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">results</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">res</span><span class="p">:</span>
         <span class="k">return</span> <span class="n">ResultShape</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">(</span><span class="n">res</span><span class="p">),</span> <span class="n">shape</span><span class="p">,</span> <span class="n">add_label</span><span class="o">=</span><span class="n">add_label</span><span class="p">)</span>

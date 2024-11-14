@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -469,7 +469,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">from</span> <span class="nn">plotpy.tools</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">AnnotatedCircleTool</span><span class="p">,</span>
@@ -490,6 +490,7 @@ document.write(`
 <span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ImageDatatypes</span><span class="p">,</span>
     <span class="n">ImageObj</span><span class="p">,</span>
+    <span class="n">ImageROI</span><span class="p">,</span>
     <span class="n">create_image_from_param</span><span class="p">,</span>
     <span class="n">new_image_param</span><span class="p">,</span>
 <span class="p">)</span>
@@ -505,7 +506,7 @@ document.write(`
 
 <div class="viewcode-block" id="ImagePanel">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel">[docs]</a>
-<span class="k">class</span> <span class="nc">ImagePanel</span><span class="p">(</span><span class="n">BaseDataPanel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ImagePanel</span><span class="p">(</span><span class="n">BaseDataPanel</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">ImageROI</span><span class="p">,</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling the item list, the selected item properties and plot,</span>
 <span class="sd">    specialized for Image objects&quot;&quot;&quot;</span>
 
@@ -513,6 +514,10 @@ document.write(`
     <span class="n">PANEL_STR_ID</span> <span class="o">=</span> <span class="s2">&quot;image&quot;</span>
     <span class="n">PARAMCLASS</span> <span class="o">=</span> <span class="n">ImageObj</span>
     <span class="n">MINDIALOGSIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">800</span><span class="p">)</span>
+
+    <span class="c1"># The following tools are used to create annotations on images. The annotation</span>
+    <span class="c1"># items are created using PlotPy&#39;s default settings. Those appearance settings</span>
+    <span class="c1"># may be modified in the configuration (see `cdl.config`).</span>
     <span class="n">ANNOTATION_TOOLS</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">AnnotatedCircleTool</span><span class="p">,</span>
         <span class="n">AnnotatedSegmentTool</span><span class="p">,</span>
@@ -521,12 +526,20 @@ document.write(`
         <span class="n">AnnotatedEllipseTool</span><span class="p">,</span>
         <span class="n">LabelTool</span><span class="p">,</span>
     <span class="p">)</span>
+
     <span class="n">IO_REGISTRY</span> <span class="o">=</span> <span class="n">ImageIORegistry</span>
     <span class="n">H5_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;DataLab_Ima&quot;</span>
     <span class="n">ROIDIALOGOPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;show_contrast&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
-    <span class="n">ROIDIALOGCLASS</span> <span class="o">=</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span>
 
     <span class="c1"># pylint: disable=duplicate-code</span>
+
+<div class="viewcode-block" id="ImagePanel.get_roieditor_class">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel.get_roieditor_class">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">get_roieditor_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI editor class&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span></div>
+
 
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
@@ -541,16 +554,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span> <span class="o">=</span> <span class="n">ImageActionHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel_toolbar</span><span class="p">,</span> <span class="n">view_toolbar</span><span class="p">)</span>
 
     <span class="c1"># ------Refreshing GUI--------------------------------------------------------------</span>
-<div class="viewcode-block" id="ImagePanel.properties_changed">
-<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel.properties_changed">[docs]</a>
-    <span class="k">def</span> <span class="nf">properties_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;The properties &#39;Apply&#39; button was clicked: updating signal&quot;&quot;&quot;</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">invalidate_maskdata_cache</span><span class="p">()</span>
-            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">properties_changed</span><span class="p">()</span></div>
-
-
 <div class="viewcode-block" id="ImagePanel.plot_lut_changed">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel.plot_lut_changed">[docs]</a>
     <span class="k">def</span> <span class="nf">plot_lut_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">BasePlot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -623,22 +626,6 @@ document.write(`
         <span class="k">if</span> <span class="n">add_to_panel</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">image</span></div>
-
-
-<div class="viewcode-block" id="ImagePanel.delete_metadata">
-<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel.delete_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">delete_metadata</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">keep_roi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete metadata of selected objects</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            refresh_plot: Refresh plot. Defaults to True.</span>
-<span class="sd">            keep_roi: Keep regions of interest, if any. Defaults to None (ask user).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">invalidate_maskdata_cache</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">delete_metadata</span><span class="p">(</span><span class="n">refresh_plot</span><span class="p">,</span> <span class="n">keep_roi</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ImagePanel.toggle_show_contrast">

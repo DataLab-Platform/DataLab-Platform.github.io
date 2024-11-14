@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=20c9bc96"></script>
+    <script src="../../../../_static/documentation_options.js?v=32a2970b"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -485,7 +485,7 @@ document.write(`
 <span class="sd">Get object dialog</span>
 <span class="sd">-----------------</span>
 
-<span class="sd">.. autoclass:: GetObjectDialog</span>
+<span class="sd">.. autoclass:: GetObjectsDialog</span>
 
 <span class="sd">Object view</span>
 <span class="sd">-----------</span>
@@ -638,6 +638,68 @@ document.write(`
         <span class="k">return</span> <span class="n">selected_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_group_items">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_group_items">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_group_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_group_uuids">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_group_uuids">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_group_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group uuids&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_object_items">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_object_items">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_object_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected object items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_object_uuids">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_object_uuids">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects uuids.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            include_groups: If True, also return objects from selected groups.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of selected objects uuids.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sel_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_items</span><span class="p">:</span>
+            <span class="n">cur_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">cur_item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cur_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sel_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">cur_item</span><span class="p">]</span>
+        <span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_items</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">include_groups</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">group_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">():</span>
+                <span class="n">uuids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_object_ids</span><span class="p">(</span><span class="n">group_id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">uuids</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_objects">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_objects">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_objects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects.</span>
+
+<span class="sd">        If include_groups is True, also return objects from selected groups.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_groups">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.SimpleObjectTree.get_sel_groups">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_sel_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ObjectGroup</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected groups&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">())</span></div>
+
+
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">__update_item</span><span class="p">(</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="n">ObjectGroup</span>
@@ -748,15 +810,17 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="GetObjectDialog">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.GetObjectDialog">[docs]</a>
-<span class="k">class</span> <span class="nc">GetObjectDialog</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialog</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get object dialog box</span>
+<div class="viewcode-block" id="GetObjectsDialog">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.GetObjectsDialog">[docs]</a>
+<span class="k">class</span> <span class="nc">GetObjectsDialog</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialog</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dialog box showing groups and objects (signals or images) to select one, or more.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        parent: parent widget</span>
 <span class="sd">        panel: data panel</span>
 <span class="sd">        title: dialog title</span>
+<span class="sd">        comment: optional dialog comment</span>
+<span class="sd">        nb_objects: number of objects to select (default: 1)</span>
 <span class="sd">        minimum_size: minimum size (width, height)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
 
@@ -765,10 +829,13 @@ document.write(`
         <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">minimum_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">nb_objects</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">minimum_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_object_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__nb_objects</span> <span class="o">=</span> <span class="n">nb_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
         <span class="n">vlayout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">vlayout</span><span class="p">)</span>
@@ -776,8 +843,16 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">SimpleObjectTree</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">SIG_ITEM_DOUBLECLICKED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">oid</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">())</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_object_changed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_selection_changed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nb_objects</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">ExtendedSelection</span><span class="p">)</span>
         <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+            <span class="n">lbl</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+            <span class="n">lbl</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">vlayout</span><span class="o">.</span><span class="n">addSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">lbl</span><span class="p">)</span>
 
         <span class="n">bbox</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
         <span class="n">bbox</span><span class="o">.</span><span class="n">accepted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
@@ -786,23 +861,24 @@ document.write(`
         <span class="n">vlayout</span><span class="o">.</span><span class="n">addSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
         <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">bbox</span><span class="p">)</span>
         <span class="c1"># Update OK button state:</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_object_changed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__item_selection_changed</span><span class="p">()</span>
 
         <span class="k">if</span> <span class="n">minimum_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="o">*</span><span class="n">minimum_size</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">__current_object_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__item_selection_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Item selection has changed&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__current_object_uuid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_current_item_id</span><span class="p">(</span><span class="n">object_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="nb">bool</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__current_object_uuid</span><span class="p">))</span>
+        <span class="n">nobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__nb_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="n">nobj</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span><span class="p">)</span> <span class="o">==</span> <span class="n">nobj</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GetObjectDialog.get_current_object_uuid">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.GetObjectDialog.get_current_object_uuid">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_current_object_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current object uuid&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__current_object_uuid</span></div>
+<div class="viewcode-block" id="GetObjectsDialog.get_selected_objects">
+<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.GetObjectsDialog.get_selected_objects">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_selected_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span></div>
 </div>
 
 
@@ -1051,68 +1127,6 @@ document.write(`
     <span class="k">def</span> <span class="nf">set_current_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set current object&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_group_items">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_group_items">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_group_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group items&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_group_uuids">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_group_uuids">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_group_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group uuids&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()]</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_object_items">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_object_items">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_object_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected object items&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_object_uuids">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_object_uuids">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects uuids.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            include_groups: If True, also return objects from selected groups.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List of selected objects uuids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">sel_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
-        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_items</span><span class="p">:</span>
-            <span class="n">cur_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">cur_item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cur_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">sel_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">cur_item</span><span class="p">]</span>
-        <span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_items</span><span class="p">]</span>
-        <span class="k">if</span> <span class="n">include_groups</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">group_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">():</span>
-                <span class="n">uuids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_object_ids</span><span class="p">(</span><span class="n">group_id</span><span class="p">))</span>
-        <span class="k">return</span> <span class="n">uuids</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_objects">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_objects">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_objects</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects.</span>
-
-<span class="sd">        If include_groups is True, also return objects from selected groups.&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)]</span></div>
-
-
-<div class="viewcode-block" id="ObjectView.get_sel_groups">
-<a class="viewcode-back" href="../../../../api/core.gui/objectview.html#cdl.core.gui.objectview.ObjectView.get_sel_groups">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_sel_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ObjectGroup</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected groups&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">())</span></div>
 
 
 <div class="viewcode-block" id="ObjectView.item_selection_changed">

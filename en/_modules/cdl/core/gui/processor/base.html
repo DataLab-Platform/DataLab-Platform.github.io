@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -475,7 +475,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">multiprocessing.pool</span> <span class="kn">import</span> <span class="n">Pool</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Union</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Union</span>
 
 <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
@@ -487,10 +487,9 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">cdl</span> <span class="kn">import</span> <span class="n">env</span>
 <span class="kn">from</span> <span class="nn">cdl.algorithms.datatypes</span> <span class="kn">import</span> <span class="n">is_complex_dtype</span>
-<span class="kn">from</span> <span class="nn">cdl.computation.base</span> <span class="kn">import</span> <span class="n">ROIDataParam</span>
 <span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">cdl.core.gui.processor.catcher</span> <span class="kn">import</span> <span class="n">CompOut</span><span class="p">,</span> <span class="n">wng_err_func</span>
-<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">,</span> <span class="n">TypeROI</span>
 <span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">create_progress_bar</span><span class="p">,</span> <span class="n">qt_try_except</span>
 <span class="kn">from</span> <span class="nn">cdl.widgets.warningerror</span> <span class="kn">import</span> <span class="n">show_warning_error</span>
 
@@ -643,9 +642,22 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="is_pairwise_mode">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.is_pairwise_mode">[docs]</a>
+<span class="k">def</span> <span class="nf">is_pairwise_mode</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return True if operation mode is pairwise.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        bool: True if operation mode is pairwise</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">state</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">operation_mode</span><span class="o">.</span><span class="n">get</span><span class="p">()</span> <span class="o">==</span> <span class="s2">&quot;pairwise&quot;</span>
+    <span class="k">return</span> <span class="n">state</span></div>
+
+
+
 <div class="viewcode-block" id="BaseProcessor">
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor">[docs]</a>
-<span class="k">class</span> <span class="nc">BaseProcessor</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">QObject</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BaseProcessor</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">QObject</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling data processing: operations, processing, analysis.</span>
 
 <span class="sd">    Args:</span>
@@ -1015,6 +1027,63 @@ document.write(`
         <span class="k">return</span> <span class="n">results</span></div>
 
 
+    <span class="k">def</span> <span class="nf">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get source groups, group ids, objects, and number of objects,</span>
+<span class="sd">        for pairwise mode, and check if the number of objects is valid.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Tuple (source groups, group ids, objects, number of objects, valid)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># In pairwise mode, we need to create a new object for each pair of objects</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">objmodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span>
+        <span class="n">src_grps</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
+            <span class="p">{</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">},</span>
+            <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span><span class="o">.</span><span class="n">number</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">src_gids</span> <span class="o">=</span> <span class="p">[</span><span class="n">grp</span><span class="o">.</span><span class="n">uuid</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">src_grps</span><span class="p">]</span>
+
+        <span class="c1"># [src_objs dictionary] keys: old group id, values: list of old objects</span>
+        <span class="n">src_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">for</span> <span class="n">src_gid</span> <span class="ow">in</span> <span class="n">src_gids</span><span class="p">:</span>
+            <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span>
+                <span class="n">obj</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span> <span class="k">if</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="o">==</span> <span class="n">src_gid</span>
+            <span class="p">]</span>
+
+        <span class="n">nbobj</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+
+        <span class="n">valid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_grps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="c1"># In pairwise mode, we need selected objects in at least two groups.</span>
+            <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                    <span class="s2">&quot;Pairwise mode: objects must be selected in at least two groups&quot;</span>
+                <span class="p">)</span>
+            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Warning&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span>
+                    <span class="s2">&quot;In pairwise mode, you need to select objects &quot;</span>
+                    <span class="s2">&quot;in at least two groups.&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+        <span class="k">if</span> <span class="n">valid</span><span class="p">:</span>
+            <span class="n">valid</span> <span class="o">=</span> <span class="nb">all</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">])</span> <span class="o">==</span> <span class="n">nbobj</span> <span class="k">for</span> <span class="n">src_gid</span> <span class="ow">in</span> <span class="n">src_gids</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                        <span class="s2">&quot;Pairwise mode: invalid number of objects in each group&quot;</span>
+                    <span class="p">)</span>
+                <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Warning&quot;</span><span class="p">),</span>
+                    <span class="n">_</span><span class="p">(</span>
+                        <span class="s2">&quot;In pairwise mode, you need to select &quot;</span>
+                        <span class="s2">&quot;the same number of objects in each group.&quot;</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+        <span class="k">return</span> <span class="n">src_grps</span><span class="p">,</span> <span class="n">src_gids</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">,</span> <span class="n">nbobj</span><span class="p">,</span> <span class="n">valid</span>
+
 <div class="viewcode-block" id="BaseProcessor.compute_n1">
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_n1</span><span class="p">(</span>
@@ -1047,66 +1116,123 @@ document.write(`
                 <span class="k">return</span>
 
         <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">objmodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span>
+        <span class="n">pairwise</span> <span class="o">=</span> <span class="n">is_pairwise_mode</span><span class="p">()</span>
 
-        <span class="c1"># [new_objs dictionary] keys: old group id, values: new object</span>
-        <span class="n">dst_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Obj</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># [src_dtypes dictionary] keys: old group id, values: old data type</span>
-        <span class="n">src_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
-        <span class="c1"># [src_objs dictionary] keys: old group id, values: list of old objects</span>
-        <span class="n">src_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
-
-        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">src_obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-                <span class="n">src_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
-                <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src_gid</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
-                    <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
-                    <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
-                    <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
-                    <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj</span><span class="p">]</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">)</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
-                    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="k">break</span>
-                    <span class="n">dst_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
-                        <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
-                    <span class="p">)</span>
-                    <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="k">break</span>
-                    <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span>
-                    <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-                    <span class="k">else</span><span class="p">:</span>
-                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">((</span><span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">,</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">))</span>
-
-        <span class="n">grps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">grps</span><span class="p">:</span>
-            <span class="c1"># (Group exclusive selection)</span>
-            <span class="c1"># At least one group is selected: create a new group</span>
-            <span class="n">dst_gname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">grp</span><span class="o">.</span><span class="n">short_id</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">grp</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">grps</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span>
+        <span class="k">if</span> <span class="n">pairwise</span><span class="p">:</span>
+            <span class="n">src_grps</span><span class="p">,</span> <span class="n">src_gids</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">,</span> <span class="n">_nbobj</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="n">dst_gname</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">grp</span><span class="o">.</span><span class="n">short_id</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">grp</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">src_grps</span><span class="p">])</span><span class="si">}</span><span class="s2">)|pairwise&quot;</span>
+            <span class="p">)</span>
+            <span class="n">group_exclusive</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">0</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">group_exclusive</span><span class="p">:</span>
+                <span class="c1"># This is not a group exclusive selection</span>
+                <span class="n">dst_gname</span> <span class="o">+=</span> <span class="s2">&quot;[...]&quot;</span>
             <span class="n">dst_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">dst_gname</span><span class="p">)</span><span class="o">.</span><span class="n">uuid</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># (Object exclusive selection)</span>
-            <span class="c1"># No group is selected: use each object&#39;s group</span>
-            <span class="n">dst_gid</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="n">n_pairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">max_i_pair</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_pairs</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">grp</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">src_grps</span><span class="p">))</span>
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="n">n_pairs</span><span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i_pair</span><span class="p">,</span> <span class="n">src_obj1</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gids</span><span class="p">[</span><span class="mi">0</span><span class="p">]][:</span><span class="n">max_i_pair</span><span class="p">]):</span>
+                    <span class="n">src_obj1</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_pair</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
+                    <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
+                    <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
+                    <span class="n">src_objs_pair</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj1</span><span class="p">]</span>
+                    <span class="k">for</span> <span class="n">src_gid</span> <span class="ow">in</span> <span class="n">src_gids</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
+                        <span class="n">src_obj</span> <span class="o">=</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">][</span><span class="n">i_pair</span><span class="p">]</span>
+                        <span class="n">src_objs_pair</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">dst_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                            <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                                <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                            <span class="k">else</span><span class="p">:</span>
+                                <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">func_objs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">func_objs</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_objs_pair</span><span class="p">)</span>
+                    <span class="n">short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">src_objs_pair</span><span class="p">]</span>
+                    <span class="n">dst_obj</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">short_ids</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">dst_gid</span><span class="p">)</span>
 
-        <span class="k">for</span> <span class="n">src_gid</span><span class="p">,</span> <span class="n">dst_obj</span> <span class="ow">in</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-            <span class="k">if</span> <span class="n">func_objs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">func_objs</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">])</span>
-            <span class="n">short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]]</span>
-            <span class="n">dst_obj</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">short_ids</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
-            <span class="n">group_id</span> <span class="o">=</span> <span class="n">dst_gid</span> <span class="k">if</span> <span class="n">dst_gid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">src_gid</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># In single operand mode, we create a single object for all selected objects</span>
+
+            <span class="c1"># [new_objs dictionary] keys: old group id, values: new object</span>
+            <span class="n">dst_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Obj</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c1"># [src_dtypes dictionary] keys: old group id, values: old data type</span>
+            <span class="n">src_dtypes</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">dtype</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+            <span class="c1"># [src_objs dictionary] keys: old group id, values: list of old objects</span>
+            <span class="n">src_objs</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]]</span> <span class="o">=</span> <span class="p">{}</span>
+
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">src_obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="n">src_gid</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                    <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">src_gid</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
+                        <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
+                        <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
+                        <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj</span><span class="p">]</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">dst_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                            <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+
+            <span class="n">grps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">grps</span><span class="p">:</span>
+                <span class="c1"># (Group exclusive selection)</span>
+                <span class="c1"># At least one group is selected: create a new group</span>
+                <span class="n">dst_gname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">([</span><span class="n">grp</span><span class="o">.</span><span class="n">short_id</span><span class="w"> </span><span class="k">for</span><span class="w"> </span><span class="n">grp</span><span class="w"> </span><span class="ow">in</span><span class="w"> </span><span class="n">grps</span><span class="p">])</span><span class="si">}</span><span class="s2">)&quot;</span>
+                <span class="n">dst_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">dst_gname</span><span class="p">)</span><span class="o">.</span><span class="n">uuid</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># (Object exclusive selection)</span>
+                <span class="c1"># No group is selected: use each object&#39;s group</span>
+                <span class="n">dst_gid</span> <span class="o">=</span> <span class="kc">None</span>
+
+            <span class="k">for</span> <span class="n">src_gid</span><span class="p">,</span> <span class="n">dst_obj</span> <span class="ow">in</span> <span class="n">dst_objs</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">func_objs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">func_objs</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">])</span>
+                <span class="n">short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]]</span>
+                <span class="n">dst_obj</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s1">&#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s1">(</span><span class="si">{</span><span class="s2">&quot;, &quot;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">short_ids</span><span class="p">)</span><span class="si">}</span><span class="s1">)&#39;</span>
+                <span class="n">group_id</span> <span class="o">=</span> <span class="n">dst_gid</span> <span class="k">if</span> <span class="n">dst_gid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">src_gid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span>
 
         <span class="c1"># Select newly created group, if any</span>
         <span class="k">if</span> <span class="n">dst_gid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
@@ -1117,7 +1243,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_n1n">[docs]</a>
     <span class="k">def</span> <span class="nf">compute_n1n</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">obj2_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
         <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1131,7 +1257,7 @@ document.write(`
 <span class="sd">        Examples: subtract, divide</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            obj2: second object</span>
+<span class="sd">            obj2: second object (or list of objects in case of pairwise operation mode)</span>
 <span class="sd">            obj2_name: name of second object</span>
 <span class="sd">            func: function to execute</span>
 <span class="sd">            param: parameters. Defaults to None.</span>
@@ -1142,30 +1268,100 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">obj2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">obj2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_object_with_dialog</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Select </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">obj2_name</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">obj2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="k">return</span>
-        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
-                <span class="k">return</span>
+
         <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="c1"># name = func.__name__.replace(&quot;compute_&quot;, &quot;&quot;)</span>
-        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
-                <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">)</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-                <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">break</span>
-                <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
-                    <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+        <span class="n">objmodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span>
+        <span class="n">pairwise</span> <span class="o">=</span> <span class="n">is_pairwise_mode</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">obj2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">objs2</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj2</span><span class="p">,</span> <span class="nb">list</span><span class="p">):</span>
+            <span class="n">objs2</span> <span class="o">=</span> <span class="n">obj2</span>
+            <span class="k">assert</span> <span class="n">pairwise</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">objs2</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj2</span><span class="p">]</span>
+
+        <span class="n">dlg_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Select </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">obj2_name</span>
+
+        <span class="k">if</span> <span class="n">pairwise</span><span class="p">:</span>
+            <span class="n">group_exclusive</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">0</span>
+
+            <span class="n">src_grps</span><span class="p">,</span> <span class="n">src_gids</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">,</span> <span class="n">nbobj</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">()</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
+                <span class="k">return</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">objs2</span><span class="p">:</span>
+                <span class="n">objs2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_objects_with_dialog</span><span class="p">(</span>
+                    <span class="n">dlg_title</span><span class="p">,</span>
+                    <span class="n">_</span><span class="p">(</span>
+                        <span class="s2">&quot;&lt;u&gt;Note:&lt;/u&gt; operation mode is &lt;i&gt;pairwise&lt;/i&gt;: &quot;</span>
+                        <span class="s2">&quot;</span><span class="si">%s</span><span class="s2"> object(s) expected (i.e. as many as in the first group)&quot;</span>
+                    <span class="p">)</span>
+                    <span class="o">%</span> <span class="n">nbobj</span><span class="p">,</span>
+                    <span class="n">nbobj</span><span class="p">,</span>
                 <span class="p">)</span>
-                <span class="k">if</span> <span class="n">new_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">group_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span></div>
+                <span class="k">if</span> <span class="n">objs2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span>
+
+            <span class="n">name</span> <span class="o">=</span> <span class="n">func</span><span class="o">.</span><span class="vm">__name__</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;compute_&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+            <span class="n">n_pairs</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
+            <span class="n">max_i_pair</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">n_pairs</span><span class="p">,</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">grp</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="n">src_grps</span><span class="p">))</span>
+            <span class="n">grp2_id</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">objs2</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">grp2</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">grp2_id</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">src_gids</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i_group</span><span class="p">,</span> <span class="n">src_gid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">src_gids</span><span class="p">):</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_group</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">group_exclusive</span><span class="p">:</span>
+                        <span class="c1"># This is a group exclusive selection</span>
+                        <span class="n">src_grp</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">src_gid</span><span class="p">)</span>
+                        <span class="n">grp_short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">grp</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">grp</span> <span class="ow">in</span> <span class="p">(</span><span class="n">src_grp</span><span class="p">,</span> <span class="n">grp2</span><span class="p">)]</span>
+                        <span class="n">dst_gname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">grp_short_ids</span><span class="p">)</span><span class="si">}</span><span class="s2">)|pairwise&quot;</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">dst_gname</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">[...]&quot;</span>
+                    <span class="n">dst_gid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">dst_gname</span><span class="p">)</span><span class="o">.</span><span class="n">uuid</span>
+                    <span class="k">for</span> <span class="n">i_pair</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">max_i_pair</span><span class="p">):</span>
+                        <span class="n">args</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">][</span><span class="n">i_pair</span><span class="p">],</span> <span class="n">objs2</span><span class="p">[</span><span class="n">i_pair</span><span class="p">]]</span>
+                        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">args</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+                        <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="nb">tuple</span><span class="p">(</span><span class="n">args</span><span class="p">),</span> <span class="n">progress</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">break</span>
+                        <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                            <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                        <span class="p">)</span>
+                        <span class="k">if</span> <span class="n">new_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">dst_gid</span><span class="p">)</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">objs2</span><span class="p">:</span>
+                <span class="n">objs2</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_objects_with_dialog</span><span class="p">(</span>
+                    <span class="n">dlg_title</span><span class="p">,</span>
+                    <span class="n">_</span><span class="p">(</span>
+                        <span class="s2">&quot;&lt;u&gt;Note:&lt;/u&gt; operation mode is &lt;i&gt;single operand&lt;/i&gt;: &quot;</span>
+                        <span class="s2">&quot;1 object expected&quot;</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">objs2</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="n">obj2</span> <span class="o">=</span> <span class="n">objs2</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+                    <span class="n">args</span> <span class="o">=</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">)</span> <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">obj2</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+                    <span class="n">result</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__exec_func</span><span class="p">(</span><span class="n">func</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">progress</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">result</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">break</span>
+                    <span class="n">new_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">handle_output</span><span class="p">(</span>
+                        <span class="n">result</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Calculating: </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">title</span><span class="p">,</span> <span class="n">progress</span>
+                    <span class="p">)</span>
+                    <span class="k">if</span> <span class="n">new_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">continue</span>
+                    <span class="n">group_id</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_group_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">new_obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------Data Operations-------------------------------------------------------------</span>
@@ -1216,7 +1412,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_difference">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference&quot;&quot;&quot;</span></div>
 
 
@@ -1224,7 +1420,7 @@ document.write(`
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_quadratic_difference">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute quadratic difference&quot;&quot;&quot;</span></div>
 
 
@@ -1232,40 +1428,8 @@ document.write(`
 <a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_division">[docs]</a>
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">Obj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">Obj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division&quot;&quot;&quot;</span></div>
-
-
-    <span class="k">def</span> <span class="nf">_get_roidataparam</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ROIDataParam</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Eventually open ROI Editing Dialog, and return ROI editor data.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            param: ROI data parameters.</span>
-<span class="sd">                Defaults to None.</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            ROI data parameters.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="c1"># Expected behavior:</span>
-        <span class="c1"># -----------------</span>
-        <span class="c1"># * If param.roidata argument is not None, skip the ROI dialog</span>
-        <span class="c1"># * If first selected obj has a ROI, use this ROI as default but open</span>
-        <span class="c1">#   ROI Editor dialog anyway</span>
-        <span class="c1"># * If multiple objs are selected, then apply the first obj ROI to all</span>
-        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">param</span> <span class="o">=</span> <span class="n">ROIDataParam</span><span class="p">()</span>
-        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_regions_of_interest</span><span class="p">(</span>
-                <span class="n">extract</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">singleobj</span><span class="o">=</span><span class="n">param</span><span class="o">.</span><span class="n">singleobj</span>
-            <span class="p">)</span>
-        <span class="k">return</span> <span class="n">param</span>
-
-<div class="viewcode-block" id="BaseProcessor.compute_roi_extraction">
-<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_roi_extraction">[docs]</a>
-    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
-    <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data&quot;&quot;&quot;</span></div>
 
 
 <div class="viewcode-block" id="BaseProcessor.compute_swap_axes">
@@ -1422,6 +1586,49 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division by a constant&quot;&quot;&quot;</span></div>
 
 
+<div class="viewcode-block" id="BaseProcessor.compute_roi_extraction">
+<a class="viewcode-back" href="../../../../../api/core.gui/processor.html#cdl.core.gui.processor.base.BaseProcessor.compute_roi_extraction">[docs]</a>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">roi</span><span class="p">:</span> <span class="n">TypeROI</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data with:</span>
+
+<span class="sd">        - :py:func:`cdl.computation.image.extract_single_roi` for single ROI</span>
+<span class="sd">        - :py:func:`cdl.computation.image.extract_multiple_roi` for multiple ROIs&quot;&quot;&quot;</span>
+        <span class="c1"># Expected behavior:</span>
+        <span class="c1"># -----------------</span>
+        <span class="c1"># * If `roi` is not None or not empty, skip the ROI dialog</span>
+        <span class="c1"># * If first selected obj has a ROI, use this ROI as default but open</span>
+        <span class="c1">#   ROI Editor dialog anyway</span>
+        <span class="c1"># * If multiple objs are selected, then apply the first obj ROI to all</span>
+        <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="n">roi</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_regions_of_interest</span><span class="p">(</span><span class="n">extract</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+            <span class="k">return</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">roi</span><span class="o">.</span><span class="n">to_params</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roi</span><span class="o">.</span><span class="n">singleobj</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Extract multiple ROIs into a single object (remove all the ROIs),</span>
+            <span class="c1"># if the &quot;Extract all ROIs into a single image object&quot;</span>
+            <span class="c1"># option is checked and if there are more than one ROI</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extract_multiple_roi_in_single_object</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Extract each ROI into a separate object (keep the ROI in the case of</span>
+            <span class="c1"># a circular ROI), if the &quot;Extract all ROIs into a single image object&quot;</span>
+            <span class="c1"># option is not checked or if there is only one ROI (See Issue #31)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_extract_each_roi_in_separate_object</span><span class="p">(</span><span class="n">group</span><span class="p">)</span></div>
+
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_multiple_roi_in_single_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract multiple Regions Of Interest (ROIs) from data in a single object&quot;&quot;&quot;</span>
+
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_each_roi_in_separate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract each single Region Of Interest (ROI) from data in a separate</span>
+<span class="sd">        object (keep the ROI in the case of a circular ROI, for example)&quot;&quot;&quot;</span>
+
     <span class="c1"># ------Analysis-------------------------------------------------------------------</span>
 
 <div class="viewcode-block" id="BaseProcessor.edit_regions_of_interest">
@@ -1429,44 +1636,41 @@ document.write(`
     <span class="k">def</span> <span class="nf">edit_regions_of_interest</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">extract</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">singleobj</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">add_roi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeROI</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Define Region Of Interest (ROI).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            extract: If True, ROI is extracted from data. Defaults to False.</span>
-<span class="sd">            singleobj: If True, ROI is extracted from first selected object only.</span>
-<span class="sd">             If False, ROI is extracted from all selected objects. If None, ROI is</span>
-<span class="sd">             extracted from all selected objects only if they all have the same ROI.</span>
-<span class="sd">             Defaults to None.</span>
-<span class="sd">            add_roi: If True, add ROI to data immediately after opening the ROI editor.</span>
-<span class="sd">             Defaults to False.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ROI data parameters or None if ROI dialog has been canceled.</span>
+<span class="sd">            ROI object or None if ROI dialog has been canceled.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_roi_editor_output</span><span class="p">(</span>
-            <span class="n">extract</span><span class="o">=</span><span class="n">extract</span><span class="p">,</span> <span class="n">singleobj</span><span class="o">=</span><span class="n">singleobj</span><span class="p">,</span> <span class="n">add_roi</span><span class="o">=</span><span class="n">add_roi</span>
-        <span class="p">)</span>
+        <span class="c1"># Expected behavior:</span>
+        <span class="c1"># -----------------</span>
+        <span class="c1"># * If first selected obj has a ROI, use this ROI as default but open</span>
+        <span class="c1">#   ROI Editor dialog anyway</span>
+        <span class="c1"># * If multiple objs are selected, then apply the first obj ROI to all</span>
+        <span class="n">results</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">get_roi_editor_output</span><span class="p">(</span><span class="n">extract</span><span class="o">=</span><span class="n">extract</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">roieditordata</span><span class="p">,</span> <span class="n">modified</span> <span class="o">=</span> <span class="n">results</span>
+        <span class="n">edited_roi</span><span class="p">,</span> <span class="n">modified</span> <span class="o">=</span> <span class="n">results</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">roigroup</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roidata_to_params</span><span class="p">(</span><span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">to_params</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
-            <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>
-            <span class="ow">or</span> <span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span>
-            <span class="ow">or</span> <span class="n">roigroup</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
+            <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>  <span class="c1"># Unattended mode (automated unit tests)</span>
+            <span class="ow">or</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">()</span>  <span class="c1"># No ROI has been defined</span>
+            <span class="ow">or</span> <span class="n">group</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>  <span class="c1"># ROI dialog has been accepted</span>
         <span class="p">):</span>
-            <span class="n">roidata</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">params_to_roidata</span><span class="p">(</span><span class="n">roigroup</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
-                <span class="n">roieditordata</span><span class="o">.</span><span class="n">roidata</span> <span class="o">=</span> <span class="n">roidata</span>
                 <span class="c1"># If ROI has been modified, save ROI (even in &quot;extract mode&quot;)</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">roidata</span>
+                <span class="k">if</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">edited_roi</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">edited_roi</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_SHAPE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="k">return</span> <span class="n">roieditordata</span></div>
+        <span class="k">return</span> <span class="n">edited_roi</span></div>
 
 
 <div class="viewcode-block" id="BaseProcessor.delete_regions_of_interest">

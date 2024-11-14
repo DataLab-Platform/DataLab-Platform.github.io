@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=20c9bc96"></script>
+    <script src="../../../../../_static/documentation_options.js?v=32a2970b"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -470,6 +470,8 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">exec_dialog</span>
 <span class="kn">from</span> <span class="nn">plotpy.widgets.resizedialog</span> <span class="kn">import</span> <span class="n">ResizeDialog</span>
@@ -489,14 +491,17 @@ document.write(`
 <span class="kn">from</span> <span class="nn">cdl.core.gui.processor.base</span> <span class="kn">import</span> <span class="n">BaseProcessor</span>
 <span class="kn">from</span> <span class="nn">cdl.core.gui.profiledialog</span> <span class="kn">import</span> <span class="n">ProfileExtractionDialog</span>
 <span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span>
-<span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">ROI2DParam</span><span class="p">,</span> <span class="n">RoiDataGeometries</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">ImageROI</span><span class="p">,</span> <span class="n">ROI2DParam</span><span class="p">,</span> <span class="n">create_image_roi</span>
 <span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">create_progress_bar</span><span class="p">,</span> <span class="n">qt_try_except</span>
 <span class="kn">from</span> <span class="nn">cdl.widgets</span> <span class="kn">import</span> <span class="n">imagebackground</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 
 
 <div class="viewcode-block" id="ImageProcessor">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor">[docs]</a>
-<span class="k">class</span> <span class="nc">ImageProcessor</span><span class="p">(</span><span class="n">BaseProcessor</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ImageProcessor</span><span class="p">(</span><span class="n">BaseProcessor</span><span class="p">[</span><span class="n">ImageROI</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling image processing: operations, processing, analysis&quot;&quot;&quot;</span>
 
     <span class="c1"># pylint: disable=duplicate-code</span>
@@ -751,34 +756,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">,</span> <span class="n">param</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="n">edit</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="ImageProcessor.compute_roi_extraction">
-<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_roi_extraction">[docs]</a>
-    <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data with:</span>
-
-<span class="sd">        - :py:func:`cdl.computation.image.extract_single_roi` for single ROI</span>
-<span class="sd">        - :py:func:`cdl.computation.image.extract_multiple_roi` for multiple ROIs&quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_roidataparam</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roidata_to_params</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">singleobj</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="c1"># Extract multiple ROIs into a single object (remove all the ROIs),</span>
-            <span class="c1"># if the &quot;Extract all regions of interest into a single image object&quot;</span>
-            <span class="c1"># option is checked and if there are more than one ROI</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">extract_multiple_roi</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract ROI&quot;</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># Extract each ROI into a separate object (keep the ROI in the case of</span>
-            <span class="c1"># a circular ROI), if the &quot;Extract all regions of interest into a single</span>
-            <span class="c1"># image object&quot; option is not checked or if there is only one ROI</span>
-            <span class="c1"># (See Issue #31)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">extract_single_roi</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;ROI&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="ImageProcessor.compute_line_profile">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_line_profile">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
@@ -953,7 +930,7 @@ document.write(`
 <div class="viewcode-block" id="ImageProcessor.compute_difference">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_difference">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference between two images</span>
 <span class="sd">        with :py:func:`cdl.computation.image.compute_difference`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -983,7 +960,9 @@ document.write(`
 <div class="viewcode-block" id="ImageProcessor.compute_quadratic_difference">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_quadratic_difference">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute quadratic difference between two images</span>
 <span class="sd">        with :py:func:`cdl.computation.image.compute_quadratic_difference`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -997,7 +976,7 @@ document.write(`
 <div class="viewcode-block" id="ImageProcessor.compute_division">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_division">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division between two images</span>
 <span class="sd">        with :py:func:`cdl.computation.image.compute_division`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -1088,8 +1067,9 @@ document.write(`
         <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">dlg</span> <span class="o">=</span> <span class="n">imagebackground</span><span class="o">.</span><span class="n">ImageBackgroundDialog</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>
             <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
-                <span class="n">param</span> <span class="o">=</span> <span class="n">ROI2DParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="n">RoiDataGeometries</span><span class="o">.</span><span class="n">RECTANGLE</span><span class="p">)</span>
-                <span class="n">param</span><span class="o">.</span><span class="n">xr0</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">yr0</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">xr1</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">yr1</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_index_range</span><span class="p">()</span>
+                <span class="n">param</span> <span class="o">=</span> <span class="n">ROI2DParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">geometry</span><span class="o">=</span><span class="s2">&quot;rectangle&quot;</span><span class="p">)</span>
+                <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_rect_coords</span><span class="p">()</span>
+                <span class="n">param</span><span class="o">.</span><span class="n">x0</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">y0</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">dx</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span> <span class="n">y1</span> <span class="o">-</span> <span class="n">y0</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">compute_offset_correction</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
@@ -1843,6 +1823,17 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">funcs</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Edges&quot;</span><span class="p">)</span></div>
 
 
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_multiple_roi_in_single_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract multiple Regions Of Interest (ROIs) from data in a single object&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">extract_multiple_roi</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract ROI&quot;</span><span class="p">))</span>
+
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_each_roi_in_separate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract each single Region Of Interest (ROI) from data in a separate</span>
+<span class="sd">        object (keep the ROI in the case of a circular ROI, for example)&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">cpi</span><span class="o">.</span><span class="n">extract_single_roi</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;ROI&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
     <span class="c1"># ------Image Analysis</span>
 <div class="viewcode-block" id="ImageProcessor.compute_stats">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.image.ImageProcessor.compute_stats">[docs]</a>
@@ -1909,17 +1900,13 @@ document.write(`
                     <span class="k">assert</span> <span class="n">dist_min</span> <span class="o">&gt;</span> <span class="mi">0</span>
                     <span class="n">radius</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">dist_min</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">2</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="k">assert</span> <span class="n">radius</span> <span class="o">&gt;=</span> <span class="mi">1</span>
-                    <span class="n">roicoords</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="n">ymax</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+                    <span class="n">coords</span> <span class="o">=</span> <span class="p">[]</span>
                     <span class="k">for</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">raw_data</span><span class="p">:</span>
-                        <span class="n">coords</span> <span class="o">=</span> <span class="p">[</span>
-                            <span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span>
-                            <span class="nb">min</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">xmax</span><span class="p">),</span>
-                            <span class="nb">min</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ymax</span><span class="p">),</span>
-                        <span class="p">]</span>
-                        <span class="n">roicoords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">roicoords</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span>
+                        <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">y</span> <span class="o">-</span> <span class="n">radius</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+                        <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">xmax</span><span class="p">)</span> <span class="o">-</span> <span class="n">x0</span><span class="p">,</span> <span class="nb">min</span><span class="p">(</span><span class="n">y</span> <span class="o">+</span> <span class="n">radius</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span> <span class="o">-</span> <span class="n">y0</span>
+                        <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">dx</span><span class="p">,</span> <span class="n">dy</span><span class="p">])</span>
+                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">create_image_roi</span><span class="p">(</span><span class="s2">&quot;rectangle&quot;</span><span class="p">,</span> <span class="n">coords</span><span class="p">,</span> <span class="n">indices</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_SHAPE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">results</span></div>

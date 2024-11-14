@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -510,11 +510,9 @@ document.write(`
 <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">BaseProcParam</span><span class="p">,</span>
     <span class="n">ImageObj</span><span class="p">,</span>
-    <span class="n">ImageRoiDataItem</span><span class="p">,</span>
     <span class="n">ResultProperties</span><span class="p">,</span>
     <span class="n">ResultShape</span><span class="p">,</span>
     <span class="n">ROI2DParam</span><span class="p">,</span>
-    <span class="n">RoiDataGeometries</span><span class="p">,</span>
     <span class="n">SignalObj</span><span class="p">,</span>
 <span class="p">)</span>
 
@@ -1320,15 +1318,15 @@ document.write(`
 <span class="sd">        Output image object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="c1"># Initialize x0, y0 with maximum values:</span>
-    <span class="n">y0</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+    <span class="n">y0</span><span class="p">,</span> <span class="n">x0</span> <span class="o">=</span> <span class="n">ymax</span><span class="p">,</span> <span class="n">xmax</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
     <span class="c1"># Initialize x1, y1 with minimum values:</span>
-    <span class="n">y1</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
+    <span class="n">y1</span><span class="p">,</span> <span class="n">x1</span> <span class="o">=</span> <span class="n">ymin</span><span class="p">,</span> <span class="n">xmin</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">0</span>
     <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">:</span>
         <span class="n">p</span><span class="p">:</span> <span class="n">ROI2DParam</span>
-        <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="n">x1i</span><span class="p">,</span> <span class="n">y1i</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_rect_indexes</span><span class="p">()</span>
+        <span class="n">x0i</span><span class="p">,</span> <span class="n">y0i</span><span class="p">,</span> <span class="n">x1i</span><span class="p">,</span> <span class="n">y1i</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_bounding_box_indices</span><span class="p">()</span>
         <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">x0i</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">y0i</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">x1i</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">y1i</span><span class="p">)</span>
-    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="nb">min</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">xmin</span><span class="p">),</span> <span class="nb">max</span><span class="p">(</span><span class="n">y0</span><span class="p">,</span> <span class="n">ymin</span><span class="p">)</span>
+    <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">x1</span><span class="p">,</span> <span class="n">xmax</span><span class="p">),</span> <span class="nb">min</span><span class="p">(</span><span class="n">y1</span><span class="p">,</span> <span class="n">ymax</span><span class="p">)</span>
 
     <span class="n">suffix</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
@@ -1340,7 +1338,7 @@ document.write(`
     <span class="n">dst</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="n">src2</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">src2</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src2</span><span class="o">.</span><span class="n">params_to_roidata</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+    <span class="n">src2</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src2</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span><span class="n">src2</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
     <span class="n">src2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">src2</span><span class="o">.</span><span class="n">maskdata</span><span class="p">]</span> <span class="o">=</span> <span class="mi">0</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">src2</span><span class="o">.</span><span class="n">data</span><span class="p">[</span><span class="n">y0</span><span class="p">:</span><span class="n">y1</span><span class="p">,</span> <span class="n">x0</span><span class="p">:</span><span class="n">x1</span><span class="p">]</span>
     <span class="k">return</span> <span class="n">dst</span></div>
@@ -1361,13 +1359,10 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;extract_single_roi&quot;</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">get_suffix</span><span class="p">())</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">src</span><span class="p">)</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
-    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_rect_indexes</span><span class="p">()</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_extracted_roi</span><span class="p">(</span><span class="n">src</span><span class="p">)</span>
+    <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_bounding_box_indices</span><span class="p">()</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">x0</span> <span class="o">+=</span> <span class="n">x0</span> <span class="o">*</span> <span class="n">src</span><span class="o">.</span><span class="n">dx</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">y0</span> <span class="o">+=</span> <span class="n">y0</span> <span class="o">*</span> <span class="n">src</span><span class="o">.</span><span class="n">dy</span>
-    <span class="n">dst</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">geometry</span> <span class="ow">is</span> <span class="n">RoiDataGeometries</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span>
-        <span class="c1"># Circular ROI</span>
-        <span class="n">dst</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_single_roi</span><span class="p">()</span>
     <span class="k">return</span> <span class="n">dst</span></div>
 
 
@@ -2069,7 +2064,7 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">num_cols</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indexes</span><span class="p">():</span>
+    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indices</span><span class="p">():</span>
         <span class="n">data_roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">args</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">coords</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="n">data_roi</span><span class="p">)</span>
@@ -2103,13 +2098,13 @@ document.write(`
             <span class="k">else</span><span class="p">:</span>
                 <span class="c1"># Circle [x0, y0, r] or ellipse coordinates [x0, y0, a, b, theta]</span>
                 <span class="n">colx</span><span class="p">,</span> <span class="n">coly</span> <span class="o">=</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
-            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">ImageRoiDataItem</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">roi</span><span class="p">[</span><span class="n">i_roi</span><span class="p">])</span><span class="o">.</span><span class="n">get_rect</span><span class="p">()</span>
-                <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x0</span>
-                <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y0</span>
             <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dx</span> <span class="o">*</span> <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span>
             <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span>
-            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="n">i_roi</span>
+            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">get_single_roi</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x0</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y0</span>
+            <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span><span class="p">)</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">idx</span><span class="p">,</span> <span class="n">coords</span><span class="p">])</span>
             <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
             <span class="n">num_cols</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">])</span>

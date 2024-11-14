@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -490,25 +490,26 @@ document.write(`
 
 <span class="kn">import</span> <span class="nn">hashlib</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Iterator</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">TypeVar</span>
 <span class="kn">from</span> <span class="nn">weakref</span> <span class="kn">import</span> <span class="n">WeakKeyDictionary</span>
 
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">plotpy.constants</span> <span class="kn">import</span> <span class="n">PlotType</span>
-<span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">GridItem</span><span class="p">,</span> <span class="n">LegendBoxItem</span>
+<span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">CurveItem</span><span class="p">,</span> <span class="n">GridItem</span><span class="p">,</span> <span class="n">LegendBoxItem</span><span class="p">,</span> <span class="n">MaskedImageItem</span>
 <span class="kn">from</span> <span class="nn">plotpy.plot</span> <span class="kn">import</span> <span class="n">PlotOptions</span>
 <span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
 
 <span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypePlotItem</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">ImageObj</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">SignalObj</span>
 <span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">block_signals</span><span class="p">,</span> <span class="n">create_progress_bar</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">CurveItem</span><span class="p">,</span> <span class="n">LabelItem</span><span class="p">,</span> <span class="n">MaskedImageItem</span>
+    <span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">LabelItem</span>
     <span class="kn">from</span> <span class="nn">plotpy.plot</span> <span class="kn">import</span> <span class="n">BasePlot</span><span class="p">,</span> <span class="n">PlotWidget</span>
 
     <span class="kn">from</span> <span class="nn">cdl.core.gui.panel.base</span> <span class="kn">import</span> <span class="n">BaseDataPanel</span>
-    <span class="kn">from</span> <span class="nn">cdl.core.model.image</span> <span class="kn">import</span> <span class="n">ImageObj</span>
-    <span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">SignalObj</span>
 
 
 <span class="k">def</span> <span class="nf">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -516,7 +517,10 @@ document.write(`
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 
-<span class="k">class</span> <span class="nc">BasePlotHandler</span><span class="p">:</span>
+<span class="n">TypePlotHandler</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypePlotHandler&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BasePlotHandler&quot;</span><span class="p">)</span>
+
+
+<span class="k">class</span> <span class="nc">BasePlotHandler</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling plot items associated to objects (signals/images)&quot;&quot;&quot;</span>
 
     <span class="n">PLOT_TYPE</span><span class="p">:</span> <span class="n">PlotType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Replaced in subclasses</span>
@@ -531,10 +535,10 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotwidget</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
 
         <span class="c1"># Plot items: key = object uuid, value = plot item</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span> <span class="o">=</span> <span class="p">[]</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">:</span> <span class="n">WeakKeyDictionary</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">:</span> <span class="n">WeakKeyDictionary</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
             <span class="n">WeakKeyDictionary</span><span class="p">()</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span> <span class="o">=</span> <span class="kc">False</span>
@@ -547,7 +551,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of items&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return item associated to object uuid&quot;&quot;&quot;</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
@@ -561,17 +565,13 @@ document.write(`
             <span class="c1"># Item does not exist and auto refresh is enabled: this should not happen</span>
             <span class="k">raise</span> <span class="n">exc</span>
 
-    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return item associated to object uuid.</span>
 <span class="sd">        If the key is not found, default is returned if given,</span>
 <span class="sd">        otherwise None is returned.&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="nf">get_obj_from_item</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_obj_from_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return object associated to plot item</span>
 
 <span class="sd">        Args:</span>
@@ -585,11 +585,11 @@ document.write(`
                 <span class="k">return</span> <span class="n">obj</span>
         <span class="k">return</span> <span class="kc">None</span>
 
-    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Set item associated to object uuid&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
 
-    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TypePlotItem</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over plothandler values (plot items)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
 
@@ -662,33 +662,33 @@ document.write(`
             <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">del_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span> <span class="o">=</span> <span class="p">[]</span>
 
-    <span class="k">def</span> <span class="nf">__add_item_to_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__add_item_to_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Make plot item and add it to plot.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            oid (str): object uuid</span>
+<span class="sd">            oid: object uuid</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            CurveItem | MaskedImageItem: plot item</span>
+<span class="sd">            Plot item</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-        <span class="n">item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">()</span>
+        <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">()</span>
         <span class="n">item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">item</span>
 
     <span class="k">def</span> <span class="nf">__update_item_on_plot</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref_item</span><span class="p">:</span> <span class="n">CurveItem</span> <span class="o">|</span> <span class="n">MaskedImageItem</span><span class="p">,</span> <span class="n">just_show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">ref_item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">,</span> <span class="n">just_show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plot item.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            oid (str): object uuid</span>
-<span class="sd">            ref_item (CurveItem | MaskedImageItem): reference item</span>
-<span class="sd">            just_show (bool | None): if True, only show the item (do not update it,</span>
-<span class="sd">                except regarding the reference item). Defaults to False.</span>
+<span class="sd">            oid: object uuid</span>
+<span class="sd">            ref_item: reference item</span>
+<span class="sd">            just_show: if True, only show the item (do not update it, except regarding</span>
+<span class="sd">             the reference item). Defaults to False.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">just_show</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
@@ -701,7 +701,7 @@ document.write(`
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span> <span class="nf">update_item_according_to_ref_item</span><span class="p">(</span>
-        <span class="n">item</span><span class="p">:</span> <span class="n">MaskedImageItem</span><span class="p">,</span> <span class="n">ref_item</span><span class="p">:</span> <span class="n">MaskedImageItem</span>
+        <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">,</span> <span class="n">ref_item</span><span class="p">:</span> <span class="n">TypePlotItem</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=unused-argument</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plot item according to reference item&quot;&quot;&quot;</span>
         <span class="c1">#  For now, nothing to do here: it&#39;s only used for images (contrast)</span>
@@ -735,7 +735,7 @@ document.write(`
 <span class="sd">            oids: list of object uuids</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list[str]: reduced list of object uuids</span>
+<span class="sd">            Reduced list of object uuids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span><span class="p">:</span>
             <span class="k">return</span> <span class="n">oids</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
@@ -912,7 +912,7 @@ document.write(`
 
 <div class="viewcode-block" id="SignalPlotHandler">
 <a class="viewcode-back" href="../../../../api/core.gui/plothandler.html#cdl.core.gui.plothandler.SignalPlotHandler">[docs]</a>
-<span class="k">class</span> <span class="nc">SignalPlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SignalPlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">CurveItem</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling signal plot items, plot dialogs, plot options&quot;&quot;&quot;</span>
 
     <span class="n">PLOT_TYPE</span> <span class="o">=</span> <span class="n">PlotType</span><span class="o">.</span><span class="n">CURVE</span>
@@ -942,7 +942,7 @@ document.write(`
 
 <div class="viewcode-block" id="ImagePlotHandler">
 <a class="viewcode-back" href="../../../../api/core.gui/plothandler.html#cdl.core.gui.plothandler.ImagePlotHandler">[docs]</a>
-<span class="k">class</span> <span class="nc">ImagePlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">ImagePlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">MaskedImageItem</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling image plot items, plot dialogs, plot options&quot;&quot;&quot;</span>
 
     <span class="n">PLOT_TYPE</span> <span class="o">=</span> <span class="n">PlotType</span><span class="o">.</span><span class="n">IMAGE</span>
@@ -971,7 +971,7 @@ document.write(`
 <span class="sd">            oids: list of object uuids</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list[str]: reduced list of object uuids</span>
+<span class="sd">            Reduced list of object uuids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">oids</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
 

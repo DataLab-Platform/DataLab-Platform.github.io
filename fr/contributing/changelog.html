@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=20c9bc96"></script>
+    <script src="../_static/documentation_options.js?v=32a2970b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -149,7 +149,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -482,32 +482,76 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Lien vers cette rubrique">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
-<section id="datalab-version-0-17-1">
-<h2>DataLab Version 0.17.1<a class="headerlink" href="#datalab-version-0-17-1" title="Lien vers cette rubrique">#</a></h2>
-<p>ℹ️ PlotPy v2.6.2 is required for this release.</p>
+<section id="datalab-version-0-18-0">
+<h2>DataLab Version 0.18.0<a class="headerlink" href="#datalab-version-0-18-0" title="Lien vers cette rubrique">#</a></h2>
+<p>ℹ️ Informations générales :</p>
+<ul class="simple">
+<li><p>PlotPy v2.7 est requis pour cette version.</p></li>
+<li><p>Prise en charge de Python 3.8 abandonnée.</p></li>
+<li><p>Python 3.13 n’est pas encore pris en charge, car certaines dépendances ne sont pas compatibles avec cette version.</p></li>
+</ul>
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
 <ul class="simple">
-<li><p>Image View:</p>
+<li><p>Nouvelle fonctionnalité de mode d’opération :</p>
 <ul>
-<li><p>Before this release, when selecting a high number of images (e.g. when selecting a group of images), the application was very slow because all the images were displayed in the image view, even if they were all superimposed on the same image</p></li>
-<li><p>The workaround was to enable the « Show first only » option</p></li>
-<li><p>Now, to improve performance, if multiple images are selected, only the last image of the selection is displayed in the image view if this last image has no transparency and if the other images are completely covered by this last image</p></li>
+<li><p>Ajout de la fonctionnalité « Mode d’opération » à l’onglet « Traitement » de la boîte de dialogue « Paramètres »</p></li>
+<li><p>Cette fonctionnalité permet de choisir entre les modes d’opération « single » et « pairwise » pour toutes les opérations de base (addition, soustraction, multiplication, division, etc.) :</p>
+<ul>
+<li><p>Mode « single » : mode d’opérande unique (mode par défaut : l’opération est effectuée sur chaque objet indépendamment)</p></li>
+<li><p>Mode « pairwise » : mode d’opérande par paire (l’opération est effectuée sur chaque paire d’objets)</p></li>
 </ul>
 </li>
-<li><p>Clarification: action « Show first only » was renamed to « Show first object only », and a new icon was added to the action</p></li>
-<li><p>API: added <code class="docutils literal notranslate"><span class="pre">width</span></code> and <code class="docutils literal notranslate"><span class="pre">height</span></code> properties to <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> class (returns the width and height of the image in physical units)</p></li>
-<li><p>Windows launcher « start.pyw »: writing a log file « datalab_error.log » when an exception occurs at startup</p></li>
+<li><p>Cela s’applique à la fois aux signaux et aux images, et aux calculs prenant <em>N</em> entrées</p></li>
+<li><p>Les calculs prenant <em>N</em> entrées sont ceux où :</p>
+<ul>
+<li><p><em>N(&gt;=2)</em> objets en entrée donnent <em>N</em> objets en sortie</p></li>
+<li><p><em>N(&gt;=1)</em> objet(s) + 1 objet en entrée donnent N objets en sortie</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Nouvelles fonctionnalités de ROI (Région d’intérêt) :</p>
+<ul>
+<li><p>Nouvelle fonctionnalité de ROI polygonale</p></li>
+<li><p>Refonte complète des interfaces utilisateur de l’éditeur de ROI, améliorant l’ergonomie et la cohérence avec le reste de l’application</p></li>
+<li><p>Refactorisation interne majeure du système de ROI pour le rendre plus robuste (plus de tests) et plus facile à maintenir</p></li>
+</ul>
+</li>
+<li><p>Implémentation de l”[Issue #102](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/102">DataLab-Platform/DataLab#102</a>) - Lancer DataLab en utilisant <cite>datalab</cite> au lieu de <cite>cdl</cite>. Notez que la commande <cite>cdl</cite> est toujours disponible pour la compatibilité ascendante.</p></li>
+<li><p>Implémentation de l”[Issue #101](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/101">DataLab-Platform/DataLab#101</a>) - Configuration : définir l’interpolation d’image par défaut sur l’anti-crénelage (<cite>5</cite> au lieu de <cite>0</cite> pour le plus proche). Ce changement est motivé par le fait qu’une amélioration des performances a été apportée dans PlotPy v2.7 sur Windows, ce qui permet d’utiliser l’interpolation par anti-crénelage par défaut sans impact significatif sur les performances.</p></li>
+<li><p>Implémentation de l”[Issue #100](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/100">DataLab-Platform/DataLab#100</a>) - Utiliser le même programme d’installation et exécutable sur Windows 7 SP1, 8, 10, 11. Avant ce changement, un programme d’installation spécifique était requis pour Windows 7 SP1, en raison du fait que Python 3.9 et les versions ultérieures ne sont pas prises en charge sur cette plateforme. Une solution de contournement a été mise en œuvre pour faire fonctionner DataLab sur Windows 7 SP1 avec Python 3.9.</p></li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Changing the color theme now correctly updates all DataLab’s user interface components without the need to restart the application</p></li>
+<li><p>Correction de l”[Issue #103](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/103">DataLab-Platform/DataLab#103</a>) - <cite>proxy.add_annotations_from_items</cite> : la couleur de la forme de cercle semble être ignorée.</p></li>
 </ul>
-<p>ℹ️ Other changes:</p>
+</section>
+<section id="datalab-version-0-17-1">
+<h2>DataLab Version 0.17.1<a class="headerlink" href="#datalab-version-0-17-1" title="Lien vers cette rubrique">#</a></h2>
+<p>ℹ️ PlotPy v2.6.2 est requis pour cette version.</p>
+<p>💥 Nouvelles fonctionnalités et améliorations :</p>
 <ul class="simple">
-<li><p>OpenCV is now an optional dependency:</p>
+<li><p>Vue Image :</p>
 <ul>
-<li><p>This change is motivated by the fact that the OpenCV conda package is not maintained on Windows (at least), which leads to an error when installing DataLab with conda</p></li>
-<li><p>When OpenCV is not installed, only the « OpenCV blob detection » feature won’t work, and a warning message will be displayed when trying to use this feature</p></li>
+<li><p>Avant cette version, lors de la sélection d’un grand nombre d’images (par exemple lors de la sélection d’un groupe d’images), l’application était très lente car toutes les images étaient affichées dans la vue image, même si elles étaient toutes superposées sur la même image</p></li>
+<li><p>La solution de contournement était d’activer l’option « Afficher uniquement le premier »</p></li>
+<li><p>Maintenant, pour améliorer les performances, si plusieurs images sont sélectionnées, seule la dernière image de la sélection est affichée dans la vue image si cette dernière image n’a pas de transparence et si les autres images sont complètement recouvertes par cette dernière image</p></li>
+</ul>
+</li>
+<li><p>Clarification : l’action « Afficher uniquement le premier » a été renommée en « Afficher uniquement le premier objet », et une nouvelle icône a été ajoutée à l’action</p></li>
+<li><p>API : ajout des propriétés <cite>width</cite> et <cite>height</cite> à la classe <cite>ImageObj</cite> (retourne la largeur et la hauteur de l’image en unités physiques)</p></li>
+<li><p>Lanceur Windows « start.pyw » : écriture d’un fichier journal « datalab_error.log » lorsqu’une exception se produit au démarrage</p></li>
+</ul>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Changer le thème de couleur met maintenant à jour correctement tous les composants de l’interface utilisateur de DataLab sans avoir besoin de redémarrer l’application</p></li>
+</ul>
+<p>ℹ️ Autres changements :</p>
+<ul class="simple">
+<li><p>OpenCV est désormais une dépendance facultative :</p>
+<ul>
+<li><p>Ce changement est motivé par le fait que le paquet conda OpenCV n’est pas maintenu sur Windows (au moins), ce qui entraîne une erreur lors de l’installation de DataLab avec conda</p></li>
+<li><p>Lorsque OpenCV n’est pas installé, seule la fonctionnalité « Détection de blob OpenCV » ne fonctionnera pas, et un message d’avertissement sera affiché lors de la tentative d’utilisation de cette fonctionnalité</p></li>
 </ul>
 </li>
 </ul>
@@ -1319,9 +1363,9 @@ document.write(`
 <li><p>Ceci corrige l”[Issue #29](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/29">DataLab-Platform/DataLab#29</a>) - Erreur d’ajustement polynomial : <cite>QDialog […] argument 1 has an unexpected type “SignalProcessor”</cite></p></li>
 <li><p>Fonctionnalité d’extraction de ROI d’image :</p>
 <ul>
-<li><p>Avant cette version, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les régions d’intérêt dans un seul objet d’image » activée, le résultat était une seule image sans le masque de ROI (le masque de ROI n’était disponible que lors de l’extraction de ROI avec l’option désactivée)</p></li>
+<li><p>Avant cette version, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les ROI dans un seul objet d’image » activée, le résultat était une seule image sans le masque de ROI (le masque de ROI n’était disponible que lors de l’extraction de ROI avec l’option désactivée)</p></li>
 <li><p>Cela conduisait à un comportement inattendu, car on pouvait interpréter le résultat (une image carrée sans le masque de ROI) comme le résultat d’une seule ROI rectangulaire</p></li>
-<li><p>A présent, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les régions d’intérêt dans un seul objet d’image » activée, le résultat est une seule image avec le masque de ROI (comme si l’option était désactivée)</p></li>
+<li><p>A présent, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les ROI dans un seul objet d’image » activée, le résultat est une seule image avec le masque de ROI (comme si l’option était désactivée)</p></li>
 <li><p>Ceci corrige l”[Issue #31](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/31">DataLab-Platform/DataLab#31</a>) - Extraction d’une seule ROI circulaire : bascule automatique vers la fonction <cite>extract_single_roi</cite></p></li>
 </ul>
 </li>
@@ -1467,7 +1511,7 @@ document.write(`
 <ul class="simple">
 <li><p>Fonctionnalité d’extraction de la région d’intérêt (ROI) pour les images :</p>
 <ul>
-<li><p>L’extraction de la ROI ne fonctionnait pas correctement lorsque l’option « Extraire toutes les régions d’intérêt dans un seul objet image » était activée s’il n’y avait qu’une seule ROI définie. Le résultat était une image positionnée à l’origine (0, 0) au lieu de la position attendue (x0, y0) et le rectangle de la ROI lui-même n’était pas supprimé comme prévu. Ceci est maintenant corrigé (voir [Issue #6](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">DataLab-Platform/DataLab#6</a>) - Fonctionnalité “Extraire plusieurs ROI” : résultat inattendu pour une seule ROI)</p></li>
+<li><p>L’extraction de la ROI ne fonctionnait pas correctement lorsque l’option « Extraire toutes les ROI dans un seul objet image » était activée s’il n’y avait qu’une seule ROI définie. Le résultat était une image positionnée à l’origine (0, 0) au lieu de la position attendue (x0, y0) et le rectangle de la ROI lui-même n’était pas supprimé comme prévu. Ceci est maintenant corrigé (voir [Issue #6](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">DataLab-Platform/DataLab#6</a>) - Fonctionnalité “Extraire plusieurs ROI” : résultat inattendu pour une seule ROI)</p></li>
 <li><p>Les rectangles ROI avec des coordonnées négatives n’étaient pas correctement gérés : l’extraction de la ROI levait une exception <cite>ValueError</cite>, et le masque de l’image n’était pas correctement affiché. Ceci est maintenant corrigé (voir [Issue #7](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/7">DataLab-Platform/DataLab#7</a>) - Extraction de la ROI de l’image : <cite>ValueError: zero-size array to reduction operation minimum which has no identity</cite>)</p></li>
 <li><p>L’extraction de la ROI ne prenait pas en compte la taille des pixels (dx, dy) et l’origine (x0, y0) de l’image. Ceci est maintenant corrigé (voir [Issue #8](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/8">DataLab-Platform/DataLab#8</a>) - Extraction de la ROI de l’image : prendre en compte la taille des pixels)</p></li>
 </ul>
@@ -1691,6 +1735,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-0">DataLab Version 0.18.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-1">DataLab Version 0.17.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-0">DataLab Version 0.17.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-4">DataLab Version 0.16.4</a></li>

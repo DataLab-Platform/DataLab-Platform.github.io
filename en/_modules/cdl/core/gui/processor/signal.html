@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -472,6 +472,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
 
+<span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">exec_dialog</span>
 
@@ -481,14 +482,14 @@ document.write(`
 <span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">cdl.core.gui.processor.base</span> <span class="kn">import</span> <span class="n">BaseProcessor</span>
 <span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span>
-<span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">ROI1DParam</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">create_signal</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">ROI1DParam</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">SignalROI</span><span class="p">,</span> <span class="n">create_signal</span>
 <span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="n">qt_try_except</span>
 <span class="kn">from</span> <span class="nn">cdl.widgets</span> <span class="kn">import</span> <span class="n">fitdialog</span><span class="p">,</span> <span class="n">signalbaseline</span><span class="p">,</span> <span class="n">signalpeak</span>
 
 
 <div class="viewcode-block" id="SignalProcessor">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor">[docs]</a>
-<span class="k">class</span> <span class="nc">SignalProcessor</span><span class="p">(</span><span class="n">BaseProcessor</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">SignalProcessor</span><span class="p">(</span><span class="n">BaseProcessor</span><span class="p">[</span><span class="n">SignalROI</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling signal processing: operations, processing, analysis&quot;&quot;&quot;</span>
 
     <span class="c1"># pylint: disable=duplicate-code</span>
@@ -553,28 +554,6 @@ document.write(`
             <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantParam</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Product with constant&quot;</span><span class="p">),</span>
         <span class="p">)</span></div>
-
-
-<div class="viewcode-block" id="SignalProcessor.compute_roi_extraction">
-<a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_roi_extraction">[docs]</a>
-    <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_roi_extraction</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">ROIDataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract Region Of Interest (ROI) from data with:</span>
-
-<span class="sd">        - :py:func:`cdl.computation.signal.extract_multiple_roi` for single ROI</span>
-<span class="sd">        - :py:func:`cdl.computation.signal.extract_single_roi` for multiple ROIs</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_roidataparam</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span><span class="o">.</span><span class="n">is_empty</span><span class="p">:</span>
-            <span class="k">return</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roidata_to_params</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">singleobj</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_multiple_roi</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract ROI&quot;</span><span class="p">))</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_single_roi</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;ROI&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SignalProcessor.compute_swap_axes">
@@ -672,7 +651,9 @@ document.write(`
 <div class="viewcode-block" id="SignalProcessor.compute_difference">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_difference">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_difference</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute difference between two signals</span>
 <span class="sd">        with :py:func:`cdl.computation.signal.compute_difference`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -696,13 +677,16 @@ document.write(`
             <span class="n">param</span><span class="p">,</span>
             <span class="n">paramclass</span><span class="o">=</span><span class="n">cpb</span><span class="o">.</span><span class="n">ConstantParam</span><span class="p">,</span>
             <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Difference with constant&quot;</span><span class="p">),</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SignalProcessor.compute_quadratic_difference">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_quadratic_difference">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_quadratic_difference</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute quadratic difference between two signals</span>
 <span class="sd">        with :py:func:`cdl.computation.signal.compute_quadratic_difference`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -716,7 +700,7 @@ document.write(`
 <div class="viewcode-block" id="SignalProcessor.compute_division">
 <a class="viewcode-back" href="../../../../../features/general/remote.html#cdl.core.gui.processor.signal.SignalProcessor.compute_division">[docs]</a>
     <span class="nd">@qt_try_except</span><span class="p">()</span>
-    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">compute_division</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj2</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute division between two signals</span>
 <span class="sd">        with :py:func:`cdl.computation.signal.compute_division`&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">compute_n1n</span><span class="p">(</span>
@@ -1167,7 +1151,7 @@ document.write(`
             <span class="n">dlg</span> <span class="o">=</span> <span class="n">signalpeak</span><span class="o">.</span><span class="n">SignalPeakDetectionDialog</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
                 <span class="c1"># Computing x, y</span>
-                <span class="n">peaks</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_peak_indexes</span><span class="p">()</span>
+                <span class="n">peaks</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_peak_indices</span><span class="p">()</span>
 
                 <span class="k">def</span> <span class="nf">multigaussianfit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
 <span class="w">                    </span><span class="sd">&quot;&quot;&quot;Multi-Gaussian fit dialog function&quot;&quot;&quot;</span>
@@ -1176,6 +1160,17 @@ document.write(`
 
                 <span class="bp">self</span><span class="o">.</span><span class="n">__row_compute_fit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Multi-Gaussian fit&quot;</span><span class="p">),</span> <span class="n">multigaussianfit</span><span class="p">)</span></div>
 
+
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_multiple_roi_in_single_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract multiple Regions Of Interest (ROIs) from data in a single object&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_multiple_roi</span><span class="p">,</span> <span class="n">group</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract ROI&quot;</span><span class="p">))</span>
+
+    <span class="nd">@qt_try_except</span><span class="p">()</span>
+    <span class="k">def</span> <span class="nf">_extract_each_roi_in_separate_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSetGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Extract each single Region Of Interest (ROI) from data in a separate</span>
+<span class="sd">        object (keep the ROI in the case of a circular ROI, for example)&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">compute_1n</span><span class="p">(</span><span class="n">cps</span><span class="o">.</span><span class="n">extract_single_roi</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">datasets</span><span class="p">,</span> <span class="s2">&quot;ROI&quot;</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
 
     <span class="c1"># ------Signal Analysis</span>
 <div class="viewcode-block" id="SignalProcessor.compute_fwhm">

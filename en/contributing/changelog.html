@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -481,6 +481,50 @@ document.write(`
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a> for future and past milestones.</p>
+<section id="datalab-version-0-18-0">
+<h2>DataLab Version 0.18.0<a class="headerlink" href="#datalab-version-0-18-0" title="Link to this heading">#</a></h2>
+<p>ℹ️ General information:</p>
+<ul class="simple">
+<li><p>PlotPy v2.7 is required for this release.</p></li>
+<li><p>Dropped support for Python 3.8.</p></li>
+<li><p>Python 3.13 is not supported yet, due to the fact that some dependencies are not compatible with this version.</p></li>
+</ul>
+<p>💥 New features and enhancements:</p>
+<ul class="simple">
+<li><p>New operation mode feature:</p>
+<ul>
+<li><p>Added “Operation mode” feature to the “Processing” tab in the “Settings” dialog box</p></li>
+<li><p>This feature allows to choose between “single” and “pairwise” operation modes for all basic operations (addition, subtraction, multiplication, division, etc.):</p>
+<ul>
+<li><p>“Single” mode: single operand mode (default mode: the operation is done on each object independently)</p></li>
+<li><p>“Pairwise” mode: pairwise operand mode (the operation is done on each pair of objects)</p></li>
+</ul>
+</li>
+<li><p>This applies to both signals and images, and to computations taking <em>N</em> inputs</p></li>
+<li><p>Computations taking <em>N</em> inputs are the ones where:</p>
+<ul>
+<li><p><em>N(&gt;=2)</em> objects in give <em>N</em> objects out</p></li>
+<li><p><em>N(&gt;=1)</em> object(s) + 1 object in give N objects out</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>New ROI (Region Of Interest) features:</p>
+<ul>
+<li><p>New polygonal ROI feature</p></li>
+<li><p>Complete redesign of the ROI editor user interfaces, improving ergonomics and consistency with the rest of the application</p></li>
+<li><p>Major internal refactoring of the ROI system to make it more robust (more tests) and easier to maintain</p></li>
+</ul>
+</li>
+<li><p>Implemented <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/102">Issue #102</a> - Launch DataLab using <code class="docutils literal notranslate"><span class="pre">datalab</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cdl</span></code>. Note that the <code class="docutils literal notranslate"><span class="pre">cdl</span></code> command is still available for backward compatibility.</p></li>
+<li><p>Implemented <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/101">Issue #101</a> - Configuration: set default image interpolation to anti-aliasing (<code class="docutils literal notranslate"><span class="pre">5</span></code> instead of <code class="docutils literal notranslate"><span class="pre">0</span></code> for nearest). This change is motivated by the fact that a performance improvement was made in PlotPy v2.7 on Windows, which allows to use anti-aliasing interpolation by default without a significant performance impact.</p></li>
+<li><p>Implemented <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/100">Issue #100</a> - Use the same installer and executable on Windows 7 SP1, 8, 10, 11. Before this change, a specific installer was required for Windows 7 SP1, due to the fact that Python 3.9 and later versions are not supported on this platform. A workaround was implemented to make DataLab work on Windows 7 SP1 with Python 3.9.</p></li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/103">Issue #103</a> - <code class="docutils literal notranslate"><span class="pre">proxy.add_annotations_from_items</span></code>: circle shape color seems to be ignored.</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-17-1">
 <h2>DataLab Version 0.17.1<a class="headerlink" href="#datalab-version-0-17-1" title="Link to this heading">#</a></h2>
 <p>ℹ️ PlotPy v2.6.2 is required for this release.</p>
@@ -1227,7 +1271,7 @@ document.write(`
 <li><p>Added “Plot results” entry in “Analysis” menu:</p>
 <ul>
 <li><p>This feature allows to plot analysis results (1D or 2D)</p></li>
-<li><p>It creates a new signal with X and Y axes corresponding to user-defined parameters (e.g. X = indexes and Y = radius for circle results)</p></li>
+<li><p>It creates a new signal with X and Y axes corresponding to user-defined parameters (e.g. X = indices and Y = radius for circle results)</p></li>
 </ul>
 </li>
 <li><p>Increased default width of the object selection dialog box:</p>
@@ -1318,9 +1362,9 @@ document.write(`
 <li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/29">Issue #29</a> - Polynomial fit error: <code class="docutils literal notranslate"><span class="pre">QDialog</span> <span class="pre">[...]</span> <span class="pre">argument</span> <span class="pre">1</span> <span class="pre">has</span> <span class="pre">an</span> <span class="pre">unexpected</span> <span class="pre">type</span> <span class="pre">'SignalProcessor'</span></code></p></li>
 <li><p>Image ROI extraction feature:</p>
 <ul>
-<li><p>Before this release, when extracting a single circular ROI from an image with the “Extract all regions of interest into a single image object” option enabled, the result was a single image without the ROI mask (the ROI mask was only available when extracting ROI with the option disabled)</p></li>
+<li><p>Before this release, when extracting a single circular ROI from an image with the “Extract all ROIs into a single image object” option enabled, the result was a single image without the ROI mask (the ROI mask was only available when extracting ROI with the option disabled)</p></li>
 <li><p>This was leading to an unexpected behavior, because one could interpret the result (a square image without the ROI mask) as the result of a single rectangular ROI</p></li>
-<li><p>Now, when extracting a single circular ROI from an image with the “Extract all regions of interest into a single image object” option enabled, the result is a single image with the ROI mask (as if the option was disabled)</p></li>
+<li><p>Now, when extracting a single circular ROI from an image with the “Extract all ROIs into a single image object” option enabled, the result is a single image with the ROI mask (as if the option was disabled)</p></li>
 <li><p>This fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/31">Issue #31</a> - Single circular ROI extraction: automatically switch to <code class="docutils literal notranslate"><span class="pre">extract_single_roi</span></code> function</p></li>
 </ul>
 </li>
@@ -1467,7 +1511,7 @@ document.write(`
 <ul class="simple">
 <li><p>Region of interest (ROI) extraction feature for images:</p>
 <ul>
-<li><p>ROI extraction was not working properly when the “Extract all regions of interest into a single image object” option was enabled if there was only one defined ROI. The result was an image positioned at the origin (0, 0) instead of the expected position (x0, y0) and the ROI rectangle itself was not removed as expected. This is now fixed (see <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">Issue #6</a> - ‘Extract multiple ROI’ feature: unexpected result for a single ROI)</p></li>
+<li><p>ROI extraction was not working properly when the “Extract all ROIs into a single image object” option was enabled if there was only one defined ROI. The result was an image positioned at the origin (0, 0) instead of the expected position (x0, y0) and the ROI rectangle itself was not removed as expected. This is now fixed (see <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">Issue #6</a> - ‘Extract multiple ROI’ feature: unexpected result for a single ROI)</p></li>
 <li><p>ROI rectangles with negative coordinates were not properly handled: ROI extraction was raising a <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> exception, and the image mask was not displayed properly. This is now fixed (see <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/7">Issue #7</a> - Image ROI extraction: <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">zero-size</span> <span class="pre">array</span> <span class="pre">to</span> <span class="pre">reduction</span> <span class="pre">operation</span> <span class="pre">minimum</span> <span class="pre">which</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">identity</span></code>)</p></li>
 <li><p>ROI extraction was not taking into account the pixel size (dx, dy) and the origin (x0, y0) of the image. This is now fixed (see <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/8">Issue #8</a> - Image ROI extraction: take into account pixel size)</p></li>
 </ul>
@@ -1691,6 +1735,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-0">DataLab Version 0.18.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-1">DataLab Version 0.17.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-0">DataLab Version 0.17.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-16-4">DataLab Version 0.16.4</a></li>

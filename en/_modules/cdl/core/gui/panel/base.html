@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -474,7 +474,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
-<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+<span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Generic</span><span class="p">,</span> <span class="n">Type</span>
 
 <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 <span class="kn">import</span> <span class="nn">guidata.dataset.qtwidgets</span> <span class="k">as</span> <span class="nn">gdq</span>
@@ -491,10 +491,16 @@ document.write(`
 <span class="kn">from</span> <span class="nn">qtpy</span> <span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
 <span class="kn">from</span> <span class="nn">qtpy.compat</span> <span class="kn">import</span> <span class="n">getopenfilename</span><span class="p">,</span> <span class="n">getopenfilenames</span><span class="p">,</span> <span class="n">getsavefilename</span>
 
-<span class="kn">import</span> <span class="nn">cdl.computation.base</span>
 <span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">APP_NAME</span><span class="p">,</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
-<span class="kn">from</span> <span class="nn">cdl.core.gui</span> <span class="kn">import</span> <span class="n">actionhandler</span><span class="p">,</span> <span class="n">objectmodel</span><span class="p">,</span> <span class="n">objectview</span><span class="p">,</span> <span class="n">roieditor</span>
-<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">,</span> <span class="n">items_to_json</span>
+<span class="kn">from</span> <span class="nn">cdl.core.gui</span> <span class="kn">import</span> <span class="n">actionhandler</span><span class="p">,</span> <span class="n">objectmodel</span><span class="p">,</span> <span class="n">objectview</span>
+<span class="kn">from</span> <span class="nn">cdl.core.gui.roieditor</span> <span class="kn">import</span> <span class="n">TypeROIEditor</span>
+<span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ResultProperties</span><span class="p">,</span>
+    <span class="n">ResultShape</span><span class="p">,</span>
+    <span class="n">TypeObj</span><span class="p">,</span>
+    <span class="n">TypeROI</span><span class="p">,</span>
+    <span class="n">items_to_json</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span> <span class="nn">cdl.core.model.signal</span> <span class="kn">import</span> <span class="n">create_signal</span>
 <span class="kn">from</span> <span class="nn">cdl.env</span> <span class="kn">import</span> <span class="n">execenv</span>
 <span class="kn">from</span> <span class="nn">cdl.utils.qthelpers</span> <span class="kn">import</span> <span class="p">(</span>
@@ -756,12 +762,12 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel">[docs]</a>
-<span class="k">class</span> <span class="nc">BaseDataPanel</span><span class="p">(</span><span class="n">AbstractPanel</span><span class="p">):</span>
+<span class="k">class</span> <span class="nc">BaseDataPanel</span><span class="p">(</span><span class="n">AbstractPanel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeROI</span><span class="p">,</span> <span class="n">TypeROIEditor</span><span class="p">]):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling the item list, the selected item properties and plot&quot;&quot;&quot;</span>
 
     <span class="n">PANEL_STR</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># e.g. &quot;Signal Panel&quot;</span>
     <span class="n">PANEL_STR_ID</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># e.g. &quot;signal&quot;</span>
-    <span class="n">PARAMCLASS</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Replaced in child object</span>
+    <span class="n">PARAMCLASS</span><span class="p">:</span> <span class="n">TypeObj</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Replaced in child object</span>
     <span class="n">ANNOTATION_TOOLS</span> <span class="o">=</span> <span class="p">()</span>
     <span class="n">MINDIALOGSIZE</span> <span class="o">=</span> <span class="p">(</span><span class="mi">800</span><span class="p">,</span> <span class="mi">600</span><span class="p">)</span>
     <span class="n">MAXDIALOGSIZE</span> <span class="o">=</span> <span class="mf">0.95</span>  <span class="c1"># % of DataLab&#39;s main window size</span>
@@ -770,8 +776,14 @@ document.write(`
     <span class="n">SIG_STATUS_MESSAGE</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>  <span class="c1"># emitted by &quot;qt_try_except&quot; decorator</span>
     <span class="n">SIG_REFRESH_PLOT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>  <span class="c1"># Connected to PlotHandler.refresh_plot</span>
     <span class="n">ROIDIALOGOPTIONS</span> <span class="o">=</span> <span class="p">{}</span>
-    <span class="c1"># Replaced in child object:</span>
-    <span class="n">ROIDIALOGCLASS</span><span class="p">:</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">SignalROIEditor</span> <span class="o">|</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="BaseDataPanel.get_roieditor_class">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.get_roieditor_class">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
+    <span class="k">def</span> <span class="nf">get_roieditor_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">TypeROIEditor</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI editor class&quot;&quot;&quot;</span></div>
+
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -787,7 +799,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span><span class="p">:</span> <span class="n">actionhandler</span><span class="o">.</span><span class="n">BaseActionHandler</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">context_menu</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">__separate_views</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialog</span><span class="p">,</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__separate_views</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialog</span><span class="p">,</span> <span class="n">TypeObj</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="BaseDataPanel.closeEvent">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.closeEvent">[docs]</a>
@@ -837,9 +849,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel.serialize_object_to_hdf5">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.serialize_object_to_hdf5">[docs]</a>
-    <span class="k">def</span> <span class="nf">serialize_object_to_hdf5</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">writer</span><span class="p">:</span> <span class="n">NativeH5Writer</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">serialize_object_to_hdf5</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">writer</span><span class="p">:</span> <span class="n">NativeH5Writer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Serialize object to HDF5 file&quot;&quot;&quot;</span>
         <span class="c1"># Before serializing, update metadata from plot item parameters, in order to</span>
         <span class="c1"># save the latest visualization settings:</span>
@@ -886,7 +896,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of objects&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">)</span>
 
-    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
+    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return object from its number (1 to N)&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_from_number</span><span class="p">(</span><span class="n">nb</span><span class="p">)</span>
 
@@ -896,7 +906,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel.create_object">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.create_object">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">create_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create object (signal or image)</span>
 
 <span class="sd">        Returns:</span>
@@ -910,7 +920,7 @@ document.write(`
     <span class="nd">@qt_try_except</span><span class="p">()</span>
     <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span>
         <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1146,13 +1156,13 @@ document.write(`
 <span class="sd">            refresh_plot: Refresh plot. Defaults to True.</span>
 <span class="sd">            keep_roi: Keep regions of interest, if any. Defaults to None (ask user).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
-            <span class="n">keep_roi</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">sel_objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="c1"># Check if there are regions of interest first:</span>
-        <span class="n">roi_backup</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">roi_backup</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="k">if</span> <span class="nb">any</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">sel_objs</span><span class="p">):</span>
-            <span class="k">if</span> <span class="n">keep_roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span> <span class="ow">and</span> <span class="n">keep_roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">keep_roi</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">elif</span> <span class="n">keep_roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">answer</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="bp">self</span><span class="p">,</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Delete metadata&quot;</span><span class="p">),</span>
@@ -1172,6 +1182,8 @@ document.write(`
         <span class="c1"># Delete metadata:</span>
         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">sel_objs</span><span class="p">):</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">reset_metadata_to_defaults</span><span class="p">()</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">keep_roi</span><span class="p">:</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">invalidate_maskdata_cache</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">roi_backup</span><span class="p">:</span>
                 <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">roi_backup</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span>
             <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
@@ -1225,16 +1237,30 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel.rename_group">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.rename_group">[docs]</a>
-    <span class="k">def</span> <span class="nf">rename_group</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rename a group&quot;&quot;&quot;</span>
-        <span class="c1"># Open a message box to enter the group name</span>
-        <span class="n">group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">group_name</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rename group&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Group name:&quot;</span><span class="p">),</span> <span class="n">QW</span><span class="o">.</span><span class="n">QLineEdit</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span> <span class="n">group</span><span class="o">.</span><span class="n">title</span>
-        <span class="p">)</span>
-        <span class="k">if</span> <span class="n">ok</span><span class="p">:</span>
-            <span class="n">group</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">group_name</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
+    <span class="k">def</span> <span class="nf">rename_group</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">new_name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Rename a group</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            new_name: new group name. Defaults to None (ask user).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sel_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_groups</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel_groups</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Won&#39;t happen in the application, but could happen in tests or using the</span>
+            <span class="c1"># API directly</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Select one group to rename&quot;</span><span class="p">)</span>
+        <span class="n">group</span> <span class="o">=</span> <span class="n">sel_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">new_name</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">new_name</span><span class="p">,</span> <span class="n">ok</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QInputDialog</span><span class="o">.</span><span class="n">getText</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rename group&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Group name:&quot;</span><span class="p">),</span>
+                <span class="n">QW</span><span class="o">.</span><span class="n">QLineEdit</span><span class="o">.</span><span class="n">Normal</span><span class="p">,</span>
+                <span class="n">group</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">ok</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="n">group</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">new_name</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">group</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.get_newparam_from_current">
@@ -1262,7 +1288,7 @@ document.write(`
         <span class="n">addparam</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">add_to_panel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new object (signal/image).</span>
 
 <span class="sd">        Args:</span>
@@ -1305,7 +1331,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">objs</span>
 
-    <span class="k">def</span> <span class="nf">__save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">__save_to_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save object to file (signal/image).</span>
 
 <span class="sd">        Args:</span>
@@ -1316,9 +1342,7 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel.load_from_files">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.load_from_files">[docs]</a>
-    <span class="k">def</span> <span class="nf">load_from_files</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">load_from_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from file (signals/images), add them to DataLab and return them.</span>
 
 <span class="sd">        Args:</span>
@@ -1480,12 +1504,42 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;The properties &#39;Apply&#39; button was clicked: update object properties,</span>
 <span class="sd">        refresh plot and update object view.&quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+        <span class="c1"># if obj is not None:  # XXX: Is it necessary?</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">invalidate_maskdata_cache</span><span class="p">()</span>
         <span class="n">update_dataset</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------Plotting data in modal dialogs----------------------------------------------</span>
+<div class="viewcode-block" id="BaseDataPanel.add_plot_items_to_dialog">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.add_plot_items_to_dialog">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_plot_items_to_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dlg</span><span class="p">:</span> <span class="n">PlotDialog</span><span class="p">,</span> <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add plot items to dialog</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            dlg: Dialog</span>
+<span class="sd">            oids: Object IDs</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creating plot items&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="n">QW</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                    <span class="k">return</span> <span class="kc">None</span>
+                <span class="n">item</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">unselect</span><span class="p">()</span>
+        <span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">dlg</span></div>
+
+
 <div class="viewcode-block" id="BaseDataPanel.open_separate_view">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.open_separate_view">[docs]</a>
     <span class="k">def</span> <span class="nf">open_separate_view</span><span class="p">(</span>
@@ -1501,20 +1555,23 @@ document.write(`
 <span class="sd">        Returns:</span>
 <span class="sd">            Instance of PlotDialog</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Annotations&quot;</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">oids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+
+        <span class="c1"># Create a new dialog and add plot items to it</span>
         <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog</span><span class="p">(</span>
-            <span class="n">oids</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="s2">&quot;new_window&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_new_window&quot;</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="n">edit_annotations</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">dlg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">add_plot_items_to_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="n">oids</span><span class="p">)</span>
+
         <span class="n">mgr</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span>
-        <span class="n">toolbar</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QToolBar</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="n">toolbar</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QToolBar</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Annotations&quot;</span><span class="p">),</span> <span class="bp">self</span><span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">button_layout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">toolbar</span><span class="p">)</span>
         <span class="n">mgr</span><span class="o">.</span><span class="n">add_toolbar</span><span class="p">(</span><span class="n">toolbar</span><span class="p">,</span> <span class="nb">id</span><span class="p">(</span><span class="n">toolbar</span><span class="p">))</span>
         <span class="n">toolbar</span><span class="o">.</span><span class="n">setToolButtonStyle</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ToolButtonTextUnderIcon</span><span class="p">)</span>
@@ -1582,35 +1639,24 @@ document.write(`
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.create_new_dialog">[docs]</a>
     <span class="k">def</span> <span class="nf">create_new_dialog</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
-        <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span>
         <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">toolbar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GuiTool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">name</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotDialog</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new pop-up signal/image plot dialog.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            oids: Object IDs</span>
 <span class="sd">            edit: Edit mode</span>
 <span class="sd">            toolbar: Show toolbar</span>
 <span class="sd">            title: Dialog title</span>
-<span class="sd">            tools: list of tools to add to the toolbar</span>
-<span class="sd">            name: Dialog name</span>
+<span class="sd">            name: Dialog object name</span>
 <span class="sd">            options: Plot options</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            QDialog instance</span>
+<span class="sd">            Plot dialog instance</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-                <span class="n">title</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">title</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">APP_NAME</span><span class="si">}</span><span class="s2">&quot;</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">title</span> <span class="o">=</span> <span class="n">APP_NAME</span>
-
         <span class="n">plot_options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get_current_plot_options</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">options</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">plot_options</span> <span class="o">=</span> <span class="n">plot_options</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">options</span><span class="p">)</span>
@@ -1625,130 +1671,78 @@ document.write(`
         <span class="c1"># pylint: disable=not-callable</span>
         <span class="n">dlg</span> <span class="o">=</span> <span class="n">PlotDialog</span><span class="p">(</span>
             <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">APP_NAME</span> <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">APP_NAME</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
             <span class="n">edit</span><span class="o">=</span><span class="n">edit</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="n">plot_options</span><span class="p">,</span>
             <span class="n">toolbar</span><span class="o">=</span><span class="n">toolbar</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">setWindowIcon</span><span class="p">(</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;DataLab.svg&quot;</span><span class="p">))</span>
-
-        <span class="k">if</span> <span class="n">tools</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="n">tools</span><span class="p">:</span>
-                <span class="n">dlg</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span><span class="o">.</span><span class="n">add_tool</span><span class="p">(</span><span class="n">tool</span><span class="p">)</span>
-        <span class="n">plot</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
-
-        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
-        <span class="n">dlg</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-
-        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
-            <span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creating plot items&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
-        <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">objs</span><span class="p">):</span>
-                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="n">QW</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
-                <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
-                    <span class="k">return</span> <span class="kc">None</span>
-                <span class="n">item</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
-                <span class="n">item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
-                <span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">z</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
-        <span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
-        <span class="n">item</span><span class="o">.</span><span class="n">unselect</span><span class="p">()</span>
-        <span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+        <span class="n">dlg</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">dlg</span></div>
-
-
-<div class="viewcode-block" id="BaseDataPanel.create_new_dialog_for_selection">
-<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.create_new_dialog_for_selection">[docs]</a>
-    <span class="k">def</span> <span class="nf">create_new_dialog_for_selection</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span>
-        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
-        <span class="n">options</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">any</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-        <span class="n">toolbar</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
-        <span class="n">tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">GuiTool</span><span class="p">]</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">PlotDialog</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create new pop-up dialog for the currently selected signal/image.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            title: Dialog title</span>
-<span class="sd">            name: Dialog name</span>
-<span class="sd">            options: Plot options</span>
-<span class="sd">            toolbar: Show toolbar</span>
-<span class="sd">            tools: list of tools to add to the toolbar</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            QDialog instance, selected object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-        <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog</span><span class="p">(</span>
-            <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">],</span>
-            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
-            <span class="n">toolbar</span><span class="o">=</span><span class="n">toolbar</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">tools</span><span class="o">=</span><span class="n">tools</span><span class="p">,</span>
-            <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-        <span class="p">)</span>
-        <span class="k">return</span> <span class="n">dlg</span><span class="p">,</span> <span class="n">obj</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.get_roi_editor_output">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.get_roi_editor_output">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_roi_editor_output</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">extract</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">singleobj</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">add_roi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">cdl</span><span class="o">.</span><span class="n">computation</span><span class="o">.</span><span class="n">base</span><span class="o">.</span><span class="n">ROIDataParam</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">get_roi_editor_output</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">extract</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get ROI data (array) from specific dialog box.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            extract: Extract ROI from data</span>
-<span class="sd">            singleobj: Single object</span>
-<span class="sd">            add_roi: Add ROI immediately after opening the dialog (default: False)</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            ROI data</span>
+<span class="sd">            A tuple containing the ROI object and a boolean indicating whether the</span>
+<span class="sd">            dialog was accepted or not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">roi_s</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">)</span>
         <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIDIALOGOPTIONS</span>
-        <span class="n">dlg</span><span class="p">,</span> <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog_for_selection</span><span class="p">(</span>
-            <span class="n">roi_s</span><span class="p">,</span> <span class="s2">&quot;roi_dialog&quot;</span><span class="p">,</span> <span class="n">options</span><span class="p">,</span> <span class="n">toolbar</span><span class="o">=</span><span class="kc">True</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+
+        <span class="c1"># Create a new dialog</span>
+        <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog</span><span class="p">(</span>
+            <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">toolbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">roi_s</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+            <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_roi_dialog&quot;</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">dlg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
-        <span class="n">plot</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
-        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">plot</span><span class="o">.</span><span class="n">items</span><span class="p">:</span>
-            <span class="n">item</span><span class="o">.</span><span class="n">set_selectable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="c1"># Create ROI editor (and add it to the dialog)</span>
         <span class="c1"># pylint: disable=not-callable</span>
-        <span class="n">roi_editor</span><span class="p">:</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">SignalROIEditor</span> <span class="o">|</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">ROIDIALOGCLASS</span><span class="p">(</span><span class="n">dlg</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">singleobj</span><span class="p">)</span>
-        <span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
+        <span class="n">roi_editor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roieditor_class</span><span class="p">()(</span><span class="n">dlg</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">button_layout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">roi_editor</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">add_roi</span><span class="p">:</span>
-            <span class="n">roi_editor</span><span class="o">.</span><span class="n">add_roi</span><span class="p">()</span>
+
         <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
             <span class="k">return</span> <span class="n">roi_editor</span><span class="o">.</span><span class="n">get_roieditor_results</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
-<div class="viewcode-block" id="BaseDataPanel.get_object_with_dialog">
-<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.get_object_with_dialog">[docs]</a>
-    <span class="k">def</span> <span class="nf">get_object_with_dialog</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="BaseDataPanel.get_objects_with_dialog">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.get_objects_with_dialog">[docs]</a>
+    <span class="k">def</span> <span class="nf">get_objects_with_dialog</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">nb_objects</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object with dialog box.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Dialog title</span>
+<span class="sd">            comment: Optional dialog comment</span>
+<span class="sd">            nb_objects: Number of objects to select</span>
 <span class="sd">            parent: Parent widget</span>
-
 <span class="sd">        Returns:</span>
-<span class="sd">            Object (signal or image, or None if dialog was canceled)</span>
+<span class="sd">            Object(s) (signal(s) or image(s), or None if dialog was canceled)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">parent</span> <span class="o">=</span> <span class="bp">self</span> <span class="k">if</span> <span class="n">parent</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">parent</span>
-        <span class="n">dlg</span> <span class="o">=</span> <span class="n">objectview</span><span class="o">.</span><span class="n">GetObjectDialog</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">)</span>
+        <span class="n">dlg</span> <span class="o">=</span> <span class="n">objectview</span><span class="o">.</span><span class="n">GetObjectsDialog</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">,</span> <span class="n">nb_objects</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
-            <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_current_object_uuid</span><span class="p">()</span>
-            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">obj_uuid</span><span class="p">]</span>
+            <span class="k">return</span> <span class="n">dlg</span><span class="o">.</span><span class="n">get_selected_objects</span><span class="p">()</span>
         <span class="k">return</span> <span class="kc">None</span></div>
 
 
@@ -1853,7 +1847,7 @@ document.write(`
         <span class="n">rdatadict</span> <span class="o">=</span> <span class="n">create_resultdata_dict</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">rdatadict</span><span class="p">:</span>
             <span class="k">for</span> <span class="n">category</span><span class="p">,</span> <span class="n">rdata</span> <span class="ow">in</span> <span class="n">rdatadict</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
-                <span class="n">xchoices</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;indexes&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Indexes&quot;</span><span class="p">)),)</span>
+                <span class="n">xchoices</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;indices&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Indices&quot;</span><span class="p">)),)</span>
                 <span class="k">for</span> <span class="n">xlabel</span> <span class="ow">in</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="p">:</span>
                     <span class="n">xchoices</span> <span class="o">+=</span> <span class="p">((</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">),)</span>
                 <span class="n">ychoices</span> <span class="o">=</span> <span class="n">xchoices</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span>
@@ -1897,7 +1891,7 @@ document.write(`
                         <span class="p">),</span>
                         <span class="n">default</span><span class="o">=</span><span class="n">default_kind</span><span class="p">,</span>
                     <span class="p">)</span>
-                    <span class="n">xaxis</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;X axis&quot;</span><span class="p">),</span> <span class="n">xchoices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;indexes&quot;</span><span class="p">)</span>
+                    <span class="n">xaxis</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;X axis&quot;</span><span class="p">),</span> <span class="n">xchoices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;indices&quot;</span><span class="p">)</span>
                     <span class="n">yaxis</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span>
                         <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Y axis&quot;</span><span class="p">),</span> <span class="n">ychoices</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="n">ychoices</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
                     <span class="p">)</span>
@@ -1919,7 +1913,7 @@ document.write(`
                     <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">grouped_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># title</span>
                         <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
                         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>  <span class="c1"># object</span>
-                            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indexes&quot;</span><span class="p">:</span>
+                            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indices&quot;</span><span class="p">:</span>
                                 <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
                             <span class="k">else</span><span class="p">:</span>
                                 <span class="n">i_xaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>
@@ -1933,7 +1927,7 @@ document.write(`
                             <span class="n">roi_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                             <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">roi_idx</span><span class="p">:</span>  <span class="c1"># ROI</span>
                                 <span class="n">mask</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">i_roi</span>
-                                <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indexes&quot;</span><span class="p">:</span>
+                                <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indices&quot;</span><span class="p">:</span>
                                     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">mask</span><span class="p">]</span>
                                 <span class="k">else</span><span class="p">:</span>
                                     <span class="n">i_xaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>

@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=a8455094"></script>
+    <script src="../../../_static/documentation_options.js?v=ba2e7b09"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.17.1</p>
+    <p class="title logo__title">v0.18.0</p>
   
 </a></div>
     
@@ -644,31 +644,6 @@ document.write(`
 
 
 
-<div class="viewcode-block" id="ROIDataParam">
-<a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.ROIDataParam">[docs]</a>
-<span class="k">class</span> <span class="nc">ROIDataParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI Editor data&quot;&quot;&quot;</span>
-
-    <span class="n">roidata</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatArrayItem</span><span class="p">(</span>
-        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;ROI data&quot;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">_</span><span class="p">(</span>
-            <span class="s2">&quot;For convenience, this item accepts a 2D NumPy array, a list of list &quot;</span>
-            <span class="s2">&quot;of numbers, or None. In the end, the data is converted to a 2D NumPy &quot;</span>
-            <span class="s2">&quot;array of integers (if not None).&quot;</span>
-        <span class="p">),</span>
-    <span class="p">)</span>
-    <span class="n">singleobj</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span>
-        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Single object&quot;</span><span class="p">),</span>
-        <span class="n">help</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Whether to extract the ROI as a single object or not.&quot;</span><span class="p">),</span>
-    <span class="p">)</span>
-
-    <span class="nd">@property</span>
-    <span class="k">def</span> <span class="nf">is_empty</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if there is no ROI&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">roidata</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roidata</span><span class="p">)</span><span class="o">.</span><span class="n">size</span> <span class="o">==</span> <span class="mi">0</span></div>
-
-
-
 <div class="viewcode-block" id="FFTParam">
 <a class="viewcode-back" href="../../../api/param.html#cdl.computation.base.FFTParam">[docs]</a>
 <span class="k">class</span> <span class="nc">FFTParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
@@ -818,8 +793,7 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Values of labeledfuncs must be functions&quot;</span><span class="p">)</span>
 
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="n">roi_nb</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">roi_nb</span><span class="p">)):</span>
+    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indices</span><span class="p">()):</span>
         <span class="n">data_roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span>
         <span class="n">val_roi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span>
         <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val_roi</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">data_roi</span><span class="p">)</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">labeledfuncs</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>
