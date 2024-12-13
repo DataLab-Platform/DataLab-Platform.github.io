@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=32a2970b"></script>
+    <script src="../_static/documentation_options.js?v=96da1312"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -150,7 +150,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.0</p>
+    <p class="title logo__title">v0.18.1</p>
   
 </a></div>
     
@@ -503,6 +503,12 @@ document.write(`
 <li><p><em>Remarque</em> : il est déjà possible d’utiliser les fonctionnalités de traitement de DataLab depuis l’extérieur de DataLab en important le paquet <cite>cdl</cite>, mais ce paquet contient également le code GUI, qui n’est pas toujours nécessaire (par exemple, lors de l’utilisation de DataLab à partir d’un notebook Jupyter). L’idée ici est de créer un nouveau paquet qui ne contiendrait que les fonctionnalités mathématiques de DataLab, sans le code GUI.</p></li>
 </ul>
 </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La bibliothèque mathématique DataLab pourrait être l’occasion de reconsidérer la conception des fonctions de traitement de DataLab. Actuellement, les fonctions de traitement travaillant sur des objets de signaux et d’images reposent sur des objets <cite>guidata.dataset.DataSet</cite> pour les paramètres d’entrée. C’est très pratique pour le développeur car cela permet de créer automatiquement une interface graphique pour les fonctions de traitement, mais ce n’est pas très flexible pour l’utilisateur car cela oblige à instancier un objet <cite>DataSet</cite> avec les bons paramètres avant d’appeler la fonction de traitement (ce qui peut être fastidieux surtout lorsqu’il s’agit de fonctions de traitement simples nécessitant seulement quelques paramètres). Ainsi, il pourrait être intéressant de considérer une conception plus flexible et simple, où les paramètres de traitement seraient passés en tant qu’arguments de mot-clé aux fonctions de traitement. Les objets <cite>DataSet</cite> pourraient être gérés en interne par les fonctions de traitement (par exemple, en appelant la méthode <cite>DataSet.create</cite> avec les arguments de mot-clé passés par l’utilisateur). Cela permettrait de conserver la fonctionnalité de génération automatique de l’interface graphique pour les fonctions de traitement, mais permettrait également d’appeler directement les fonctions de traitement avec des arguments de mot-clé, sans avoir à créer d’objet <cite>DataSet</cite> au préalable.</p>
+</div>
+<ul class="simple">
 <li><p>Créer un plugin Jupyter pour l’analyse de données interactive avec DataLab :</p>
 <ul>
 <li><p>Il est déjà possible d’utiliser DataLab à partir d’un notebook Jupyter, grâce aux fonctionnalités de contrôle à distance (voir <a class="reference internal" href="../features/general/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance</span></a>), mais il serait utile d’avoir un plugin dédié</p></li>

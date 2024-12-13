@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ba2e7b09"></script>
+    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.0</p>
+    <p class="title logo__title">v0.18.1</p>
   
 </a></div>
     
@@ -879,6 +879,20 @@ document.write(`
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
+    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj_data: Object data</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            bool: True if successful</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">json_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@remote_call</span>
     <span class="k">def</span> <span class="nf">get_sel_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects uuids.</span>
 
@@ -1347,6 +1361,18 @@ document.write(`
         <span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="RemoteClient.add_object">
+<a class="viewcode-back" href="../../../features/general/remote.html#cdl.core.remote.RemoteClient.add_object">[docs]</a>
+    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj (SignalObj | ImageObj): Signal or image object</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj_data</span> <span class="o">=</span> <span class="n">dataset_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="RemoteClient.calc">
 <a class="viewcode-back" href="../../../features/general/remote.html#cdl.core.remote.RemoteClient.calc">[docs]</a>
     <span class="k">def</span> <span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1427,50 +1453,6 @@ document.write(`
         <span class="n">items_json</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
-
-
-    <span class="c1"># ----- Proxy specific methods ------------------------------------------------</span>
-    <span class="c1"># (not available symetrically in AbstractCDLControl)</span>
-
-<div class="viewcode-block" id="RemoteClient.add_object">
-<a class="viewcode-back" href="../../../features/general/remote.html#cdl.core.remote.RemoteClient.add_object">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            obj (SignalObj | ImageObj): Signal or image object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="c1"># TODO [P1]: Would it be better to use directly a remote &quot;add_object&quot; method?</span>
-        <span class="c1">#     This would require to implement the add_object method in the</span>
-        <span class="c1">#     XML-RPC server. And first of all, to check if performance is</span>
-        <span class="c1">#     really better or not. This is equivalent to comparing the performance</span>
-        <span class="c1">#     between JSON transfer (using &quot;json_to_dataset&quot;) and binary transfer</span>
-        <span class="c1">#     (using &quot;array_to_rpcbinary&quot;) through XML-RPC.</span>
-        <span class="c1">#</span>
-        <span class="c1">#     If it is better, then here is what should be done:</span>
-        <span class="c1">#     - Implement add_object method in AbstractCDLProcessor instead of in</span>
-        <span class="c1">#       BaseProxy</span>
-        <span class="c1">#     - Implement add_object method in XML-RPC server</span>
-        <span class="c1">#     - Remove add_object method from BaseProxy</span>
-        <span class="c1">#     - Rewrite add_object method in LocalProxy and RemoteClient to use</span>
-        <span class="c1">#       the remote method</span>
-
-        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">x</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">y</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">xunit</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">yunit</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">xlabel</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">ylabel</span>
-            <span class="p">)</span>
-        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">xunit</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">yunit</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">zunit</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">xlabel</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">ylabel</span><span class="p">,</span>
-                <span class="n">obj</span><span class="o">.</span><span class="n">zlabel</span><span class="p">,</span>
-            <span class="p">)</span></div>
 </div>
 
 </pre></div>

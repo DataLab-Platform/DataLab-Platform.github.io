@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ba2e7b09"></script>
+    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.0</p>
+    <p class="title logo__title">v0.18.1</p>
   
 </a></div>
     
@@ -1105,14 +1105,16 @@ document.write(`
 <span class="sd">        value: Value to find</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        X value where the Y value is the closest to the given value</span>
+<span class="sd">        An array of x values where the y value is the closest to the given value</span>
+<span class="sd">        (empty array if no zero crossing is found)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">leveled_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">value</span>
     <span class="n">xi_before</span> <span class="o">=</span> <span class="n">find_nearest_zero_point_idx</span><span class="p">(</span><span class="n">leveled_y</span><span class="p">)</span>
     <span class="n">xi_after</span> <span class="o">=</span> <span class="n">xi_before</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xi_before</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.0</span><span class="p">])</span>
+        <span class="c1"># Return an empty array if no zero crossing is found</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
     <span class="c1"># linear interpolation</span>
     <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span>
@@ -1124,7 +1126,9 @@ document.write(`
 
 <div class="viewcode-block" id="bandwidth">
 <a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.bandwidth">[docs]</a>
-<span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">bandwidth</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">3.0</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the bandwidth of the signal at a given level.</span>
 
 <span class="sd">    Args:</span>
@@ -1462,8 +1466,10 @@ document.write(`
     <span class="k">if</span> <span class="n">method</span> <span class="o">==</span> <span class="s2">&quot;zero-crossing&quot;</span><span class="p">:</span>
         <span class="n">hmax</span> <span class="o">=</span> <span class="n">dy</span> <span class="o">*</span> <span class="mf">0.5</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
         <span class="n">fx</span> <span class="o">=</span> <span class="n">find_x_at_value</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">hmax</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">fx</span><span class="o">.</span><span class="n">size</span> <span class="o">!=</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">fx</span><span class="o">.</span><span class="n">size</span> <span class="o">&gt;</span> <span class="mi">2</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Ambiguous zero-crossing points (found </span><span class="si">{</span><span class="n">fx</span><span class="o">.</span><span class="n">size</span><span class="si">}</span><span class="s2"> points)&quot;</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">fx</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;No zero-crossing points found&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fx</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">hmax</span><span class="p">,</span> <span class="n">fx</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">hmax</span>
 
     <span class="k">try</span><span class="p">:</span>

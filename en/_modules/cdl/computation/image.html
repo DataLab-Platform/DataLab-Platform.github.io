@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=ba2e7b09"></script>
+    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.0</p>
+    <p class="title logo__title">v0.18.1</p>
   
 </a></div>
     
@@ -1388,7 +1388,7 @@ document.write(`
 
 <div class="viewcode-block" id="compute_line_profile">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.image.compute_line_profile">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_line_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">LineProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">compute_line_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">LineProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute horizontal or vertical profile</span>
 
 <span class="sd">    Args:</span>
@@ -1396,7 +1396,7 @@ document.write(`
 <span class="sd">        p: parameters</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Output image object</span>
+<span class="sd">        Signal object with the profile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_masked_view</span><span class="p">()</span>
     <span class="n">p</span><span class="o">.</span><span class="n">row</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">row</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -1428,7 +1428,7 @@ document.write(`
 
 <div class="viewcode-block" id="compute_segment_profile">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.image.compute_segment_profile">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_segment_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">SegmentProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">compute_segment_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">SegmentProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute segment profile</span>
 
 <span class="sd">    Args:</span>
@@ -1436,7 +1436,7 @@ document.write(`
 <span class="sd">        p: parameters</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Output image object</span>
+<span class="sd">        Signal object with the segment profile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_masked_view</span><span class="p">()</span>
     <span class="n">p</span><span class="o">.</span><span class="n">row1</span> <span class="o">=</span> <span class="nb">min</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">row1</span><span class="p">,</span> <span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
@@ -1470,7 +1470,7 @@ document.write(`
 
 <div class="viewcode-block" id="compute_average_profile">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.image.compute_average_profile">[docs]</a>
-<span class="k">def</span> <span class="nf">compute_average_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AverageProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="k">def</span> <span class="nf">compute_average_profile</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AverageProfileParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute horizontal or vertical average profile</span>
 
 <span class="sd">    Args:</span>
@@ -1478,7 +1478,7 @@ document.write(`
 <span class="sd">        p: parameters</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Output image object</span>
+<span class="sd">        Signal object with the average profile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_masked_view</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">row2</span> <span class="o">==</span> <span class="o">-</span><span class="mi">1</span><span class="p">:</span>
@@ -1562,7 +1562,7 @@ document.write(`
 <span class="sd">        p: parameters</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Output image object</span>
+<span class="sd">        Signal object with the radial profile</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_masked_view</span><span class="p">()</span>
     <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">center</span> <span class="o">==</span> <span class="s2">&quot;centroid&quot;</span><span class="p">:</span>
@@ -1589,7 +1589,7 @@ document.write(`
 <span class="sd">        p: parameters</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        Output signal object</span>
+<span class="sd">        Signal object with the histogram</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_masked_view</span><span class="p">()</span><span class="o">.</span><span class="n">compressed</span><span class="p">()</span>
     <span class="n">suffix</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_suffix</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>  <span class="c1"># Also updates p.lower and p.upper</span>
@@ -2102,8 +2102,8 @@ document.write(`
             <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dy</span> <span class="o">*</span> <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span>
             <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">_x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">get_single_roi</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span><span class="o">.</span><span class="n">get_bounding_box</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-                <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x0</span>
-                <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y0</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="n">colx</span><span class="p">]</span> <span class="o">+=</span> <span class="n">x0</span> <span class="o">-</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span>
+                <span class="n">coords</span><span class="p">[:,</span> <span class="n">coly</span><span class="p">]</span> <span class="o">+=</span> <span class="n">y0</span> <span class="o">-</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span>
             <span class="n">idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">((</span><span class="n">coords</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="mi">1</span><span class="p">))</span> <span class="o">*</span> <span class="p">(</span><span class="mi">0</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span><span class="p">)</span>
             <span class="n">coords</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">hstack</span><span class="p">([</span><span class="n">idx</span><span class="p">,</span> <span class="n">coords</span><span class="p">])</span>
             <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>

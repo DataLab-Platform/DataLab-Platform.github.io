@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=ba2e7b09"></script>
+    <script src="../_static/documentation_options.js?v=1e56ff10"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -149,7 +149,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.0</p>
+    <p class="title logo__title">v0.18.1</p>
   
 </a></div>
     
@@ -520,6 +520,26 @@ notebook). The idea here is to create a new package that would contain only the
 mathematical features of DataLab, without the GUI code.</p></li>
 </ul>
 </li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The DataLab math library could be an opportunity to reconsider the design
+of the DataLab processing functions. Currently, the processing functions working
+on signal and image objects rely on <cite>guidata.dataset.DataSet</cite> objects for input
+parameters. This is very convenient for the developer because it allows to create
+a GUI for the processing functions automatically, but it is not very flexible for
+the user because it forces to instantiate a <cite>DataSet</cite> object with the right
+parameters before calling the processing function (this can be cumbersome especially
+when dealing with simple processing functions requiring only a few parameters).
+Thus, it could be interesting to consider a more flexible and simple design, where
+the processing parameters would be passed as keyword arguments to the processing
+functions. The <cite>DataSet</cite> objects could be handled internally by the processing
+functions (e.g. by calling the <cite>DataSet.create</cite> method with the keyword arguments
+passed by the user). This would allow to keep the automatic GUI generation feature
+for the processing functions, but would also allow to call the processing functions
+directly with keyword arguments, without having to create a <cite>DataSet</cite> object first.</p>
+</div>
+<ul class="simple">
 <li><p>Create a Jupyter plugin for interactive data analysis with DataLab:</p>
 <ul>
 <li><p>Using DataLab from a Jupyter notebook is already possible, thanks to the
