@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=96da1312"></script>
+    <script src="../../../../../_static/documentation_options.js?v=a1229978"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -1006,7 +1006,7 @@ document.write(`
                 <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="n">current_obj</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">i_row_res</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]):</span>
                     <span class="n">ylabel</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">result</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
                     <span class="n">i_roi</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[</span><span class="n">i_row_res</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span>
@@ -1144,6 +1144,8 @@ document.write(`
                     <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj1</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
                     <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
                     <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>  <span class="c1"># Remove any previous results</span>
                     <span class="n">src_objs_pair</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj1</span><span class="p">]</span>
                     <span class="k">for</span> <span class="n">src_gid</span> <span class="ow">in</span> <span class="n">src_gids</span><span class="p">[</span><span class="mi">1</span><span class="p">:]:</span>
                         <span class="n">src_obj</span> <span class="o">=</span> <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">][</span><span class="n">i_pair</span><span class="p">]</span>
@@ -1160,12 +1162,15 @@ document.write(`
                         <span class="p">)</span>
                         <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="k">break</span>
-                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
                         <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                                 <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                             <span class="k">else</span><span class="p">:</span>
-                                <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+                                <span class="n">roi</span> <span class="o">=</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span>
+                                <span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+                                <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">roi</span>
                     <span class="k">if</span> <span class="n">func_objs</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="n">func_objs</span><span class="p">(</span><span class="n">dst_obj</span><span class="p">,</span> <span class="n">src_objs_pair</span><span class="p">)</span>
                     <span class="n">short_ids</span> <span class="o">=</span> <span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">short_id</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">src_objs_pair</span><span class="p">]</span>
@@ -1192,6 +1197,8 @@ document.write(`
                         <span class="n">src_dtypes</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">src_dtype</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">dtype</span>
                         <span class="n">dst_dtype</span> <span class="o">=</span> <span class="nb">complex</span> <span class="k">if</span> <span class="n">is_complex_dtype</span><span class="p">(</span><span class="n">src_dtype</span><span class="p">)</span> <span class="k">else</span> <span class="nb">float</span>
                         <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">dtype</span><span class="o">=</span><span class="n">dst_dtype</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>  <span class="c1"># Remove any previous results</span>
                         <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
                         <span class="n">src_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="p">[</span><span class="n">src_obj</span><span class="p">]</span>
                     <span class="k">else</span><span class="p">:</span>
@@ -1209,12 +1216,15 @@ document.write(`
                         <span class="k">if</span> <span class="n">dst_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="k">break</span>
                         <span class="n">dst_objs</span><span class="p">[</span><span class="n">src_gid</span><span class="p">]</span> <span class="o">=</span> <span class="n">dst_obj</span>
-                        <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">update_resultshapes_from</span><span class="p">(</span><span class="n">src_obj</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                         <span class="k">if</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                             <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
                         <span class="k">else</span><span class="p">:</span>
-                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+                            <span class="n">roi</span> <span class="o">=</span> <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span>
+                            <span class="n">roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">src_obj</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span>
+                            <span class="n">dst_obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">roi</span>
 
             <span class="n">grps</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">grps</span><span class="p">:</span>
@@ -1269,6 +1279,9 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="p">(</span><span class="n">edit</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span> <span class="ow">and</span> <span class="n">paramclass</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">edit</span><span class="p">,</span> <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">init_param</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">paramclass</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">comment</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">edit</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
 
         <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">objmodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span>
@@ -1655,7 +1668,8 @@ document.write(`
         <span class="k">if</span> <span class="n">results</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">edited_roi</span><span class="p">,</span> <span class="n">modified</span> <span class="o">=</span> <span class="n">results</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
         <span class="n">group</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">to_params</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>  <span class="c1"># Unattended mode (automated unit tests)</span>
@@ -1663,14 +1677,17 @@ document.write(`
             <span class="ow">or</span> <span class="n">group</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">parent</span><span class="p">())</span>  <span class="c1"># ROI dialog has been accepted</span>
         <span class="p">):</span>
             <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
-                <span class="c1"># If ROI has been modified, save ROI (even in &quot;extract mode&quot;)</span>
+                <span class="c1"># If ROI has been modified, save ROI (not in &quot;extract mode&quot;)</span>
                 <span class="k">if</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
                     <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">edited_roi</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
-                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">edited_roi</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">extract</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">obj_i</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
+                            <span class="n">obj_i</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">edited_roi</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_SHAPE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">(</span><span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># self.panel.selection_changed(update_items=True)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">edited_roi</span></div>
 
 

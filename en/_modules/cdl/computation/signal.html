@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
+    <script src="../../../_static/documentation_options.js?v=29ae757a"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -500,7 +500,7 @@ document.write(`
     <span class="n">dst_n1n</span><span class="p">,</span>
     <span class="n">new_signal_result</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">ResultShape</span><span class="p">,</span> <span class="n">ROI1DParam</span><span class="p">,</span> <span class="n">SignalObj</span>
 
 <span class="n">VALID_DTYPES_STRLIST</span> <span class="o">=</span> <span class="n">SignalObj</span><span class="o">.</span><span class="n">get_valid_dtypenames</span><span class="p">()</span>
@@ -509,20 +509,24 @@ document.write(`
 <div class="viewcode-block" id="restore_data_outside_roi">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.restore_data_outside_roi">[docs]</a>
 <span class="k">def</span> <span class="nf">restore_data_outside_roi</span><span class="p">(</span><span class="n">dst</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore data outside the region of interest, after a computation, only if the</span>
-<span class="sd">    source signal has a ROI, if the data types are the same and if the shapes are the</span>
-<span class="sd">    same. Otherwise, do nothing.</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Restore data outside the Region Of Interest (ROI) of the input signal</span>
+<span class="sd">    after a computation, only if the input signal has a ROI,</span>
+<span class="sd">    and if the output signal has the same ROI as the input signal,</span>
+<span class="sd">    and if the data types are the same,</span>
+<span class="sd">    and if the shapes are the same.</span>
+<span class="sd">    Otherwise, do nothing.</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        dst: destination signal object</span>
 <span class="sd">        src: source signal object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="p">(</span>
-        <span class="n">src</span><span class="o">.</span><span class="n">maskdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-        <span class="ow">and</span> <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">dtype</span>
-        <span class="ow">and</span> <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">shape</span>
-    <span class="p">):</span>
-        <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">maskdata</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">maskdata</span><span class="p">]</span></div>
+    <span class="k">if</span> <span class="n">src</span><span class="o">.</span><span class="n">maskdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">dst</span><span class="o">.</span><span class="n">maskdata</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">array_equal</span><span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">maskdata</span><span class="p">,</span> <span class="n">dst</span><span class="o">.</span><span class="n">maskdata</span><span class="p">)</span>
+            <span class="ow">and</span> <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">dtype</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">dtype</span>
+            <span class="ow">and</span> <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">shape</span> <span class="o">==</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">shape</span>
+        <span class="p">):</span>
+            <span class="n">dst</span><span class="o">.</span><span class="n">xydata</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">maskdata</span><span class="p">]</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">xydata</span><span class="p">[</span><span class="n">src</span><span class="o">.</span><span class="n">maskdata</span><span class="p">]</span></div>
 
 
 
@@ -738,6 +742,8 @@ document.write(`
     <span class="n">initial_dtype</span> <span class="o">=</span> <span class="n">src1</span><span class="o">.</span><span class="n">xydata</span><span class="o">.</span><span class="n">dtype</span>
     <span class="n">title</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">operation</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;obj1&quot;</span><span class="p">,</span> <span class="n">src1</span><span class="o">.</span><span class="n">short_id</span><span class="p">)</span><span class="o">.</span><span class="n">replace</span><span class="p">(</span><span class="s2">&quot;obj2&quot;</span><span class="p">,</span> <span class="n">src2</span><span class="o">.</span><span class="n">short_id</span><span class="p">)</span>
     <span class="n">dst</span> <span class="o">=</span> <span class="n">src1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>  <span class="c1"># Remove any previous results</span>
     <span class="n">o</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">operator</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">factor</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">constant</span>
     <span class="k">if</span> <span class="n">o</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;×&quot;</span><span class="p">,</span> <span class="s2">&quot;/&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="n">a</span> <span class="o">==</span> <span class="mf">0.0</span><span class="p">:</span>
         <span class="n">dst</span><span class="o">.</span><span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">src1</span><span class="o">.</span><span class="n">y</span><span class="p">)</span> <span class="o">*</span> <span class="n">b</span>

@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=96da1312"></script>
+    <script src="../../../../../_static/documentation_options.js?v=a1229978"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -496,6 +496,8 @@ document.write(`
 <span class="kn">from</span> <span class="nn">cdl.core.gui</span> <span class="kn">import</span> <span class="n">actionhandler</span><span class="p">,</span> <span class="n">objectmodel</span><span class="p">,</span> <span class="n">objectview</span>
 <span class="kn">from</span> <span class="nn">cdl.core.gui.roieditor</span> <span class="kn">import</span> <span class="n">TypeROIEditor</span>
 <span class="kn">from</span> <span class="nn">cdl.core.model.base</span> <span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ANN_KEY</span><span class="p">,</span>
+    <span class="n">ROI_KEY</span><span class="p">,</span>
     <span class="n">ResultProperties</span><span class="p">,</span>
     <span class="n">ResultShape</span><span class="p">,</span>
     <span class="n">TypeObj</span><span class="p">,</span>
@@ -518,7 +520,6 @@ document.write(`
     <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Callable</span>
 
     <span class="kn">from</span> <span class="nn">plotpy.items</span> <span class="kn">import</span> <span class="n">CurveItem</span><span class="p">,</span> <span class="n">LabelItem</span><span class="p">,</span> <span class="n">MaskedImageItem</span>
-    <span class="kn">from</span> <span class="nn">plotpy.tools.base</span> <span class="kn">import</span> <span class="n">GuiTool</span>
 
     <span class="kn">from</span> <span class="nn">cdl.core.gui</span> <span class="kn">import</span> <span class="n">ObjItf</span>
     <span class="kn">from</span> <span class="nn">cdl.core.gui.main</span> <span class="kn">import</span> <span class="n">CDLMainWindow</span>
@@ -761,6 +762,21 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="PasteMetadataParam">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.PasteMetadataParam">[docs]</a>
+<span class="k">class</span> <span class="nc">PasteMetadataParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Paste metadata parameters&quot;&quot;&quot;</span>
+
+    <span class="n">keep_roi</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">keep_resultshapes</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Result shapes&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span><span class="n">col</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+    <span class="n">keep_annotations</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Annotations&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">keep_resultproperties</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Result properties&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span><span class="o">.</span><span class="n">set_pos</span><span class="p">(</span>
+        <span class="n">col</span><span class="o">=</span><span class="mi">1</span>
+    <span class="p">)</span>
+    <span class="n">keep_other</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">BoolItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Other metadata&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
 <div class="viewcode-block" id="BaseDataPanel">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel">[docs]</a>
 <span class="k">class</span> <span class="nc">BaseDataPanel</span><span class="p">(</span><span class="n">AbstractPanel</span><span class="p">,</span> <span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeROI</span><span class="p">,</span> <span class="n">TypeROIEditor</span><span class="p">]):</span>
@@ -775,7 +791,9 @@ document.write(`
     <span class="c1"># Replaced by the right class in child object:</span>
     <span class="n">IO_REGISTRY</span><span class="p">:</span> <span class="n">SignalIORegistry</span> <span class="o">|</span> <span class="n">ImageIORegistry</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">SIG_STATUS_MESSAGE</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>  <span class="c1"># emitted by &quot;qt_try_except&quot; decorator</span>
-    <span class="n">SIG_REFRESH_PLOT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>  <span class="c1"># Connected to PlotHandler.refresh_plot</span>
+    <span class="n">SIG_REFRESH_PLOT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span>
+    <span class="p">)</span>  <span class="c1"># Connected to PlotHandler.refresh_plot</span>
     <span class="n">ROIDIALOGOPTIONS</span> <span class="o">=</span> <span class="p">{}</span>
 
 <div class="viewcode-block" id="BaseDataPanel.get_roieditor_class">
@@ -820,6 +838,9 @@ document.write(`
         <span class="c1"># Find the object corresponding to the plot item</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get_obj_from_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Ensure that item&#39;s parameters are up-to-date:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">update_param</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="c1"># Update object metadata from plot item parameters</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">update_metadata_from_plot_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">():</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -973,7 +994,7 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">populate_tree</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">remove_all_objects</span><span class="p">()</span></div>
 
 
@@ -996,6 +1017,43 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">add_objprop_buttons</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="BaseDataPanel.refresh_plot">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.refresh_plot">[docs]</a>
+    <span class="k">def</span> <span class="nf">refresh_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot. This method simply emits the signal SIG_REFRESH_PLOT which is</span>
+<span class="sd">        connected to the method `PlotHandler.refresh_plot`.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            what: string describing the objects to refresh.</span>
+<span class="sd">             Valid values are &quot;selected&quot; (refresh the selected objects),</span>
+<span class="sd">             &quot;all&quot; (refresh all objects), &quot;existing&quot; (refresh existing plot items),</span>
+<span class="sd">             or an object uuid.</span>
+<span class="sd">            update_items: if True, update the items.</span>
+<span class="sd">             If False, only show the items (do not update them, except if the</span>
+<span class="sd">             option &quot;Use reference item LUT range&quot; is enabled and more than one</span>
+<span class="sd">             item is selected). Defaults to True.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled,</span>
+<span class="sd">             and refresh all items associated to objects (even the hidden ones, e.g.</span>
+<span class="sd">             when selecting multiple images of the same size and position). Defaults</span>
+<span class="sd">             to False.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if `what` is not a valid value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">what</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;existing&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value for &#39;what&#39;: </span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="BaseDataPanel.manual_refresh">
+<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.manual_refresh">[docs]</a>
+    <span class="k">def</span> <span class="nf">manual_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Manual refresh&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.get_category_actions">
@@ -1085,12 +1143,47 @@ document.write(`
 
 <div class="viewcode-block" id="BaseDataPanel.paste_metadata">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.paste_metadata">[docs]</a>
-    <span class="k">def</span> <span class="nf">paste_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">paste_metadata</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">PasteMetadataParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Paste metadata to selected object(s)&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">PasteMetadataParam</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Paste metadata&quot;</span><span class="p">),</span>
+                <span class="n">comment</span><span class="o">=</span><span class="n">_</span><span class="p">(</span>
+                    <span class="s2">&quot;Select what to keep from the clipboard.&lt;br&gt;&lt;br&gt;&quot;</span>
+                    <span class="s2">&quot;Result shapes and annotations, if kept, will be merged with &quot;</span>
+                    <span class="s2">&quot;existing ones. &lt;u&gt;All other metadata will be replaced&lt;/u&gt;.&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()):</span>
+                <span class="k">return</span>
+        <span class="n">metadata</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">keep_roi</span> <span class="ow">and</span> <span class="n">ROI_KEY</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="p">:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="n">ROI_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="p">[</span><span class="n">ROI_KEY</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">keep_annotations</span> <span class="ow">and</span> <span class="n">ANN_KEY</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="p">:</span>
+            <span class="n">metadata</span><span class="p">[</span><span class="n">ANN_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="p">[</span><span class="n">ANN_KEY</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">keep_resultshapes</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">keep_resultproperties</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">ResultProperties</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">keep_other</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="ow">not</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="ow">not</span> <span class="n">ResultProperties</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                    <span class="ow">and</span> <span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="n">ROI_KEY</span><span class="p">,</span> <span class="n">ANN_KEY</span><span class="p">)</span>
+                <span class="p">):</span>
+                    <span class="n">metadata</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">value</span>
         <span class="n">sel_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">sel_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">short_id</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__metadata_clipboard</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+            <span class="n">obj</span><span class="o">.</span><span class="n">update_metadata_from</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
+        <span class="c1"># We have to do a manual refresh in order to force the plot handler to update</span>
+        <span class="c1"># all plot items, even the ones that are not visible (otherwise, image masks</span>
+        <span class="c1"># would not be updated after pasting the metadata: see issue #123)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.remove_object">
@@ -1190,7 +1283,11 @@ document.write(`
             <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">refresh_plot</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+            <span class="c1"># We have to do a manual refresh in order to force the plot handler to</span>
+            <span class="c1"># update all plot items, even the ones that are not visible (otherwise,</span>
+            <span class="c1"># image masks would remained visible after deleting the ROI for example:</span>
+            <span class="c1"># see issue #122)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.add_annotations_from_items">
@@ -1207,7 +1304,7 @@ document.write(`
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">refresh_plot</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.update_metadata_view_settings">
@@ -1216,7 +1313,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata view settings&quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">:</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">update_metadata_view_settings</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.copy_titles_to_clipboard">
@@ -1455,7 +1552,7 @@ document.write(`
                 <span class="n">handler</span> <span class="o">=</span> <span class="n">JSONHandler</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
                 <span class="n">handler</span><span class="o">.</span><span class="n">load</span><span class="p">()</span>
                 <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span> <span class="o">=</span> <span class="n">handler</span><span class="o">.</span><span class="n">get_json_dict</span><span class="p">()</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.export_metadata_from_file">
@@ -1496,7 +1593,7 @@ document.write(`
         <span class="n">selected_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">selected_objects_changed</span><span class="p">(</span><span class="n">selected_groups</span><span class="p">,</span> <span class="n">selected_objects</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.properties_changed">
@@ -1509,7 +1606,7 @@ document.write(`
         <span class="n">obj</span><span class="o">.</span><span class="n">invalidate_maskdata_cache</span><span class="p">()</span>
         <span class="n">update_dataset</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">dataset</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------Plotting data in modal dialogs----------------------------------------------</span>
@@ -1629,13 +1726,6 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">__separate_views</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">dlg</span><span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">deleteLater</span><span class="p">()</span>
 
-<div class="viewcode-block" id="BaseDataPanel.manual_refresh">
-<a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.manual_refresh">[docs]</a>
-    <span class="k">def</span> <span class="nf">manual_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Manual refresh&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
-
-
 <div class="viewcode-block" id="BaseDataPanel.create_new_dialog">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.create_new_dialog">[docs]</a>
     <span class="k">def</span> <span class="nf">create_new_dialog</span><span class="p">(</span>
@@ -1700,6 +1790,7 @@ document.write(`
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
 
         <span class="c1"># Create a new dialog</span>
+
         <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog</span><span class="p">(</span>
             <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">toolbar</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
@@ -1711,9 +1802,20 @@ document.write(`
             <span class="k">return</span> <span class="kc">None</span>
 
         <span class="c1"># Create ROI editor (and add it to the dialog)</span>
-        <span class="c1"># pylint: disable=not-callable</span>
+
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">uuid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">:</span>
+            <span class="c1"># This happens for example when opening an already saved workspace with</span>
+            <span class="c1"># multiple images, and if the user tries to edit the ROI of a group of</span>
+            <span class="c1"># images without having selected any object yet. In this case, only the</span>
+            <span class="c1"># last image is actually plotted (because if the other have the same size</span>
+            <span class="c1"># and position, they are hidden), and the plot item of the first image is</span>
+            <span class="c1"># not created yet. The `obj.uuid` is precisely the uuid of the first image.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
+
+        <span class="c1"># pylint: disable=not-callable</span>
         <span class="n">roi_editor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roieditor_class</span><span class="p">()(</span><span class="n">dlg</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">extract</span><span class="p">,</span> <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">)</span>
+
         <span class="n">dlg</span><span class="o">.</span><span class="n">button_layout</span><span class="o">.</span><span class="n">insertWidget</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">roi_editor</span><span class="p">)</span>
 
         <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">dlg</span><span class="p">):</span>
@@ -1910,23 +2012,48 @@ document.write(`
 
                 <span class="n">i_yaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">yaxis</span><span class="p">)</span>
                 <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="s2">&quot;one_curve_per_title&quot;</span><span class="p">:</span>
-                    <span class="c1"># One curve per result title:</span>
-                    <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">grouped_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># title</span>
-                        <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
-                        <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>  <span class="c1"># object</span>
-                            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indices&quot;</span><span class="p">:</span>
-                                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
-                            <span class="k">else</span><span class="p">:</span>
-                                <span class="n">i_xaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>
-                                <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i_xaxis</span><span class="p">])</span>
-                            <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="mi">0</span><span class="p">][</span><span class="n">i_yaxis</span><span class="p">])</span>
-                        <span class="bp">self</span><span class="o">.</span><span class="n">__add_result_signal</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">yaxis</span><span class="p">)</span>
+                    <span class="c1"># One curve per ROI (if any) and per result title</span>
+                    <span class="c1"># ------------------------------------------------------------------</span>
+                    <span class="c1"># Begin by checking if all results have the same number of ROIs:</span>
+                    <span class="c1"># for simplicity, let&#39;s check the number of unique ROI indices.</span>
+                    <span class="n">all_roi_indexes</span> <span class="o">=</span> <span class="p">[</span>
+                        <span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">])</span> <span class="k">for</span> <span class="n">result</span> <span class="ow">in</span> <span class="n">rdata</span><span class="o">.</span><span class="n">results</span>
+                    <span class="p">]</span>
+                    <span class="c1"># Check if all roi_indexes are the same:</span>
+                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="nb">map</span><span class="p">(</span><span class="nb">tuple</span><span class="p">,</span> <span class="n">all_roi_indexes</span><span class="p">)))</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                        <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="p">,</span>
+                            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Plot results&quot;</span><span class="p">),</span>
+                            <span class="n">_</span><span class="p">(</span>
+                                <span class="s2">&quot;All objects associated with results must have the &quot;</span>
+                                <span class="s2">&quot;same regions of interest (ROIs) to plot results &quot;</span>
+                                <span class="s2">&quot;together.&quot;</span>
+                            <span class="p">),</span>
+                        <span class="p">)</span>
+                        <span class="k">return</span>
+                    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">all_roi_indexes</span><span class="p">[</span><span class="mi">0</span><span class="p">]:</span>
+                        <span class="n">roi_suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;|ROI</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">i_roi</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                        <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">grouped_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># title</span>
+                            <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="p">[],</span> <span class="p">[]</span>
+                            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>
+                                <span class="n">mask</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">i_roi</span>
+                                <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indices&quot;</span><span class="p">:</span>
+                                    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">index</span><span class="p">)</span>
+                                <span class="k">else</span><span class="p">:</span>
+                                    <span class="n">i_xaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>
+                                    <span class="n">x</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">i_xaxis</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                                <span class="n">y</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">i_yaxis</span><span class="p">][</span><span class="mi">0</span><span class="p">])</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">__add_result_signal</span><span class="p">(</span>
+                                <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}{</span><span class="n">roi_suffix</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">yaxis</span>
+                            <span class="p">)</span>
                 <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># One curve per result title, per object and per ROI:</span>
+                    <span class="c1"># One curve per result title, per object and per ROI</span>
+                    <span class="c1"># ------------------------------------------------------------------</span>
                     <span class="k">for</span> <span class="n">title</span><span class="p">,</span> <span class="n">results</span> <span class="ow">in</span> <span class="n">grouped_results</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>  <span class="c1"># title</span>
                         <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">result</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">results</span><span class="p">):</span>  <span class="c1"># object</span>
                             <span class="n">roi_idx</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">unique</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]),</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">int</span><span class="p">)</span>
                             <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">roi_idx</span><span class="p">:</span>  <span class="c1"># ROI</span>
+                                <span class="n">roi_suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;|ROI</span><span class="si">{</span><span class="nb">int</span><span class="p">(</span><span class="n">i_roi</span><span class="o">+</span><span class="mi">1</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="o">&gt;=</span> <span class="mi">0</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
                                 <span class="n">mask</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="p">[:,</span> <span class="mi">0</span><span class="p">]</span> <span class="o">==</span> <span class="n">i_roi</span>
                                 <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span> <span class="o">==</span> <span class="s2">&quot;indices&quot;</span><span class="p">:</span>
                                     <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="n">result</span><span class="o">.</span><span class="n">array</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">])[</span><span class="n">mask</span><span class="p">]</span>
@@ -1934,9 +2061,7 @@ document.write(`
                                     <span class="n">i_xaxis</span> <span class="o">=</span> <span class="n">rdata</span><span class="o">.</span><span class="n">xlabels</span><span class="o">.</span><span class="n">index</span><span class="p">(</span><span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">)</span>
                                     <span class="n">x</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">i_xaxis</span><span class="p">]</span>
                                 <span class="n">y</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">shown_array</span><span class="p">[</span><span class="n">mask</span><span class="p">,</span> <span class="n">i_yaxis</span><span class="p">]</span>
-                                <span class="n">stitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">objs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
-                                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">roi_idx</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
-                                    <span class="n">stitle</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;|ROI</span><span class="si">{</span><span class="n">i_roi</span><span class="si">}</span><span class="s2">&quot;</span>
+                                <span class="n">stitle</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">title</span><span class="si">}</span><span class="s2"> (</span><span class="si">{</span><span class="n">objs</span><span class="p">[</span><span class="n">index</span><span class="p">]</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)</span><span class="si">{</span><span class="n">roi_suffix</span><span class="si">}</span><span class="s2">&quot;</span>
                                 <span class="bp">self</span><span class="o">.</span><span class="n">__add_result_signal</span><span class="p">(</span>
                                     <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">stitle</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">xaxis</span><span class="p">,</span> <span class="n">param</span><span class="o">.</span><span class="n">yaxis</span>
                                 <span class="p">)</span>
@@ -1965,7 +2090,7 @@ document.write(`
                 <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
                 <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
                     <span class="n">obj</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__show_no_result_warning</span><span class="p">()</span></div>
 
@@ -1982,7 +2107,7 @@ document.write(`
         <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">add_label_with_title</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 </div>
 
 </pre></div>

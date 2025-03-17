@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
+    <script src="../../../_static/documentation_options.js?v=29ae757a"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -478,7 +478,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">guidata.dataset</span> <span class="k">as</span> <span class="nn">gds</span>
 <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 
-<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span> <span class="nn">cdl.config</span> <span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
 <span class="kn">from</span> <span class="nn">cdl.obj</span> <span class="kn">import</span> <span class="n">ResultProperties</span><span class="p">,</span> <span class="n">create_signal</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
@@ -701,7 +701,10 @@ document.write(`
             <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;|&quot;</span>
     <span class="k">if</span> <span class="n">suffix</span><span class="p">:</span>  <span class="c1"># suffix may be None or an empty string</span>
         <span class="n">title</span> <span class="o">+=</span> <span class="n">suffix</span>
-    <span class="k">return</span> <span class="n">src</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span></div>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>  <span class="c1"># Remove any previous results</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
 
 
 
@@ -730,7 +733,10 @@ document.write(`
         <span class="n">title</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">(</span><span class="si">{</span><span class="n">src1</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">src2</span><span class="o">.</span><span class="n">short_id</span><span class="si">}</span><span class="s2">)&quot;</span>
     <span class="k">if</span> <span class="n">suffix</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">title</span> <span class="o">+=</span> <span class="s2">&quot;|&quot;</span> <span class="o">+</span> <span class="n">suffix</span>
-    <span class="k">return</span> <span class="n">src1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span></div>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">src1</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">title</span><span class="o">=</span><span class="n">title</span><span class="p">)</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">keep_results</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">delete_results</span><span class="p">()</span>  <span class="c1"># Remove any previous results</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
 
 
 
@@ -793,7 +799,10 @@ document.write(`
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Values of labeledfuncs must be functions&quot;</span><span class="p">)</span>
 
     <span class="n">res</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="p">[</span><span class="kc">None</span><span class="p">]</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indices</span><span class="p">()):</span>
+    <span class="n">roi_indices</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">iterate_roi_indices</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">roi_indices</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">roi_indices</span><span class="o">.</span><span class="n">insert</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i_roi</span> <span class="ow">in</span> <span class="n">roi_indices</span><span class="p">:</span>
         <span class="n">data_roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_data</span><span class="p">(</span><span class="n">i_roi</span><span class="p">)</span>
         <span class="n">val_roi</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span> <span class="k">if</span> <span class="n">i_roi</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">i_roi</span>
         <span class="n">res</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">val_roi</span><span class="p">]</span> <span class="o">+</span> <span class="p">[</span><span class="n">fn</span><span class="p">(</span><span class="n">data_roi</span><span class="p">)</span> <span class="k">for</span> <span class="n">fn</span> <span class="ow">in</span> <span class="n">labeledfuncs</span><span class="o">.</span><span class="n">values</span><span class="p">()])</span>

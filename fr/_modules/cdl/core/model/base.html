@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=96da1312"></script>
+    <script src="../../../../_static/documentation_options.js?v=a1229978"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -1195,12 +1195,15 @@ document.write(`
 
 <div class="viewcode-block" id="ResultShape.merge_with">
 <a class="viewcode-back" href="../../../../api/obj.html#cdl.obj.ResultShape.merge_with">[docs]</a>
-    <span class="k">def</span> <span class="nf">merge_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">BaseObj</span><span class="p">,</span> <span class="n">other_obj</span><span class="p">:</span> <span class="n">BaseObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge object resultshape with another&#39;s: obj &lt;-- other_obj</span>
-<span class="sd">        or simply merge this resultshape with obj if other_obj is None&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="n">other_obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">other_obj</span> <span class="o">=</span> <span class="n">obj</span>
-        <span class="n">other_value</span> <span class="o">=</span> <span class="n">other_obj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
+    <span class="k">def</span> <span class="nf">merge_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">BaseObj</span><span class="p">,</span> <span class="n">other_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Merge object resultshape with another&#39;s metadata (obj &lt;-- other obj&#39;s</span>
+<span class="sd">        metadata)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object (signal/image)</span>
+<span class="sd">            other_metadata: other object metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other_value</span> <span class="o">=</span> <span class="n">other_metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">other_value</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">other</span> <span class="o">=</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">from_metadata_entry</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">key</span><span class="p">,</span> <span class="n">other_value</span><span class="p">)</span>
             <span class="k">assert</span> <span class="n">other</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
@@ -1219,7 +1222,7 @@ document.write(`
                 <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">new_array</span>
             <span class="k">else</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">array</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">vstack</span><span class="p">([</span><span class="bp">self</span><span class="o">.</span><span class="n">array</span><span class="p">,</span> <span class="n">other_array</span><span class="p">])</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ResultShape.transform_coordinates">
@@ -2078,7 +2081,7 @@ document.write(`
         <span class="c1"># and we will have to add it to this object manually.</span>
         <span class="k">for</span> <span class="n">mshape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterate_resultshapes</span><span class="p">():</span>
             <span class="k">assert</span> <span class="n">mshape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
-            <span class="n">mshape</span><span class="o">.</span><span class="n">merge_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="p">)</span>
+            <span class="n">mshape</span><span class="o">.</span><span class="n">merge_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other</span><span class="o">.</span><span class="n">metadata</span><span class="p">)</span>
         <span class="c1"># Iterating on `other` object result shapes to find result shapes that are</span>
         <span class="c1"># not present in this object, and add them to this object.</span>
         <span class="k">for</span> <span class="n">mshape</span> <span class="ow">in</span> <span class="n">other</span><span class="o">.</span><span class="n">iterate_resultshapes</span><span class="p">():</span>
@@ -2209,6 +2212,35 @@ document.write(`
                 <span class="c1"># Metadata entry is a metadata shape or a ROI</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">annotations</span> <span class="o">=</span> <span class="kc">None</span>
+
+    <span class="k">def</span> <span class="nf">update_metadata_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update metadata from another object&#39;s metadata (merge result shapes and</span>
+<span class="sd">        annotations, and update the rest of the metadata).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            other_metadata: other object metadata</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">other_metadata</span> <span class="o">=</span> <span class="n">other_metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+        <span class="c1"># Merge result shapes</span>
+        <span class="k">for</span> <span class="n">mshape</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iterate_resultshapes</span><span class="p">():</span>
+            <span class="k">assert</span> <span class="n">mshape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+            <span class="n">mshape</span><span class="o">.</span><span class="n">merge_with</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">other_metadata</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">other_metadata</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+                <span class="n">mshape</span> <span class="o">=</span> <span class="n">ResultShape</span><span class="o">.</span><span class="n">from_metadata_entry</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">assert</span> <span class="n">mshape</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span>
+                <span class="k">if</span> <span class="n">mshape</span><span class="o">.</span><span class="n">key</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+                    <span class="n">mshape</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="n">other_metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+        <span class="c1"># Merge annotations</span>
+        <span class="k">if</span> <span class="n">ANN_KEY</span> <span class="ow">in</span> <span class="n">other_metadata</span> <span class="ow">and</span> <span class="n">ANN_KEY</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="n">other_ann</span> <span class="o">=</span> <span class="n">json_to_items</span><span class="p">(</span><span class="n">other_metadata</span><span class="p">[</span><span class="n">ANN_KEY</span><span class="p">])</span>
+            <span class="n">self_ann</span> <span class="o">=</span> <span class="n">json_to_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">ANN_KEY</span><span class="p">])</span>
+            <span class="n">self_ann</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">other_ann</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="n">ANN_KEY</span><span class="p">]</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">self_ann</span><span class="p">)</span>
+            <span class="n">other_metadata</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ANN_KEY</span><span class="p">)</span>
+        <span class="c1"># Updating the rest of the metadata</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">other_metadata</span><span class="p">)</span>
 
     <span class="k">def</span> <span class="nf">get_metadata_option</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Any</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return metadata option value</span>

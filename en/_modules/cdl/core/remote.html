@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=1e56ff10"></script>
+    <script src="../../../_static/documentation_options.js?v=29ae757a"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -724,7 +724,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current panel name.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            str: Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
+<span class="sd">            Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_current_panel</span><span class="p">()</span>
 
@@ -733,7 +733,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch to panel.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel (str): Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
+<span class="sd">            panel: Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SWITCH_TO_PANEL</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
@@ -742,7 +742,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle auto refresh state.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state (bool): True to enable auto refresh, False to disable it</span>
+<span class="sd">            state: True to enable auto refresh, False to disable it</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_AUTO_REFRESH</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
@@ -751,7 +751,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle show titles state.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            state (bool): True to enable show titles, False to disable it</span>
+<span class="sd">            state: True to enable show titles, False to disable it</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_SHOW_TITLES</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
@@ -765,7 +765,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Save to a DataLab HDF5 file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): HDF5 file name (with extension .h5)</span>
+<span class="sd">            filename: HDF5 file name (with extension .h5)</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SAVE_TO_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
@@ -779,11 +779,12 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a DataLab HDF5 file or import from any other HDF5 file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            h5files (list[str] | None): HDF5 file names. Defaults to None.</span>
-<span class="sd">            import_all (bool | None): Import all objects from HDF5 file.</span>
-<span class="sd">                Defaults to None.</span>
-<span class="sd">            reset_all (bool | None): Reset all application data. Defaults to None.</span>
+<span class="sd">            h5files: HDF5 file names. Defaults to None.</span>
+<span class="sd">            import_all: Import all objects from HDF5 file. Defaults to None.</span>
+<span class="sd">            reset_all: Reset all application data. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">import_all</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">import_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">import_all</span>
+        <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">reset_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reset_all</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_OPEN_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">import_all</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -791,9 +792,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open DataLab HDF5 browser to Import HDF5 file.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            filename (str): HDF5 file name</span>
-<span class="sd">            reset_all (bool | None): Reset all application data. Defaults to None.</span>
+<span class="sd">            filename: HDF5 file name</span>
+<span class="sd">            reset_all: Reset all application data. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">reset_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reset_all</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -819,16 +821,16 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Signal title</span>
-<span class="sd">            xbinary (Binary): X data</span>
-<span class="sd">            ybinary (Binary): Y data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
+<span class="sd">            title: Signal title</span>
+<span class="sd">            xbinary: X data</span>
+<span class="sd">            ybinary: Y data</span>
+<span class="sd">            xunit: X unit. Defaults to None.</span>
+<span class="sd">            yunit: Y unit. Defaults to None.</span>
+<span class="sd">            xlabel: X label. Defaults to None.</span>
+<span class="sd">            ylabel: Y label. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if successful</span>
+<span class="sd">            True if successful</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">xdata</span> <span class="o">=</span> <span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">xbinary</span><span class="p">)</span>
         <span class="n">ydata</span> <span class="o">=</span> <span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">ybinary</span><span class="p">)</span>
@@ -855,17 +857,17 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Image title</span>
-<span class="sd">            zbinary (Binary): Z data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            zunit (str | None): Z unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
-<span class="sd">            zlabel (str | None): Z label. Defaults to None.</span>
+<span class="sd">            title: Image title</span>
+<span class="sd">            zbinary: Z data</span>
+<span class="sd">            xunit: X unit. Defaults to None.</span>
+<span class="sd">            yunit: Y unit. Defaults to None.</span>
+<span class="sd">            zunit: Z unit. Defaults to None.</span>
+<span class="sd">            xlabel: X label. Defaults to None.</span>
+<span class="sd">            ylabel: Y label. Defaults to None.</span>
+<span class="sd">            zlabel: Z label. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if successful</span>
+<span class="sd">            True if successful</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">zbinary</span><span class="p">)</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">create_image</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
@@ -886,7 +888,7 @@ document.write(`
 <span class="sd">            obj_data: Object data</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if successful</span>
+<span class="sd">            True if successful</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">json_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
@@ -928,8 +930,8 @@ document.write(`
 <span class="sd">        Args:</span>
 <span class="sd">            selection: List of group numbers (1 to N), or list of group uuids,</span>
 <span class="sd">             or None to select all groups. Defaults to None.</span>
-<span class="sd">            panel (str | None): panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
-<span class="sd">                If None, current panel is used. Defaults to None.</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used. Defaults to None.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">selection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_ALL_GROUPS</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
@@ -973,7 +975,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Return groups titles and lists of inner objects uuids and titles.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Tuple: groups titles, lists of inner objects uuids and titles</span>
+<span class="sd">            Groups titles, lists of inner objects uuids and titles</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_group_titles_with_object_infos</span><span class="p">()</span>
 
@@ -1021,10 +1023,10 @@ document.write(`
 <span class="sd">        Objects are sorted by group number and object index in group.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel (str | None): Panel name. Defaults to None.</span>
+<span class="sd">            panel: Panel name. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            list[str]: Object uuids</span>
+<span class="sd">            Object uuids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_uuids</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
@@ -1054,10 +1056,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            items_json (str): JSON string of annotation items</span>
-<span class="sd">            refresh_plot (bool | None): refresh plot. Defaults to True.</span>
-<span class="sd">            panel (str | None): panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
-<span class="sd">                If None, current panel is used.</span>
+<span class="sd">            items_json: JSON string of annotation items</span>
+<span class="sd">            refresh_plot: refresh plot. Defaults to True.</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items</span> <span class="o">=</span> <span class="n">json_to_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
@@ -1070,10 +1072,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a label with object title on the associated plot</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str | None): Label title. Defaults to None.</span>
-<span class="sd">                If None, the title is the object title.</span>
-<span class="sd">            panel (str | None): panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
-<span class="sd">                If None, current panel is used.</span>
+<span class="sd">            title: Label title. Defaults to None.</span>
+<span class="sd">             If None, the title is the object title.</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">add_label_with_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
 
@@ -1082,8 +1084,8 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Run macro.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">             number: Number of the macro (starting at 1). Defaults to None (run</span>
-<span class="sd">              current macro, or does nothing if there is no macro).</span>
+<span class="sd">            number: Number of the macro (starting at 1). Defaults to None (run</span>
+<span class="sd">             current macro, or does nothing if there is no macro).</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RUN_MACRO</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">number_or_title</span><span class="p">)</span>
 
@@ -1184,8 +1186,8 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to DataLab XML-RPC server.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            port (str | None): XML-RPC port to connect to. If not specified,</span>
-<span class="sd">                the port is automatically retrieved from DataLab configuration.</span>
+<span class="sd">            port: XML-RPC port to connect to. If not specified,</span>
+<span class="sd">             the port is automatically retrieved from DataLab configuration.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ConnectionRefusedError: DataLab is currently not running</span>
@@ -1221,10 +1223,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to connect to DataLab XML-RPC server.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            port (str | None): XML-RPC port to connect to. If not specified,</span>
-<span class="sd">                the port is automatically retrieved from DataLab configuration.</span>
-<span class="sd">            timeout (float | None): Timeout in seconds. Defaults to 5.0.</span>
-<span class="sd">            retries (int | None): Number of retries. Defaults to 10.</span>
+<span class="sd">            port: XML-RPC port to connect to. If not specified,</span>
+<span class="sd">             the port is automatically retrieved from DataLab configuration.</span>
+<span class="sd">            timeout: Timeout in seconds. Defaults to 5.0.</span>
+<span class="sd">            retries: Number of retries. Defaults to 10.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ConnectionRefusedError: Unable to connect to DataLab</span>
@@ -1296,16 +1298,16 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Signal title</span>
-<span class="sd">            xdata (numpy.ndarray): X data</span>
-<span class="sd">            ydata (numpy.ndarray): Y data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
+<span class="sd">            title: Signal title</span>
+<span class="sd">            xdata: X data</span>
+<span class="sd">            ydata: Y data</span>
+<span class="sd">            xunit: X unit. Defaults to None.</span>
+<span class="sd">            yunit: Y unit. Defaults to None.</span>
+<span class="sd">            xlabel: X label. Defaults to None.</span>
+<span class="sd">            ylabel: Y label. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if signal was added successfully, False otherwise</span>
+<span class="sd">            True if signal was added successfully, False otherwise</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid xdata dtype</span>
@@ -1337,17 +1339,17 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Image title</span>
-<span class="sd">            data (numpy.ndarray): Image data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            zunit (str | None): Z unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
-<span class="sd">            zlabel (str | None): Z label. Defaults to None.</span>
+<span class="sd">            title: Image title</span>
+<span class="sd">            data: Image data</span>
+<span class="sd">            xunit: X unit. Defaults to None.</span>
+<span class="sd">            yunit: Y unit. Defaults to None.</span>
+<span class="sd">            zunit: Z unit. Defaults to None.</span>
+<span class="sd">            xlabel: X label. Defaults to None.</span>
+<span class="sd">            ylabel: Y label. Defaults to None.</span>
+<span class="sd">            zlabel: Z label. Defaults to None.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if image was added successfully, False otherwise</span>
+<span class="sd">            True if image was added successfully, False otherwise</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid data dtype</span>
@@ -1367,7 +1369,7 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            obj (SignalObj | ImageObj): Signal or image object</span>
+<span class="sd">            obj: Signal or image object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj_data</span> <span class="o">=</span> <span class="n">dataset_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span></div>
@@ -1445,10 +1447,10 @@ document.write(`
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            items (list): annotation plot items</span>
-<span class="sd">            refresh_plot (bool | None): refresh plot. Defaults to True.</span>
-<span class="sd">            panel (str | None): panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
-<span class="sd">                If None, current panel is used.</span>
+<span class="sd">            items: annotation plot items</span>
+<span class="sd">            refresh_plot: refresh plot. Defaults to True.</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">items_json</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>

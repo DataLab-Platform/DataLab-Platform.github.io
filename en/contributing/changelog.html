@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=1e56ff10"></script>
+    <script src="../_static/documentation_options.js?v=29ae757a"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.1</p>
+    <p class="title logo__title">v0.18.2</p>
   
 </a></div>
     
@@ -418,6 +418,7 @@ document.write(`
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contribute_code.html">Contribute code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guidelines.html">Coding guidelines</a></li>
+<li class="toctree-l1"><a class="reference internal" href="gitworkflow.html">Git Workflow</a></li>
 <li class="toctree-l1"><a class="reference internal" href="environment.html">Setting up Development Environment</a></li>
 <li class="toctree-l1"><a class="reference internal" href="roadmap.html">Roadmap</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Changelog</a></li>
@@ -481,6 +482,66 @@ document.write(`
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a> for future and past milestones.</p>
+<section id="datalab-version-0-18-2">
+<h2>DataLab Version 0.18.2<a class="headerlink" href="#datalab-version-0-18-2" title="Link to this heading">#</a></h2>
+<p>ℹ️ General information:</p>
+<ul class="simple">
+<li><p>Python 3.13 is now supported, since the availability of the scikit-image V0.25 (see <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/104">Issue #104</a> - Python 3.13: <code class="docutils literal notranslate"><span class="pre">KeyError:</span> <span class="pre">'area_bbox'</span></code>)</p></li>
+</ul>
+<p>💥 Enhancements:</p>
+<ul class="simple">
+<li><p>Added new “Keep results after computation” option in “Processing” section:</p>
+<ul>
+<li><p>Before this change, when applying a processing feature (e.g. a filter, a threshold, etc.) on a signal or an image, the analysis results were removed from the object</p></li>
+<li><p>This new option allows to keep the analysis results after applying a processing feature on a signal or an image. Even if the analysis results are not updated, they might be relevant in some use cases (e.g. when using the 2D peak detection feature on an image, and then applying a filter on the image, or summing two images, etc.)</p></li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/138">Issue #138</a> - Image colormaps were no longer stored in metadata (and serialized in HDF5 files) since PlotPy v2.6.3 (this commit, specifically: <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/a37af8ae8392e5e3655e5c34b67a7cd1544ea845">PlotPyStack/PlotPy&#64;a37af8a</a>)</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/137">Issue #137</a> - Arithmetic operations and signal interpolation: dialog box with parameters is not displayed</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/136">Issue #136</a> - When processing a signal or an image, the analysis result is kept from original object</p>
+<ul>
+<li><p>Before this fix, when processing a signal or an image (e.g. when applying a filter, a threshold, etc.), the analysis result was kept from the original object, and was not updated with the new data. Thus the analysis result was not meaningful anymore, and was misleading the user.</p></li>
+<li><p>This is now fixed: the analysis result is now removed when processing a signal or an image. However it is not recalculated automatically, because there is no way to know which analysis result should be recalculated (e.g. if the user has applied a filter, should the FWHM be recalculated?) - besides, the current implementation of the analysis features does not allow to recalculate the analysis results automatically when the data is modified. The user has to recalculate the analysis results manually if needed.</p></li>
+</ul>
+</li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/132">Issue #132</a> - Plot analysis results: “One curve per result title” mode ignores ROIs</p>
+<ul>
+<li><p>Before this fix, the “One curve per result title” mode was ignoring ROIs, and was plotting the selected result for all objects (signals or images) without taking into account the ROI defined on the objects</p></li>
+<li><p>This is now fixed: the “One curve per result title” mode now takes into account the ROI defined on the objects, and plots the selected result for each object (signal or image) and for each ROI defined on the object</p></li>
+</ul>
+</li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/128">Issue #128</a> - Support long object titles in Signal and Image panels</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/133">Issue #133</a> - Remove specific analysis results from metadata clipboard during copy operation</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/135">Issue #135</a> - Allow to edit ROI on multiple signals or images at once</p>
+<ul>
+<li><p>Before this fix, the ROI editor was disabled when multiple signals or images were selected</p></li>
+<li><p>This is now fixed: the ROI editor is now enabled when multiple signals or images are selected, and the ROI is applied to all selected signals or images (only the ROI of the first selected signal or image is taken into account)</p></li>
+<li><p>This new behavior is consistent with the ROI extraction feature, which allows to extract the ROI on multiple signals or images at once, based on the ROI defined on the first selected signal or image</p></li>
+</ul>
+</li>
+<li><p>Image ROI features:</p>
+<ul>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/120">Issue #120</a> - ROI extraction on multiple images: defined ROI should not be saved in the first selected object. The design choice is to save the defined ROI neither in the first nor in any of the selected objects: the ROI is only used for the extraction, and is not saved in any object</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/121">Issue #121</a> - <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> when extracting multiple ROIs on a single image, if more than one image is selected</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/122">Issue #122</a> - Image masks are not refreshed when removing metadata except for the active image</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/123">Issue #123</a> - Image masks are not refreshed when pasting metadata on multiple images, except for the last image</p></li>
+</ul>
+</li>
+<li><p>Text and CSV files:</p>
+<ul>
+<li><p>Enhance text file reading by detecting data headers (using a list of typical headers from scientific instruments) and by allowing to skip the header when reading the file</p></li>
+<li><p>Ignore encoding errors when reading files in both open feature and import wizard, hence allowing to read files with special characters without raising an exception</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/124">Issue #124</a> - Text files: support locale decimal separator (different than <code class="docutils literal notranslate"><span class="pre">.</span></code>)</p></li>
+</ul>
+</li>
+<li><p>Signal analysis features: fixed duplicate results when no ROI is defined</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/113">Issue #113</a> - Call to <code class="docutils literal notranslate"><span class="pre">RemoteClient.open_h5_files</span></code> (and <code class="docutils literal notranslate"><span class="pre">import_h5_file</span></code>) fails without passing the optional arguments</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/116">Issue #116</a> - <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> exception when trying to remove a group after opening an HDF5 file</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-18-1">
 <h2>DataLab Version 0.18.1<a class="headerlink" href="#datalab-version-0-18-1" title="Link to this heading">#</a></h2>
 <p>💥 Enhancements:</p>
@@ -1757,6 +1818,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-2">DataLab Version 0.18.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-1">DataLab Version 0.18.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-0">DataLab Version 0.18.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-17-1">DataLab Version 0.17.1</a></li>
