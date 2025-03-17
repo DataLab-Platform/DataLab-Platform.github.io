@@ -113,7 +113,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! 🚀</div>
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>! 🚀</div>
 </aside>
 
   
@@ -1078,20 +1078,19 @@ document.write(`
 <span class="c1"># MARK: Misc. analyses -----------------------------------------------------------------</span>
 
 
-<div class="viewcode-block" id="find_zero_crossings">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.find_zero_crossings">[docs]</a>
-<span class="k">def</span> <span class="nf">find_zero_crossings</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Find the left indices of the zero-crossing intervals in the given array.</span>
+<div class="viewcode-block" id="find_nearest_zero_point_idx">
+<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.find_nearest_zero_point_idx">[docs]</a>
+<span class="k">def</span> <span class="nf">find_nearest_zero_point_idx</span><span class="p">(</span><span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the x indices where the corresponding y is the closest to zero</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        y: Input array.</span>
+<span class="sd">        y: Y data</span>
 
 <span class="sd">    Returns:</span>
-<span class="sd">        An array of indices where zero-crossings occur.</span>
+<span class="sd">        Indices of the points right before or at zero crossing</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">zero_crossing_indices</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sign</span><span class="p">(</span><span class="n">y</span><span class="p">)))[</span><span class="mi">0</span><span class="p">]</span>
-    <span class="k">return</span> <span class="n">zero_crossing_indices</span></div>
+    <span class="n">xi</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">((</span><span class="n">y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">|</span> <span class="p">(</span><span class="n">y</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">)</span> <span class="o">&amp;</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="mi">1</span><span class="p">:]</span> <span class="o">&gt;=</span> <span class="mi">0</span><span class="p">))[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">xi</span></div>
 
 
 
@@ -1111,20 +1110,17 @@ document.write(`
 <span class="sd">        (empty array if no zero crossing is found)</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">leveled_y</span> <span class="o">=</span> <span class="n">y</span> <span class="o">-</span> <span class="n">value</span>
-    <span class="n">xi_before</span> <span class="o">=</span> <span class="n">find_zero_crossings</span><span class="p">(</span><span class="n">leveled_y</span><span class="p">)</span>
+    <span class="n">xi_before</span> <span class="o">=</span> <span class="n">find_nearest_zero_point_idx</span><span class="p">(</span><span class="n">leveled_y</span><span class="p">)</span>
+    <span class="n">xi_after</span> <span class="o">=</span> <span class="n">xi_before</span> <span class="o">+</span> <span class="mi">1</span>
 
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">xi_before</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
         <span class="c1"># Return an empty array if no zero crossing is found</span>
         <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([])</span>
 
-    <span class="c1"># if the zero-crossing is exactly on a point, return the point</span>
-    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">any</span><span class="p">(</span><span class="n">leveled_y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">):</span>
-        <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">where</span><span class="p">(</span><span class="n">leveled_y</span> <span class="o">==</span> <span class="mi">0</span><span class="p">)]</span>
-
     <span class="c1"># linear interpolation</span>
-    <span class="n">xi_after</span> <span class="o">=</span> <span class="n">xi_before</span> <span class="o">+</span> <span class="mi">1</span>
-    <span class="n">slope</span> <span class="o">=</span> <span class="p">(</span><span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span>
-    <span class="n">x0</span> <span class="o">=</span> <span class="o">-</span><span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_before</span><span class="p">]</span> <span class="o">/</span> <span class="n">slope</span> <span class="o">+</span> <span class="n">x</span><span class="p">[</span><span class="n">xi_before</span><span class="p">]</span>
+    <span class="n">p</span> <span class="o">=</span> <span class="p">(</span><span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span> <span class="o">/</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="n">xi_before</span><span class="p">])</span>
+    <span class="n">ori</span> <span class="o">=</span> <span class="n">leveled_y</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span> <span class="o">-</span> <span class="n">p</span> <span class="o">*</span> <span class="n">x</span><span class="p">[</span><span class="n">xi_after</span><span class="p">]</span>
+    <span class="n">x0</span> <span class="o">=</span> <span class="o">-</span><span class="n">ori</span> <span class="o">/</span> <span class="n">p</span>  <span class="c1"># where the curve cut the absissa</span>
     <span class="k">return</span> <span class="n">x0</span></div>
 
 
@@ -1526,269 +1522,6 @@ document.write(`
     <span class="n">hw</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">sigma</span>
     <span class="n">yhm</span> <span class="o">=</span> <span class="n">GaussianModel</span><span class="o">.</span><span class="n">amplitude</span><span class="p">(</span><span class="n">amp</span><span class="p">,</span> <span class="n">sigma</span><span class="p">)</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">e</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">base</span>
     <span class="k">return</span> <span class="n">mu</span> <span class="o">-</span> <span class="n">hw</span><span class="p">,</span> <span class="n">yhm</span><span class="p">,</span> <span class="n">mu</span> <span class="o">+</span> <span class="n">hw</span><span class="p">,</span> <span class="n">yhm</span></div>
-
-
-
-<span class="c1"># MARK: Stability analysis -------------------------------------------------------------</span>
-
-
-<div class="viewcode-block" id="allan_variance">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.allan_variance">[docs]</a>
-<span class="k">def</span> <span class="nf">allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Allan variance for given time and measurement values at specified</span>
-<span class="sd">    tau values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Allan deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Allan variance values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) &quot;</span> <span class="s2">&quot;must have the same length.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Time step size</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time values (x) must be equally spaced.&quot;</span><span class="p">)</span>
-
-    <span class="n">allan_var</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">round</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">))</span>  <span class="c1"># Number of time steps in a tau</span>
-        <span class="k">if</span> <span class="n">m</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;Tau value </span><span class="si">{</span><span class="n">tau</span><span class="si">}</span><span class="s2"> is smaller than the sampling interval </span><span class="si">{</span><span class="n">dt</span><span class="si">}</span><span class="s2">&quot;</span>
-            <span class="p">)</span>
-        <span class="k">if</span> <span class="n">m</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="c1"># Tau too large for reliable statistics</span>
-            <span class="n">allan_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="c1"># Calculate the clusters/bins</span>
-        <span class="n">clusters</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">%</span> <span class="n">m</span><span class="p">)]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="o">-</span><span class="mi">1</span><span class="p">,</span> <span class="n">m</span><span class="p">)</span>
-        <span class="n">bin_means</span> <span class="o">=</span> <span class="n">clusters</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-
-        <span class="c1"># Calculate Allan variance using the definition</span>
-        <span class="c1"># σ²(τ) = 1/(2(N-1)) Σ(y_(i+1) - y_i)²</span>
-        <span class="c1"># where y_i are the bin means</span>
-        <span class="n">squared_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">bin_means</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">)</span>
-        <span class="n">n</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">bin_means</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
-
-        <span class="k">if</span> <span class="n">n</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-            <span class="n">var</span> <span class="o">=</span> <span class="n">squared_diff</span> <span class="o">/</span> <span class="p">(</span><span class="mf">2.0</span> <span class="o">*</span> <span class="n">n</span><span class="p">)</span>
-            <span class="n">allan_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">var</span><span class="p">)</span>
-        <span class="k">else</span><span class="p">:</span>
-            <span class="n">allan_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">allan_var</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="allan_deviation">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.allan_deviation">[docs]</a>
-<span class="k">def</span> <span class="nf">allan_deviation</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Allan deviation for given time and measurement values at specified</span>
-<span class="sd">    tau values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Allan deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Allan deviation values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">))</span></div>
-
-
-
-<div class="viewcode-block" id="overlapping_allan_variance">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.overlapping_allan_variance">[docs]</a>
-<span class="k">def</span> <span class="nf">overlapping_allan_variance</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Overlapping Allan variance for given time and measurement values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Allan deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Overlapping Allan variance values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) must have the same length.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Time step size</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time values (x) must be equally spaced.&quot;</span><span class="p">)</span>
-
-    <span class="n">overlapping_var</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
-        <span class="n">tau_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tau_bins</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">tau_bins</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">overlapping_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="n">tau_bins</span>  <span class="c1"># Number of overlapping segments</span>
-        <span class="n">avg_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">tau_bins</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">avg_values</span><span class="p">)</span>
-        <span class="n">overlapping_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="mf">0.5</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">diff</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">overlapping_var</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="modified_allan_variance">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.modified_allan_variance">[docs]</a>
-<span class="k">def</span> <span class="nf">modified_allan_variance</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Modified Allan variance for given time and measurement values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Modified Allan deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Modified Allan variance values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) must have the same length.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time values (x) must be equally spaced.&quot;</span><span class="p">)</span>
-
-    <span class="n">mod_allan_var</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
-        <span class="n">tau_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tau_bins</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">tau_bins</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">mod_allan_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau_bins</span><span class="p">)</span>
-        <span class="n">reshaped</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau_bins</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tau_bins</span><span class="p">)</span>
-
-        <span class="n">avg_values</span> <span class="o">=</span> <span class="n">reshaped</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">squared_diff</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">avg_values</span><span class="p">))</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">mod_allan_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_diff</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="p">(</span><span class="n">tau_bins</span><span class="o">**</span><span class="mi">2</span><span class="p">)))</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">mod_allan_var</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="hadamard_variance">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.hadamard_variance">[docs]</a>
-<span class="k">def</span> <span class="nf">hadamard_variance</span><span class="p">(</span>
-    <span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span>
-<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Hadamard variance for given time and measurement values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Hadamard deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Hadamard variance values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) must have the same length.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time values (x) must be equally spaced.&quot;</span><span class="p">)</span>
-
-    <span class="n">hadamard_var</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
-        <span class="n">tau_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tau_bins</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">tau_bins</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">3</span><span class="p">:</span>
-            <span class="n">hadamard_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">2</span> <span class="o">*</span> <span class="n">tau_bins</span>
-        <span class="n">avg_values</span> <span class="o">=</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="p">:</span> <span class="n">i</span> <span class="o">+</span> <span class="n">tau_bins</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">m</span><span class="p">)]</span>
-        <span class="n">diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">avg_values</span><span class="p">,</span> <span class="n">n</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>  <span class="c1"># Second differences</span>
-        <span class="n">hadamard_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">diff</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span> <span class="o">/</span> <span class="mi">6</span><span class="p">)</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">hadamard_var</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="total_variance">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.total_variance">[docs]</a>
-<span class="k">def</span> <span class="nf">total_variance</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Total variance for given time and measurement values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Total variance time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Total variance values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) must have the same length.&quot;</span>
-        <span class="p">)</span>
-
-    <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
-    <span class="k">if</span> <span class="ow">not</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">dt</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Time values (x) must be equally spaced.&quot;</span><span class="p">)</span>
-
-    <span class="n">total_var</span> <span class="o">=</span> <span class="p">[]</span>
-    <span class="k">for</span> <span class="n">tau</span> <span class="ow">in</span> <span class="n">tau_values</span><span class="p">:</span>
-        <span class="n">tau_bins</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">tau</span> <span class="o">/</span> <span class="n">dt</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">tau_bins</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">or</span> <span class="n">tau_bins</span> <span class="o">&gt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span><span class="p">:</span>
-            <span class="n">total_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nan</span><span class="p">)</span>
-            <span class="k">continue</span>
-
-        <span class="n">m</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">/</span> <span class="n">tau_bins</span><span class="p">)</span>
-        <span class="n">reshaped</span> <span class="o">=</span> <span class="n">y</span><span class="p">[:</span> <span class="n">m</span> <span class="o">*</span> <span class="n">tau_bins</span><span class="p">]</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">m</span><span class="p">,</span> <span class="n">tau_bins</span><span class="p">)</span>
-
-        <span class="n">avg_values</span> <span class="o">=</span> <span class="n">reshaped</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
-        <span class="n">squared_diff</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">avg_values</span><span class="p">)</span> <span class="o">**</span> <span class="mi">2</span>
-        <span class="n">total_var</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">squared_diff</span><span class="p">))</span>
-
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">total_var</span><span class="p">)</span></div>
-
-
-
-<div class="viewcode-block" id="time_deviation">
-<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.time_deviation">[docs]</a>
-<span class="k">def</span> <span class="nf">time_deviation</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Calculate the Time Deviation (TDEV) for given time and measurement values.</span>
-
-<span class="sd">    Args:</span>
-<span class="sd">        x: Time array</span>
-<span class="sd">        y: Measured values array</span>
-<span class="sd">        tau_values: Time deviation time values</span>
-
-<span class="sd">    Returns:</span>
-<span class="sd">        Time deviation values</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">allan_var</span> <span class="o">=</span> <span class="n">allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">allan_var</span><span class="p">)</span> <span class="o">*</span> <span class="n">tau_values</span></div>
 
 </pre></div>
 
