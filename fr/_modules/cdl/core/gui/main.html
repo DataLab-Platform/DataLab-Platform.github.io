@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=a1229978"></script>
+    <script src="../../../../_static/documentation_options.js?v=4377dd52"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -787,13 +787,17 @@ document.write(`
 <div class="viewcode-block" id="CDLMainWindow.get_object_uuids">
 <a class="viewcode-back" href="../../../../api/core.gui/main.html#cdl.core.gui.main.CDLMainWindow.get_object_uuids">[docs]</a>
     <span class="nd">@remote_controlled</span>
-    <span class="k">def</span> <span class="nf">get_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">get_object_uuids</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) uuid list for current panel.</span>
 <span class="sd">        Objects are sorted by group number and object index in group.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
 <span class="sd">             If None, current panel is used.</span>
+<span class="sd">            group: Group number, or group id, or group title.</span>
+<span class="sd">             Defaults to None (all groups).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of object uuids</span>
@@ -801,7 +805,19 @@ document.write(`
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if panel is unknown</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_datapanel</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span></div>
+        <span class="n">objmodel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_datapanel</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span><span class="o">.</span><span class="n">objmodel</span>
+        <span class="k">if</span> <span class="n">group</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">int</span><span class="p">):</span>
+            <span class="n">grp</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_from_number</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">grp</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_group</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+                <span class="n">grp</span> <span class="o">=</span> <span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_from_title</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">grp</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid group index, id or title: </span><span class="si">{</span><span class="n">group</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">grp</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="CDLMainWindow.get_sel_object_uuids">
@@ -818,6 +834,22 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_current_basedatapanel</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CDLMainWindow.add_group">
+<a class="viewcode-back" href="../../../../api/core.gui/main.html#cdl.core.gui.main.CDLMainWindow.add_group">[docs]</a>
+    <span class="nd">@remote_controlled</span>
+    <span class="k">def</span> <span class="nf">add_group</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">select</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add group to DataLab.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            title: Group title</span>
+<span class="sd">            panel: Panel name (valid values: &quot;signal&quot;, &quot;image&quot;). Defaults to None.</span>
+<span class="sd">            select: Select the group after creation. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__get_datapanel</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">select</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="CDLMainWindow.select_objects">
@@ -1933,19 +1965,25 @@ document.write(`
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">confirm_memory_state</span><span class="p">():</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">reset_all</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">False</span>
-            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_objects</span><span class="p">():</span>
+            <span class="n">reset_all</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">h5_clear_workspace</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">has_objects</span><span class="p">()</span> <span class="ow">and</span> <span class="n">Conf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">h5_clear_workspace_ask</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
                 <span class="n">answer</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">question</span><span class="p">(</span>
                     <span class="bp">self</span><span class="p">,</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Warning&quot;</span><span class="p">),</span>
                     <span class="n">_</span><span class="p">(</span>
-                        <span class="s2">&quot;Do you want to remove all signals and images &quot;</span>
-                        <span class="s2">&quot;before importing data from HDF5 files?&quot;</span>
-                    <span class="p">),</span>
-                    <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Yes</span> <span class="o">|</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">No</span><span class="p">,</span>
+                        <span class="s2">&quot;Do you want to clear current workspace (signals and images) &quot;</span>
+                        <span class="s2">&quot;before importing data from HDF5 files?&lt;br&gt;&lt;br&gt;&quot;</span>
+                        <span class="s2">&quot;Choosing to ignore this message will prevent it &quot;</span>
+                        <span class="s2">&quot;from being displayed again, and will use the &quot;</span>
+                        <span class="s2">&quot;current setting (</span><span class="si">%s</span><span class="s2">).&quot;</span>
+                    <span class="p">)</span>
+                    <span class="o">%</span> <span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Yes&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">reset_all</span> <span class="k">else</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;No&quot;</span><span class="p">)),</span>
+                    <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Yes</span> <span class="o">|</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">No</span> <span class="o">|</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ignore</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="k">if</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Yes</span><span class="p">:</span>
                     <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">elif</span> <span class="n">answer</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Ignore</span><span class="p">:</span>
+                    <span class="n">Conf</span><span class="o">.</span><span class="n">io</span><span class="o">.</span><span class="n">h5_clear_workspace_ask</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">h5files</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">basedir</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">base_dir</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
             <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">save_restore_stds</span><span class="p">():</span>
@@ -2040,6 +2078,19 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_current_basedatapanel</span><span class="p">()</span>
         <span class="n">panel</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="CDLMainWindow.load_from_directory">
+<a class="viewcode-back" href="../../../../api/core.gui/main.html#cdl.core.gui.main.CDLMainWindow.load_from_directory">[docs]</a>
+    <span class="nd">@remote_controlled</span>
+    <span class="k">def</span> <span class="nf">load_from_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from directory in current panel (signals/images).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path: directory path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__get_current_basedatapanel</span><span class="p">()</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">load_from_directory</span><span class="p">(</span><span class="n">path</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------Other methods related to AbstractCDLControl interface</span>

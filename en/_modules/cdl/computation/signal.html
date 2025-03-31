@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=29ae757a"></script>
+    <script src="../../../_static/documentation_options.js?v=cbfb3150"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -473,6 +473,7 @@ document.write(`
 
 <span class="kn">from</span> <span class="nn">__future__</span> <span class="kn">import</span> <span class="n">annotations</span>
 
+<span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">collections.abc</span> <span class="kn">import</span> <span class="n">Callable</span>
 <span class="kn">from</span> <span class="nn">enum</span> <span class="kn">import</span> <span class="n">Enum</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Literal</span>
@@ -483,6 +484,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">scipy.ndimage</span> <span class="k">as</span> <span class="nn">spi</span>
 <span class="kn">import</span> <span class="nn">scipy.signal</span> <span class="k">as</span> <span class="nn">sps</span>
 
+<span class="kn">import</span> <span class="nn">cdl.algorithms.coordinates</span>
 <span class="kn">import</span> <span class="nn">cdl.algorithms.signal</span> <span class="k">as</span> <span class="nn">alg</span>
 <span class="kn">from</span> <span class="nn">cdl.computation.base</span> <span class="kn">import</span> <span class="p">(</span>
     <span class="n">ArithmeticParam</span><span class="p">,</span>
@@ -913,6 +915,31 @@ document.write(`
     <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;swap_axes&quot;</span><span class="p">)</span>
     <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
     <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_inverse">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_inverse">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_inverse</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute inverse with :py:data:`numpy.invert`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;invert&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+        <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="n">category</span><span class="o">=</span><span class="ne">RuntimeWarning</span><span class="p">)</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">reciprocal</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">y</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">dst</span><span class="o">.</span><span class="n">y</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="k">if</span> <span class="n">dst</span><span class="o">.</span><span class="n">dy</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">dy</span> <span class="o">=</span> <span class="n">dst</span><span class="o">.</span><span class="n">y</span> <span class="o">*</span> <span class="n">src</span><span class="o">.</span><span class="n">dy</span> <span class="o">/</span> <span class="p">(</span><span class="n">src</span><span class="o">.</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">dst</span><span class="o">.</span><span class="n">dy</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">isinf</span><span class="p">(</span><span class="n">dst</span><span class="o">.</span><span class="n">dy</span><span class="p">)]</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+    <span class="n">restore_data_outside_roi</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">src</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dst</span></div>
 
 
@@ -1889,6 +1916,222 @@ document.write(`
 
 
 
+<div class="viewcode-block" id="AngleUnitParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.signal.AngleUnitParam">[docs]</a>
+<span class="k">class</span> <span class="nc">AngleUnitParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Choice of angle unit.&quot;&quot;&quot;</span>
+
+    <span class="n">units</span> <span class="o">=</span> <span class="p">((</span><span class="s2">&quot;rad&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Radian&quot;</span><span class="p">)),</span> <span class="p">(</span><span class="s2">&quot;deg&quot;</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Degree&quot;</span><span class="p">)))</span>
+    <span class="n">unit</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Angle unit&quot;</span><span class="p">),</span> <span class="n">units</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="s2">&quot;rad&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compute_cartesian2polar">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_cartesian2polar">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_cartesian2polar</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AngleUnitParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert cartesian coordinates to polar coordinates with</span>
+<span class="sd">    :py:func:`cdl.algorithms.coordinates.cartesian2polar`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: Source signal.</span>
+<span class="sd">        p: Parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;Polar coordinates&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;unit=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">cartesian2polar</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_polar2cartesian">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_polar2cartesian">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_polar2cartesian</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AngleUnitParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert polar coordinates to cartesian coordinates with</span>
+<span class="sd">    :py:func:`cdl.algorithms.coordinates.polar2cartesian`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: Source signal.</span>
+<span class="sd">        p: Parameters.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object.</span>
+
+<span class="sd">    .. note::</span>
+
+<span class="sd">        This function assumes that the x-axis represents the radius and the y-axis</span>
+<span class="sd">        represents the angle. Negative values are not allowed for the radius, and will</span>
+<span class="sd">        be clipped to 0 (a warning will be raised).</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;Cartesian coordinates&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;unit=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">unit</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">r</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">algorithms</span><span class="o">.</span><span class="n">coordinates</span><span class="o">.</span><span class="n">polar2cartesian</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="n">theta</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">unit</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="AllanVarianceParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.signal.AllanVarianceParam">[docs]</a>
+<span class="k">class</span> <span class="nc">AllanVarianceParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Allan variance parameters&quot;&quot;&quot;</span>
+
+    <span class="n">max_tau</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="s2">&quot;Max τ&quot;</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">100</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">&quot;pts&quot;</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compute_allan_variance">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_allan_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_allan_variance</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Allan variance with :py:func:`cdl.algorithms.signal.allan_variance`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;allan_variance&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">avar</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">avar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_allan_deviation">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_allan_deviation">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_allan_deviation</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Allan deviation with :py:func:`cdl.algorithms.signal.allan_deviation`</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;allan_deviation&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">adev</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">allan_deviation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">adev</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_overlapping_allan_variance">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_overlapping_allan_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_overlapping_allan_variance</span><span class="p">(</span>
+    <span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Overlapping Allan variance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;overlapping_allan_variance&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">oavar</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">overlapping_allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">oavar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_modified_allan_variance">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_modified_allan_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_modified_allan_variance</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Modified Allan variance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;modified_allan_variance&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">mavar</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">modified_allan_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">mavar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_hadamard_variance">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_hadamard_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_hadamard_variance</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Hadamard variance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;hadamard_variance&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">hvar</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">hadamard_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">hvar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_total_variance">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_total_variance">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_total_variance</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Total variance.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;total_variance&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">tvar</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">total_variance</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">tvar</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
+<div class="viewcode-block" id="compute_time_deviation">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_time_deviation">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_time_deviation</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">AllanVarianceParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute Time Deviation (TDEV).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source signal</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Result signal object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;time_deviation&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;max_tau=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">max_tau</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">src</span><span class="o">.</span><span class="n">get_data</span><span class="p">()</span>
+    <span class="n">tau_values</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">p</span><span class="o">.</span><span class="n">max_tau</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+    <span class="n">tdev</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">time_deviation</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">tau_values</span><span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">tau_values</span><span class="p">,</span> <span class="n">tdev</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
+
+
+
 <span class="c1"># MARK: compute_10 functions -----------------------------------------------------------</span>
 <span class="c1"># Functions with 1 input signal and 0 output signals (ResultShape or ResultProperties)</span>
 <span class="c1"># --------------------------------------------------------------------------------------</span>
@@ -2018,6 +2261,53 @@ document.write(`
 <span class="sd">        Segment coordinates</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">calc_resultshape</span><span class="p">(</span><span class="s2">&quot;fw1e2&quot;</span><span class="p">,</span> <span class="s2">&quot;segment&quot;</span><span class="p">,</span> <span class="n">obj</span><span class="p">,</span> <span class="n">alg</span><span class="o">.</span><span class="n">fw1e2</span><span class="p">,</span> <span class="n">add_label</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="FindAbscissaParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.signal.FindAbscissaParam">[docs]</a>
+<span class="k">class</span> <span class="nc">FindAbscissaParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Parameter dataset for abscissa finding&quot;&quot;&quot;</span>
+
+    <span class="n">y</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Ordinate&quot;</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compute_x_at_y">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_x_at_y">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_x_at_y</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">FindAbscissaParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultProperties</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the smallest x-value at a given y-value for a signal object.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The signal object containing x and y data.</span>
+<span class="sd">        p: The parameter dataset for finding the abscissa.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">         An object containing the x-value.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__compute_x_at_y</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute the x-value at a given y-value for a signal object.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            x: The x-values of the signal object.</span>
+<span class="sd">            y: The y-values of the signal object.</span>
+<span class="sd">            value: The y-value to find the x-value for.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The x-value at the given y-value.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">values</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">find_x_at_value</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">values</span><span class="o">.</span><span class="n">size</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">values</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="n">calc_resultproperties</span><span class="p">(</span>
+        <span class="sa">f</span><span class="s2">&quot;x|y=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">,</span>
+        <span class="p">{</span><span class="s2">&quot;x = </span><span class="si">%g</span><span class="s2"> {.xunit}&quot;</span><span class="p">:</span> <span class="k">lambda</span> <span class="n">xy</span><span class="p">:</span> <span class="n">__compute_x_at_y</span><span class="p">(</span><span class="n">xy</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">xy</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">p</span><span class="o">.</span><span class="n">y</span><span class="p">)},</span>
+    <span class="p">)</span></div>
 
 
 
@@ -2159,7 +2449,15 @@ document.write(`
 <div class="viewcode-block" id="compute_x_at_minmax">
 <a class="viewcode-back" href="../../../api/computation.html#cdl.computation.signal.compute_x_at_minmax">[docs]</a>
 <span class="k">def</span> <span class="nf">compute_x_at_minmax</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ResultProperties</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute x at min/max&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute the smallest argument at the minima and the smallest argument at the maxima.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        obj: The signal object.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        An object containing the x-values at the minima and the maxima.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">calc_resultproperties</span><span class="p">(</span>
         <span class="s2">&quot;x@min,max&quot;</span><span class="p">,</span>
         <span class="n">obj</span><span class="p">,</span>

@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=a1229978"></script>
+    <script src="../../../../_static/documentation_options.js?v=4377dd52"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -567,6 +567,17 @@ document.write(`
         <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_groups</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></div>
 
 
+<div class="viewcode-block" id="SelectCond.exactly_one_group_or_one_object">
+<a class="viewcode-back" href="../../../../api/core.gui/actionhandler.html#cdl.core.gui.actionhandler.SelectCond.exactly_one_group_or_one_object">[docs]</a>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">exactly_one_group_or_one_object</span><span class="p">(</span>
+        <span class="n">selected_groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ObjectGroup</span><span class="p">],</span>
+        <span class="n">selected_objects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Exactly one group or one signal or image is selected&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_groups</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="ow">or</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected_objects</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span></div>
+
+
 <div class="viewcode-block" id="SelectCond.at_least_one_group_or_one_object">
 <a class="viewcode-back" href="../../../../api/core.gui/actionhandler.html#cdl.core.gui.actionhandler.SelectCond.at_least_one_group_or_one_object">[docs]</a>
     <span class="nd">@staticmethod</span>
@@ -897,6 +908,14 @@ document.write(`
                 <span class="n">toolbar_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Open from directory...&quot;</span><span class="p">),</span>
+                <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;fileopen_directory.svg&quot;</span><span class="p">,</span>
+                <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Open </span><span class="si">%s</span><span class="s2"> objects from directory&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJECT_STR</span><span class="p">,</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">load_from_directory</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">always</span><span class="p">,</span>
+                <span class="n">toolbar_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Save </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJECT_STR</span><span class="p">,</span>
                 <span class="c1"># icon: filesave_signal.svg or filesave_image.svg</span>
                 <span class="n">icon_name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;filesave_</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="vm">__class__</span><span class="o">.</span><span class="vm">__name__</span><span class="p">[:</span><span class="mi">3</span><span class="p">]</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span><span class="si">}</span><span class="s2">.svg&quot;</span><span class="p">,</span>
@@ -916,20 +935,20 @@ document.write(`
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_category</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">EDIT</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rename&quot;</span><span class="p">),</span>
+                <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;rename.svg&quot;</span><span class="p">,</span>
+                <span class="n">shortcut</span><span class="o">=</span><span class="s2">&quot;F2&quot;</span><span class="p">,</span>
+                <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Edit title of selected </span><span class="si">%s</span><span class="s2"> or group&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJECT_STR</span><span class="p">,</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">rename_selected_object_or_group</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">exactly_one_group_or_one_object</span><span class="p">,</span>
+                <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;New group...&quot;</span><span class="p">),</span>
                 <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;new_group.svg&quot;</span><span class="p">,</span>
                 <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create a new group&quot;</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">new_group</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">always</span><span class="p">,</span>
-                <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-                <span class="n">toolbar_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
-            <span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rename group...&quot;</span><span class="p">),</span>
-                <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;rename_group.svg&quot;</span><span class="p">,</span>
-                <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rename selected group&quot;</span><span class="p">),</span>
-                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">rename_group</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">exactly_one_group</span><span class="p">,</span>
                 <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                 <span class="n">toolbar_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
             <span class="p">)</span>
@@ -1120,6 +1139,12 @@ document.write(`
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_division</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">at_least_one</span><span class="p">,</span>
                 <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;division.svg&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Inverse&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_inverse</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">at_least_one</span><span class="p">,</span>
+                <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;inverse.svg&quot;</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Arithmetic operation&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
@@ -1360,6 +1385,15 @@ document.write(`
                     <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_reverse_x</span><span class="p">,</span>
                     <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;reverse_signal_x.svg&quot;</span><span class="p">,</span>
                 <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Convert to Cartesian coordinates&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_polar2cartesian</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Convert to polar coordinates&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_cartesian2polar</span><span class="p">,</span>
+                <span class="p">)</span>
+
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Frequency filters&quot;</span><span class="p">),</span> <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;highpass.svg&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Low-pass filter&quot;</span><span class="p">),</span>
@@ -1430,6 +1464,37 @@ document.write(`
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_resampling</span><span class="p">,</span>
                 <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;resampling.svg&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Stability analysis&quot;</span><span class="p">),</span> <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;stability.svg&quot;</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Allan variance&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_allan_variance</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Allan deviation&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_allan_deviation</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Modified Allan deviation&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_modified_allan_variance</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Hadamard variance&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_hadamard_variance</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Total variance&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_total_variance</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Time deviation&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_time_deviation</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;All stability features&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_all_stability</span><span class="p">,</span>
+                    <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Compute all stability features&quot;</span><span class="p">),</span>
+                <span class="p">)</span>
 
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_category</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">ANALYSIS</span><span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
@@ -1446,9 +1511,16 @@ document.write(`
                 <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;fw1e2.svg&quot;</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;X values at min/max&quot;</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;...&quot;</span><span class="p">,</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Abscissa of the minimum and maximum&quot;</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_x_at_minmax</span><span class="p">,</span>
-                <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Compute X values at signal minimum and maximum&quot;</span><span class="p">),</span>
+                <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span>
+                    <span class="s2">&quot;Compute the smallest argument of the minima and the smallest &quot;</span>
+                    <span class="s2">&quot;argument of the maxima&quot;</span>
+                <span class="p">),</span>
+            <span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Abscissa at y=...&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_x_at_y</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Peak detection&quot;</span><span class="p">),</span>
@@ -1562,13 +1634,19 @@ document.write(`
                 <span class="n">select_condition</span><span class="o">=</span><span class="n">SelectCond</span><span class="o">.</span><span class="n">at_least_one</span><span class="p">,</span>
             <span class="p">)</span>
 
-            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rotation&quot;</span><span class="p">),</span> <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;rotate_right.svg&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Flip or rotation&quot;</span><span class="p">),</span> <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;rotate_right.svg&quot;</span><span class="p">):</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Flip horizontally&quot;</span><span class="p">),</span>
                     <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_fliph</span><span class="p">,</span>
                     <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;flip_horizontally.svg&quot;</span><span class="p">,</span>
                     <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                     <span class="n">context_menu_sep</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Flip diagonally&quot;</span><span class="p">),</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_swap_axes</span><span class="p">,</span>
+                    <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;swap_x_y.svg&quot;</span><span class="p">,</span>
+                    <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Flip vertically&quot;</span><span class="p">),</span>
@@ -1578,6 +1656,7 @@ document.write(`
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                     <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rotate </span><span class="si">%s</span><span class="s2"> right&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="s2">&quot;90°&quot;</span><span class="p">,</span>  <span class="c1"># pylint: disable=consider-using-f-string</span>
+                    <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
                     <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_rotate270</span><span class="p">,</span>
                     <span class="n">icon_name</span><span class="o">=</span><span class="s2">&quot;rotate_right.svg&quot;</span><span class="p">,</span>
                     <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
@@ -1589,7 +1668,7 @@ document.write(`
                     <span class="n">context_menu_pos</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span>
                 <span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rotate arbitrarily...&quot;</span><span class="p">),</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rotate by...&quot;</span><span class="p">),</span>
                     <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_rotate</span><span class="p">,</span>
                 <span class="p">)</span>
 

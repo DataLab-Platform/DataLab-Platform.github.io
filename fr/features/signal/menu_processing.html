@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../_static/documentation_options.js?v=a1229978"></script>
+    <script src="../../_static/documentation_options.js?v=4377dd52"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -151,7 +151,7 @@
     <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -435,7 +435,7 @@ document.write(`
 <li class="toctree-l1"><a class="reference internal" href="../general/logviewer.html">Journaux de bord</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/instviewer.html">Installation et configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../general/settings.html">Préférences</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../general/command.html">Ligne de commande</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../general/command.html">Fonctionnalités de la ligne de commande</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="current nav bd-sidenav">
@@ -561,6 +561,18 @@ document.write(`
 <section id="reverse-x-axis">
 <h3>Inverser l’axe des X<a class="headerlink" href="#reverse-x-axis" title="Lien vers cette rubrique">#</a></h3>
 <p>Crée un signal à partir des données inversées de l’axe des X du signal sélectionné.</p>
+</section>
+<section id="convert-to-cartesian-coordinates">
+<h3>Convertir en coordonnées cartésiennes<a class="headerlink" href="#convert-to-cartesian-coordinates" title="Lien vers cette rubrique">#</a></h3>
+<p>Crée un signal en convertissant les coordonnées polaires en coordonnées cartésiennes.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Cette fonction suppose que l’axe des X représente le rayon et l’axe des Y représente l’angle. Les valeurs négatives ne sont pas autorisées pour le rayon, et seront écrêtées à 0 (un avertissement sera émis).</p>
+</div>
+</section>
+<section id="convert-to-polar-coordinates">
+<h3>Convertir en coordonnées polaires<a class="headerlink" href="#convert-to-polar-coordinates" title="Lien vers cette rubrique">#</a></h3>
+<p>Crée un signal en convertissant les coordonnées cartésiennes en coordonnées polaires.</p>
 </section>
 </section>
 <section id="level-adjustment">
@@ -964,6 +976,50 @@ document.write(`
 </table>
 </div>
 </section>
+<section id="stability-analysis">
+<h2>Analyse de stabilité<a class="headerlink" href="#stability-analysis" title="Lien vers cette rubrique">#</a></h2>
+<p>Crée un signal à partir de l’analyse de stabilité de chaque signal</p>
+<p>Les méthodes d’analyse de stabilité suivantes sont disponibles :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 25.0%" />
+<col style="width: 75.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fonction</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Variance d’Allan</p></td>
+<td><p>Mesure de la stabilité d’un signal : définie comme la variance de la différence entre deux mesures successives en fonction de l’intervalle de temps entre elles.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Ecart-type d’Allan</p></td>
+<td><p>Racine carrée de la variance d’Allan.</p></td>
+</tr>
+<tr class="row-even"><td><p>Ecart-type d’Allan avec recouvrement</p></td>
+<td><p>Une version plus robuste de la variance d’Allan qui recoupe les segments successifs pour améliorer la confiance statistique.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Variance d’Allan modifiée</p></td>
+<td><p>Une variation de la variance d’Allan qui tient compte du bruit de phase en introduisant une opération de filtrage.</p></td>
+</tr>
+<tr class="row-even"><td><p>Variance de Hadamard</p></td>
+<td><p>Une alternative à la variance d’Allan, plus robuste aux dérives de fréquence linéaires dans le signal.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Variance totale</p></td>
+<td><p>Etend le concept de variance d’Allan pour couvrir tous les intervalles de moyenne possibles.</p></td>
+</tr>
+<tr class="row-even"><td><p>Déviation temporelle</p></td>
+<td><p>Dérivée de la déviation d’Allan, quantifie la stabilité en termes de temps plutôt que de fréquence.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>L’option « Toutes les analyses de stabilité » permet de calculer toutes les méthodes d’analyse de stabilité en une seule fois.</p>
+</div>
+</section>
 <section id="roi-extraction">
 <h2>Extraction de ROI<a class="headerlink" href="#roi-extraction" title="Lien vers cette rubrique">#</a></h2>
 <p>Crée un signal à partir d’une région d’intérêt (ROI) définie par l’utilisateur.</p>
@@ -1026,6 +1082,8 @@ document.write(`
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-calibration">Étalonnage linéaire</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-x-y-axes">Permuter les axes X/Y</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reverse-x-axis">Inverser l’axe des X</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-cartesian-coordinates">Convertir en coordonnées cartésiennes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-polar-coordinates">Convertir en coordonnées polaires</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-adjustment">Ajustement des niveaux</a><ul class="visible nav section-nav flex-column">
@@ -1042,6 +1100,7 @@ document.write(`
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#detrending">Elimination de tendance</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation">Interpolation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Rééchantillonnage</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-analysis">Analyse de stabilité</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#roi-extraction">Extraction de ROI</a></li>
 </ul>
   </nav></div>

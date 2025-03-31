@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=29ae757a"></script>
+    <script src="../../../_static/documentation_options.js?v=cbfb3150"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -604,7 +604,9 @@ document.write(`
     <span class="n">SIG_CLOSE_APP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
     <span class="n">SIG_RAISE_WINDOW</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
     <span class="n">SIG_ADD_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+    <span class="n">SIG_ADD_GROUP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_LOAD_FROM_FILES</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">SIG_LOAD_FROM_DIRECTORY</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_SELECT_OBJECTS</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_SELECT_GROUPS</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_SELECT_ALL_GROUPS</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
@@ -632,7 +634,9 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CLOSE_APP</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RAISE_WINDOW</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">raise_window</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">add_object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_GROUP</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">add_group</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_FILES</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_DIRECTORY</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">load_from_directory</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_OBJECTS</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">select_objects</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_GROUPS</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">select_groups</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_ALL_GROUPS</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">panel</span><span class="p">:</span> <span class="n">win</span><span class="o">.</span><span class="n">select_groups</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="n">panel</span><span class="p">))</span>
@@ -808,6 +812,15 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_FILES</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
+    <span class="k">def</span> <span class="nf">load_from_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from directory in current panel (signals/images).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            path: directory path</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_DIRECTORY</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+
+    <span class="nd">@remote_call</span>
     <span class="k">def</span> <span class="nf">add_signal</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
@@ -905,6 +918,19 @@ document.write(`
 <span class="sd">            List of selected objects uuids.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span> <span class="nf">add_group</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">select</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add group to DataLab.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            title: Group title</span>
+<span class="sd">            panel: Panel name (valid values: &quot;signal&quot;, &quot;image&quot;). Defaults to None.</span>
+<span class="sd">            select: Select the group after creation. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_GROUP</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">panel</span><span class="p">,</span> <span class="n">select</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span> <span class="nf">select_objects</span><span class="p">(</span>
@@ -1018,17 +1044,22 @@ document.write(`
         <span class="k">return</span> <span class="n">dataset_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
-    <span class="k">def</span> <span class="nf">get_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) list for current panel.</span>
+    <span class="k">def</span> <span class="nf">get_object_uuids</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) uuid list for current panel.</span>
 <span class="sd">        Objects are sorted by group number and object index in group.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel: Panel name. Defaults to None.</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used.</span>
+<span class="sd">            group: Group number, or group id, or group title.</span>
+<span class="sd">             Defaults to None (all groups).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Object uuids</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_uuids</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_uuids</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span> <span class="nf">get_object_shapes</span><span class="p">(</span>

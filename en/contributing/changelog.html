@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=29ae757a"></script>
+    <script src="../_static/documentation_options.js?v=cbfb3150"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -148,7 +148,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.18.2</p>
+    <p class="title logo__title">v0.19.0</p>
   
 </a></div>
     
@@ -482,6 +482,98 @@ document.write(`
   <section id="changelog">
 <h1>Changelog<a class="headerlink" href="#changelog" title="Link to this heading">#</a></h1>
 <p>See DataLab <a class="reference external" href="https://datalab-platform.com/en/contributing/roadmap.html">roadmap page</a> for future and past milestones.</p>
+<section id="datalab-version-0-19-0">
+<h2>DataLab Version 0.19.0<a class="headerlink" href="#datalab-version-0-19-0" title="Link to this heading">#</a></h2>
+<p>💥 New features and enhancements:</p>
+<ul class="simple">
+<li><p>Image operation features (“Operations” menu):</p>
+<ul>
+<li><p>Renamed “Rotation” submenu to “Flip or rotation”</p></li>
+<li><p>New “Flip diagonally” feature</p></li>
+</ul>
+</li>
+<li><p>Signal processing features (“Processing” menu):</p>
+<ul>
+<li><p>New “Convert to Cartesian coordinates” feature</p></li>
+<li><p>New “Convert to polar coordinates” feature</p></li>
+</ul>
+</li>
+<li><p>Signal analysis features (“Analysis” menu):</p>
+<ul>
+<li><p>Renamed “X values at min/max” to “Abscissa of the minimum and maximum”</p></li>
+<li><p>New “Abscissa at y=…” feature</p></li>
+</ul>
+</li>
+<li><p>New “Open from directory” feature:</p>
+<ul>
+<li><p>This feature allows to open multiple files from a directory at once, recursively (only the files with the supported extensions by the current panel are opened)</p></li>
+<li><p>Add “Open from directory” action to the “File” menu for both Signal and Image panels</p></li>
+<li><p>Add support for folders when dropping files in the Signal and Image panels</p></li>
+</ul>
+</li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">1/x</span></code> operation to the “Operations” menu for both Signal and Image panels:</p>
+<ul>
+<li><p>This feature relies on the <code class="docutils literal notranslate"><span class="pre">numpy.reciprocal</span></code> function, and handles the case where the denominator is zero by catching warnings and replacing the <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> values with <code class="docutils literal notranslate"><span class="pre">np.nan</span></code> values</p></li>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">compute_inverse</span></code> method for image and signal processors</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/143">Issue #143</a> - New feature: <code class="docutils literal notranslate"><span class="pre">1/x</span></code> for signals and images</p></li>
+</ul>
+</li>
+<li><p>Public API (local or remote):</p>
+<ul>
+<li><p>Add <code class="docutils literal notranslate"><span class="pre">add_group</span></code> method with <code class="docutils literal notranslate"><span class="pre">title</span></code> and <code class="docutils literal notranslate"><span class="pre">select</span></code> arguments to create a new group in a data panel (e.g. Signal or Image panel) and eventually select it after creation:</p>
+<ul>
+<li><p>Method was added to the following classes: <code class="docutils literal notranslate"><span class="pre">AbstractCDLControl</span></code>, <code class="docutils literal notranslate"><span class="pre">BaseDataPanel</span></code> and <code class="docutils literal notranslate"><span class="pre">RemoteClient</span></code></p></li>
+<li><p>This closes the following issues:</p>
+<ul>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/131">Issue #131</a> - <code class="docutils literal notranslate"><span class="pre">BaseDataPanel.add_group</span></code>: add <code class="docutils literal notranslate"><span class="pre">select</span></code> argument</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/47">Issue #47</a> - Remote proxy / Public API: add <code class="docutils literal notranslate"><span class="pre">add_group</span></code> method</p></li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AbstractCDLControl.get_object_uuids</span></code>: add an optional <code class="docutils literal notranslate"><span class="pre">group</span></code> argument (group ID, title or number) to eventually filter the objects by group (this closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/130">Issue #130</a>)</p></li>
+</ul>
+</li>
+<li><p>When opening an HDF5 file, the confirmation dialog box asking if current workspace should be cleared has a new possible answer “Ignore”:</p>
+<ul>
+<li><p>Choosing “Ignore” will prevent the confirmation dialog box from being displayed again, and will choose the current setting (i.e. clear or not the workspace) for all subsequent file openings</p></li>
+<li><p>Added a new “Clear workspace before loading HDF5 file” option in the “Settings” dialog box, to allow the user to change the current setting (i.e. clear or not the workspace) for all subsequent file openings</p></li>
+<li><p>Added a new “Ask before clearing workspace” option in the “Settings” dialog box, to allow the user to disable or re-enable the confirmation dialog box asking if current workspace should be cleared when opening an HDF5 file</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/146">Issue #146</a> - Ask before clearing workspace when opening HDF5 file: add “Ignore” option to prevent dialog from being displayed again</p></li>
+</ul>
+</li>
+<li><p>Object and group title renaming:</p>
+<ul>
+<li><p>Removed “Rename group” feature from the “Edit” menu and context menu</p></li>
+<li><p>Added “Rename object” feature to the “Edit” menu and context menu, with F2 shortcut, to rename the title of the selected object or group</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/148">Issue #148</a> - Rename signal/image/group title by pressing F2</p></li>
+</ul>
+</li>
+<li><p>Region of Interest editor:</p>
+<ul>
+<li><p>Regrouped the graphical actions (new rectangular ROI, new circular ROI, new polygonal ROI) in a single menu “Graphical ROI”</p></li>
+<li><p>Added new “Coordinate-based ROI” menu to create a ROI using manual input of the coordinates:</p>
+<ul>
+<li><p>For signals, the ROI is defined by the start and end coordinates</p></li>
+<li><p>For images:</p>
+<ul>
+<li><p>The rectangular ROI is defined by the top-left and bottom-right coordinates</p></li>
+<li><p>The circular ROI is defined by the center and radius coordinates</p></li>
+<li><p>The polygonal ROI is not supported yet</p></li>
+</ul>
+</li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/145">Issue #145</a> - ROI editor: add manual input of the coordinates</p></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<p>🛠️ Bug fixes:</p>
+<ul class="simple">
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/141">Issue #141</a> - Image analysis: mask <code class="docutils literal notranslate"><span class="pre">nan</span></code> values when computing statistics, for example</p></li>
+<li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/144">Issue #144</a> - Average profile extraction: <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> when selection rectangle is larger than the image</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-18-2">
 <h2>DataLab Version 0.18.2<a class="headerlink" href="#datalab-version-0-18-2" title="Link to this heading">#</a></h2>
 <p>ℹ️ General information:</p>
@@ -807,7 +899,7 @@ document.write(`
 <li><p>Fixed <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/82">Issue #82</a> - Macros are not renamed in DataLab after exporting them to Python scripts</p></li>
 <li><p><code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> object can now be added to <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> or <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> metadata even outside a Qt event loop (because the label item is no longer created right away)</p></li>
 <li><p>Progress bar is now automatically closed as expected when an error occurrs during a long operation (e.g. when opening a file)</p></li>
-<li><p>Difference, division, …: dialog box for the second operand selection was allowing to select a group (only a signal or an image should be selected)</p></li>
+<li><p>Difference, division…: dialog box for the second operand selection was allowing to select a group (only a signal or an image should be selected)</p></li>
 <li><p>When doing an operation which involves an object (signal or image) with higher order number than the current object (e.g. when subtracting an image with an image from a group below the current image), the resulting object’s title now correctly refers to the order numbers of the objects involved in the operation (e.g., to continue with the subtraction example mentioned above, the resulting object’s title was previously referring to the order number before the insertion of the resulting image)</p></li>
 <li><p>Added support for additional test data folder thanks to the <code class="docutils literal notranslate"><span class="pre">CDL_DATA</span></code> environment variable (useful for testing purposes, and especially in the context of Debian packaging)</p></li>
 </ul>
@@ -861,7 +953,7 @@ document.write(`
 <li><p>The menu bar and toolbars have been reorganized to make the application more intuitive and easier to use</p></li>
 <li><p>Operations and processing features have been regrouped in submenus</p></li>
 <li><p>All visualization-related actions are now grouped in the plot view vertical toolbar</p></li>
-<li><p>Clarified the “Annotations” management (new buttons, toolbar action, …)</p></li>
+<li><p>Clarified the “Annotations” management (new buttons, toolbar action…)</p></li>
 </ul>
 </li>
 <li><p>New validation process for signal and image features:</p>
@@ -936,7 +1028,7 @@ document.write(`
 </tr>
 <tr class="row-odd"><td><p>Processing</p></td>
 <td><p></p></td>
-<td><p>Windowing (Hanning, Hamming, Blackman, Blackman-Harris, Nuttall, Flat-top, …)</p></td>
+<td><p>Windowing (Hanning, Hamming, Blackman, Blackman-Harris, Nuttall, Flat-top…)</p></td>
 </tr>
 <tr class="row-even"><td><p>Processing</p></td>
 <td><p>Fit</p></td>
@@ -1343,7 +1435,7 @@ document.write(`
 <li><p>1D and 2D analysis results:</p>
 <ul>
 <li><p>Additionnaly to the previous enhancement, more analysis results are now shown in the “Results” dialog box</p></li>
-<li><p>This concerns both 1D (FHWM, …) and 2D analysis results (contours, blobs, …):</p>
+<li><p>This concerns both 1D (FHWM…) and 2D analysis results (contours, blobs…):</p>
 <ul>
 <li><p>Segment results now also show length (L) and center coordinates (Xc, Yc)</p></li>
 <li><p>Circle and ellipse results now also show area (A)</p></li>
@@ -1715,7 +1807,7 @@ document.write(`
 </li>
 <li><p>Image processing:</p>
 <ul>
-<li><p>Added pixel binning operation (X/Y binning factors, operation: sum, mean, …)</p></li>
+<li><p>Added pixel binning operation (X/Y binning factors, operation: sum, mean…)</p></li>
 <li><p>Added “Distribute on a grid” and “Reset image positions” in operation menu</p></li>
 <li><p>Added Butterworth filter</p></li>
 <li><p>Added exposure processing features:</p>
@@ -1818,6 +1910,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-19-0">DataLab Version 0.19.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-2">DataLab Version 0.18.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-1">DataLab Version 0.18.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-0">DataLab Version 0.18.0</a></li>
