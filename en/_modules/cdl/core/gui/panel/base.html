@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=cbfb3150"></script>
+    <script src="../../../../../_static/documentation_options.js?v=6f83b549"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -472,6 +472,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">abc</span>
 <span class="kn">import</span> <span class="nn">dataclasses</span>
 <span class="kn">import</span> <span class="nn">glob</span>
+<span class="kn">import</span> <span class="nn">os</span>
 <span class="kn">import</span> <span class="nn">os.path</span> <span class="k">as</span> <span class="nn">osp</span>
 <span class="kn">import</span> <span class="nn">re</span>
 <span class="kn">import</span> <span class="nn">warnings</span>
@@ -797,7 +798,7 @@ document.write(`
     <span class="n">IO_REGISTRY</span><span class="p">:</span> <span class="n">SignalIORegistry</span> <span class="o">|</span> <span class="n">ImageIORegistry</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">SIG_STATUS_MESSAGE</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>  <span class="c1"># emitted by &quot;qt_try_except&quot; decorator</span>
     <span class="n">SIG_REFRESH_PLOT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span>
-        <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span>
+        <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span>
     <span class="p">)</span>  <span class="c1"># Connected to PlotHandler.refresh_plot</span>
     <span class="n">ROIDIALOGOPTIONS</span> <span class="o">=</span> <span class="p">{}</span>
 
@@ -1027,10 +1028,14 @@ document.write(`
 <div class="viewcode-block" id="BaseDataPanel.refresh_plot">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.refresh_plot">[docs]</a>
     <span class="k">def</span> <span class="nf">refresh_plot</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot. This method simply emits the signal SIG_REFRESH_PLOT which is</span>
-<span class="sd">        connected to the method `PlotHandler.refresh_plot`.</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            what: string describing the objects to refresh.</span>
@@ -1041,17 +1046,26 @@ document.write(`
 <span class="sd">             If False, only show the items (do not update them, except if the</span>
 <span class="sd">             option &quot;Use reference item LUT range&quot; is enabled and more than one</span>
 <span class="sd">             item is selected). Defaults to True.</span>
-<span class="sd">            force: if True, force refresh even if auto refresh is disabled,</span>
-<span class="sd">             and refresh all items associated to objects (even the hidden ones, e.g.</span>
-<span class="sd">             when selecting multiple images of the same size and position). Defaults</span>
-<span class="sd">             to False.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled.</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">            only_visible: if True, only refresh visible items. Defaults to True.</span>
+<span class="sd">             Visible items are the ones that are not hidden by other items or the items</span>
+<span class="sd">             except the first one if the option &quot;Show first only&quot; is enabled.</span>
+<span class="sd">             This is useful for images, where the last image is the one that is shown.</span>
+<span class="sd">             If False, all items are refreshed.</span>
+<span class="sd">            only_existing: if True, only refresh existing items. Defaults to False.</span>
+<span class="sd">             Existing items are the ones that have already been created and are</span>
+<span class="sd">             associated to the object uuid. If False, create new items for the</span>
+<span class="sd">             objects that do not have an item yet.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if `what` is not a valid value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">what</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="s2">&quot;all&quot;</span><span class="p">,</span> <span class="s2">&quot;existing&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value for &#39;what&#39;: </span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="n">force</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REFRESH_PLOT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span>
+            <span class="n">what</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="n">force</span><span class="p">,</span> <span class="n">only_visible</span><span class="p">,</span> <span class="n">only_existing</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.manual_refresh">
@@ -1195,10 +1209,12 @@ document.write(`
         <span class="n">sel_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">sel_objects</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">obj</span><span class="p">:</span> <span class="n">obj</span><span class="o">.</span><span class="n">short_id</span><span class="p">,</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">):</span>
             <span class="n">obj</span><span class="o">.</span><span class="n">update_metadata_from</span><span class="p">(</span><span class="n">metadata</span><span class="p">)</span>
-        <span class="c1"># We have to do a manual refresh in order to force the plot handler to update</span>
+        <span class="c1"># We have to do a special refresh in order to force the plot handler to update</span>
         <span class="c1"># all plot items, even the ones that are not visible (otherwise, image masks</span>
         <span class="c1"># would not be updated after pasting the metadata: see issue #123)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+            <span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">only_existing</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.remove_object">
@@ -1298,11 +1314,13 @@ document.write(`
             <span class="k">if</span> <span class="n">index</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">refresh_plot</span><span class="p">:</span>
-            <span class="c1"># We have to do a manual refresh in order to force the plot handler to</span>
+            <span class="c1"># We have to do a special refresh in order to force the plot handler to</span>
             <span class="c1"># update all plot items, even the ones that are not visible (otherwise,</span>
             <span class="c1"># image masks would remained visible after deleting the ROI for example:</span>
             <span class="c1"># see issue #122)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span></div>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+                <span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">only_existing</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.add_annotations_from_items">
@@ -1443,11 +1461,16 @@ document.write(`
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__load_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">]:</span>
+    <span class="k">def</span> <span class="nf">__load_from_file</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">create_group</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">add_objects</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">]</span> <span class="o">|</span> <span class="nb">list</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from file (signal/image), add them to DataLab and return them.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: file name</span>
+<span class="sd">            create_group: if True, create a new group if more than one object is loaded.</span>
+<span class="sd">             Defaults to True. If False, all objects are added to the current group.</span>
+<span class="sd">            add_objects: if True, add objects to the panel. Defaults to True.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            New object or list of new objects</span>
@@ -1455,11 +1478,12 @@ document.write(`
         <span class="n">worker</span> <span class="o">=</span> <span class="n">CallbackWorker</span><span class="p">(</span><span class="k">lambda</span> <span class="n">worker</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">IO_REGISTRY</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">worker</span><span class="p">))</span>
         <span class="n">objs</span> <span class="o">=</span> <span class="n">qt_long_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Adding objects to workspace&quot;</span><span class="p">),</span> <span class="n">worker</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">group_id</span> <span class="o">=</span> <span class="kc">None</span>
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">objs</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span> <span class="ow">and</span> <span class="n">create_group</span><span class="p">:</span>
+            <span class="c1"># Create a new group if more than one object is loaded</span>
             <span class="n">group_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">filename</span><span class="p">))</span><span class="o">.</span><span class="n">uuid</span>
         <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;source&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="n">filename</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="o">=</span><span class="n">obj</span> <span class="ow">is</span> <span class="n">objs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+            <span class="k">if</span> <span class="n">add_objects</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="o">=</span><span class="n">obj</span> <span class="ow">is</span> <span class="n">objs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">selection_changed</span><span class="p">()</span>
         <span class="k">return</span> <span class="n">objs</span>
 
@@ -1493,27 +1517,58 @@ document.write(`
                 <span class="n">directory</span> <span class="o">=</span> <span class="n">getexistingdirectory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Open&quot;</span><span class="p">),</span> <span class="n">basedir</span><span class="p">)</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">directory</span><span class="p">:</span>
             <span class="k">return</span> <span class="p">[]</span>
-        <span class="c1"># Get all files in the directory:</span>
-        <span class="n">relfnames</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span>
-            <span class="n">osp</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="n">directory</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;**&quot;</span><span class="p">,</span> <span class="s2">&quot;*.*&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="p">)</span>
-        <span class="c1"># When Python 3.9 will be dropped, we can use (support for `root_dir` is added):</span>
-        <span class="c1"># relfnames = sorted(glob.glob(&quot;**/*.*&quot;, root_dir=directory, recursive=True))</span>
-        <span class="n">filenames</span> <span class="o">=</span> <span class="p">[</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span> <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">relfnames</span><span class="p">]</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">(</span><span class="n">filenames</span><span class="p">,</span> <span class="n">ignore_unknown</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+        <span class="n">folders</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">path</span>
+            <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="n">glob</span><span class="o">.</span><span class="n">glob</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">directory</span><span class="p">,</span> <span class="s2">&quot;**&quot;</span><span class="p">),</span> <span class="n">recursive</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">osp</span><span class="o">.</span><span class="n">isdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">))</span> <span class="o">&gt;</span> <span class="mi">0</span>
+        <span class="p">]</span>
+        <span class="n">objs</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Scanning directory&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">folders</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+            <span class="c1"># Iterate over all subfolders in the directory:</span>
+            <span class="k">for</span> <span class="n">i_path</span><span class="p">,</span> <span class="n">path</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">folders</span><span class="p">):</span>
+                <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_path</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                    <span class="k">break</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">normpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span>
+                    <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">)</span>
+                    <span class="k">for</span> <span class="n">fname</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">listdir</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">osp</span><span class="o">.</span><span class="n">isfile</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">fname</span><span class="p">))</span>
+                <span class="p">]</span>
+                <span class="n">new_objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">(</span>
+                    <span class="n">fnames</span><span class="p">,</span>
+                    <span class="n">create_group</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">add_objects</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">ignore_errors</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="n">new_objs</span><span class="p">:</span>
+                    <span class="n">objs</span> <span class="o">+=</span> <span class="n">new_objs</span>
+                    <span class="n">grp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_group</span><span class="p">(</span><span class="n">osp</span><span class="o">.</span><span class="n">relpath</span><span class="p">(</span><span class="n">path</span><span class="p">,</span> <span class="n">directory</span><span class="p">))</span>
+                    <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">new_objs</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="o">=</span><span class="n">grp</span><span class="o">.</span><span class="n">uuid</span><span class="p">,</span> <span class="n">set_current</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">objs</span></div>
 
 
 <div class="viewcode-block" id="BaseDataPanel.load_from_files">
 <a class="viewcode-back" href="../../../../../api/core.gui/panel.html#cdl.core.gui.panel.base.BaseDataPanel.load_from_files">[docs]</a>
     <span class="k">def</span> <span class="nf">load_from_files</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">ignore_unknown</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">create_group</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">add_objects</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">ignore_errors</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from file (signals/images), add them to DataLab and return them.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filenames: File names</span>
-<span class="sd">            ignore_unknown: if True, ignore unknown file types (default: False)</span>
+<span class="sd">            create_group: if True, create a new group if more than one object is loaded</span>
+<span class="sd">             for a single file. Defaults to False: all objects are added to the current</span>
+<span class="sd">             group.</span>
+<span class="sd">            add_objects: if True, add objects to the panel. Defaults to True.</span>
+<span class="sd">            ignore_errors: if True, ignore errors when loading files. Defaults to False.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            list of new objects</span>
@@ -1530,9 +1585,11 @@ document.write(`
             <span class="k">with</span> <span class="n">qt_try_loadsave_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">(),</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;load&quot;</span><span class="p">):</span>
                 <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">base_dir</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
                 <span class="k">try</span><span class="p">:</span>
-                    <span class="n">objs</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__load_from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
-                <span class="k">except</span> <span class="ne">NotImplementedError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-                    <span class="k">if</span> <span class="n">ignore_unknown</span><span class="p">:</span>
+                    <span class="n">objs</span> <span class="o">+=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__load_from_file</span><span class="p">(</span>
+                        <span class="n">filename</span><span class="p">,</span> <span class="n">create_group</span><span class="o">=</span><span class="n">create_group</span><span class="p">,</span> <span class="n">add_objects</span><span class="o">=</span><span class="n">add_objects</span>
+                    <span class="p">)</span>
+                <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+                    <span class="k">if</span> <span class="n">ignore_errors</span><span class="p">:</span>
                         <span class="c1"># Ignore unknown file types</span>
                         <span class="k">pass</span>
                     <span class="k">else</span><span class="p">:</span>
@@ -1735,14 +1792,25 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">oids</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oids</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]]</span>  <span class="c1"># last selected object</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">([</span><span class="n">oid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span> <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="n">oids</span><span class="p">]):</span>
+            <span class="c1"># This happens for example when opening an already saved workspace with</span>
+            <span class="c1"># multiple images, and if the user tries to view in a new window a group of</span>
+            <span class="c1"># images without having selected any object yet. In this case, only the</span>
+            <span class="c1"># last image is actually plotted (because if the other have the same size</span>
+            <span class="c1"># and position, they are hidden), and the plot item of every other image is</span>
+            <span class="c1"># not created yet. So we need to refresh the plot to create the plot item of</span>
+            <span class="c1"># those images.</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+                <span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span>
+            <span class="p">)</span>
 
         <span class="c1"># Create a new dialog and add plot items to it</span>
         <span class="n">dlg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_new_dialog</span><span class="p">(</span>
             <span class="n">title</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span> <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span> <span class="k">else</span> <span class="kc">None</span><span class="p">,</span>
             <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_new_window&quot;</span><span class="p">,</span>
-            <span class="n">options</span><span class="o">=</span><span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="n">edit_annotations</span><span class="p">},</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">dlg</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -1781,6 +1849,11 @@ document.write(`
             <span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__separate_views</span><span class="p">[</span><span class="n">dlg</span><span class="p">]</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="n">toggle_annotations</span><span class="p">(</span><span class="n">edit_annotations</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># If multiple objects are displayed, show the item list panel</span>
+            <span class="c1"># (otherwise, it is hidden by default to lighten the dialog, except</span>
+            <span class="c1"># if `edit_annotations` is True):</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">get_itemlist_panel</span><span class="p">()</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">edit_annotations</span><span class="p">:</span>
             <span class="n">edit_ann_action</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">dlg</span><span class="o">.</span><span class="n">show</span><span class="p">()</span>
@@ -1867,7 +1940,7 @@ document.write(`
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">roi_s</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">)</span>
         <span class="n">options</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">ROIDIALOGOPTIONS</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
 
         <span class="c1"># Create a new dialog</span>
 
@@ -1883,14 +1956,6 @@ document.write(`
 
         <span class="c1"># Create ROI editor (and add it to the dialog)</span>
 
-        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">uuid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">:</span>
-            <span class="c1"># This happens for example when opening an already saved workspace with</span>
-            <span class="c1"># multiple images, and if the user tries to edit the ROI of a group of</span>
-            <span class="c1"># images without having selected any object yet. In this case, only the</span>
-            <span class="c1"># last image is actually plotted (because if the other have the same size</span>
-            <span class="c1"># and position, they are hidden), and the plot item of the first image is</span>
-            <span class="c1"># not created yet. The `obj.uuid` is precisely the uuid of the first image.</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">])</span>
 
         <span class="c1"># pylint: disable=not-callable</span>

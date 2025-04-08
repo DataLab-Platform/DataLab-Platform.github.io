@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../../_static/documentation_options.js?v=cbfb3150"></script>
+    <script src="../../../../../_static/documentation_options.js?v=6f83b549"></script>
     <script src="../../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -1027,9 +1027,15 @@ document.write(`
         <span class="k">return</span> <span class="n">results</span></div>
 
 
-    <span class="k">def</span> <span class="nf">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get source groups, group ids, objects, and number of objects,</span>
-<span class="sd">        for pairwise mode, and check if the number of objects is valid.</span>
+    <span class="k">def</span> <span class="nf">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">min_group_nb</span><span class="p">:</span> <span class="nb">int</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">dict</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;In pairwise mode only: get source groups, group ids, objects,</span>
+<span class="sd">        and number of objects. Check if the number of objects is valid.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            min_group_nb: minimum number of groups (typically, 2 for `n1` functions</span>
+<span class="sd">            and 1 for `n1n` functions)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Tuple (source groups, group ids, objects, number of objects, valid)</span>
@@ -1052,7 +1058,7 @@ document.write(`
 
         <span class="n">nbobj</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_objs</span><span class="p">[</span><span class="n">src_gids</span><span class="p">[</span><span class="mi">0</span><span class="p">]])</span>
 
-        <span class="n">valid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_grps</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+        <span class="n">valid</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">src_grps</span><span class="p">)</span> <span class="o">&gt;=</span> <span class="n">min_group_nb</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
             <span class="c1"># In pairwise mode, we need selected objects in at least two groups.</span>
             <span class="k">if</span> <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
@@ -1121,7 +1127,7 @@ document.write(`
 
         <span class="k">if</span> <span class="n">pairwise</span><span class="p">:</span>
             <span class="n">src_grps</span><span class="p">,</span> <span class="n">src_gids</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">,</span> <span class="n">_nbobj</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">(</span><span class="n">min_group_nb</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
                 <span class="k">return</span>
@@ -1264,6 +1270,16 @@ document.write(`
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Compute n1n function: N(&gt;=1) objects + 1 object in → N objects out.</span>
 
+<span class="sd">        .. note::</span>
+
+<span class="sd">            In pairwise mode, the function is executed on each pair of objects,</span>
+<span class="sd">            so the logic is different:</span>
+
+<span class="sd">                N(&gt;=1) objects + N objects in → N objects out</span>
+
+<span class="sd">            In other words, the `n1n` function in single operand mode becomes a</span>
+<span class="sd">            `nnn` function in pairwise mode.</span>
+
 <span class="sd">        Examples: subtract, divide</span>
 
 <span class="sd">        Args:</span>
@@ -1300,7 +1316,7 @@ document.write(`
             <span class="n">group_exclusive</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">())</span> <span class="o">!=</span> <span class="mi">0</span>
 
             <span class="n">src_grps</span><span class="p">,</span> <span class="n">src_gids</span><span class="p">,</span> <span class="n">src_objs</span><span class="p">,</span> <span class="n">nbobj</span><span class="p">,</span> <span class="n">valid</span> <span class="o">=</span> <span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__get_src_grps_gids_objs_nbobj_valid</span><span class="p">(</span><span class="n">min_group_nb</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
             <span class="p">)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">valid</span><span class="p">:</span>
                 <span class="k">return</span>
@@ -1676,7 +1692,7 @@ document.write(`
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">edited_roi</span><span class="p">,</span> <span class="n">modified</span> <span class="o">=</span> <span class="n">results</span>
         <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
         <span class="n">group</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">to_params</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">env</span><span class="o">.</span><span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>  <span class="c1"># Unattended mode (automated unit tests)</span>
@@ -1686,7 +1702,8 @@ document.write(`
             <span class="k">if</span> <span class="n">modified</span><span class="p">:</span>
                 <span class="c1"># If ROI has been modified, save ROI (not in &quot;extract mode&quot;)</span>
                 <span class="k">if</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
-                    <span class="n">obj</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
+                    <span class="k">for</span> <span class="n">obj_i</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">:</span>
+                        <span class="n">obj_i</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
                 <span class="k">else</span><span class="p">:</span>
                     <span class="n">edited_roi</span> <span class="o">=</span> <span class="n">edited_roi</span><span class="o">.</span><span class="n">from_params</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
                     <span class="k">if</span> <span class="ow">not</span> <span class="n">extract</span><span class="p">:</span>
@@ -1694,7 +1711,12 @@ document.write(`
                             <span class="n">obj_i</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">edited_roi</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_SHAPE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">uuid</span><span class="p">)</span>
                 <span class="c1"># self.panel.selection_changed(update_items=True)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">manual_refresh</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+                    <span class="s2">&quot;selected&quot;</span><span class="p">,</span>
+                    <span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                    <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                    <span class="n">only_existing</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">edited_roi</span></div>
 
 

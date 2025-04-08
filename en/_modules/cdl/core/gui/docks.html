@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=cbfb3150"></script>
+    <script src="../../../../_static/documentation_options.js?v=6f83b549"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -484,6 +484,7 @@ document.write(`
 <span class="kn">import</span> <span class="nn">warnings</span>
 <span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
 <span class="kn">import</span> <span class="nn">scipy.integrate</span> <span class="k">as</span> <span class="nn">spt</span>
 <span class="kn">from</span> <span class="nn">guidata.configtools</span> <span class="kn">import</span> <span class="n">get_icon</span><span class="p">,</span> <span class="n">get_image_file_path</span>
 <span class="kn">from</span> <span class="nn">guidata.qthelpers</span> <span class="kn">import</span> <span class="n">create_action</span><span class="p">,</span> <span class="n">is_dark_theme</span>
@@ -535,10 +536,10 @@ document.write(`
 
 
 <span class="n">CURVESTATSTOOL_LABELFUNCS</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; x &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())),</span>
-    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; y &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">min</span><span class="p">(),</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">max</span><span class="p">())),</span>
-    <span class="p">(</span><span class="s2">&quot;&amp;lt;y&amp;gt;=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">mean</span><span class="p">()),</span>
-    <span class="p">(</span><span class="s2">&quot;σ(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">std</span><span class="p">()),</span>
+    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; x &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))),</span>
+    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; y &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))),</span>
+    <span class="p">(</span><span class="s2">&quot;&amp;lt;y&amp;gt;=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+    <span class="p">(</span><span class="s2">&quot;σ(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
     <span class="p">(</span><span class="s2">&quot;∑(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
     <span class="p">(</span><span class="s2">&quot;∫ydx=</span><span class="si">%g</span><span class="s2">&lt;br&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
     <span class="p">(</span><span class="s2">&quot;FWHM = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fwhm_info</span><span class="p">),</span>
@@ -571,7 +572,7 @@ document.write(`
     <span class="n">p</span><span class="p">:</span> <span class="n">BaseImageParam</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">param</span>
     <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">zunit</span> <span class="o">=</span> <span class="n">p</span><span class="o">.</span><span class="n">get_units</span><span class="p">()</span>
 
-    <span class="n">integral</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+    <span class="n">integral</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
     <span class="n">integral_fmt</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&quot;</span><span class="si">%.3e</span><span class="s2"> &quot;</span> <span class="o">+</span> <span class="n">zunit</span>
     <span class="n">infos</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;&lt;br&gt;∑ = </span><span class="si">{</span><span class="n">integral_fmt</span><span class="w"> </span><span class="o">%</span><span class="w"> </span><span class="n">integral</span><span class="si">}</span><span class="s2">&quot;</span>
 

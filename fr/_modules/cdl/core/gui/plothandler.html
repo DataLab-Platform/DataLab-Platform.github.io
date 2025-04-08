@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../../_static/documentation_options.js?v=4377dd52"></script>
+    <script src="../../../../_static/documentation_options.js?v=e70f594b"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -147,7 +147,7 @@
     <script>document.write(`<img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -561,7 +561,7 @@ document.write(`
             <span class="c1"># (object has been added to model but the corresponding plot item has not</span>
             <span class="c1"># been created yet)</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
                 <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
             <span class="c1"># Item does not exist and auto refresh is enabled: this should not happen</span>
             <span class="k">raise</span> <span class="n">exc</span>
@@ -744,7 +744,12 @@ document.write(`
         <span class="k">return</span> <span class="n">oids</span>
 
     <span class="k">def</span> <span class="nf">refresh_plot</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot.</span>
 
@@ -757,10 +762,17 @@ document.write(`
 <span class="sd">             If False, only show the items (do not update them, except if the</span>
 <span class="sd">             option &quot;Use reference item LUT range&quot; is enabled and more than one</span>
 <span class="sd">             item is selected). Defaults to True.</span>
-<span class="sd">            force: if True, force refresh even if auto refresh is disabled,</span>
-<span class="sd">             and refresh all items associated to objects (even the hidden ones, e.g.</span>
-<span class="sd">             when selecting multiple images of the same size and position). Defaults</span>
-<span class="sd">             to False.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled.</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">            only_visible: if True, only refresh visible items. Defaults to True.</span>
+<span class="sd">             Visible items are the ones that are not hidden by other items or the items</span>
+<span class="sd">             except the first one if the option &quot;Show first only&quot; is enabled.</span>
+<span class="sd">             This is useful for images, where the last image is the one that is shown.</span>
+<span class="sd">             If False, all items are refreshed.</span>
+<span class="sd">            only_existing: if True, only refresh existing items. Defaults to False.</span>
+<span class="sd">             Existing items are the ones that have already been created and are</span>
+<span class="sd">             associated to the object uuid. If False, create new items for the</span>
+<span class="sd">             objects that do not have an item yet.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if `what` is not a valid value</span>
@@ -806,7 +818,8 @@ document.write(`
         <span class="n">scales_dict</span> <span class="o">=</span> <span class="p">{}</span>
 
         <span class="k">if</span> <span class="n">oids</span><span class="p">:</span>
-            <span class="k">if</span> <span class="n">what</span> <span class="o">!=</span> <span class="s2">&quot;existing&quot;</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">what</span> <span class="o">!=</span> <span class="s2">&quot;existing&quot;</span> <span class="ow">and</span> <span class="n">only_visible</span><span class="p">:</span>
+                <span class="c1"># Remove hidden items from the list of objects to refresh</span>
                 <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
             <span class="n">ref_item</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
@@ -839,6 +852,8 @@ document.write(`
                     <span class="c1"># Update or add item to plot</span>
                     <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">only_existing</span><span class="p">:</span>
+                            <span class="k">continue</span>
                         <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add_item_to_plot</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">__update_item_on_plot</span><span class="p">(</span>
@@ -1017,7 +1032,12 @@ document.write(`
 <div class="viewcode-block" id="ImagePlotHandler.refresh_plot">
 <a class="viewcode-back" href="../../../../api/core.gui/plothandler.html#cdl.core.gui.plothandler.ImagePlotHandler.refresh_plot">[docs]</a>
     <span class="k">def</span> <span class="nf">refresh_plot</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot.</span>
 
@@ -1030,15 +1050,28 @@ document.write(`
 <span class="sd">             If False, only show the items (do not update them, except if the</span>
 <span class="sd">             option &quot;Use reference item LUT range&quot; is enabled and more than one</span>
 <span class="sd">             item is selected). Defaults to True.</span>
-<span class="sd">            force: if True, force refresh even if auto refresh is disabled,</span>
-<span class="sd">             and refresh all items associated to objects (even the hidden ones, e.g.</span>
-<span class="sd">             when selecting multiple images of the same size and position). Defaults</span>
-<span class="sd">             to False.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled.</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">            only_visible: if True, only refresh visible items. Defaults to True.</span>
+<span class="sd">             Visible items are the ones that are not hidden by other items or the items</span>
+<span class="sd">             except the first one if the option &quot;Show first only&quot; is enabled.</span>
+<span class="sd">             This is useful for images, where the last image is the one that is shown.</span>
+<span class="sd">             If False, all items are refreshed.</span>
+<span class="sd">            only_existing: if True, only refresh existing items. Defaults to False.</span>
+<span class="sd">             Existing items are the ones that have already been created and are</span>
+<span class="sd">             associated to the object uuid. If False, create new items for the</span>
+<span class="sd">             objects that do not have an item yet.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if `what` is not a valid value</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="n">what</span><span class="o">=</span><span class="n">what</span><span class="p">,</span> <span class="n">update_items</span><span class="o">=</span><span class="n">update_items</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+            <span class="n">what</span><span class="o">=</span><span class="n">what</span><span class="p">,</span>
+            <span class="n">update_items</span><span class="o">=</span><span class="n">update_items</span><span class="p">,</span>
+            <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
+            <span class="n">only_visible</span><span class="o">=</span><span class="n">only_visible</span><span class="p">,</span>
+            <span class="n">only_existing</span><span class="o">=</span><span class="n">only_existing</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">contrast</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">show_contrast</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span></div>
 
 

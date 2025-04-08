@@ -50,7 +50,7 @@
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../_static/documentation_options.js?v=4377dd52"></script>
+    <script src="../_static/documentation_options.js?v=e70f594b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -149,7 +149,7 @@
     <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -483,6 +483,30 @@ document.write(`
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Lien vers cette rubrique">#</a></h1>
 <p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-19-1">
+<h2>DataLab Version 0.19.1<a class="headerlink" href="#datalab-version-0-19-1" title="Lien vers cette rubrique">#</a></h2>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Mode d’opération pairwise :</p>
+<ul>
+<li><p>Correction d’un comportement inattendu lors de l’utilisation du mode d’opération pairwise avec des fonctions qui prennent un seul second opérande (par exemple pour les images : différence, division, opérations arithmétiques et correction de champ plat)</p></li>
+<li><p>Si un seul ensemble d’opérandes était sélectionné dans un seul groupe, un message d’avertissement était affiché « En mode pairwise, vous devez sélectionner des objets dans au moins deux groupes. « , ce qui est correct pour les fonctions qui sont symétriques (par exemple addition, multiplication, etc.), mais pas pour les fonctions qui ne le sont pas (par exemple différence, division, etc.).</p></li>
+<li><p>Ceci est maintenant corrigé : le message d’avertissement n’est affiché que pour les fonctions qui sont symétriques (par exemple addition, multiplication, etc.).</p></li>
+<li><p>Ceci corrige l”[Issue #157](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/157">DataLab-Platform/DataLab#157</a>) - Mode d’opération pairwise : comportement inattendu avec des fonctions qui prennent un seul second opérande</p></li>
+</ul>
+</li>
+<li><p>Correction de l”[Issue #152](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/152">DataLab-Platform/DataLab#152</a>) - Ignorer les valeurs <cite>nan</cite> pour la normalisation d’image, la correction de champ plat, la correction de décalage et le calcul du centroïde</p></li>
+<li><p>Correction de l”[Issue #153](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/153">DataLab-Platform/DataLab#153</a>) - Ignorer les valeurs <cite>nan</cite> pour la normalisation du signal et les calculs de statistiques (à la fois le résultat d’analyse et l’outil interactif)</p></li>
+<li><p>Correction de l”[Issue #158](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/158">DataLab-Platform/DataLab#158</a>) - Lors de l’édition de la ROI d’une liste d’images, la première image de la sélection est affichée (au lieu de la dernière comme dans le panneau d’image)</p></li>
+<li><p>Correction de l”[Issue #159](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/159">DataLab-Platform/DataLab#159</a>) - Lors de la sélection de plusieurs images juste après l’ouverture d’un fichier HDF5, la fonctionnalité « Afficher dans une nouvelle fenêtre » ne fonctionne pas (exception <cite>KeyError</cite>)</p></li>
+<li><p>Correction de l”[Issue #160](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/160">DataLab-Platform/DataLab#160</a>) - Lors de la sélection de plusieurs images et de l’effacement de la ROI dans l’éditeur de ROI, seule la première image est affectée</p></li>
+<li><p>Correction de l”[Issue #161](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/161">DataLab-Platform/DataLab#161</a>) - Rafraîchir les items d’image uniquement si nécessaire (lors de l’édition de la ROI, du collage/de la suppression de métadonnées)</p></li>
+<li><p>Correction de l”[Issue #162](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/162">DataLab-Platform/DataLab#162</a>) - Afficher dans une nouvelle fenêtre : lors de l’affichage de plusieurs images, le panneau de liste d’items doit être visible</p></li>
+<li><p>Ceci corrige l”[Issue #163](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/163">DataLab-Platform/DataLab#163</a>) - Ouvrir depuis le répertoire : un groupe par dossier attendu lors du chargement de plusieurs fichiers</p></li>
+<li><p>Ceci corrige l”[Issue #164](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/164">DataLab-Platform/DataLab#164</a>) - Ouvrir depuis le répertoire : les fichiers non pris en charge doivent être ignorés lors du chargement de fichiers de manière récursive, pour éviter les boîtes de dialogue d’avertissement</p></li>
+<li><p>Correction de l”[Issue #165](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/165">DataLab-Platform/DataLab#165</a>) - Lors de l’ouverture d’un fichier, le titre par défaut du signal/image doit être défini sur le nom du fichier, au lieu du chemin relatif au nom du fichier</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-19-0">
 <h2>DataLab Version 0.19.0<a class="headerlink" href="#datalab-version-0-19-0" title="Lien vers cette rubrique">#</a></h2>
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
@@ -1910,6 +1934,7 @@ document.write(`
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-19-1">DataLab Version 0.19.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-19-0">DataLab Version 0.19.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-2">DataLab Version 0.18.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-18-1">DataLab Version 0.18.1</a></li>

@@ -49,7 +49,7 @@
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
   <script src="../../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
 
-    <script src="../../../_static/documentation_options.js?v=cbfb3150"></script>
+    <script src="../../../_static/documentation_options.js?v=6f83b549"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <script>document.write(`<img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
   
   
-    <p class="title logo__title">v0.19.0</p>
+    <p class="title logo__title">v0.19.1</p>
   
 </a></div>
     
@@ -499,24 +499,24 @@ document.write(`
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="n">axis</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">yin</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
     <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;maximum&quot;</span><span class="p">:</span>
-        <span class="n">maximum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">yin</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="n">maximum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">yin</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">maximum</span> <span class="o">=</span> <span class="n">maximum</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">maximum</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">maxarray</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">tile</span><span class="p">(</span><span class="n">maximum</span><span class="p">,</span> <span class="n">yin</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="n">axis</span><span class="p">])</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="n">yin</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">maxarray</span>
     <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;amplitude&quot;</span><span class="p">:</span>
         <span class="n">ytemp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">yin</span><span class="p">,</span> <span class="n">copy</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-        <span class="n">minimum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">yin</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
+        <span class="n">minimum</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">yin</span><span class="p">,</span> <span class="n">axis</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">axis</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
             <span class="n">minimum</span> <span class="o">=</span> <span class="n">minimum</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="nb">len</span><span class="p">(</span><span class="n">minimum</span><span class="p">),</span> <span class="mi">1</span><span class="p">))</span>
         <span class="n">ytemp</span> <span class="o">-=</span> <span class="n">minimum</span>
         <span class="k">return</span> <span class="n">normalize</span><span class="p">(</span><span class="n">ytemp</span><span class="p">,</span> <span class="n">parameter</span><span class="o">=</span><span class="s2">&quot;maximum&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;area&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">yin</span><span class="o">.</span><span class="n">sum</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">yin</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;energy&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">yin</span> <span class="o">*</span> <span class="n">yin</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nansum</span><span class="p">(</span><span class="n">yin</span> <span class="o">*</span> <span class="n">yin</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span>
     <span class="k">if</span> <span class="n">parameter</span> <span class="o">==</span> <span class="s2">&quot;rms&quot;</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">yin</span> <span class="o">*</span> <span class="n">yin</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span>
+        <span class="k">return</span> <span class="n">yin</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">yin</span> <span class="o">*</span> <span class="n">yin</span><span class="o">.</span><span class="n">conjugate</span><span class="p">()))</span>
     <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported parameter </span><span class="si">{</span><span class="n">parameter</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
