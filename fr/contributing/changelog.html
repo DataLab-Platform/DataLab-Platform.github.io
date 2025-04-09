@@ -29,33 +29,36 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../_static/documentation_options.js?v=e70f594b"></script>
-    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/translations.js?v=041d0952"></script>
+    <script src="../_static/translations.js?v=e6b791cb"></script>
     <script src="../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contributing/changelog';</script>
     <link rel="canonical" href="https://datalab-platform.com/contributing/changelog.html" />
@@ -65,6 +68,7 @@
     <link rel="prev" title="Feuille de route" href="roadmap.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -80,19 +84,8 @@
     <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../search.html"
       method="get">
@@ -100,7 +93,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -108,11 +100,11 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
   <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! 🚀</div>
@@ -146,7 +138,7 @@
     
     
     <img src="../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">v0.19.1</p>
@@ -201,29 +193,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -274,15 +258,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -301,7 +281,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -355,15 +336,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -414,8 +391,8 @@ document.write(`
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 <nav class="bd-docs-nav bd-links"
-     aria-label="Navigation de la section">
-  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
   <div class="bd-toc-item navbar-nav"><ul class="current nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="contribute_code.html">Contribuer au code</a></li>
 <li class="toctree-l1"><a class="reference internal" href="guidelines.html">Règles de codage</a></li>
@@ -430,9 +407,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -450,8 +432,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Fil d'Ariane" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -463,7 +443,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Contribuer</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Historique...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Historique des modifications</span></li>
   </ul>
 </nav>
 </div>
@@ -482,7 +462,7 @@ document.write(`
                   
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Lien vers cette rubrique">#</a></h1>
-<p>Voir la page de la [feuille de route](<a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">https://datalab-platform.com/fr/contributing/roadmap.html</a>) de DataLab pour les jalons futurs et passés.</p>
+<p>Voir la page de la <a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">feuille de route</a> de DataLab pour les jalons futurs et passés.</p>
 <section id="datalab-version-0-19-1">
 <h2>DataLab Version 0.19.1<a class="headerlink" href="#datalab-version-0-19-1" title="Lien vers cette rubrique">#</a></h2>
 <p>🛠️ Corrections de bugs :</p>
@@ -492,19 +472,19 @@ document.write(`
 <li><p>Correction d’un comportement inattendu lors de l’utilisation du mode d’opération pairwise avec des fonctions qui prennent un seul second opérande (par exemple pour les images : différence, division, opérations arithmétiques et correction de champ plat)</p></li>
 <li><p>Si un seul ensemble d’opérandes était sélectionné dans un seul groupe, un message d’avertissement était affiché « En mode pairwise, vous devez sélectionner des objets dans au moins deux groupes. « , ce qui est correct pour les fonctions qui sont symétriques (par exemple addition, multiplication, etc.), mais pas pour les fonctions qui ne le sont pas (par exemple différence, division, etc.).</p></li>
 <li><p>Ceci est maintenant corrigé : le message d’avertissement n’est affiché que pour les fonctions qui sont symétriques (par exemple addition, multiplication, etc.).</p></li>
-<li><p>Ceci corrige l”[Issue #157](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/157">DataLab-Platform/DataLab#157</a>) - Mode d’opération pairwise : comportement inattendu avec des fonctions qui prennent un seul second opérande</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/157">Issue #157</a> - Mode d’opération pairwise : comportement inattendu avec des fonctions qui prennent un seul second opérande</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #152](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/152">DataLab-Platform/DataLab#152</a>) - Ignorer les valeurs <cite>nan</cite> pour la normalisation d’image, la correction de champ plat, la correction de décalage et le calcul du centroïde</p></li>
-<li><p>Correction de l”[Issue #153](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/153">DataLab-Platform/DataLab#153</a>) - Ignorer les valeurs <cite>nan</cite> pour la normalisation du signal et les calculs de statistiques (à la fois le résultat d’analyse et l’outil interactif)</p></li>
-<li><p>Correction de l”[Issue #158](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/158">DataLab-Platform/DataLab#158</a>) - Lors de l’édition de la ROI d’une liste d’images, la première image de la sélection est affichée (au lieu de la dernière comme dans le panneau d’image)</p></li>
-<li><p>Correction de l”[Issue #159](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/159">DataLab-Platform/DataLab#159</a>) - Lors de la sélection de plusieurs images juste après l’ouverture d’un fichier HDF5, la fonctionnalité « Afficher dans une nouvelle fenêtre » ne fonctionne pas (exception <cite>KeyError</cite>)</p></li>
-<li><p>Correction de l”[Issue #160](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/160">DataLab-Platform/DataLab#160</a>) - Lors de la sélection de plusieurs images et de l’effacement de la ROI dans l’éditeur de ROI, seule la première image est affectée</p></li>
-<li><p>Correction de l”[Issue #161](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/161">DataLab-Platform/DataLab#161</a>) - Rafraîchir les items d’image uniquement si nécessaire (lors de l’édition de la ROI, du collage/de la suppression de métadonnées)</p></li>
-<li><p>Correction de l”[Issue #162](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/162">DataLab-Platform/DataLab#162</a>) - Afficher dans une nouvelle fenêtre : lors de l’affichage de plusieurs images, le panneau de liste d’items doit être visible</p></li>
-<li><p>Ceci corrige l”[Issue #163](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/163">DataLab-Platform/DataLab#163</a>) - Ouvrir depuis le répertoire : un groupe par dossier attendu lors du chargement de plusieurs fichiers</p></li>
-<li><p>Ceci corrige l”[Issue #164](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/164">DataLab-Platform/DataLab#164</a>) - Ouvrir depuis le répertoire : les fichiers non pris en charge doivent être ignorés lors du chargement de fichiers de manière récursive, pour éviter les boîtes de dialogue d’avertissement</p></li>
-<li><p>Correction de l”[Issue #165](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/165">DataLab-Platform/DataLab#165</a>) - Lors de l’ouverture d’un fichier, le titre par défaut du signal/image doit être défini sur le nom du fichier, au lieu du chemin relatif au nom du fichier</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/152">Issue #152</a> - Ignorer les valeurs <code class="docutils literal notranslate"><span class="pre">nan</span></code> pour la normalisation d’image, la correction de champ plat, la correction de décalage et le calcul du centroïde</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/153">Issue #153</a> - Ignorer les valeurs <code class="docutils literal notranslate"><span class="pre">nan</span></code> pour la normalisation du signal et les calculs de statistiques (à la fois le résultat d’analyse et l’outil interactif)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/158">Issue #158</a> - Lors de l’édition de la ROI d’une liste d’images, la première image de la sélection est affichée (au lieu de la dernière comme dans le panneau d’image)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/159">Issue #159</a> - Lors de la sélection de plusieurs images juste après l’ouverture d’un fichier HDF5, la fonctionnalité « Afficher dans une nouvelle fenêtre » ne fonctionne pas (exception <code class="docutils literal notranslate"><span class="pre">KeyError</span></code>)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/160">Issue #160</a> - Lors de la sélection de plusieurs images et de l’effacement de la ROI dans l’éditeur de ROI, seule la première image est affectée</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/161">Issue #161</a> - Rafraîchir les items d’image uniquement si nécessaire (lors de l’édition de la ROI, du collage/de la suppression de métadonnées)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/162">Issue #162</a> - Afficher dans une nouvelle fenêtre : lors de l’affichage de plusieurs images, le panneau de liste d’items doit être visible</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/163">Issue #163</a> - Ouvrir depuis le répertoire : un groupe par dossier attendu lors du chargement de plusieurs fichiers</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/164">Issue #164</a> - Ouvrir depuis le répertoire : les fichiers non pris en charge doivent être ignorés lors du chargement de fichiers de manière récursive, pour éviter les boîtes de dialogue d’avertissement</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/165">Issue #165</a> - Lors de l’ouverture d’un fichier, le titre par défaut du signal/image doit être défini sur le nom du fichier, au lieu du chemin relatif au nom du fichier</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-19-0">
@@ -536,27 +516,27 @@ document.write(`
 <li><p>Ajout de la prise en charge des dossiers lors du glisser-déposer de fichiers dans les panneaux Signal et Image</p></li>
 </ul>
 </li>
-<li><p>Ajout de l’opération <cite>1/x</cite> au menu « Opérations » pour les panneaux Signal et Image :</p>
+<li><p>Ajout de l’opération <code class="docutils literal notranslate"><span class="pre">1/x</span></code> au menu « Opérations » pour les panneaux Signal et Image :</p>
 <ul>
-<li><p>Cette fonctionnalité repose sur la fonction <cite>numpy.reciprocal</cite>, et gère le cas où le dénominateur est zéro en interceptant les avertissements et en remplaçant les valeurs <cite>np.inf</cite> par des valeurs <cite>np.nan</cite></p></li>
-<li><p>Ajout de la méthode <cite>compute_inverse</cite> pour les processeurs d’image et de signal</p></li>
-<li><p>Ceci corrige l”[Issue #143](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/143">DataLab-Platform/DataLab#143</a>) - Nouvelle fonctionnalité : <cite>1/x</cite> pour les signaux et les images</p></li>
+<li><p>Cette fonctionnalité repose sur la fonction <code class="docutils literal notranslate"><span class="pre">numpy.reciprocal</span></code>, et gère le cas où le dénominateur est zéro en interceptant les avertissements et en remplaçant les valeurs <code class="docutils literal notranslate"><span class="pre">np.inf</span></code> par des valeurs <code class="docutils literal notranslate"><span class="pre">np.nan</span></code></p></li>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">compute_inverse</span></code> pour les processeurs d’image et de signal</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/143">Issue #143</a> - Nouvelle fonctionnalité : <code class="docutils literal notranslate"><span class="pre">1/x</span></code> pour les signaux et les images</p></li>
 </ul>
 </li>
 <li><p>API publique (locale ou distante) :</p>
 <ul>
-<li><p>Ajout de la méthode <cite>add_group</cite> avec les arguments <cite>title</cite> et <cite>select</cite> pour créer un nouveau groupe dans un panneau de données (par exemple, panneau Signal ou Image) et éventuellement le sélectionner après sa création :</p>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">add_group</span></code> avec les arguments <code class="docutils literal notranslate"><span class="pre">title</span></code> et <code class="docutils literal notranslate"><span class="pre">select</span></code> pour créer un nouveau groupe dans un panneau de données (par exemple, panneau Signal ou Image) et éventuellement le sélectionner après sa création :</p>
 <ul>
-<li><p>Cette méthode a été ajoutée aux classes suivantes : <cite>AbstractCDLControl</cite>, <cite>BaseDataPanel</cite> et <cite>RemoteClient</cite></p></li>
+<li><p>Cette méthode a été ajoutée aux classes suivantes : <code class="docutils literal notranslate"><span class="pre">AbstractCDLControl</span></code>, <code class="docutils literal notranslate"><span class="pre">BaseDataPanel</span></code> et <code class="docutils literal notranslate"><span class="pre">RemoteClient</span></code></p></li>
 <li><p>Cette fonctionnalité clotûre les tickets suivants :</p>
 <ul>
-<li><p>[Issue #131](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/131">DataLab-Platform/DataLab#131</a>) - <cite>BaseDataPanel.add_group</cite> : ajout de l’argument <cite>select</cite></p></li>
-<li><p>[Issue #47](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/47">DataLab-Platform/DataLab#47</a>) - Proxy distant / API publique : ajout de la méthode <cite>add_group</cite></p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/131">Issue #131</a> - <code class="docutils literal notranslate"><span class="pre">BaseDataPanel.add_group</span></code> : ajout de l’argument <code class="docutils literal notranslate"><span class="pre">select</span></code></p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/47">Issue #47</a> - Proxy distant / API publique : ajout de la méthode <code class="docutils literal notranslate"><span class="pre">add_group</span></code></p></li>
 </ul>
 </li>
 </ul>
 </li>
-<li><p><cite>AbstractCDLControl.get_object_uuids</cite> : ajout d’un argument optionnel <cite>group</cite> (identifiant, titre ou numéro du groupe) pour éventuellement filtrer les objets par groupe (ceci clôture le ticket [Issue #130](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/130">DataLab-Platform/DataLab#130</a>))</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">AbstractCDLControl.get_object_uuids</span></code> : ajout d’un argument optionnel <code class="docutils literal notranslate"><span class="pre">group</span></code> (identifiant, titre ou numéro du groupe) pour éventuellement filtrer les objets par groupe (ceci clôture le ticket <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/130">Issue #130</a>)</p></li>
 </ul>
 </li>
 <li><p>Lors de l’ouverture d’un fichier HDF5, la boîte de dialogue de confirmation demandant si l’espace de travail actuel doit être effacé a une nouvelle réponse possible « Ignorer » :</p>
@@ -564,14 +544,14 @@ document.write(`
 <li><p>Choisir « Ignorer » empêchera la boîte de dialogue de confirmation d’être affichée à nouveau, et choisira le paramètre actuel (c’est-à-dire effacer ou non l’espace de travail) pour toutes les ouvertures de fichiers suivantes</p></li>
 <li><p>Ajout d’une nouvelle option « Effacer l’espace de travail avant de charger le fichier HDF5 » dans la boîte de dialogue « Paramètres », pour permettre à l’utilisateur de changer le paramètre actuel (c’est-à-dire effacer ou non l’espace de travail) pour toutes les ouvertures de fichiers suivantes</p></li>
 <li><p>Ajout d’une nouvelle option « Demander avant d’effacer l’espace de travail » dans la boîte de dialogue « Paramètres », pour permettre à l’utilisateur de désactiver ou de réactiver la boîte de dialogue de confirmation demandant si l’espace de travail actuel doit être effacé lors de l’ouverture d’un fichier HDF5</p></li>
-<li><p>Ceci clotûre le ticket [Issue #146](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/146">DataLab-Platform/DataLab#146</a>) - Demander avant d’effacer l’espace de travail lors de l’ouverture d’un fichier HDF5 : ajouter l’option « Ignorer » pour empêcher la boîte de dialogue d’être affichée à nouveau</p></li>
+<li><p>Ceci clotûre le ticket <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/146">Issue #146</a> - Demander avant d’effacer l’espace de travail lors de l’ouverture d’un fichier HDF5 : ajouter l’option « Ignorer » pour empêcher la boîte de dialogue d’être affichée à nouveau</p></li>
 </ul>
 </li>
 <li><p>Renommage du titre des objets et des groupes :</p>
 <ul>
 <li><p>Suppression de la fonctionnalité « Renommer le groupe » du menu « Édition » et du menu contextuel</p></li>
 <li><p>Ajout de la fonctionnalité « Renommer l’objet » au menu « Édition » et au menu contextuel, avec le raccourci F2, pour renommer le titre de l’objet ou du groupe sélectionné</p></li>
-<li><p>Ceci corrige l”[Issue #148](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/148">DataLab-Platform/DataLab#148</a>) - Renommer le titre du signal/image/groupe en appuyant sur F2</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/148">Issue #148</a> - Renommer le titre du signal/image/groupe en appuyant sur F2</p></li>
 </ul>
 </li>
 <li><p>Éditeur de région d’intérêt :</p>
@@ -587,7 +567,7 @@ document.write(`
 <li><p>La ROI polygonale n’est pas encore prise en charge</p></li>
 </ul>
 </li>
-<li><p>Ceci clotûre le ticket [Issue #145](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/145">DataLab-Platform/DataLab#145</a>) - Éditeur de ROI : ajouter la saisie manuelle des coordonnées</p></li>
+<li><p>Ceci clotûre le ticket <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/145">Issue #145</a> - Éditeur de ROI : ajouter la saisie manuelle des coordonnées</p></li>
 </ul>
 </li>
 </ul>
@@ -595,15 +575,15 @@ document.write(`
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #141](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/141">DataLab-Platform/DataLab#141</a>) - Analyse d’image : masque des valeurs <cite>nan</cite> lors du calcul des statistiques, par exemple</p></li>
-<li><p>Correction de l”[Issue #144](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/144">DataLab-Platform/DataLab#144</a>) - Extraction du profil moyen : <cite>ValueError</cite> lorsque le rectangle de sélection est plus grand que l’image</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/141">Issue #141</a> - Analyse d’image : masque des valeurs <code class="docutils literal notranslate"><span class="pre">nan</span></code> lors du calcul des statistiques, par exemple</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/144">Issue #144</a> - Extraction du profil moyen : <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> lorsque le rectangle de sélection est plus grand que l’image</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-18-2">
 <h2>DataLab Version 0.18.2<a class="headerlink" href="#datalab-version-0-18-2" title="Lien vers cette rubrique">#</a></h2>
 <p>ℹ️ Informations générales :</p>
 <ul class="simple">
-<li><p>Python 3.13 est désormais pris en charge, depuis la disponibilité de scikit-image V0.25 (voir [Issue #104](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/104">DataLab-Platform/DataLab#104</a>) - Python 3.13 : <cite>KeyError: “area_bbox”</cite>)</p></li>
+<li><p>Python 3.13 est désormais pris en charge, depuis la disponibilité de scikit-image V0.25 (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/104">Issue #104</a> - Python 3.13 : <code class="docutils literal notranslate"><span class="pre">KeyError:</span> <span class="pre">'area_bbox'</span></code>)</p></li>
 </ul>
 <p>💥 Améliorations :</p>
 <ul class="simple">
@@ -616,23 +596,23 @@ document.write(`
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #138](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/138">DataLab-Platform/DataLab#138</a>) - Les cartes de couleurs d’image n’étaient plus stockées dans les métadonnées (et sérialisées dans les fichiers HDF5) depuis PlotPy v2.6.3 (ce commit, en particulier : [<a class="reference external" href="mailto:PlotPyStack/PlotPy&#37;&#52;&#48;a37af8a">PlotPyStack/PlotPy<span>&#64;</span>a37af8a</a>](<a class="github reference external" href="https://github.com/PlotPyStack/PlotPy/commit/a37af8ae8392e5e3655e5c34b67a7cd1544ea845">PlotPyStack/PlotPy</a>))</p></li>
-<li><p>Correction de l”[Issue #137](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/137">DataLab-Platform/DataLab#137</a>) - Opérations arithmétiques et interpolation de signal : la boîte de dialogue avec les paramètres n’est pas affichée</p></li>
-<li><p>Correction de l”[Issue #136](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/136">DataLab-Platform/DataLab#136</a>) - Lors du traitement d’un signal ou d’une image, le résultat de l’analyse est conservé à partir de l’objet d’origine</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/138">Issue #138</a> - Les cartes de couleurs d’image n’étaient plus stockées dans les métadonnées (et sérialisées dans les fichiers HDF5) depuis PlotPy v2.6.3 (ce commit, en particulier : <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/a37af8ae8392e5e3655e5c34b67a7cd1544ea845">PlotPyStack/PlotPy&#64;a37af8a</a>)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/137">Issue #137</a> - Opérations arithmétiques et interpolation de signal : la boîte de dialogue avec les paramètres n’est pas affichée</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/136">Issue #136</a> - Lors du traitement d’un signal ou d’une image, le résultat de l’analyse est conservé à partir de l’objet d’origine</p>
 <ul>
 <li><p>Avant cette correction, lors du traitement d’un signal ou d’une image (par exemple lors de l’application d’un filtre, d’un seuil, etc.), le résultat de l’analyse était conservé à partir de l’objet d’origine, et n’était pas mis à jour avec les nouvelles données. Ainsi, le résultat de l’analyse n’était plus pertinent, et induisait l’utilisateur en erreur.</p></li>
 <li><p>Ceci est maintenant corrigé : le résultat de l’analyse est maintenant supprimé lors du traitement d’un signal ou d’une image. Cependant, il n’est pas recalculé automatiquement, car il n’y a aucun moyen de savoir quel résultat de l’analyse doit être recalculé (par exemple, si l’utilisateur a appliqué un filtre, le FWHM doit-il être recalculé ?) - de plus, l’implémentation actuelle des fonctionnalités d’analyse ne permet pas de recalculer automatiquement les résultats de l’analyse lorsque les données sont modifiées. L’utilisateur doit recalculer manuellement les résultats de l’analyse si nécessaire.</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #132](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/132">DataLab-Platform/DataLab#132</a>) - Tracer les résultats de l’analyse : le mode « Une courbe par titre de résultat » ignore les ROI</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/132">Issue #132</a> - Tracer les résultats de l’analyse : le mode « Une courbe par titre de résultat » ignore les ROI</p>
 <ul>
 <li><p>Avant cette correction, le mode « Une courbe par titre de résultat » ignorait les ROI, et traçait le résultat sélectionné pour tous les objets (signaux ou images) sans tenir compte de la ROI définie sur les objets</p></li>
 <li><p>Ceci est maintenant corrigé : le mode « Une courbe par titre de résultat » prend désormais en compte la ROI définie sur les objets, et trace le résultat sélectionné pour chaque objet (signal ou image) et pour chaque ROI définie sur l’objet</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #128](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/128">DataLab-Platform/DataLab#128</a>) - Prise en charge des longs titres d’objet dans les panneaux Signal et Image</p></li>
-<li><p>Correction de l”[Issue #133](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/133">DataLab-Platform/DataLab#133</a>) - Supprimer des résultats d’analyse spécifiques du presse-papiers de métadonnées lors de l’opération de copie</p></li>
-<li><p>Correction de l”[Issue #135](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/135">DataLab-Platform/DataLab#135</a>) - Permettre de modifier la ROI sur plusieurs signaux ou images à la fois</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/128">Issue #128</a> - Prise en charge des longs titres d’objet dans les panneaux Signal et Image</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/133">Issue #133</a> - Supprimer des résultats d’analyse spécifiques du presse-papiers de métadonnées lors de l’opération de copie</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/135">Issue #135</a> - Permettre de modifier la ROI sur plusieurs signaux ou images à la fois</p>
 <ul>
 <li><p>Avant cette correction, l’éditeur de ROI était désactivé lorsque plusieurs signaux ou images étaient sélectionnés</p></li>
 <li><p>Ceci est maintenant corrigé : l’éditeur de ROI est maintenant activé lorsque plusieurs signaux ou images sont sélectionnés, et la ROI est appliquée à tous les signaux ou images sélectionnés (seule la ROI du premier signal ou image sélectionné est prise en compte)</p></li>
@@ -641,22 +621,22 @@ document.write(`
 </li>
 <li><p>Fonctionnalité de ROI d’image :</p>
 <ul>
-<li><p>Correction de l”[Issue #120](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/120">DataLab-Platform/DataLab#120</a>) - Extraction de ROI sur plusieurs images : la ROI définie ne doit pas être enregistrée dans le premier objet sélectionné. Le choix de conception est de ne pas enregistrer la ROI définie ni dans le premier ni dans aucun des objets sélectionnés : la ROI est uniquement utilisée pour l’extraction, et n’est pas enregistrée dans aucun objet</p></li>
-<li><p>Correction de l”[Issue #121](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/121">DataLab-Platform/DataLab#121</a>) - <cite>AttributeError</cite> lors de l’extraction de plusieurs ROIs sur une seule image, si plus d’une image est sélectionnée</p></li>
-<li><p>Correction de l”[Issue #122](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/122">DataLab-Platform/DataLab#122</a>) - Les masques d’image ne sont pas actualisés lors de la suppression des métadonnées sauf pour l’image active</p></li>
-<li><p>Correction de l”[Issue #123](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/123">DataLab-Platform/DataLab#123</a>) - Les masques d’image ne sont pas actualisés lors du collage de métadonnées sur plusieurs images, sauf pour la dernière image</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/120">Issue #120</a> - Extraction de ROI sur plusieurs images : la ROI définie ne doit pas être enregistrée dans le premier objet sélectionné. Le choix de conception est de ne pas enregistrer la ROI définie ni dans le premier ni dans aucun des objets sélectionnés : la ROI est uniquement utilisée pour l’extraction, et n’est pas enregistrée dans aucun objet</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/121">Issue #121</a> - <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> lors de l’extraction de plusieurs ROIs sur une seule image, si plus d’une image est sélectionnée</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/122">Issue #122</a> - Les masques d’image ne sont pas actualisés lors de la suppression des métadonnées sauf pour l’image active</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/123">Issue #123</a> - Les masques d’image ne sont pas actualisés lors du collage de métadonnées sur plusieurs images, sauf pour la dernière image</p></li>
 </ul>
 </li>
 <li><p>Fichiers texte et CSV :</p>
 <ul>
 <li><p>Améliorer la lecture des fichiers texte en détectant les en-têtes de données (en utilisant une liste d’en-têtes typiques des instruments scientifiques) et en permettant de sauter l’en-tête lors de la lecture du fichier</p></li>
 <li><p>Ignorer les erreurs d’encodage lors de la lecture des fichiers dans la fonctionnalité d’ouverture et l’assistant d’importation, permettant ainsi de lire des fichiers avec des caractères spéciaux sans lever d’exception</p></li>
-<li><p>Correction de l”[Issue #124](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/124">DataLab-Platform/DataLab#124</a>) - Fichiers texte : prise en charge du séparateur décimal local (différent de <cite>.</cite>)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/124">Issue #124</a> - Fichiers texte : prise en charge du séparateur décimal local (différent de <code class="docutils literal notranslate"><span class="pre">.</span></code>)</p></li>
 </ul>
 </li>
 <li><p>Fonctionnalités d’analyse de signal : correction des résultats en double lorsqu’aucune ROI n’est définie</p></li>
-<li><p>Correction de l”[Issue #113](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/113">DataLab-Platform/DataLab#113</a>) - L’appel à <cite>RemoteClient.open_h5_files</cite> (et <cite>import_h5_file</cite>) échoue sans passer les arguments facultatifs</p></li>
-<li><p>Correction de l”[Issue #116](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/116">DataLab-Platform/DataLab#116</a>) - Exception <cite>KeyError</cite> lors de la tentative de suppression d’un groupe après l’ouverture d’un fichier HDF5</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/113">Issue #113</a> - L’appel à <code class="docutils literal notranslate"><span class="pre">RemoteClient.open_h5_files</span></code> (et <code class="docutils literal notranslate"><span class="pre">import_h5_file</span></code>) échoue sans passer les arguments facultatifs</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/116">Issue #116</a> - Exception <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> lors de la tentative de suppression d’un groupe après l’ouverture d’un fichier HDF5</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-18-1">
@@ -668,10 +648,10 @@ document.write(`
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #106](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/106">DataLab-Platform/DataLab#106</a>) - Analyse : résultats décalés de coordonnées sur des images avec des ROIs et une origine décalée</p></li>
-<li><p>Correction de l”[Issue #107](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/107">DataLab-Platform/DataLab#107</a>) - Mauvais indices lors de l’extraction d’un profil à partir d’une image avec une ROI</p></li>
-<li><p>Correction de l”[Issue #111](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/111">DataLab-Platform/DataLab#111</a>) - La méthode <cite>add_object</cite> du proxy ne prend pas en charge les métadonnées du signal/image (par exemple la ROI)</p></li>
-<li><p>Plugin de données de test / « Créer une image gaussienne bruitée 2D » : correction du calcul de l’amplitude dans <cite>cdl.tests.data.create_2d_random</cite> pour les types de données non entiers</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/106">Issue #106</a> - Analyse : résultats décalés de coordonnées sur des images avec des ROIs et une origine décalée</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/107">Issue #107</a> - Mauvais indices lors de l’extraction d’un profil à partir d’une image avec une ROI</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/111">Issue #111</a> - La méthode <code class="docutils literal notranslate"><span class="pre">add_object</span></code> du proxy ne prend pas en charge les métadonnées du signal/image (par exemple la ROI)</p></li>
+<li><p>Plugin de données de test / « Créer une image gaussienne bruitée 2D » : correction du calcul de l’amplitude dans <code class="docutils literal notranslate"><span class="pre">cdl.tests.data.create_2d_random</span></code> pour les types de données non entiers</p></li>
 </ul>
 <p>📚 Documentation :</p>
 <ul class="simple">
@@ -716,13 +696,13 @@ document.write(`
 <li><p>Refactorisation interne majeure du système de ROI pour le rendre plus robuste (plus de tests) et plus facile à maintenir</p></li>
 </ul>
 </li>
-<li><p>Implémentation de l”[Issue #102](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/102">DataLab-Platform/DataLab#102</a>) - Lancer DataLab en utilisant <cite>datalab</cite> au lieu de <cite>cdl</cite>. Notez que la commande <cite>cdl</cite> est toujours disponible pour la compatibilité ascendante.</p></li>
-<li><p>Implémentation de l”[Issue #101](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/101">DataLab-Platform/DataLab#101</a>) - Configuration : définir l’interpolation d’image par défaut sur l’anti-crénelage (<cite>5</cite> au lieu de <cite>0</cite> pour le plus proche). Ce changement est motivé par le fait qu’une amélioration des performances a été apportée dans PlotPy v2.7 sur Windows, ce qui permet d’utiliser l’interpolation par anti-crénelage par défaut sans impact significatif sur les performances.</p></li>
-<li><p>Implémentation de l”[Issue #100](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/100">DataLab-Platform/DataLab#100</a>) - Utiliser le même programme d’installation et exécutable sur Windows 7 SP1, 8, 10, 11. Avant ce changement, un programme d’installation spécifique était requis pour Windows 7 SP1, en raison du fait que Python 3.9 et les versions ultérieures ne sont pas prises en charge sur cette plateforme. Une solution de contournement a été mise en œuvre pour faire fonctionner DataLab sur Windows 7 SP1 avec Python 3.9.</p></li>
+<li><p>Implémentation de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/102">Issue #102</a> - Lancer DataLab en utilisant <code class="docutils literal notranslate"><span class="pre">datalab</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">cdl</span></code>. Notez que la commande <code class="docutils literal notranslate"><span class="pre">cdl</span></code> est toujours disponible pour la compatibilité ascendante.</p></li>
+<li><p>Implémentation de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/101">Issue #101</a> - Configuration : définir l’interpolation d’image par défaut sur l’anti-crénelage (<code class="docutils literal notranslate"><span class="pre">5</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">0</span></code> pour le plus proche). Ce changement est motivé par le fait qu’une amélioration des performances a été apportée dans PlotPy v2.7 sur Windows, ce qui permet d’utiliser l’interpolation par anti-crénelage par défaut sans impact significatif sur les performances.</p></li>
+<li><p>Implémentation de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/100">Issue #100</a> - Utiliser le même programme d’installation et exécutable sur Windows 7 SP1, 8, 10, 11. Avant ce changement, un programme d’installation spécifique était requis pour Windows 7 SP1, en raison du fait que Python 3.9 et les versions ultérieures ne sont pas prises en charge sur cette plateforme. Une solution de contournement a été mise en œuvre pour faire fonctionner DataLab sur Windows 7 SP1 avec Python 3.9.</p></li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #103](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/103">DataLab-Platform/DataLab#103</a>) - <cite>proxy.add_annotations_from_items</cite> : la couleur de la forme de cercle semble être ignorée.</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/103">Issue #103</a> - <code class="docutils literal notranslate"><span class="pre">proxy.add_annotations_from_items</span></code> : la couleur de la forme de cercle semble être ignorée.</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-17-1">
@@ -738,7 +718,7 @@ document.write(`
 </ul>
 </li>
 <li><p>Clarification : l’action « Afficher uniquement le premier » a été renommée en « Afficher uniquement le premier objet », et une nouvelle icône a été ajoutée à l’action</p></li>
-<li><p>API : ajout des propriétés <cite>width</cite> et <cite>height</cite> à la classe <cite>ImageObj</cite> (retourne la largeur et la hauteur de l’image en unités physiques)</p></li>
+<li><p>API : ajout des propriétés <code class="docutils literal notranslate"><span class="pre">width</span></code> et <code class="docutils literal notranslate"><span class="pre">height</span></code> à la classe <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> (retourne la largeur et la hauteur de l’image en unités physiques)</p></li>
 <li><p>Lanceur Windows « start.pyw » : écriture d’un fichier journal « datalab_error.log » lorsqu’une exception se produit au démarrage</p></li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
@@ -761,7 +741,7 @@ document.write(`
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
 <ul class="simple">
 <li><p>Le menu « Calcul » a été renommé en « Analyse » pour les panneaux Signal et Image, pour mieux refléter la nature des fonctionnalités de ce menu</p></li>
-<li><p>Les régions d’intérêt (ROIs) sont désormais prises en compte partout dans l’application là où cela a du sens, et pas seulement pour les anciennes fonctionnalités du menu « Calcul » (maintenant « Analyse »). Cela clôture l”[Issue #93](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/93">DataLab-Platform/DataLab#93</a>). Si un signal ou une image a une ROI définie :</p>
+<li><p>Les régions d’intérêt (ROIs) sont désormais prises en compte partout dans l’application là où cela a du sens, et pas seulement pour les anciennes fonctionnalités du menu « Calcul » (maintenant « Analyse »). Cela clôture l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/93">Issue #93</a>. Si un signal ou une image a une ROI définie :</p>
 <ul>
 <li><p>Les opérations sont effectuées uniquement sur la ROI (sauf si l’opération modifie la forme des données, ou la taille des pixels pour les images)</p></li>
 <li><p>Les fonctionnalités de traitement sont effectuées uniquement sur la ROI (si le type de données de l’objet de destination est compatible avec le type de données de l’objet source, ce qui exclut le seuillage, par exemple)</p></li>
@@ -804,7 +784,7 @@ document.write(`
 <li><p>Les valeurs NaN sont maintenant supprimées du profil avant de le tracer</p></li>
 </ul>
 </li>
-<li><p>Les fonctionnalités de traitement simples avec une correspondance un-à-un avec une fonction Python (par exemple <cite>numpy.absolute</cite>, <cite>numpy.log10</cite>, etc.) et sans paramètres : correction du titre de l’objet résultat qui se terminait systématiquement par « | » (le caractère qui précède généralement la liste des paramètres)</p></li>
+<li><p>Les fonctionnalités de traitement simples avec une correspondance un-à-un avec une fonction Python (par exemple <code class="docutils literal notranslate"><span class="pre">numpy.absolute</span></code>, <code class="docutils literal notranslate"><span class="pre">numpy.log10</span></code>, etc.) et sans paramètres : correction du titre de l’objet résultat qui se terminait systématiquement par « | » (le caractère qui précède généralement la liste des paramètres)</p></li>
 <li><p>Filtrage de Butterworth : correction de la valeur par défaut et de la plage de valeurs valides de la fréquence de coupure</p></li>
 <li><p>Toutes les actions liées à la visualisation sont désormais regroupées dans la barre d’outils verticale du panneau de visualisation</p>
 <ul>
@@ -816,9 +796,9 @@ document.write(`
 <li><p>Vue Image : le bouton de la barre d’outils « Afficher le panneau de contraste » n’était pas activé au démarrage, et n’était activé que lorsqu’au moins une image était affichée dans la Vue Image - il est maintenant toujours activé, comme prévu</p></li>
 <li><p>Conversion du type de données des images :</p>
 <ul>
-<li><p>Précédemment, la fonction de conversion de type de données était commune aux fonctionnalités de traitement de signal et d’image, c’est-à-dire une simple conversion du type de données en utilisant la méthode <cite>astype</cite> de NumPy</p></li>
+<li><p>Précédemment, la fonction de conversion de type de données était commune aux fonctionnalités de traitement de signal et d’image, c’est-à-dire une simple conversion du type de données en utilisant la méthode <code class="docutils literal notranslate"><span class="pre">astype</span></code> de NumPy</p></li>
 <li><p>Cela n’était pas suffisant pour les fonctionnalités de traitement d’image, en particulier pour les images avec des données de type entier, car même si le résultat était correct d’un point de vue numérique, un débordement ou un dépassement pouvait légitimement être considéré comme un bug d’un point de vue mathématique</p></li>
-<li><p>La fonction de conversion du type de données des images repose désormais sur la fonction interne <cite>clip_astype</cite>, qui recadre les données dans la plage valide du type de données cible avant de les convertir (dans le cas des images de type entier)</p></li>
+<li><p>La fonction de conversion du type de données des images repose désormais sur la fonction interne <code class="docutils literal notranslate"><span class="pre">clip_astype</span></code>, qui recadre les données dans la plage valide du type de données cible avant de les convertir (dans le cas des images de type entier)</p></li>
 </ul>
 </li>
 <li><p>Problèmes d’extraction de ROI d’image :</p>
@@ -859,33 +839,33 @@ document.write(`
 <li><p>Cela est maintenant corrigé : lorsque une image est supprimée, l’histogramme est également supprimé et le panneau de contraste est rafraîchi (ce qui n’était pas le cas même avant la régression)</p></li>
 </ul>
 </li>
-<li><p>Ignorer <cite>AssertionError</cite> dans <em>config_unit_test.py</em> lors de l’exécution de la suite de tests sur WSL</p></li>
+<li><p>Ignorer <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> dans <em>config_unit_test.py</em> lors de l’exécution de la suite de tests sur WSL</p></li>
 </ul>
 <p>📚 Documentation :</p>
 <ul class="simple">
-<li><p>Correction de la référence de classe dans la documentation de <cite>Wrap11Func</cite></p></li>
+<li><p>Correction de la référence de classe dans la documentation de <code class="docutils literal notranslate"><span class="pre">Wrap11Func</span></code></p></li>
 </ul>
 </section>
 <section id="datalab-version-0-16-3">
 <h2>DataLab Version 0.16.3<a class="headerlink" href="#datalab-version-0-16-3" title="Lien vers cette rubrique">#</a></h2>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #84](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/84">DataLab-Platform/DataLab#84</a>) - Problèmes de construction avec V0.16.1 : conflit de nom <cite>signal</cite>, …</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/84">Issue #84</a> - Problèmes de construction avec V0.16.1 : conflit de nom <code class="docutils literal notranslate"><span class="pre">signal</span></code>, …</p>
 <ul>
 <li><p>Ce problème devait être corrigé dans la version 0.16.2, mais la correction n’était pas suffisante</p></li>
-<li><p>Merci à [&#64;rolandmas](<a class="github reference external" href="https://github.com/rolandmas">rolandmas</a>) pour avoir signalé le problème et pour l’aide apportée dans l’investigation du problème et le test de la correction</p></li>
+<li><p>Merci à <a class="reference external" href="https://github.com/rolandmas">&#64;rolandmas</a> pour avoir signalé le problème et pour l’aide apportée dans l’investigation du problème et le test de la correction</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #85](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/85">DataLab-Platform/DataLab#85</a>) - Les chemins des données de test peuvent être ajoutés plusieurs fois à <cite>cdl.utils.tests.TST_PATH</cite></p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/85">Issue #85</a> - Les chemins des données de test peuvent être ajoutés plusieurs fois à <code class="docutils literal notranslate"><span class="pre">cdl.utils.tests.TST_PATH</span></code></p>
 <ul>
-<li><p>Ce problème est lié à l”[Issue #84](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/84">DataLab-Platform/DataLab#84</a>)</p></li>
-<li><p>Ajouter les chemins des données de test plusieurs fois à <cite>cdl.utils.tests.TST_PATH</cite> entraînait le chargement multiple des données de test, ce qui a conduit à l’échec de certains tests (une solution de contournement simple a été ajoutée à V0.16.2 : ce problème est maintenant corrigé)</p></li>
-<li><p>Merci encore à [&#64;rolandmas](<a class="github reference external" href="https://github.com/rolandmas">rolandmas</a>) pour avoir signalé le problème dans le contexte de l’emballage Debian</p></li>
+<li><p>Ce problème est lié à l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/84">Issue #84</a></p></li>
+<li><p>Ajouter les chemins des données de test plusieurs fois à <code class="docutils literal notranslate"><span class="pre">cdl.utils.tests.TST_PATH</span></code> entraînait le chargement multiple des données de test, ce qui a conduit à l’échec de certains tests (une solution de contournement simple a été ajoutée à V0.16.2 : ce problème est maintenant corrigé)</p></li>
+<li><p>Merci encore à <a class="reference external" href="https://github.com/rolandmas">&#64;rolandmas</a> pour avoir signalé le problème dans le contexte de l’emballage Debian</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #86](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/86">DataLab-Platform/DataLab#86</a>) - La moyenne de N images entières dépasse le type de données</p></li>
-<li><p>Correction de l”[Issue #87](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/87">DataLab-Platform/DataLab#87</a>) - Extraction du profil moyen de l’image : <cite>AttributeError</cite> lors de la tentative de modification des paramètres du profil</p></li>
-<li><p>Correction de l”[Issue #88](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/88">DataLab-Platform/DataLab#88</a>) - Profil de segment d’image : inversion des coordonnées des points</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/86">Issue #86</a> - La moyenne de N images entières dépasse le type de données</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/87">Issue #87</a> - Extraction du profil moyen de l’image : <code class="docutils literal notranslate"><span class="pre">AttributeError</span></code> lors de la tentative de modification des paramètres du profil</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/88">Issue #88</a> - Profil de segment d’image : inversion des coordonnées des points</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-16-2">
@@ -908,7 +888,7 @@ document.write(`
 <li><p>Types de fichiers image :</p>
 <ul>
 <li><p>Ajout de la prise en charge native de la lecture des fichiers image .SPE, .GEL, .NDPI et .REC</p></li>
-<li><p>Ajout de la prise en charge de tout format de fichier pris en charge par <cite>imageio</cite> via le fichier de configuration (l’entrée <cite>imageio_formats</cite> peut être personnalisée pour compléter la liste par défaut des formats pris en charge : voir la [documentation](<a class="reference external" href="https://datalab-platform.com/fr/features/image/menu_file.html#open-image">https://datalab-platform.com/fr/features/image/menu_file.html#open-image</a>) pour plus de détails)</p></li>
+<li><p>Ajout de la prise en charge de tout format de fichier pris en charge par <code class="docutils literal notranslate"><span class="pre">imageio</span></code> via le fichier de configuration (l’entrée <code class="docutils literal notranslate"><span class="pre">imageio_formats</span></code> peut être personnalisée pour compléter la liste par défaut des formats pris en charge : voir la <a class="reference external" href="https://datalab-platform.com/fr/features/image/menu_file.html#open-image">documentation</a> pour plus de détails)</p></li>
 </ul>
 </li>
 </ul>
@@ -921,12 +901,12 @@ document.write(`
 <li><p>Mise à jour de la documentation pour mentionner explicitement que l’échelle logarithmique est en dB</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #82](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/82">DataLab-Platform/DataLab#82</a>) - Les macros ne sont pas renommées dans DataLab après les avoir exportées vers des scripts Python</p></li>
-<li><p>L’objet <cite>ResultProperties</cite> peut désormais être ajouté aux métadonnées de <cite>SignalObj</cite> ou <cite>ImageObj</cite> même en dehors d’une boucle d’événements Qt (car l’élément d’étiquette n’est plus créé immédiatement)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/82">Issue #82</a> - Les macros ne sont pas renommées dans DataLab après les avoir exportées vers des scripts Python</p></li>
+<li><p>L’objet <code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> peut désormais être ajouté aux métadonnées de <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> ou <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> même en dehors d’une boucle d’événements Qt (car l’élément d’étiquette n’est plus créé immédiatement)</p></li>
 <li><p>La barre de progression est désormais automatiquement fermée en cas d’erreur lors d’une opération longue (par exemple, lors de l’ouverture d’un fichier)</p></li>
 <li><p>Soustraction, division… : la boîte de dialogue pour la sélection du second opérande permettait de sélectionner un groupe (seul un signal ou une image devrait être sélectionné)</p></li>
 <li><p>Lorsqu’une opération implique un objet (signal ou image) ayant un numéro d’ordre supérieur à l’objet actuel (par exemple, lors de la soustraction d’une image avec une image d’un groupe en dessous de l’image actuelle), le titre de l’objet résultant fait désormais correctement référence aux numéros d’ordre des objets impliqués dans l’opération (par exemple, pour continuer avec l’exemple de soustraction mentionné ci-dessus, le titre de l’objet résultant faisait précédemment référence au numéro d’ordre avant l’insertion de l’image résultante)</p></li>
-<li><p>Ajout de la prise en charge d’un dossier de données de test supplémentaire grâce à la variable d’environnement <cite>CDL_DATA</cite> (utile à des fins de test, et notamment dans le contexte de la préparation du paquet Debian de DataLab)</p></li>
+<li><p>Ajout de la prise en charge d’un dossier de données de test supplémentaire grâce à la variable d’environnement <code class="docutils literal notranslate"><span class="pre">CDL_DATA</span></code> (utile à des fins de test, et notamment dans le contexte de la préparation du paquet Debian de DataLab)</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-16-1">
@@ -945,15 +925,15 @@ document.write(`
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de la détection de bord de Canny pour renvoyer une image binaire en <cite>uint8</cite> au lieu de <cite>bool</cite> (par soucis de cohérence avec les autres fonctionnalités de traitement d’image)</p></li>
-<li><p>Correction de la normalisation d’image : la borne inférieure était mal définie pour la méthode <cite>maximum</cite></p></li>
-<li><p>Correction de l’erreur <cite>ValueError</cite> lors du calcul de la DSP avec une échelle logarithmique</p></li>
-<li><p>Correction de l’algorithme de dérivation d’un signal : utilisation de <cite>numpy.gradient</cite> au lieu d’une implémentation personnalisée</p></li>
-<li><p>Correction de l’obsolescence de <cite>cumtrapz</cite> de SciPy : utilisation de <cite>cumulative_trapezoid</cite> à la place</p></li>
+<li><p>Correction de la détection de bord de Canny pour renvoyer une image binaire en <code class="docutils literal notranslate"><span class="pre">uint8</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">bool</span></code> (par soucis de cohérence avec les autres fonctionnalités de traitement d’image)</p></li>
+<li><p>Correction de la normalisation d’image : la borne inférieure était mal définie pour la méthode <code class="docutils literal notranslate"><span class="pre">maximum</span></code></p></li>
+<li><p>Correction de l’erreur <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> lors du calcul de la DSP avec une échelle logarithmique</p></li>
+<li><p>Correction de l’algorithme de dérivation d’un signal : utilisation de <code class="docutils literal notranslate"><span class="pre">numpy.gradient</span></code> au lieu d’une implémentation personnalisée</p></li>
+<li><p>Correction de l’obsolescence de <code class="docutils literal notranslate"><span class="pre">cumtrapz</span></code> de SciPy : utilisation de <code class="docutils literal notranslate"><span class="pre">cumulative_trapezoid</span></code> à la place</p></li>
 <li><p>La sélection de courbe affiche désormais les points individuels de la courbe (auparavant, seule la largeur de la ligne de la courbe était élargie)</p></li>
 <li><p>Installeur Windows : ajout de la prise en charge des versions instables (par exemple, 0.16.1.dev0), permettant ainsi d’installer facilement la dernière version de développement de DataLab sur Windows</p></li>
-<li><p>Correction de l”[Issue #81](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/81">DataLab-Platform/DataLab#81</a>) - Lors de l’ouverture de fichiers, afficher la boîte de dialogue de progression uniquement si nécessaire</p></li>
-<li><p>Correction de l”[Issue #80](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/80">DataLab-Platform/DataLab#80</a>) - Tracé des résultats : prise en charge de deux cas d’utilisation</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/81">Issue #81</a> - Lors de l’ouverture de fichiers, afficher la boîte de dialogue de progression uniquement si nécessaire</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/80">Issue #80</a> - Tracé des résultats : prise en charge de deux cas d’utilisation</p>
 <ul>
 <li><p>Les fonctionnalités du menu Analyse » produisent des <em>résultats</em> (scalaires) : détection de taches (coordonnées de cercle), détection de pics 2D (coordonnées de points), etc. Selon la fonctionnalité, des tables de résultats sont affichées dans la boîte de dialogue « Résultats », et les résultats sont également stockés dans les métadonnées du signal ou de l’image : chaque ligne de la table de résultats est un résultat individuel, et chaque colonne est une propriété du résultat - certains résultats peuvent ne consister qu’en un seul résultat individuel (par exemple, le centroïde de l’image ou la FWHM de la courbe), tandis que d’autres peuvent consister en plusieurs résultats individuels (par exemple, détection de taches, détection de contours, etc.).</p></li>
 <li><p>Avant ce changement, la fonctionnalité « Tracer les résultats » ne prenait en charge que le tracé du premier résultat individuel d’une table de résultats, en fonction de l’index (des objets de signal ou d’image) ou de l’une des colonnes de la table de résultats. Cela n’était pas suffisant pour certains cas d’utilisation, où l’utilisateur souhaitait tracer plusieurs résultats individuels d’une table de résultats.</p></li>
@@ -984,7 +964,7 @@ document.write(`
 <li><p>Nouveau processus de validation pour les fonctionnalités de traitement du signal et de l’image :</p>
 <ul>
 <li><p>Avant cette version, le processus de validation de DataLab était exclusivement effectué du point de vue du programmeur, en écrivant des tests unitaires et des tests d’intégration, garantissant ainsi que le code fonctionnait comme prévu (c’est-à-dire qu’aucune exception n’était levée et que le comportement était correct)</p></li>
-<li><p>Avec cette version, un nouveau processus de validation a été introduit, du point de vue de l’utilisateur, en ajoutant de nouvelles fonctions de validation (marquées avec le décorateur <cite>&#64;pytest.mark.validation</cite>) dans la suite de tests</p></li>
+<li><p>Avec cette version, un nouveau processus de validation a été introduit, du point de vue de l’utilisateur, en ajoutant de nouvelles fonctions de validation (marquées avec le décorateur <code class="docutils literal notranslate"><span class="pre">&#64;pytest.mark.validation</span></code>) dans la suite de tests</p></li>
 <li><p>Une nouvelle section « Validation » dans la documentation explique comment la validation est effectuée et contient une liste de toutes les fonctions de validation avec les statistiques du processus de validation (générées à partir de la suite de tests)</p></li>
 <li><p>Le processus de validation est en cours et sera amélioré dans les versions futures</p></li>
 </ul>
@@ -1105,12 +1085,12 @@ document.write(`
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
 <li><p>Correction d’un problème de performance dû à un rafraîchissement inutile de la vue du graphique lors de l’ajout d’un nouveau signal ou d’une nouvelle image</p></li>
-<li><p>Correction de l”[Issue #77](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/77">DataLab-Platform/DataLab#77</a>) - Profils d’intensité : impossible d’accepter la boîte de dialogue la deuxième fois</p></li>
-<li><p>Correction de l”[Issue #75](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/75">DataLab-Platform/DataLab#75</a>) - Afficher dans une nouvelle fenêtre : l’anti-crénelage de la courbe n’est pas activé par défaut</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/77">Issue #77</a> - Profils d’intensité : impossible d’accepter la boîte de dialogue la deuxième fois</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/75">Issue #75</a> - Afficher dans une nouvelle fenêtre : l’anti-crénelage de la courbe n’est pas activé par défaut</p></li>
 <li><p>La visibilité des annotations est désormais correctement sauvegardée et restaurée :</p>
 <ul>
 <li><p>Avant cette version, lorsque la visibilité des annotations était modifiée dans la vue du graphique séparée, elle n’était pas sauvegardée et restaurée lors de la réouverture de la vue du graphique</p></li>
-<li><p>Cela a été [corrigé en amont](<a class="github reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">PlotPyStack/PlotPy</a>) dans PlotPy (v2.3.3)</p></li>
+<li><p>Cela a été <a class="reference external" href="https://github.com/PlotPyStack/PlotPy/commit/03faaa42e5d6d4016ea8c99334c29d46a5963467">corrigé en amont</a> dans PlotPy (v2.3.3)</p></li>
 </ul>
 </li>
 </ul>
@@ -1119,15 +1099,15 @@ document.write(`
 <h2>DataLab Version 0.15.1<a class="headerlink" href="#datalab-version-0-15-1" title="Lien vers cette rubrique">#</a></h2>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #68](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/68">DataLab-Platform/DataLab#68</a>) - Chargement lent même pour des graphiques simples :</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/68">Issue #68</a> - Chargement lent même pour des graphiques simples :</p>
 <ul>
 <li><p>Sur macOS, l’expérience utilisateur était dégradée lors de la manipulation de graphiques simples</p></li>
 <li><p>Cela était dû à la manière dont macOS gère les fenêtres contextuelles, par exemple lors du rafraîchissement de la vue du graphique (barre de progression « Création d’éléments de graphique »), provoquant ainsi un effet de scintillement très gênant et un ralentissement global de l’application</p></li>
 <li><p>Le problème est maintenant résolu en affichant la barre de progression uniquement après un court délai (1s), c’est-à-dire lorsqu’elle est vraiment nécessaire (c’est-à-dire pour les opérations longues)</p></li>
-<li><p>Merci à [&#64;marcel-goldschen-ohm](<a class="github reference external" href="https://github.com/marcel-goldschen-ohm">marcel-goldschen-ohm</a>) pour la description très détaillée du problème et l’aide apportée pour tester la correction</p></li>
+<li><p>Merci à <a class="reference external" href="https://github.com/marcel-goldschen-ohm">&#64;marcel-goldschen-ohm</a> pour la description très détaillée du problème et l’aide apportée pour tester la correction</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #68](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/69">DataLab-Platform/DataLab#69</a>) - Les annotations devraient être en lecture seule dans la vue Signal/Image</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/69">Issue #68</a> - Les annotations devraient être en lecture seule dans la vue Signal/Image</p>
 <ul>
 <li><p>En ce qui concerne les annotations, le comportement actuel de DataLab est le suivant :</p>
 <ul>
@@ -1189,14 +1169,14 @@ document.write(`
 <li><p>Réinitialisation de la configuration de DataLab :</p>
 <ul>
 <li><p>Dans certains cas, il peut être utile de réinitialiser le fichier de configuration de DataLab à ses valeurs par défaut (par exemple, lorsque le fichier de configuration est corrompu)</p></li>
-<li><p>Ajout de la nouvelle option de ligne de commande <cite>–reset</cite> pour supprimer le dossier de configuration</p></li>
+<li><p>Ajout de la nouvelle option de ligne de commande <code class="docutils literal notranslate"><span class="pre">--reset</span></code> pour supprimer le dossier de configuration</p></li>
 <li><p>Ajout du nouveau raccourci du Menu Démarer « Reset DataLab » à l’installeur Windows</p></li>
 </ul>
 </li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #64](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/64">DataLab-Platform/DataLab#64</a>) - L’explorateur HDF5 ne montre pas les ensembles de données de taille 1x1 :</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/64">Issue #64</a> - L’explorateur HDF5 ne montre pas les ensembles de données de taille 1x1 :</p>
 <ul>
 <li><p>Les datasets HDF5 de taille 1x1 n’étaient pas affichés dans l’explorateur HDF5</p></li>
 <li><p>Même si ces données ne devraient pas être considérées comme des signaux ou des images, elles sont désormais affichées dans l’explorateur HDF5 (mais non sélectionnables, c’est-à-dire non importables en tant que signaux ou images)</p></li>
@@ -1208,18 +1188,18 @@ document.write(`
 <h2>DataLab Version 0.14.2<a class="headerlink" href="#datalab-version-0-14-2" title="Lien vers cette rubrique">#</a></h2>
 <p>⚠️ Modifications de l’API nécessaires pour corriger la fonctionnalité de chargement de plusieurs signaux :</p>
 <ul class="simple">
-<li><p>Fusion des méthodes <cite>open_object</cite> et <cite>open_objects</cite> en <cite>load_from_files</cite> dans les classes proxy, la fenêtre principale et les panneaux de données</p></li>
-<li><p>Pour des raisons de cohérence : fusion de <cite>save_object</cite> et <cite>save_objects</cite> en <cite>save_to_files</cite></p></li>
+<li><p>Fusion des méthodes <code class="docutils literal notranslate"><span class="pre">open_object</span></code> et <code class="docutils literal notranslate"><span class="pre">open_objects</span></code> en <code class="docutils literal notranslate"><span class="pre">load_from_files</span></code> dans les classes proxy, la fenêtre principale et les panneaux de données</p></li>
+<li><p>Pour des raisons de cohérence : fusion de <code class="docutils literal notranslate"><span class="pre">save_object</span></code> et <code class="docutils literal notranslate"><span class="pre">save_objects</span></code> en <code class="docutils literal notranslate"><span class="pre">save_to_files</span></code></p></li>
 <li><p>En résumé, ces changements mènent à la situation suivante :</p>
 <ul>
-<li><p><cite>load_from_files</cite> : charge une séquence d’objets à partir de plusieurs fichiers</p></li>
-<li><p><cite>save_to_files</cite> : sauvegarde une séquence d’objets dans plusieurs fichiers (pour le moment, il ne prend en charge que la sauvegarde d’un seul objet dans un seul fichier, mais il pourrait être étendu à l’avenir pour prendre en charge la sauvegarde de plusieurs objets dans un seul fichier)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">load_from_files</span></code> : charge une séquence d’objets à partir de plusieurs fichiers</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">save_to_files</span></code> : sauvegarde une séquence d’objets dans plusieurs fichiers (pour le moment, il ne prend en charge que la sauvegarde d’un seul objet dans un seul fichier, mais il pourrait être étendu à l’avenir pour prendre en charge la sauvegarde de plusieurs objets dans un seul fichier)</p></li>
 </ul>
 </li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #61](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/61">DataLab-Platform/DataLab#61</a>) - Assistant d’importation de fichiers texte : plantage de l’application lors de l’importation d’un fichier texte à courbes multiples :</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/61">Issue #61</a> - Assistant d’importation de fichiers texte : plantage de l’application lors de l’importation d’un fichier texte à courbes multiples :</p>
 <ul>
 <li><p>Ce problème concerne un cas d’utilisation où le fichier texte contient plusieurs courbes</p></li>
 <li><p>C’est maintenant corrigé et un test automatique a été ajouté pour éviter les régressions</p></li>
@@ -1229,13 +1209,13 @@ document.write(`
 </section>
 <section id="datalab-version-0-14-1">
 <h2>DataLab Version 0.14.1<a class="headerlink" href="#datalab-version-0-14-1" title="Lien vers cette rubrique">#</a></h2>
-<p>🎉 Nouveau nom de domaine : [datalab-platform.com](<a class="reference external" href="https://datalab-platform.com">https://datalab-platform.com</a>)</p>
+<p>🎉 Nouveau nom de domaine : <a class="reference external" href="https://datalab-platform.com">datalab-platform.com</a></p>
 <p>💥 Nouvelles fonctionnalités :</p>
 <ul class="simple">
 <li><p>Ajout de la prise en charge de l’inversion de la palette de couleurs dans la Vue Image :</p>
 <ul>
 <li><p>Ajout de la nouvelle entrée « Inverser la palette de couleurs » dans le menu contextuel du graphique, les paramètres de l’image et dans les paramètres par défaut de la vue image</p></li>
-<li><p>Cette fonctionnalité nécessite <cite>PlotPy</cite> v2.3 ou ultérieur</p></li>
+<li><p>Cette fonctionnalité nécessite <code class="docutils literal notranslate"><span class="pre">PlotPy</span></code> v2.3 ou ultérieur</p></li>
 </ul>
 </li>
 <li><p>Explorateur HDF5 :</p>
@@ -1246,7 +1226,7 @@ document.write(`
 </li>
 <li><p>Testabilité et maintenabilité :</p>
 <ul>
-<li><p>Les tests unitaires de DataLab utilisent désormais [pytest](<a class="reference external" href="https://pytest.org">https://pytest.org</a>). Cela a nécessité beaucoup de travail pour la transition, en particulier pour réadapter les tests afin qu’ils puissent être exécutés dans le même processus. Par exemple, une attention particulière a été portée à l’isolement des tests, afin qu’ils n’interfèrent pas les uns avec les autres.</p></li>
+<li><p>Les tests unitaires de DataLab utilisent désormais <a class="reference external" href="https://pytest.org">pytest</a>. Cela a nécessité beaucoup de travail pour la transition, en particulier pour réadapter les tests afin qu’ils puissent être exécutés dans le même processus. Par exemple, une attention particulière a été portée à l’isolement des tests, afin qu’ils n’interfèrent pas les uns avec les autres.</p></li>
 <li><p>Ajout de l’intégration continue (CI) avec GitHub Actions</p></li>
 <li><p>Pour cette version, la couverture des tests est de 87%</p></li>
 </ul>
@@ -1260,14 +1240,14 @@ document.write(`
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
 <li><p>Le serveur XML-RPC n’était pas arrêté correctement lors de la fermeture de DataLab</p></li>
-<li><p>Correction de problèmes liés aux tests : certains cas limites étaient masqués par l’ancienne suite de tests, et ont été révélés par la transition vers <cite>pytest</cite>. Cela a conduit à des corrections de bugs et à des améliorations du code.</p></li>
+<li><p>Correction de problèmes liés aux tests : certains cas limites étaient masqués par l’ancienne suite de tests, et ont été révélés par la transition vers <code class="docutils literal notranslate"><span class="pre">pytest</span></code>. Cela a conduit à des corrections de bugs et à des améliorations du code.</p></li>
 <li><p>Sur Linux, lors de l’exécution d’un calcul sur un signal ou une image, et à de rares occasions, le calcul restait bloqué comme s’il s’exécutait indéfiniment. Même si l’interface graphique était toujours réactive, le calcul n’avançait pas et l’utilisateur devait annuler l’opération et la redémarrer. Cela était dû à la méthode de démarrage du processus séparé utilisé pour le calcul (la méthode par défaut était « fork » sur Linux). Ceci est maintenant corrigé en utilisant la méthode « spawn » à la place, qui est la méthode recommandée pour les dernières versions de Python sur Linux lorsque le multithreading est employé.</p></li>
-<li><p>Correction de l”[Issue #60](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/60">DataLab-Platform/DataLab#60</a>) - <cite>OSError: Invalid HDF5 file […]</cite> lors de la tentative d’ouverture d’un fichier HDF5 avec une extension autre que « .h5 »</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/60">Issue #60</a> - <code class="docutils literal notranslate"><span class="pre">OSError:</span> <span class="pre">Invalid</span> <span class="pre">HDF5</span> <span class="pre">file</span> <span class="pre">[...]</span></code> lors de la tentative d’ouverture d’un fichier HDF5 avec une extension autre que « .h5 »</p></li>
 <li><p>Région d’intérêt (ROI) d’image : lors de la modification des limites de l’image dans la boîte de dialogue de confirmation, la ROI n’était pas mise à jour en conséquence jusqu’à ce que l’opération soit relancée</p></li>
 <li><p>Problèmes d’obsolescence :</p>
 <ul>
-<li><p>Correction de l’avertissement d’obsolescence <cite>scipy.ndimage.filters</cite></p></li>
-<li><p>Correction de l’avertissement d’obsolescence <cite>numpy.fromstring</cite></p></li>
+<li><p>Correction de l’avertissement d’obsolescence <code class="docutils literal notranslate"><span class="pre">scipy.ndimage.filters</span></code></p></li>
+<li><p>Correction de l’avertissement d’obsolescence <code class="docutils literal notranslate"><span class="pre">numpy.fromstring</span></code></p></li>
 </ul>
 </li>
 </ul>
@@ -1302,10 +1282,10 @@ document.write(`
 <li><p>Les macro-commandes sont désormais numérotées, à partir de 1, comme les signaux et les images</p></li>
 </ul>
 </li>
-<li><p>API de contrôle à distance (<cite>RemoteProxy</cite> et <cite>LocalProxy</cite>) :</p>
+<li><p>API de contrôle à distance (<code class="docutils literal notranslate"><span class="pre">RemoteProxy</span></code> et <code class="docutils literal notranslate"><span class="pre">LocalProxy</span></code>) :</p>
 <ul>
-<li><p><cite>get_object_titles</cite> accepte désormais « macro » comme nom de panneau et retourne la liste des titres de macro</p></li>
-<li><p>Nouvelles méthodes <cite>run_macro</cite>, <cite>stop_macro</cite> et <cite>import_macro_from_file</cite></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">get_object_titles</span></code> accepte désormais « macro » comme nom de panneau et retourne la liste des titres de macro</p></li>
+<li><p>Nouvelles méthodes <code class="docutils literal notranslate"><span class="pre">run_macro</span></code>, <code class="docutils literal notranslate"><span class="pre">stop_macro</span></code> et <code class="docutils literal notranslate"><span class="pre">import_macro_from_file</span></code></p></li>
 </ul>
 </li>
 </ul>
@@ -1317,9 +1297,9 @@ document.write(`
 <li><p>Traduction des raccourcis « Parcourir le répertoire d’installation » et « Désinstaller »</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #55](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/55">DataLab-Platform/DataLab#55</a>) - Changer les limites de l’image dans la vue d’image n’a aucun effet sur les propriétés de l’objet image associé</p></li>
-<li><p>Correction de l”[Issue #56](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/56">DataLab-Platform/DataLab#56</a>) - Plugin « Données de test » : <cite>AttributeError: “NoneType” object has no attribute “data”</cite> lors de l’annulation de « Créer une image avec des pics »</p></li>
-<li><p>Ceci corrige l”[Issue #57](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/57">DataLab-Platform/DataLab#57</a>) - Les formes résultat cercle et ellipse ne sont pas transformées correctement</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/55">Issue #55</a> - Changer les limites de l’image dans la vue d’image n’a aucun effet sur les propriétés de l’objet image associé</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/56">Issue #56</a> - Plugin « Données de test » : <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'NoneType'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'data'</span></code> lors de l’annulation de « Créer une image avec des pics »</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/57">Issue #57</a> - Les formes résultat cercle et ellipse ne sont pas transformées correctement</p></li>
 <li><p>Cycle de couleur et de style de courbe :</p>
 <ul>
 <li><p>Avant cette version, ce cycle était géré par le même mécanisme pour le Panneau Signal ou l’Explorateur HDF5, ce qui n’était pas le comportement attendu</p></li>
@@ -1376,30 +1356,30 @@ document.write(`
 </li>
 <li><p>Fonctionnalité de statistiques :</p>
 <ul>
-<li><p>Ajout de <cite>&lt;y&gt;/σ(y)</cite> au tableau de résultats « Statistiques » du signal (en plus de la moyenne, de la médiane, de l’écart-type, etc.)</p></li>
-<li><p>Ajout de <cite>peak-to-peak</cite> au tableau de résultats « Statistiques » du signal et de l’image</p></li>
+<li><p>Ajout de <code class="docutils literal notranslate"><span class="pre">&lt;y&gt;/σ(y)</span></code> au tableau de résultats « Statistiques » du signal (en plus de la moyenne, de la médiane, de l’écart-type, etc.)</p></li>
+<li><p>Ajout de <code class="docutils literal notranslate"><span class="pre">peak-to-peak</span></code> au tableau de résultats « Statistiques » du signal et de l’image</p></li>
 </ul>
 </li>
 <li><p>Fonctionnalité d’ajustement de courbe : les résultats de l’ajustement sont désormais stockés dans un dictionnaire dans les métadonnées du signal (au lieu d’être stockés individuellement dans les métadonnées du signal)</p></li>
 <li><p>État de la fenêtre :</p>
 <ul>
 <li><p>L’état des barres d’outils et des widgets de dock (visibilité, position, etc.) est désormais stocké dans le fichier de configuration et restauré au démarrage (la taille et la position étaient déjà stockées et restaurées)</p></li>
-<li><p>Ceci implémente une partie de [Issue #30](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/30">DataLab-Platform/DataLab#30</a>) - Sauvegarder/restaurer la disposition de la fenêtre principale</p></li>
+<li><p>Ceci implémente une partie de <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/30">Issue #30</a> - Sauvegarder/restaurer la disposition de la fenêtre principale</p></li>
 </ul>
 </li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Correction de l”[Issue #41](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/41">DataLab-Platform/DataLab#41</a>) - Extraction du profil radial : impossible d’entrer les coordonnées du centre définies par l’utilisateur</p></li>
-<li><p>Correction de l”[Issue #49](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/49">DataLab-Platform/DataLab#49</a>) - Erreur lors de l’ouverture d’un fichier texte (UTF-8 BOM) en tant qu’image</p></li>
-<li><p>Correction de l”[Issue #51](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/51">DataLab-Platform/DataLab#51</a>) - Dimensions inattendues lors de l’ajout d’une nouvelle ROI sur une image avec des unités X/Y arbitraires (pas des pixels)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/41">Issue #41</a> - Extraction du profil radial : impossible d’entrer les coordonnées du centre définies par l’utilisateur</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/49">Issue #49</a> - Erreur lors de l’ouverture d’un fichier texte (UTF-8 BOM) en tant qu’image</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/51">Issue #51</a> - Dimensions inattendues lors de l’ajout d’une nouvelle ROI sur une image avec des unités X/Y arbitraires (pas des pixels)</p></li>
 <li><p>Amélioration de la gestion de la sérialisation du style des items graphiques :</p>
 <ul>
 <li><p>Avant cette version, le style des items graphiques était stocké dans les métadonnées du signal/image uniquement lors de la sauvegarde de l’espace de travail dans un fichier HDF5. Ainsi, lors de la modification du style d’un signal/image à partir du bouton « Paramètres » (barre d’outils de la vue), le style n’était pas conservé dans certains cas (par exemple lors de la duplication du signal/image).</p></li>
 <li><p>A présent, le style des items graphiques est stocké dans les métadonnées du signal/image chaque fois que le style est modifié, et est restauré lors du rechargement de l’espace de travail</p></li>
 </ul>
 </li>
-<li><p>Traitement de l’avertissement de conversion <cite>ComplexWarning</cite> lors de l’ajout de régions d’intérêt (ROI) à un signal avec des données complexes</p></li>
+<li><p>Traitement de l’avertissement de conversion <code class="docutils literal notranslate"><span class="pre">ComplexWarning</span></code> lors de l’ajout de régions d’intérêt (ROI) à un signal avec des données complexes</p></li>
 </ul>
 </section>
 <section id="datalab-version-0-11-0">
@@ -1409,7 +1389,7 @@ document.write(`
 <li><p>Les signaux et les images peuvent maintenant être réorganisés dans la vue arborescente :</p>
 <ul>
 <li><p>En utilisant les nouvelles actions « Monter » et « Descendre » dans le menu « Édition » (ou en utilisant les boutons de la barre d’outils correspondants) :</p></li>
-<li><p>Ceci corrige l”[Issue #22](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/22">DataLab-Platform/DataLab#22</a>) - Ajout des actions « monter/descendre » dans le menu « Édition », pour les signaux/images et les groupes</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/22">Issue #22</a> - Ajout des actions « monter/descendre » dans le menu « Édition », pour les signaux/images et les groupes</p></li>
 </ul>
 </li>
 <li><p>Les signaux et les images peuvent également être réorganisés par glisser-déposer :</p>
@@ -1417,15 +1397,15 @@ document.write(`
 <li><p>Les signaux et les images peuvent être déplacés et déposés dans leur propre panneau pour changer leur ordre</p></li>
 <li><p>Les groupes peuvent également être déplacés et déposés dans leur panneau</p></li>
 <li><p>La fonctionnalité prend également en charge la sélection multiple (en utilisant les modificateurs standard Ctrl et Shift), de sorte que plusieurs signaux/images/groupes peuvent être déplacés à la fois, pas nécessairement avec des positions contiguës</p></li>
-<li><p>Ceci corrige l”[Issue #17](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/17">DataLab-Platform/DataLab#17</a>) - Ajout de la fonctionnalité de glisser-déposer aux vues arborescentes des signaux/images</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/17">Issue #17</a> - Ajout de la fonctionnalité de glisser-déposer aux vues arborescentes des signaux/images</p></li>
 </ul>
 </li>
 <li><p>Nouvelles fonctionnalités d’interpolation 1D :</p>
 <ul>
 <li><p>Ajout de la fonctionnalité « Interpolation » au menu « Traitement » du panneau de signal</p></li>
 <li><p>Méthodes disponibles : linéaire, spline, quadratique, cubique, barycentrique et PCHIP</p></li>
-<li><p>Merci à [&#64;marcel-goldschen-ohm](<a class="github reference external" href="https://github.com/marcel-goldschen-ohm">marcel-goldschen-ohm</a>) pour sa contribution à l’interpolation spline</p></li>
-<li><p>Ceci corrige l”[Issue #20](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/20">DataLab-Platform/DataLab#20</a>) - Ajout des fonctionnalités d’interpolation 1D</p></li>
+<li><p>Merci à <a class="reference external" href="https://github.com/marcel-goldschen-ohm">&#64;marcel-goldschen-ohm</a> pour sa contribution à l’interpolation spline</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/20">Issue #20</a> - Ajout des fonctionnalités d’interpolation 1D</p></li>
 </ul>
 </li>
 <li><p>Nouvelle fonctionnalité de rééchantillonnage 1D :</p>
@@ -1433,20 +1413,20 @@ document.write(`
 <li><p>Ajout de la fonctionnalité « Rééchantillonnage » au menu « Traitement » du panneau de signal</p></li>
 <li><p>Mêmes méthodes d’interpolation que pour la fonctionnalité « Interpolation »</p></li>
 <li><p>Possibilité de spécifier le pas de rééchantillonnage ou le nombre de points</p></li>
-<li><p>Ceci corrige l”[Issue #21](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/21">DataLab-Platform/DataLab#21</a>) - Ajout de la fonctionnalité de rééchantillonnage 1D</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/21">Issue #21</a> - Ajout de la fonctionnalité de rééchantillonnage 1D</p></li>
 </ul>
 </li>
 <li><p>Nouvelle fonctionnalité de convolution 1D :</p>
 <ul>
 <li><p>Ajout de la fonctionnalité « Convolution » au menu « Opération » du panneau de signal</p></li>
-<li><p>Ceci corrige l”[Issue #23](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/23">DataLab-Platform/DataLab#23</a>) - Ajout de la fonctionnalité de convolution 1D</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/23">Issue #23</a> - Ajout de la fonctionnalité de convolution 1D</p></li>
 </ul>
 </li>
 <li><p>Nouvelle fonctionnalité de d’élimination de tendance 1D :</p>
 <ul>
 <li><p>Ajout de la fonctionnalité « Élimination de tendance » au menu « Traitement » du panneau de signal</p></li>
 <li><p>Méthodes disponibles : linéaire ou constante</p></li>
-<li><p>Ceci corrige l”[Issue #24](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/24">DataLab-Platform/DataLab#24</a>) - Ajout de la fonctionnalité d’élimination de tendance 1D</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/24">Issue #24</a> - Ajout de la fonctionnalité d’élimination de tendance 1D</p></li>
 </ul>
 </li>
 <li><p>Résultats d’analyse 2D :</p>
@@ -1454,7 +1434,7 @@ document.write(`
 <li><p>Avant cette version, les résultats d’analyse 2D tels que les contours, les blobs, etc. étaient stockés dans le dictionnaire de métadonnées de l’image sous forme de coordonnées (x0, y0, x1, y1, …) même pour les cercles et les ellipses (c’est-à-dire les coordonnées des rectangles englobants).</p></li>
 <li><p>Par souci de commodité, les coordonnées du cercle et de l’ellipse sont désormais stockées dans le dictionnaire de métadonnées de l’image sous la forme (x0, y0, rayon) et (x0, y0, a, b, theta) respectivement.</p></li>
 <li><p>Ces résultats sont également affichés comme tels dans la boîte de dialogue « Résultats » (à la fin du processus de calcul ou en cliquant sur le bouton « Afficher les résultats »).</p></li>
-<li><p>Cette correction corrige l”[Issue #32](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/32">DataLab-Platform/DataLab#32</a>) - Détection des contours : afficher le cercle <cite>(x, y, r)</cite> et l’ellipse <cite>(x, y, a, b, theta)</cite> au lieu de <cite>(x0, y0, x1, x1, …)</cite></p></li>
+<li><p>Cette correction corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/32">Issue #32</a> - Détection des contours : afficher le cercle <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">r)</span></code> et l’ellipse <code class="docutils literal notranslate"><span class="pre">(x,</span> <span class="pre">y,</span> <span class="pre">a,</span> <span class="pre">b,</span> <span class="pre">theta)</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">(x0,</span> <span class="pre">y0,</span> <span class="pre">x1,</span> <span class="pre">x1,</span> <span class="pre">...)</span></code></p></li>
 </ul>
 </li>
 <li><p>Résultats d’analyse 1D et 2D :</p>
@@ -1487,16 +1467,16 @@ document.write(`
 </li>
 <li><p>Extraction de profil d’image : ajout de la prise en charge des images masquées (lors de la définition des régions d’intérêt, les zones en dehors des ROI sont masquées, et le profil est extrait uniquement sur les zones non masquées, ou moyenné sur les zones non masquées dans le cas de l’extraction du profil moyen)</p></li>
 <li><p>Style de courbe : ajout de « Réinitialiser les styles de courbe » dans le menu « Affichage ». Cette fonctionnalité permet de réinitialiser le cycle de style de courbe à son état initial.</p></li>
-<li><p>Classe de base des plugins <cite>PluginBase</cite> :</p>
+<li><p>Classe de base des plugins <code class="docutils literal notranslate"><span class="pre">PluginBase</span></code> :</p>
 <ul>
-<li><p>Ajout de la méthode <cite>edit_new_signal_parameters</cite> pour afficher une boîte de dialogue pour éditer les paramètres d’un nouveau signal</p></li>
-<li><p>Ajout de la méthode <cite>edit_new_image_parameters</cite> pour afficher une boîte de dialogue pour éditer les paramètres d’une nouvelle image (mise à jour du plugin <em>cdl_testdata.py</em> en conséquence)</p></li>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">edit_new_signal_parameters</span></code> pour afficher une boîte de dialogue pour éditer les paramètres d’un nouveau signal</p></li>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters</span></code> pour afficher une boîte de dialogue pour éditer les paramètres d’une nouvelle image (mise à jour du plugin <em>cdl_testdata.py</em> en conséquence)</p></li>
 </ul>
 </li>
-<li><p>API de calculs sur les signaux et les images (<cite>cdl.computations</cite>) :</p>
+<li><p>API de calculs sur les signaux et les images (<code class="docutils literal notranslate"><span class="pre">cdl.computations</span></code>) :</p>
 <ul>
 <li><p>Ajout de wrappers pour les calculs 1 -&gt; 1 sur les signaux et les images</p></li>
-<li><p>Ces wrappers visent à simplifier la création d’une fonction de calcul de base opérant sur les objets natifs de DataLab (<cite>SignalObj</cite> et <cite>ImageObj</cite>) à partir d’une fonction opérant sur des tableaux NumPy</p></li>
+<li><p>Ces wrappers visent à simplifier la création d’une fonction de calcul de base opérant sur les objets natifs de DataLab (<code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> et <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code>) à partir d’une fonction opérant sur des tableaux NumPy</p></li>
 <li><p>Cela simplifie les fonctionnalités internes de DataLab et facilite la création de nouvelles fonctionnalités de calcul dans les plugins</p></li>
 <li><p>Voir le plugin d’exemple <em>cdl_custom_func.py</em> pour un cas d’utilisation pratique</p></li>
 </ul>
@@ -1510,7 +1490,7 @@ document.write(`
 </li>
 <li><p>Suite de tests automatisés :</p>
 <ul>
-<li><p>Depuis la version 0.10, l’objet proxy de DataLab dispose d’une méthode <cite>toggle_auto_refresh</cite> pour activer/désactiver la fonctionnalité « Auto-refresh ». Cette fonctionnalité peut être utile pour améliorer les performances lors de l’exécution de scripts de test</p></li>
+<li><p>Depuis la version 0.10, l’objet proxy de DataLab dispose d’une méthode <code class="docutils literal notranslate"><span class="pre">toggle_auto_refresh</span></code> pour activer/désactiver la fonctionnalité « Auto-refresh ». Cette fonctionnalité peut être utile pour améliorer les performances lors de l’exécution de scripts de test</p></li>
 <li><p>Les scénarios de test sur les signaux et les images utilisent désormais cette fonctionnalité pour améliorer les performances</p></li>
 </ul>
 </li>
@@ -1523,7 +1503,7 @@ document.write(`
 </ul>
 <p>📚 Documentation :</p>
 <ul class="simple">
-<li><p>Nouvelle [section Tutoriels](<a class="reference external" href="https://datalab-platform.com/fr/intro/tutorials/index.html">https://datalab-platform.com/fr/intro/tutorials/index.html</a>) dans la documentation :</p>
+<li><p>Nouvelle <a class="reference external" href="https://datalab-platform.com/fr/intro/tutorials/index.html">section Tutoriels</a> dans la documentation :</p>
 <ul>
 <li><p>Cette section fournit un ensemble de tutoriels pour apprendre à utiliser DataLab</p></li>
 <li><p>Les tutoriels vidéo suivants sont disponibles :</p>
@@ -1542,7 +1522,7 @@ document.write(`
 </li>
 </ul>
 </li>
-<li><p>Nouvelle [section API](<a class="reference external" href="https://datalab-platform.com/fr/api/index.html">https://datalab-platform.com/fr/api/index.html</a>) dans la documentation :</p>
+<li><p>Nouvelle <a class="reference external" href="https://datalab-platform.com/fr/api/index.html">section API</a> dans la documentation :</p>
 <ul>
 <li><p>Cette section explique comment utiliser DataLab comme une bibliothèque Python, en abordant les sujets suivants :</p>
 <ul>
@@ -1553,19 +1533,19 @@ document.write(`
 </ul>
 </li>
 <li><p>Cette section fournit également une référence complète de l’API pour les objets et les fonctionnalités de DataLab</p></li>
-<li><p>Ceci corrige l”[Issue #19](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/19">DataLab-Platform/DataLab#19</a>) - Ajout de la documentation de l’API (modèle de données, fonctions sur les tableaux ou les objets de signaux/images, …)</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/19">Issue #19</a> - Ajout de la documentation de l’API (modèle de données, fonctions sur les tableaux ou les objets de signaux/images, …)</p></li>
 </ul>
 </li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
 <ul class="simple">
-<li><p>Ceci corrige l”[Issue #29](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/29">DataLab-Platform/DataLab#29</a>) - Erreur d’ajustement polynomial : <cite>QDialog […] argument 1 has an unexpected type “SignalProcessor”</cite></p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/29">Issue #29</a> - Erreur d’ajustement polynomial : <code class="docutils literal notranslate"><span class="pre">QDialog</span> <span class="pre">[...]</span> <span class="pre">argument</span> <span class="pre">1</span> <span class="pre">has</span> <span class="pre">an</span> <span class="pre">unexpected</span> <span class="pre">type</span> <span class="pre">'SignalProcessor'</span></code></p></li>
 <li><p>Fonctionnalité d’extraction de ROI d’image :</p>
 <ul>
 <li><p>Avant cette version, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les ROI dans un seul objet d’image » activée, le résultat était une seule image sans le masque de ROI (le masque de ROI n’était disponible que lors de l’extraction de ROI avec l’option désactivée)</p></li>
 <li><p>Cela conduisait à un comportement inattendu, car on pouvait interpréter le résultat (une image carrée sans le masque de ROI) comme le résultat d’une seule ROI rectangulaire</p></li>
 <li><p>A présent, lors de l’extraction d’une seule ROI circulaire d’une image avec l’option « Extraire toutes les ROI dans un seul objet d’image » activée, le résultat est une seule image avec le masque de ROI (comme si l’option était désactivée)</p></li>
-<li><p>Ceci corrige l”[Issue #31](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/31">DataLab-Platform/DataLab#31</a>) - Extraction d’une seule ROI circulaire : bascule automatique vers la fonction <cite>extract_single_roi</cite></p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/31">Issue #31</a> - Extraction d’une seule ROI circulaire : bascule automatique vers la fonction <code class="docutils literal notranslate"><span class="pre">extract_single_roi</span></code></p></li>
 </ul>
 </li>
 <li><p>Analyse sur ROI circulaire :</p>
@@ -1573,28 +1553,28 @@ document.write(`
 <li><p>Avant cette version, lors de l’exécution de calculs sur une ROI circulaire, les résultats étaient inattendus en termes de coordonnées (les résultats semblaient être calculés dans une région située au-dessus de la ROI réelle).</p></li>
 <li><p>Cela était dû à une régression introduite dans une version antérieure.</p></li>
 <li><p>A présent, lors de la définition d’une ROI circulaire et de l’exécution de calculs sur celle-ci, les résultats sont calculés sur la ROI réelle</p></li>
-<li><p>Ceci corrige l”[Issue #33](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/33">DataLab-Platform/DataLab#33</a>) - Analyse sur ROI circulaire : résultats inattendus</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/33">Issue #33</a> - Analyse sur ROI circulaire : résultats inattendus</p></li>
 </ul>
 </li>
 <li><p>Détection des contours sur ROI :</p>
 <ul>
-<li><p>Avant cette version, lors de l’exécution de la détection des contours sur une ROI, certains contours étaient détectés en dehors de la ROI (cela peut être dû à une limitation de la fonction <cite>find_contours</cite> de scikit-image).</p></li>
+<li><p>Avant cette version, lors de l’exécution de la détection des contours sur une ROI, certains contours étaient détectés en dehors de la ROI (cela peut être dû à une limitation de la fonction <code class="docutils literal notranslate"><span class="pre">find_contours</span></code> de scikit-image).</p></li>
 <li><p>A présent, grâce à une solution de contournement, les contours erronés sont filtrés.</p></li>
-<li><p>Un nouveau module de test <cite>cdl.tests.features.images.contour_fabryperot_app</cite> a été ajouté pour tester la fonctionnalité de détection des contours sur une image Fabry-Perot (merci à [&#64;emarin2642](<a class="github reference external" href="https://github.com/emarin2642">emarin2642</a>) pour sa contribution)</p></li>
-<li><p>Ceci corrige l”[Issue #34](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/34">DataLab-Platform/DataLab#34</a>) - Détection des contours : résultats inattendus en dehors de la ROI</p></li>
+<li><p>Un nouveau module de test <code class="docutils literal notranslate"><span class="pre">cdl.tests.features.images.contour_fabryperot_app</span></code> a été ajouté pour tester la fonctionnalité de détection des contours sur une image Fabry-Perot (merci à <a class="reference external" href="https://github.com/emarin2642">&#64;emarin2642</a> pour sa contribution)</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/34">Issue #34</a> - Détection des contours : résultats inattendus en dehors de la ROI</p></li>
 </ul>
 </li>
 <li><p>Fusion des résultats d’analyse :</p>
 <ul>
-<li><p>Avant cette version, lors d’un calcul <cite>1-&gt;N</cite> (somme, moyenne, produit) sur un groupe de signaux/images, les résultats d’analyse associés à chaque signal/image étaient fusionnés en un seul résultat, mais seul le type de résultat présent dans le premier signal/image était conservé.</p></li>
+<li><p>Avant cette version, lors d’un calcul <code class="docutils literal notranslate"><span class="pre">1-&gt;N</span></code> (somme, moyenne, produit) sur un groupe de signaux/images, les résultats d’analyse associés à chaque signal/image étaient fusionnés en un seul résultat, mais seul le type de résultat présent dans le premier signal/image était conservé.</p></li>
 <li><p>A présent, les résultats d’analyse associés à chaque signal/image sont fusionnés en un seul résultat, quel que soit le type de résultat.</p></li>
 </ul>
 </li>
-<li><p>Ceci corrige l”[Issue #36](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/36">DataLab-Platform/DataLab#36</a>) - L’état d’activation de l’action « Tout supprimer » n’est parfois pas rafraîchi</p></li>
+<li><p>Ceci corrige l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/36">Issue #36</a> - L’état d’activation de l’action « Tout supprimer » n’est parfois pas rafraîchi</p></li>
 <li><p>Inversion X/Y de l’image : lors de l’inversion des axes X et Y, les régions d’intérêt (ROI) n’étaient ni supprimées ni inversées (les ROI sont désormais supprimées, jusqu’à ce que nous implémentions la fonction d’inversion, si demandé)</p></li>
 <li><p>Groupe « Propriétés » : le bouton « Appliquer » était activé par défaut, même lorsqu’aucune propriété n’avait été modifiée, ce qui était déroutant pour l’utilisateur (le bouton « Appliquer » est désormais désactivé par défaut, et n’est activé que lorsqu’une propriété est modifiée)</p></li>
-<li><p>Correction de la méthode <cite>get_object</cite> du proxy lorsqu’il n’y a pas d’objet à retourner (<cite>None</cite> est retourné au lieu d’une exception)</p></li>
-<li><p>Correction de <cite>IndexError: list index out of range</cite> lors de certaines opérations ou calculs sur des groupes de signaux/images (par exemple « Extraction de ROI », « Détection de pics », « Redimensionnement », etc.)</p></li>
+<li><p>Correction de la méthode <code class="docutils literal notranslate"><span class="pre">get_object</span></code> du proxy lorsqu’il n’y a pas d’objet à retourner (<code class="docutils literal notranslate"><span class="pre">None</span></code> est retourné au lieu d’une exception)</p></li>
+<li><p>Correction de <code class="docutils literal notranslate"><span class="pre">IndexError:</span> <span class="pre">list</span> <span class="pre">index</span> <span class="pre">out</span> <span class="pre">of</span> <span class="pre">range</span></code> lors de certaines opérations ou calculs sur des groupes de signaux/images (par exemple « Extraction de ROI », « Détection de pics », « Redimensionnement », etc.)</p></li>
 <li><p>Glisser-déposer depuis un gestionnaire de fichiers : les noms de fichiers sont désormais triés par ordre alphabétique</p></li>
 </ul>
 </section>
@@ -1637,10 +1617,10 @@ document.write(`
 <li><p>Lorsqu’il est désactivé, la vue du graphique n’est pas automatiquement rafraîchie. L’utilisateur doit rafraîchir manuellement la vue du graphique en cliquant sur le bouton « Rafraîchir manuellement » de la barre d’outils principale ou en appuyant sur la touche de rafraîchissement standard (par exemple « F5 »).</p></li>
 </ul>
 </li>
-<li><p>Ajout de la méthode <cite>toggle_auto_refresh</cite> à l’objet proxy de DataLab :</p>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">toggle_auto_refresh</span></code> à l’objet proxy de DataLab :</p>
 <ul>
 <li><p>Cette méthode permet d’activer/désactiver la fonctionnalité « Rafraîchissement automatique » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance.</p></li>
-<li><p>Un gestionnaire de contexte <cite>context_no_refresh</cite> est également disponible pour désactiver temporairement la fonctionnalité « Rafraîchissement automatique » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance. Utilisation typique :</p>
+<li><p>Un gestionnaire de contexte <code class="docutils literal notranslate"><span class="pre">context_no_refresh</span></code> est également disponible pour désactiver temporairement la fonctionnalité « Rafraîchissement automatique » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance. Utilisation typique :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proxy</span><span class="o">.</span><span class="n">context_no_refresh</span><span class="p">():</span>
     <span class="c1"># Do something without refreshing the plot view</span>
     <span class="n">proxy</span><span class="o">.</span><span class="n">compute_fft</span><span class="p">()</span> <span class="c1"># (...)      ```</span>
@@ -1665,7 +1645,7 @@ document.write(`
 <li><p>Lorsqu’il est activé, le rendu de la courbe est plus lisse mais peut entraîner des problèmes de performances lors de l’utilisation de grands ensembles de données (c’est pourquoi il peut être désactivé)</p></li>
 </ul>
 </li>
-<li><p>Ajout de la méthode <cite>toggle_show_titles</cite> à l’objet proxy de DataLab. Cette méthode permet d’activer/désactiver la fonctionnalité « Afficher les titres des objets graphiques » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance.</p></li>
+<li><p>Ajout de la méthode <code class="docutils literal notranslate"><span class="pre">toggle_show_titles</span></code> à l’objet proxy de DataLab. Cette méthode permet d’activer/désactiver la fonctionnalité « Afficher les titres des objets graphiques » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance.</p></li>
 <li><p>Le client distant vérifie désormais la version du serveur et affiche un message d’avertissement si la version du serveur n’est peut-être pas entièrement compatible avec la version du client.</p></li>
 </ul>
 <p>🛠️ Corrections de bugs :</p>
@@ -1673,35 +1653,35 @@ document.write(`
 <li><p>Fonctionnalité de détection des contours de l’image (menu Analyseer ») :</p>
 <ul>
 <li><p>La fonctionnalité de détection des contours ne prenait pas en compte le paramètre « shape » (cercle, ellipse, polygone) lors du calcul des contours. Le paramètre était stocké mais vraiment utilisé uniquement lors de l’appel de la fonctionnalité une deuxième fois.</p></li>
-<li><p>Ce comportement involontaire a conduit à une <cite>AssertionError</cite> lors du choix de « polygone » comme forme de contour et de la tentative de calcul des contours pour la première fois.</p></li>
-<li><p>Ceci est maintenant corrigé (voir [Issue #9](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/9">DataLab-Platform/DataLab#9</a>) - Détection des contours de l’image : <cite>AssertionError</cite> lors du choix de « polygone » comme forme de contour)</p></li>
+<li><p>Ce comportement involontaire a conduit à une <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> lors du choix de « polygone » comme forme de contour et de la tentative de calcul des contours pour la première fois.</p></li>
+<li><p>Ceci est maintenant corrigé (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/9">Issue #9</a> - Détection des contours de l’image : <code class="docutils literal notranslate"><span class="pre">AssertionError</span></code> lors du choix de « polygone » comme forme de contour)</p></li>
 </ul>
 </li>
 <li><p>Raccourcis clavier :</p>
 <ul>
 <li><p>Les raccourcis clavier pour les actions « Nouveau », « Ouvrir », « Enregistrer », « Dupliquer », « Supprimer », « Tout supprimer » et « Rafraîchir manuellement » ne fonctionnaient pas correctement.</p></li>
-<li><p>Ces raccourcis étaient spécifiques à chaque panneau de signal/image et ne fonctionnaient que lorsque le panneau sur lequel le raccourci a été pressé pour la première fois était actif (lorsqu’il était activé à partir d’un autre panneau, le raccourci ne fonctionnait pas et un message d’avertissement était affiché dans la console, par exemple <cite>QAction::event: Ambiguous shortcut overload: Ctrl+C</cite>)</p></li>
+<li><p>Ces raccourcis étaient spécifiques à chaque panneau de signal/image et ne fonctionnaient que lorsque le panneau sur lequel le raccourci a été pressé pour la première fois était actif (lorsqu’il était activé à partir d’un autre panneau, le raccourci ne fonctionnait pas et un message d’avertissement était affiché dans la console, par exemple <code class="docutils literal notranslate"><span class="pre">QAction::event:</span> <span class="pre">Ambiguous</span> <span class="pre">shortcut</span> <span class="pre">overload:</span> <span class="pre">Ctrl+C</span></code>)</p></li>
 <li><p>De plus, les raccourcis ne fonctionnaient pas au démarrage (lorsqu’aucun panneau n’avait le focus).</p></li>
-<li><p>Ceci est maintenant corrigé : les raccourcis fonctionnent maintenant quel que soit le panneau actif, et même au démarrage (voir [Issue #10](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/10">DataLab-Platform/DataLab#10</a>) - Raccourcis clavier ne fonctionnant pas correctement : <cite>QAction::event: Ambiguous shortcut overload: Ctrl+C</cite>)</p></li>
+<li><p>Ceci est maintenant corrigé : les raccourcis fonctionnent maintenant quel que soit le panneau actif, et même au démarrage (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/10">Issue #10</a> - Raccourcis clavier ne fonctionnant pas correctement : <code class="docutils literal notranslate"><span class="pre">QAction::event:</span> <span class="pre">Ambiguous</span> <span class="pre">shortcut</span> <span class="pre">overload:</span> <span class="pre">Ctrl+C</span></code>)</p></li>
 </ul>
 </li>
 <li><p>Les actions « Afficher les titres des objets graphiques » et « Rafraîchissement automatique » ne fonctionnaient pas correctement :</p>
 <ul>
 <li><p>Les actions « Afficher les titres des objets graphiques » et « Rafraîchissement automatique » ne fonctionnaient que sur le panneau de signal/image actif, et non sur tous les panneaux.</p></li>
-<li><p>Ceci est maintenant corrigé (voir [Issue #11](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/11">DataLab-Platform/DataLab#11</a>) - Les actions « Afficher les titres des objets graphiques » et « Rafraîchissement automatique » ne fonctionnaient que sur le panneau de signal/image actuel)</p></li>
+<li><p>Ceci est maintenant corrigé (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/11">Issue #11</a> - Les actions « Afficher les titres des objets graphiques » et « Rafraîchissement automatique » ne fonctionnaient que sur le panneau de signal/image actuel)</p></li>
 </ul>
 </li>
-<li><p>Correction de l”[Issue #14](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/14">DataLab-Platform/DataLab#14</a>) - Enregistrer/Réouvrir le projet HDF5 sans nettoyage entraîne une <cite>ValueError</cite></p></li>
-<li><p>Correction de l”[Issue #15](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/15">DataLab-Platform/DataLab#15</a>) - MacOS : 1. Erreur <cite>pip install cdl</cite> - 2. Menus manquants :</p>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/14">Issue #14</a> - Enregistrer/Réouvrir le projet HDF5 sans nettoyage entraîne une <code class="docutils literal notranslate"><span class="pre">ValueError</span></code></p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/15">Issue #15</a> - MacOS : 1. Erreur <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cdl</span></code> - 2. Menus manquants :</p>
 <ul>
-<li><p>Partie 1 : l’erreur <cite>pip install cdl</cite> sur MacOS était en fait un problème de <strong>PlotPy</strong> (voir [ce problème]</p></li>
+<li><p>Partie 1 : l’erreur <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">cdl</span></code> sur MacOS était en fait un problème de <strong>PlotPy</strong> (voir [ce problème]</p></li>
 <li><p>Partie 2 : les menus manquants sur MacOS étaient dus à un bogue PyQt/MacOS concernant les menus dynamiques</p></li>
 </ul>
 </li>
 <li><p>Format de fichier HDF5 : lors de l’importation d’un ensemble de données HDF5 en tant que signal ou image, les attributs de l’ensemble de données étaient systématiquement copiés dans les métadonnées du signal/image : nous ne copions désormais que les attributs qui correspondent aux types de données standard (entiers, flottants, chaînes de caractères) pour éviter les erreurs lors de la sérialisation/désérialisation de l’objet signal/image</p></li>
 <li><p>Visualiseur d’installation/configuration : amélioration de la lisibilité (suppression de la coloration syntaxique)</p></li>
-<li><p>Fichier de spécification de PyInstaller : ajout manuel des fichiers de données <cite>skimage</cite> manquants afin de continuer à prendre en charge Python 3.8 (voir [Issue #12](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/12">DataLab-Platform/DataLab#12</a>) - Version autonome sur Windows 7 : <cite>api-ms-win-core-path-l1-1-0.dll</cite> manquant)</p></li>
-<li><p>Correction de l”[Issue #13](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/13">DataLab-Platform/DataLab#13</a>) - ArchLinux : <cite>qt.qpa.plugin: Could not load the Qt platform plugin « xcb » in «  » even though it was found</cite></p></li>
+<li><p>Fichier de spécification de PyInstaller : ajout manuel des fichiers de données <code class="docutils literal notranslate"><span class="pre">skimage</span></code> manquants afin de continuer à prendre en charge Python 3.8 (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/12">Issue #12</a> - Version autonome sur Windows 7 : <code class="docutils literal notranslate"><span class="pre">api-ms-win-core-path-l1-1-0.dll</span></code> manquant)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/13">Issue #13</a> - ArchLinux : <code class="docutils literal notranslate"><span class="pre">qt.qpa.plugin:</span> <span class="pre">Could</span> <span class="pre">not</span> <span class="pre">load</span> <span class="pre">the</span> <span class="pre">Qt</span> <span class="pre">platform</span> <span class="pre">plugin</span> <span class="pre">&quot;xcb&quot;</span> <span class="pre">in</span> <span class="pre">&quot;&quot;</span> <span class="pre">even</span> <span class="pre">though</span> <span class="pre">it</span> <span class="pre">was</span> <span class="pre">found</span></code></p></li>
 </ul>
 </section>
 <section id="datalab-version-0-9-2">
@@ -1710,14 +1690,14 @@ document.write(`
 <ul class="simple">
 <li><p>Fonctionnalité d’extraction de la région d’intérêt (ROI) pour les images :</p>
 <ul>
-<li><p>L’extraction de la ROI ne fonctionnait pas correctement lorsque l’option « Extraire toutes les ROI dans un seul objet image » était activée s’il n’y avait qu’une seule ROI définie. Le résultat était une image positionnée à l’origine (0, 0) au lieu de la position attendue (x0, y0) et le rectangle de la ROI lui-même n’était pas supprimé comme prévu. Ceci est maintenant corrigé (voir [Issue #6](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">DataLab-Platform/DataLab#6</a>) - Fonctionnalité “Extraire plusieurs ROI” : résultat inattendu pour une seule ROI)</p></li>
-<li><p>Les rectangles ROI avec des coordonnées négatives n’étaient pas correctement gérés : l’extraction de la ROI levait une exception <cite>ValueError</cite>, et le masque de l’image n’était pas correctement affiché. Ceci est maintenant corrigé (voir [Issue #7](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/7">DataLab-Platform/DataLab#7</a>) - Extraction de la ROI de l’image : <cite>ValueError: zero-size array to reduction operation minimum which has no identity</cite>)</p></li>
-<li><p>L’extraction de la ROI ne prenait pas en compte la taille des pixels (dx, dy) et l’origine (x0, y0) de l’image. Ceci est maintenant corrigé (voir [Issue #8](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/8">DataLab-Platform/DataLab#8</a>) - Extraction de la ROI de l’image : prendre en compte la taille des pixels)</p></li>
+<li><p>L’extraction de la ROI ne fonctionnait pas correctement lorsque l’option « Extraire toutes les ROI dans un seul objet image » était activée s’il n’y avait qu’une seule ROI définie. Le résultat était une image positionnée à l’origine (0, 0) au lieu de la position attendue (x0, y0) et le rectangle de la ROI lui-même n’était pas supprimé comme prévu. Ceci est maintenant corrigé (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/6">Issue #6</a> - Fonctionnalité “Extraire plusieurs ROI” : résultat inattendu pour une seule ROI)</p></li>
+<li><p>Les rectangles ROI avec des coordonnées négatives n’étaient pas correctement gérés : l’extraction de la ROI levait une exception <code class="docutils literal notranslate"><span class="pre">ValueError</span></code>, et le masque de l’image n’était pas correctement affiché. Ceci est maintenant corrigé (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/7">Issue #7</a> - Extraction de la ROI de l’image : <code class="docutils literal notranslate"><span class="pre">ValueError:</span> <span class="pre">zero-size</span> <span class="pre">array</span> <span class="pre">to</span> <span class="pre">reduction</span> <span class="pre">operation</span> <span class="pre">minimum</span> <span class="pre">which</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">identity</span></code>)</p></li>
+<li><p>L’extraction de la ROI ne prenait pas en compte la taille des pixels (dx, dy) et l’origine (x0, y0) de l’image. Ceci est maintenant corrigé (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/8">Issue #8</a> - Extraction de la ROI de l’image : prendre en compte la taille des pixels)</p></li>
 </ul>
 </li>
 <li><p>La console de macro-commande est désormais en lecture seule :</p>
 <ul>
-<li><p>La console Python du panneau de macro-commande ne prend actuellement pas en charge le flux d’entrée standard (<cite>stdin</cite>) et c’est voulu (du moins pour l’instant)</p></li>
+<li><p>La console Python du panneau de macro-commande ne prend actuellement pas en charge le flux d’entrée standard (<code class="docutils literal notranslate"><span class="pre">stdin</span></code>) et c’est voulu (du moins pour l’instant)</p></li>
 <li><p>Définir la console Python en lecture seule pour éviter toute confusion</p></li>
 </ul>
 </li>
@@ -1729,9 +1709,9 @@ document.write(`
 <ul class="simple">
 <li><p>La traduction française n’est pas disponible sur Windows/Version autonome :</p>
 <ul>
-<li><p>La locale n’était pas correctement détectée sur Windows pour la version autonome (gelée avec <cite>pyinstaller</cite>) en raison d’un problème avec <cite>locale.getlocale()</cite> (fonction renvoyant <cite>None</cite> au lieu de la locale attendue sur les applications gelées)</p></li>
-<li><p>C’est finalement un problème de <cite>pyinstaller</cite>, mais une solution de contournement a été implémentée dans <cite>guidata</cite> V3.2.2 (voir [Issue guidata #68](<a class="github reference external" href="https://github.com/PlotPyStack/guidata/issues/68">PlotPyStack/guidata#68</a>) - Windows : la traduction gettext ne fonctionne pas sur les applications gelées)</p></li>
-<li><p>[Issue #2](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/2">DataLab-Platform/DataLab#2</a>) - La traduction française n’est pas disponible sur la version autonome de Windows</p></li>
+<li><p>La locale n’était pas correctement détectée sur Windows pour la version autonome (gelée avec <code class="docutils literal notranslate"><span class="pre">pyinstaller</span></code>) en raison d’un problème avec <code class="docutils literal notranslate"><span class="pre">locale.getlocale()</span></code> (fonction renvoyant <code class="docutils literal notranslate"><span class="pre">None</span></code> au lieu de la locale attendue sur les applications gelées)</p></li>
+<li><p>C’est finalement un problème de <code class="docutils literal notranslate"><span class="pre">pyinstaller</span></code>, mais une solution de contournement a été implémentée dans <code class="docutils literal notranslate"><span class="pre">guidata</span></code> V3.2.2 (voir <a class="reference external" href="https://github.com/PlotPyStack/guidata/issues/68">Issue guidata #68</a> - Windows : la traduction gettext ne fonctionne pas sur les applications gelées)</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/2">Issue #2</a> - La traduction française n’est pas disponible sur la version autonome de Windows</p></li>
 </ul>
 </li>
 <li><p>L’enregistrement d’une image au format JPEG2000 échoue pour les données non entières :</p>
@@ -1739,15 +1719,15 @@ document.write(`
 <li><p>L’encodeur JPEG2000 ne prend pas en charge les données non entières ou les données entières signées</p></li>
 <li><p>Avant, DataLab affichait un message d’erreur lors de la tentative de sauvegarde de données incompatibles au format JPEG2000 : cela n’était pas cohérent avec le comportement des autres formats d’image standard (par exemple PNG, JPG, etc.) pour lesquels DataLab convertissait automatiquement les données au format approprié (entier non signé sur 8 bits)</p></li>
 <li><p>Le comportement actuel est maintenant cohérent avec les autres formats d’image standard : lors de la sauvegarde au format JPEG2000, DataLab convertit automatiquement les données en entier non signé sur 8 bits ou en entier non signé sur 16 bits (en fonction du type de données original)</p></li>
-<li><p>[Issue #3](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/3">DataLab-Platform/DataLab#3</a>) - Sauvegarde d’image au format JPEG2000 : “OSError: erreur d’encodeur -2 lors de l’écriture du fichier image”</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/3">Issue #3</a> - Sauvegarde d’image au format JPEG2000 : “OSError: erreur d’encodeur -2 lors de l’écriture du fichier image”</p></li>
 </ul>
 </li>
 <li><p>Les raccourcis de la version autonome de Windows ne s’affichent pas dans le menu de démarrage de l’utilisateur actuel :</p>
 <ul>
 <li><p>Lors de l’installation de DataLab sur Windows à partir d’un compte non administrateur, les raccourcis ne s’affichaient pas dans le menu de démarrage de l’utilisateur actuel, mais dans le menu de démarrage de l’administrateur (en raison des privilèges élevés de l’installeur et du fait que l’installeur ne prend pas en charge l’installation de raccourcis pour tous les utilisateurs)</p></li>
 <li><p>Désormais, l’installeur ne demande plus de privilèges élevés, et les raccourcis sont installés dans le menu de démarrage de l’utilisateur actuel (cela signifie également que l’utilisateur actuel doit disposer d’un accès en écriture au répertoire d’installation)</p></li>
-<li><p>Dans les futures versions, l’installeur prendra en charge l’installation de raccourcis pour tous les utilisateurs s’il y a une demande à cet effet (voir [Issue #5](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/5">DataLab-Platform/DataLab#5</a>))</p></li>
-<li><p>[Issue #4](<a class="github reference external" href="https://github.com/DataLab-Platform/DataLab/issues/4">DataLab-Platform/DataLab#4</a>) - Windows : les raccourcis de la version autonome ne s’affichent pas dans le menu de démarrage de l’utilisateur actuel</p></li>
+<li><p>Dans les futures versions, l’installeur prendra en charge l’installation de raccourcis pour tous les utilisateurs s’il y a une demande à cet effet (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/5">Issue #5</a>)</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/4">Issue #4</a> - Windows : les raccourcis de la version autonome ne s’affichent pas dans le menu de démarrage de l’utilisateur actuel</p></li>
 </ul>
 </li>
 <li><p>Fenêtre d’installation et de configuration pour la version autonome :</p>
@@ -1768,14 +1748,14 @@ document.write(`
 <h2>DataLab Version 0.9.0<a class="headerlink" href="#datalab-version-0-9-0" title="Lien vers cette rubrique">#</a></h2>
 <p>Nouvelles dépendances :</p>
 <ul class="simple">
-<li><p>DataLab est désormais alimenté par [PlotPyStack](<a class="github reference external" href="https://github.com/PlotPyStack">PlotPyStack</a>) :</p>
+<li><p>DataLab est désormais alimenté par <a class="reference external" href="https://github.com/PlotPyStack">PlotPyStack</a> :</p>
 <ul>
 <li><p><a class="reference external" href="https://github.com/PlotPyStack/PythonQwt">PythonQwt</a></p></li>
 <li><p><a class="reference external" href="https://github.com/PlotPyStack/guidata">guidata</a></p></li>
 <li><p><a class="reference external" href="https://github.com/PlotPyStack/PlotPy">PlotPy</a></p></li>
 </ul>
 </li>
-<li><p>[opencv-python](<a class="reference external" href="https://pypi.org/project/opencv-python/">https://pypi.org/project/opencv-python/</a>) (algorithmes de traitement d’image)</p></li>
+<li><p><a class="reference external" href="https://pypi.org/project/opencv-python/">opencv-python</a> (algorithmes de traitement d’image)</p></li>
 </ul>
 <p>Nouvelle plateforme de référence :</p>
 <ul class="simple">
@@ -1794,8 +1774,8 @@ document.write(`
 <li><p>D’autres fonctionnalités à venir…</p></li>
 </ul>
 </li>
-<li><p>Ajout de la fonctionnalité de contrôle à distance : DataLab peut être contrôlé à distance via une connexion TCP/IP (voir [Contrôle à distance](<a class="reference external" href="https://datalab-platform.com/fr/remote_control.html">https://datalab-platform.com/fr/remote_control.html</a>))</p></li>
-<li><p>Ajout de commandes de macro : DataLab peut être contrôlé via un fichier macro (voir [Commandes de macro](<a class="reference external" href="https://datalab-platform.com/fr/macro_commands.html">https://datalab-platform.com/fr/macro_commands.html</a>))</p></li>
+<li><p>Ajout de la fonctionnalité de contrôle à distance : DataLab peut être contrôlé à distance via une connexion TCP/IP (voir <a class="reference external" href="https://datalab-platform.com/fr/remote_control.html">Contrôle à distance</a>)</p></li>
+<li><p>Ajout de commandes de macro : DataLab peut être contrôlé via un fichier macro (voir <a class="reference external" href="https://datalab-platform.com/fr/macro_commands.html">Commandes de macro</a>)</p></li>
 </ul>
 </li>
 <li><p>Fonctionnalités générales :</p>
@@ -1923,7 +1903,8 @@ document.write(`
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -1973,8 +1954,8 @@ document.write(`
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1994,7 +1975,7 @@ document.write(`
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
@@ -2007,7 +1988,8 @@ document.write(`
       
         <div class="footer-item">
 <p class="theme-version">
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
 </p></div>
       
     </div>

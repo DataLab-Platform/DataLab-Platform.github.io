@@ -29,29 +29,32 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=6f83b549"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -65,6 +68,7 @@
     <link rel="prev" title="ROI editor" href="roieditor.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -80,19 +84,8 @@
     <i class="fa-solid fa-arrow-up"></i>Back to top</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -100,7 +93,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -108,8 +100,8 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
@@ -146,7 +138,7 @@
     
     
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">v0.19.1</p>
@@ -201,29 +193,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -274,15 +258,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Search</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -301,7 +281,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -355,15 +336,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -443,9 +420,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -463,8 +445,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Breadcrumb" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -476,7 +456,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Processor</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Processor</span></li>
   </ul>
 </nav>
 </div>
@@ -521,17 +501,17 @@ function and eventually update the GUI.</p></li>
 <span id="common-features"></span><h2>Common features<a class="headerlink" href="#module-cdl.core.gui.processor.base" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.Worker">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.base.</span></span><span class="sig-name descname"><span class="pre">Worker</span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.base.</span></span><span class="sig-name descname"><span class="pre">Worker</span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker" title="Link to this definition">#</a></dt>
 <dd><p>Multiprocessing worker, to run long-running tasks in a separate process</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.Worker.create_pool">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_pool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker.create_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker.create_pool" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_pool</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker.create_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker.create_pool" title="Link to this definition">#</a></dt>
 <dd><p>Create multiprocessing pool</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.Worker.terminate_pool">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terminate_pool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker.terminate_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker.terminate_pool" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">terminate_pool</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">wait</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.13)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#Worker.terminate_pool"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.Worker.terminate_pool" title="Link to this definition">#</a></dt>
 <dd><p>Terminate multiprocessing pool.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -612,7 +592,7 @@ function and eventually update the GUI.</p></li>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.base.</span></span><span class="sig-name descname"><span class="pre">BaseProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.base.</span></span><span class="sig-name descname"><span class="pre">BaseProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor" title="Link to this definition">#</a></dt>
 <dd><p>Object handling data processing: operations, processing, analysis.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -829,169 +809,169 @@ so the logic is different:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_arithmetic">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_arithmetic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ArithmeticParam" title="cdl.computation.base.ArithmeticParam"><span class="pre">ArithmeticParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_arithmetic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_arithmetic" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_arithmetic</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ArithmeticParam" title="cdl.computation.base.ArithmeticParam"><span class="pre">ArithmeticParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_arithmetic"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_arithmetic" title="Link to this definition">#</a></dt>
 <dd><p>Compute arithmetic operation</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_sum">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_sum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_sum" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_sum</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_sum"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_sum" title="Link to this definition">#</a></dt>
 <dd><p>Compute sum</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_normalize">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.NormalizeParam" title="cdl.computation.base.NormalizeParam"><span class="pre">NormalizeParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_normalize" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_normalize</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.NormalizeParam" title="cdl.computation.base.NormalizeParam"><span class="pre">NormalizeParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_normalize"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_normalize" title="Link to this definition">#</a></dt>
 <dd><p>Normalize data</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_average">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_average</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_average" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_average</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_average" title="Link to this definition">#</a></dt>
 <dd><p>Compute average</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_product">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_product</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_product" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_product</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_product"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_product" title="Link to this definition">#</a></dt>
 <dd><p>Compute product</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_difference">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_difference" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_difference" title="Link to this definition">#</a></dt>
 <dd><p>Compute difference</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_quadratic_difference">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_quadratic_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_quadratic_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_quadratic_difference" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_quadratic_difference</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_quadratic_difference"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_quadratic_difference" title="Link to this definition">#</a></dt>
 <dd><p>Compute quadratic difference</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_division">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_division</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_division"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_division" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_division</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj2</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Obj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">Obj</span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_division"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_division" title="Link to this definition">#</a></dt>
 <dd><p>Compute division</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_swap_axes">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_swap_axes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_swap_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_swap_axes" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_swap_axes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_swap_axes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_swap_axes" title="Link to this definition">#</a></dt>
 <dd><p>Swap data axes</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_inverse">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_inverse" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_inverse</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_inverse"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_inverse" title="Link to this definition">#</a></dt>
 <dd><p>Compute inverse</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_abs">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_abs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_abs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_abs" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_abs</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_abs"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_abs" title="Link to this definition">#</a></dt>
 <dd><p>Compute absolute value</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_re">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_re</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_re"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_re" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_re</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_re"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_re" title="Link to this definition">#</a></dt>
 <dd><p>Compute real part</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_im">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_im</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_im"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_im" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_im</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_im"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_im" title="Link to this definition">#</a></dt>
 <dd><p>Compute imaginary part</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_astype">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_astype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_astype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_astype" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_astype</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_astype"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_astype" title="Link to this definition">#</a></dt>
 <dd><p>Convert data type</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_log10">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_log10</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_log10"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_log10" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_log10</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_log10"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_log10" title="Link to this definition">#</a></dt>
 <dd><p>Compute Log10</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_exp">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_exp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_exp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_exp" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_exp</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_exp"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_exp" title="Link to this definition">#</a></dt>
 <dd><p>Compute exponential</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_calibration">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_calibration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_calibration" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_calibration</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_calibration"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_calibration" title="Link to this definition">#</a></dt>
 <dd><p>Compute data linear calibration</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_clip">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ClipParam" title="cdl.computation.base.ClipParam"><span class="pre">ClipParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_clip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_clip" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_clip</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ClipParam" title="cdl.computation.base.ClipParam"><span class="pre">ClipParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_clip"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_clip" title="Link to this definition">#</a></dt>
 <dd><p>Compute maximum data clipping</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_gaussian_filter">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_gaussian_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.GaussianParam" title="cdl.computation.base.GaussianParam"><span class="pre">GaussianParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_gaussian_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_gaussian_filter" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_gaussian_filter</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.GaussianParam" title="cdl.computation.base.GaussianParam"><span class="pre">GaussianParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_gaussian_filter"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_gaussian_filter" title="Link to this definition">#</a></dt>
 <dd><p>Compute gaussian filter</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_moving_average">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_moving_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.MovingAverageParam" title="cdl.computation.base.MovingAverageParam"><span class="pre">MovingAverageParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_moving_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_moving_average" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_moving_average</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.MovingAverageParam" title="cdl.computation.base.MovingAverageParam"><span class="pre">MovingAverageParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_moving_average"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_moving_average" title="Link to this definition">#</a></dt>
 <dd><p>Compute moving average</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_moving_median">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_moving_median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.MovingMedianParam" title="cdl.computation.base.MovingMedianParam"><span class="pre">MovingMedianParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_moving_median"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_moving_median" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_moving_median</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.MovingMedianParam" title="cdl.computation.base.MovingMedianParam"><span class="pre">MovingMedianParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_moving_median"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_moving_median" title="Link to this definition">#</a></dt>
 <dd><p>Compute moving median</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_wiener">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_wiener</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_wiener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_wiener" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_wiener</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_wiener"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_wiener" title="Link to this definition">#</a></dt>
 <dd><p>Compute Wiener filter</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_fft">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_fft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_fft" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_fft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_fft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_fft" title="Link to this definition">#</a></dt>
 <dd><p>Compute iFFT</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_ifft">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_ifft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_ifft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_ifft" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_ifft</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_ifft"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_ifft" title="Link to this definition">#</a></dt>
 <dd><p>Compute FFT</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_addition_constant">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_addition_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_addition_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_addition_constant" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_addition_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_addition_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_addition_constant" title="Link to this definition">#</a></dt>
 <dd><p>Compute sum with a constant</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_difference_constant">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_difference_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_difference_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_difference_constant" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_difference_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_difference_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_difference_constant" title="Link to this definition">#</a></dt>
 <dd><p>Compute difference with a constant</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_product_constant">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_product_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_product_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_product_constant" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_product_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_product_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_product_constant" title="Link to this definition">#</a></dt>
 <dd><p>Compute product with a constant</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_division_constant">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_division_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_division_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_division_constant" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_division_constant</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../computation.html#cdl.computation.base.ConstantParam" title="cdl.computation.base.ConstantParam"><span class="pre">ConstantParam</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.13)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_division_constant"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_division_constant" title="Link to this definition">#</a></dt>
 <dd><p>Compute division by a constant</p>
 </dd></dl>
 
@@ -1027,7 +1007,7 @@ so the logic is different:</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.base.BaseProcessor.compute_stats">
-<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ResultShape" title="cdl.core.model.base.ResultShape"><span class="pre">ResultShape</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_stats" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">abstractmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">compute_stats</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ResultShape" title="cdl.core.model.base.ResultShape"><span class="pre">ResultShape</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/base.html#BaseProcessor.compute_stats"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.base.BaseProcessor.compute_stats" title="Link to this definition">#</a></dt>
 <dd><p>Compute data statistics</p>
 </dd></dl>
 
@@ -1038,7 +1018,7 @@ so the logic is different:</p>
 <span id="signal-processing-features"></span><h2>Signal processing features<a class="headerlink" href="#module-cdl.core.gui.processor.signal" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.signal.SignalProcessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.signal.</span></span><span class="sig-name descname"><span class="pre">SignalProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/signal.html#SignalProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.signal.SignalProcessor" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.signal.</span></span><span class="sig-name descname"><span class="pre">SignalProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/signal.html#SignalProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.signal.SignalProcessor" title="Link to this definition">#</a></dt>
 <dd><p>Object handling signal processing: operations, processing, analysis</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.signal.SignalProcessor.compute_sum">
@@ -1530,7 +1510,7 @@ with <a class="reference internal" href="../computation.html#cdl.computation.sig
 <span id="image-processing-features"></span><h2>Image processing features<a class="headerlink" href="#module-cdl.core.gui.processor.image" title="Link to this heading">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.image.ImageProcessor">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.image.</span></span><span class="sig-name descname"><span class="pre">ImageProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/image.html#ImageProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.image.ImageProcessor" title="Link to this definition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.image.</span></span><span class="sig-name descname"><span class="pre">ImageProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/image.html#ImageProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.processor.image.ImageProcessor" title="Link to this definition">#</a></dt>
 <dd><p>Object handling image processing: operations, processing, analysis</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.processor.image.ImageProcessor.compute_normalize">
@@ -2304,7 +2284,8 @@ with <a class="reference internal" href="../computation.html#cdl.computation.ima
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -2575,8 +2556,8 @@ with <a class="reference internal" href="../computation.html#cdl.computation.ima
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2596,7 +2577,7 @@ with <a class="reference internal" href="../computation.html#cdl.computation.ima
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
@@ -2609,7 +2590,8 @@ with <a class="reference internal" href="../computation.html#cdl.computation.ima
       
         <div class="footer-item">
 <p class="theme-version">
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
 </p></div>
       
     </div>

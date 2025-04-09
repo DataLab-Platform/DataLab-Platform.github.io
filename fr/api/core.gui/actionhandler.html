@@ -29,33 +29,36 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=e70f594b"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/translations.js?v=041d0952"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'api/core.gui/actionhandler';</script>
     <link rel="canonical" href="https://datalab-platform.com/api/core.gui/actionhandler.html" />
@@ -66,6 +69,7 @@
     <link rel="prev" title="Panneau" href="panel.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -81,19 +85,8 @@
     <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -101,7 +94,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -109,11 +101,11 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
   <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! 🚀</div>
@@ -147,7 +139,7 @@
     
     
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">v0.19.1</p>
@@ -202,29 +194,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -275,15 +259,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -302,7 +282,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -356,15 +337,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -415,8 +392,8 @@ document.write(`
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 <nav class="bd-docs-nav bd-links"
-     aria-label="Navigation de la section">
-  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités publiques :</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../algorithms.html">Algorithmes (<code class="xref py py-mod docutils literal notranslate"><span class="pre">cdl.algorithms</span></code>)</a></li>
@@ -444,9 +421,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -464,8 +446,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Fil d'Ariane" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -477,7 +457,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">API</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Gestionnaire...</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Gestionnaire d’actions</span></li>
   </ul>
 </nav>
 </div>
@@ -503,53 +483,53 @@ objecthandler, …</p>
 <h2>Classes utilitaires<a class="headerlink" href="#utility-classes" title="Lien vers cette rubrique">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">SelectCond</span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">SelectCond</span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond" title="Lien vers cette définition">#</a></dt>
 <dd><p>Conditions de sélection de signaux ou d’images</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.always">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">always</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.always"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.always" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">always</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.always"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.always" title="Lien vers cette définition">#</a></dt>
 <dd><p>Toujours vrai</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.exactly_one">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one" title="Lien vers cette définition">#</a></dt>
 <dd><p>Exactement un signal ou une image est sélectionné</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.exactly_one_group">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one_group" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one_group" title="Lien vers cette définition">#</a></dt>
 <dd><p>Exactement un groupe est sélectionné</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.exactly_one_group_or_one_object">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one_group_or_one_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one_group_or_one_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one_group_or_one_object" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">exactly_one_group_or_one_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.exactly_one_group_or_one_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.exactly_one_group_or_one_object" title="Lien vers cette définition">#</a></dt>
 <dd><p>Exactly one group or one signal or image is selected</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.at_least_one_group_or_one_object">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_one_group_or_one_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_one_group_or_one_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_one_group_or_one_object" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_one_group_or_one_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_one_group_or_one_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_one_group_or_one_object" title="Lien vers cette définition">#</a></dt>
 <dd><p>Au moins un groupe ou un signal ou une image est sélectionné</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.at_least_one">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_one" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_one</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_one"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_one" title="Lien vers cette définition">#</a></dt>
 <dd><p>Au moins un signal ou une image est sélectionné</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.at_least_two">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_two</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_two"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_two" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">at_least_two</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">sel_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">sel_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.at_least_two"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.at_least_two" title="Lien vers cette définition">#</a></dt>
 <dd><p>Au moins deux signaux ou images sont sélectionnés</p>
 </dd></dl>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SelectCond.with_roi">
-<em class="property"><span class="pre">static</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">with_roi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.with_roi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.with_roi" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">static</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">with_roi</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">selected_groups</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><span class="pre">ObjectGroup</span><span class="p"><span class="pre">]</span></span></span></em>, <em class="sig-param"><span class="n"><span class="pre">selected_objects</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="../obj.html#cdl.obj.SignalObj" title="cdl.obj.SignalObj"><span class="pre">SignalObj</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../obj.html#cdl.obj.ImageObj" title="cdl.obj.ImageObj"><span class="pre">ImageObj</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.13)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SelectCond.with_roi"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SelectCond.with_roi" title="Lien vers cette définition">#</a></dt>
 <dd><p>Au moins un signal ou une image a une ROI</p>
 </dd></dl>
 
@@ -557,7 +537,7 @@ objecthandler, …</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.ActionCategory">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">ActionCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">names</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">module</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">qualname</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">type</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">start</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">1</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">boundary</span></span><span class="o"><span class="pre">=</span></span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#ActionCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.ActionCategory" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">ActionCategory</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">value</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#ActionCategory"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.ActionCategory" title="Lien vers cette définition">#</a></dt>
 <dd><p>Catégories d’actions</p>
 </dd></dl>
 
@@ -566,7 +546,7 @@ objecthandler, …</p>
 <h2>Classes de gestion<a class="headerlink" href="#handler-classes" title="Lien vers cette rubrique">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SignalActionHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">SignalActionHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SignalActionHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SignalActionHandler" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">SignalActionHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#SignalActionHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.SignalActionHandler" title="Lien vers cette définition">#</a></dt>
 <dd><p>Object handling signal panel GUI interactions: actions, menus, …</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.SignalActionHandler.create_first_actions">
@@ -694,7 +674,7 @@ objecthandler, …</p>
 
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.ImageActionHandler">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">ImageActionHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#ImageActionHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.ImageActionHandler" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.actionhandler.</span></span><span class="sig-name descname"><span class="pre">ImageActionHandler</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">view_toolbar</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">QW.QToolBar</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/actionhandler.html#ImageActionHandler"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.gui.actionhandler.ImageActionHandler" title="Lien vers cette définition">#</a></dt>
 <dd><p>Objet gérant les interactions GUI du panneau d’images : actions, menus, …</p>
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.gui.actionhandler.ImageActionHandler.create_first_actions">
@@ -858,7 +838,8 @@ objecthandler, …</p>
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -927,8 +908,8 @@ objecthandler, …</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -948,7 +929,7 @@ objecthandler, …</p>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
@@ -961,7 +942,8 @@ objecthandler, …</p>
       
         <div class="footer-item">
 <p class="theme-version">
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
 </p></div>
       
     </div>

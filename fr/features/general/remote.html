@@ -31,33 +31,36 @@
     document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
     document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
   </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-
-  
-  <link href="../../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
-  <link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
-<link rel="preload" as="font" type="font/woff2" crossorigin href="../../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=a746c00c" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=87e54e7c" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
-  <script src="../../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
     <script src="../../_static/documentation_options.js?v=e70f594b"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/translations.js?v=041d0952"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
     <script src="../../_static/design-tabs.js?v=f930bc37"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'features/general/remote';</script>
     <link rel="canonical" href="https://datalab-platform.com/features/general/remote.html" />
@@ -68,6 +71,7 @@
     <link rel="prev" title="Macros" href="macros.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
   </head>
   
   
@@ -83,19 +87,8 @@
     <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
 
   
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-primary-sidebar-checkbox"/>
-  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
-  
-  <input type="checkbox"
-          class="sidebar-toggle"
-          id="pst-secondary-sidebar-checkbox"/>
-  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
-  
-  <div class="search-button__wrapper">
-    <div class="search-button__overlay"></div>
-    <div class="search-button__search-container">
+  <dialog id="pst-search-dialog">
+    
 <form class="bd-search d-flex align-items-center"
       action="../../search.html"
       method="get">
@@ -103,7 +96,6 @@
   <input type="search"
          class="form-control"
          name="q"
-         id="search-input"
          placeholder="Search the docs ..."
          aria-label="Search the docs ..."
          autocomplete="off"
@@ -111,11 +103,11 @@
          autocapitalize="off"
          spellcheck="false"/>
   <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
-</form></div>
-  </div>
+</form>
+  </dialog>
 
   <div class="pst-async-banner-revealer d-none">
-  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
   <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Etats-Unis) et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! 🚀</div>
@@ -149,7 +141,7 @@
     
     
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
-    <script>document.write(`<img src="../../_static/DataLab-Title.svg" class="logo__image only-dark" alt=""/>`);</script>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
     <p class="title logo__title">v0.19.1</p>
@@ -204,29 +196,21 @@
         <div class="navbar-item navbar-persistent--container">
           
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
         </div>
       
       
         <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
       
         <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -277,15 +261,11 @@ document.write(`
   
     <div class="navbar-persistent--mobile">
 
- <script>
- document.write(`
-   <button class="btn search-button-field search-button__button" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="fa-solid fa-magnifying-glass"></i>
-    <span class="search-button__default-text">Recherche</span>
-    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
-   </button>
- `);
- </script>
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
     </div>
   
 
@@ -304,7 +284,8 @@ document.write(`
       
       
       
-      <div class="bd-sidebar-primary bd-sidebar">
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
         
 
   
@@ -358,15 +339,11 @@ document.write(`
         
           <div class="navbar-item">
 
-<script>
-document.write(`
-  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="clair/sombre" aria-label="clair/sombre" data-bs-placement="bottom" data-bs-toggle="tooltip">
-    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
-    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
-    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
-  </button>
-`);
-</script></div>
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
         
           <div class="navbar-item"><ul class="navbar-icon-links"
     aria-label="Icon Links">
@@ -417,8 +394,8 @@ document.write(`
     <div class="sidebar-primary-items__start sidebar-primary__section">
         <div class="sidebar-primary-item">
 <nav class="bd-docs-nav bd-links"
-     aria-label="Navigation de la section">
-  <p class="bd-links__title" role="heading" aria-level="1">Navigation de la section</p>
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
   <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
 <ul class="nav bd-sidenav">
 <li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
@@ -464,9 +441,14 @@ document.write(`
   
   
   <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
   </div>
-  
-  <div id="rtd-footer-container"></div>
 
 
       </div>
@@ -484,8 +466,6 @@ document.write(`
       
         <div class="header-article-item">
 
-
-
 <nav aria-label="Fil d'Ariane" class="d-print-none">
   <ul class="bd-breadcrumbs">
     
@@ -497,7 +477,7 @@ document.write(`
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page">Contrôle à distance</li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Contrôle à distance</span></li>
   </ul>
 </nav>
 </div>
@@ -826,7 +806,7 @@ document.write(`
 <h2>API publique : client distant<a class="headerlink" href="#public-api-remote-client" title="Lien vers cette rubrique">#</a></h2>
 <dl class="py class">
 <dt class="sig sig-object py" id="cdl.core.remote.RemoteClient">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.remote.</span></span><span class="sig-name descname"><span class="pre">RemoteClient</span></span><a class="reference internal" href="../../_modules/cdl/core/remote.html#RemoteClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.remote.RemoteClient" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.remote.</span></span><span class="sig-name descname"><span class="pre">RemoteClient</span></span><a class="reference internal" href="../../_modules/cdl/core/remote.html#RemoteClient"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#cdl.core.remote.RemoteClient" title="Lien vers cette définition">#</a></dt>
 <dd><p>Objet représentant un proxy/client vers le serveur XML-RPC de DataLab. Cet objet est utilisé pour appeler les fonctions de DataLab à partir d’un script Python.</p>
 <p class="rubric">Exemples</p>
 <p>Voici un exemple simple de l’utilisation de RemoteClient dans un script Python ou dans un notebook Jupyter :</p>
@@ -1159,7 +1139,7 @@ Defaults to None (all groups).</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="cdl.core.remote.RemoteClient.get_public_methods">
-<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_public_methods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cdl.core.remote.RemoteClient.get_public_methods" title="Lien vers cette définition">#</a></dt>
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_public_methods</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(disponible dans Python v3.13)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#cdl.core.remote.RemoteClient.get_public_methods" title="Lien vers cette définition">#</a></dt>
 <dd><p>Renvoie toutes les méthodes publiques de la classe, sauf elle-même.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Renvoie<span class="colon">:</span></dt>
@@ -1378,7 +1358,7 @@ Defaults to None (all groups).</p></li>
 <p>Lorsque vous travaillez avec des signaux, les méthodes de <a class="reference internal" href="../../api/core.gui/processor.html#cdl.core.gui.processor.signal.SignalProcessor" title="cdl.core.gui.processor.signal.SignalProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.signal.SignalProcessor</span></code></a> peuvent être accédées.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.signal.</span></span><span class="sig-name descname"><span class="pre">SignalProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/signal.html#SignalProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.signal.</span></span><span class="sig-name descname"><span class="pre">SignalProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/signal.html#SignalProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Objet de traitement de signal : opérations, traitement, analyse</p>
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -1871,7 +1851,7 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
 <p>Lorsque vous travaillez avec des images, les méthodes de <a class="reference internal" href="../../api/core.gui/processor.html#cdl.core.gui.processor.image.ImageProcessor" title="cdl.core.gui.processor.image.ImageProcessor"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.core.gui.processor.image.ImageProcessor</span></code></a> peuvent être accédées.</p>
 <dl class="py class">
 <dt class="sig sig-object py">
-<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.image.</span></span><span class="sig-name descname"><span class="pre">ImageProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/image.html#ImageProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">cdl.core.gui.processor.image.</span></span><span class="sig-name descname"><span class="pre">ImageProcessor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.signal.SignalPanel" title="cdl.core.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="../../api/core.gui/panel.html#cdl.core.gui.panel.image.ImagePanel" title="cdl.core.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">plotwidget</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">PlotWidget</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/image.html#ImageProcessor"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
 <dd><p>Objet de traitement d’image : opérations, traitement, analyse</p>
 <dl class="py method">
 <dt class="sig sig-object py">
@@ -2571,7 +2551,8 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
 <dl class="py method">
 <dt class="sig sig-object py">
 <span class="sig-name descname"><span class="pre">compute_hough_circle_peaks</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="../../api/computation.html#cdl.computation.image.HoughCircleParam" title="cdl.computation.image.HoughCircleParam"><span class="pre">HoughCircleParam</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.13)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.13)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.13)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference internal" href="../../api/obj.html#cdl.obj.ResultShape" title="cdl.core.model.base.ResultShape"><span class="pre">ResultShape</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/cdl/core/gui/processor/image.html#ImageProcessor.compute_hough_circle_peaks"><span class="viewcode-link"><span class="pre">[source]</span></span></a></dt>
-<dd><p>Calculer la détection de pics basée sur une transformée de Hough circulaire</p>
+<dd><p>Compute peak detection based on a circle Hough transform
+with <a class="reference internal" href="../../api/computation.html#cdl.computation.image.compute_hough_circle_peaks" title="cdl.computation.image.compute_hough_circle_peaks"><code class="xref py py-func docutils literal notranslate"><span class="pre">cdl.computation.image.compute_hough_circle_peaks()</span></code></a></p>
 </dd></dl>
 
 <dl class="py method">
@@ -2643,7 +2624,8 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
             
             
               
-                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
 
 
   <div class="sidebar-secondary-item">
@@ -2724,8 +2706,8 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script src="../../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
-<script src="../../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -2745,7 +2727,7 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.4.7.
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
@@ -2758,7 +2740,8 @@ with <a class="reference internal" href="../../api/computation.html#cdl.computat
       
         <div class="footer-item">
 <p class="theme-version">
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">Thème PyData Sphinx</a> 0.15.4.
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
 </p></div>
       
     </div>
