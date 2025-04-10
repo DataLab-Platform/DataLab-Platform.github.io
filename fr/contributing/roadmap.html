@@ -463,130 +463,267 @@
                   
   <section id="roadmap">
 <h1>Feuille de route<a class="headerlink" href="#roadmap" title="Lien vers cette rubrique">#</a></h1>
-<section id="future-milestones">
-<h2>Jalons futurs<a class="headerlink" href="#future-milestones" title="Lien vers cette rubrique">#</a></h2>
-<section id="features-or-enhancements">
-<h3>Fonctionnalités ou améliorations<a class="headerlink" href="#features-or-enhancements" title="Lien vers cette rubrique">#</a></h3>
+<p>Ce document décrit les plans de développement actuels et futurs de DataLab :</p>
 <ul class="simple">
-<li><p>Ajouter la prise en charge de l’acquisition de données :</p>
-<ul>
-<li><p>Il serait intéressant de pouvoir acquérir des données de diverses sources (par exemple, une caméra, un numériseur, un spectromètre, etc.) directement depuis DataLab</p></li>
-<li><p>Cela permettrait d’utiliser DataLab comme logiciel d’acquisition de données, et de traiter les données acquises immédiatement après</p></li>
-<li><p>Bien qu’il n’y ait actuellement pas de conception pour cette fonctionnalité, elle pourrait être implémentée en créant une nouvelle famille de plugins, et en définissant une API commune pour les plugins d’acquisition de données</p></li>
-<li><p>Une des solutions techniques possibles pourrait être de s’appuyer sur <a class="reference external" href="https://pymodaq.cnrs.fr/">PyMoDAQ</a>, un paquet Python pour l’acquisition de données, qui est déjà compatible avec divers dispositifs matériels - <em>et si on collaborait avec les développeurs de PyMoDAQ ?</em></p></li>
+<li><p>Il contient des informations sur les <a class="reference internal" href="#funding">sources de financement</a>, les <a class="reference internal" href="#planned-milestones">jalons prévus</a> et l”<a class="reference internal" href="#future-milestones">évolution future</a>.</p></li>
+<li><p>Il fournit également un résumé des <a class="reference internal" href="#past-milestones">jalons passés</a> pour donner un contexte à l’évolution du projet.</p></li>
 </ul>
-</li>
-<li><p>Créer une bibliothèque mathématique DataLab :</p>
-<ul>
-<li><p>Cette bibliothèque serait un paquet Python, et contiendrait toutes les fonctions et algorithmes mathématiques utilisés dans DataLab : - Une API d’algorithmes de bas niveau opérant sur des tableaux NumPy - Le modèle de données non-GUI de base de DataLab (par exemple, signaux, images) - Une API de calcul de haut niveau opérant sur les objets DataLab (par exemple, signaux, images)</p></li>
-<li><p>Elle serait utilisée par DataLab lui-même, mais pourrait également être utilisée par des logiciels tiers (par exemple, des notebooks Jupyter, Spyder, Visual Studio Code, etc.)</p></li>
-<li><p>Enfin, cette bibliothèque serait un bon moyen de partager les fonctionnalités mathématiques de DataLab avec la communauté scientifique : une collection d’algorithmes et de fonctions bien testés, bien documentés et faciles à utiliser</p></li>
-<li><p><em>Remarque</em> : il est déjà possible d’utiliser les fonctionnalités de traitement de DataLab depuis l’extérieur de DataLab en important le paquet <cite>cdl</cite>, mais ce paquet contient également le code GUI, qui n’est pas toujours nécessaire (par exemple, lors de l’utilisation de DataLab à partir d’un notebook Jupyter). L’idée ici est de créer un nouveau paquet qui ne contiendrait que les fonctionnalités mathématiques de DataLab, sans le code GUI.</p></li>
-</ul>
-</li>
-</ul>
-<div class="admonition note">
-<p class="admonition-title">Note</p>
-<p>La bibliothèque mathématique DataLab pourrait être l’occasion de reconsidérer la conception des fonctions de traitement de DataLab. Actuellement, les fonctions de traitement travaillant sur des objets de signaux et d’images reposent sur des objets <cite>guidata.dataset.DataSet</cite> pour les paramètres d’entrée. C’est très pratique pour le développeur car cela permet de créer automatiquement une interface graphique pour les fonctions de traitement, mais ce n’est pas très flexible pour l’utilisateur car cela oblige à instancier un objet <cite>DataSet</cite> avec les bons paramètres avant d’appeler la fonction de traitement (ce qui peut être fastidieux surtout lorsqu’il s’agit de fonctions de traitement simples nécessitant seulement quelques paramètres). Ainsi, il pourrait être intéressant de considérer une conception plus flexible et simple, où les paramètres de traitement seraient passés en tant qu’arguments de mot-clé aux fonctions de traitement. Les objets <cite>DataSet</cite> pourraient être gérés en interne par les fonctions de traitement (par exemple, en appelant la méthode <cite>DataSet.create</cite> avec les arguments de mot-clé passés par l’utilisateur). Cela permettrait de conserver la fonctionnalité de génération automatique de l’interface graphique pour les fonctions de traitement, mais permettrait également d’appeler directement les fonctions de traitement avec des arguments de mot-clé, sans avoir à créer d’objet <cite>DataSet</cite> au préalable.</p>
+<section id="funding">
+<span id="id1"></span><h2>📈 Financement<a class="headerlink" href="#funding" title="Lien vers cette rubrique">#</a></h2>
+<blockquote>
+<div><p>ℹ️ En tant que projet open-source, DataLab s’appuie sur le soutien de diverses organisations et subventions pour financer son développement et sa maintenance. La feuille de route du projet est façonnée par les besoins et les priorités de ses utilisateurs, ainsi que par la disponibilité des ressources. Le travail financé est priorisé et programmé en conséquence, tandis que les contributions de la communauté sont les bienvenues et encouragées.</p>
+</div></blockquote>
+<p>Depuis le début du projet en 2023, le développement de DataLab a été financé par les subventions et organisations suivantes :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Financement</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a href="https://www.cea.fr/" target="_blank"><img src="../_images/cea.svg" alt="CEA" width="50"/></a></p></td>
+<td><p><a class="reference external" href="https://www.cea.fr/">CEA</a> - Commissariat à l’énergie atomique et aux énergies alternatives :<br>• DataLab a été initialement créé pour analyser les données de la structure Laser Mégajoule (LMJ) du CEA<br>• Interfacé avec le système de contrôle du LMJ, DataLab est utilisé pour traiter et visualiser les signaux et images acquis avec des diagnostics plasmas (appareils tels que caméras, numériseurs, spectromètres, etc.)<br>• Il est également utilisé pour des activités de R&amp;D autour de l’installation LMJ (métrologie, analyse de données, etc.)<br>• Le CEA est le principal investisseur dans DataLab et le principal contributeur au projet : les ingénieurs du CEA participent activement à la feuille de route</p></td>
+</tr>
+<tr class="row-odd"><td><p><a href="https://codra.net/en/offer/software-engineering/datalab/" target="_blank"><img src="../_images/codra.svg" alt="CODRA" width="50"/></a></p></td>
+<td><p><a class="reference external" href="https://codra.net/">CODRA</a>, société d’ingénierie en informatique et éditeur de logiciels, soutient le projet open source DataLab depuis sa création :<br>• Gestion de projet open source et communication (réseaux sociaux, site web, etc.)<br>• Conférences et événements : <a class="reference external" href="https://cfp.scipy.org/2024/talk/G3MC9L/">SciPy 2024</a>, <a class="reference external" href="https://www.youtube.com/watch?v=lBEu-DeHyz0&amp;amp;list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK">PyData Paris 2024</a>, <a class="reference external" href="https://pretalx.com/pydata-paris-2024/talk/WTDVCC/">Open Source Experience 2024</a>, etc.<br>• Documentation : tutoriels, vidéos, et bien plus</p></td>
+</tr>
+<tr class="row-even"><td><p><a href="https://nlnet.nl/" target="_blank"><img src="../_images/nlnet.svg" alt="NLnet" width="50"/></a></p></td>
+<td><p>La <a class="reference external" href="https://nlnet.nl/">Fondation NLnet</a>, dans le cadre du NGI0 Commons Fund soutenu par la Commission européenne, a financé la <a class="reference external" href="https://nlnet.nl/project/DataLab/">refonte de l’architecture de base de DataLab</a> - une refonte majeure prévue pour la version 2.0 (décembre 2025) :<br>• L’objectif est de découpler le modèle de données, le calcul et l’E/S de l’interface utilisateur<br>• Cela permettra à DataLab d’être utilisé comme bibliothèque dans d’autres logiciels</p></td>
+</tr>
+</tbody>
+</table>
 </div>
-<ul class="simple">
-<li><p>Créer un plugin Jupyter pour l’analyse de données interactive avec DataLab :</p>
-<ul>
-<li><p>Il est déjà possible d’utiliser DataLab à partir d’un notebook Jupyter, grâce aux fonctionnalités de contrôle à distance (voir <a class="reference internal" href="../features/general/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance</span></a>), mais il serait utile d’avoir un plugin dédié</p></li>
-<li><p>Ce plugin permettrait d’utiliser DataLab comme noyau Jupyter, et d’afficher les résultats numériques de DataLab dans des notebooks Jupyter ou vice versa (par exemple, afficher les résultats de Jupyter dans DataLab)</p></li>
-<li><p>Ce plugin permettrait également d’utiliser les fonctionnalités de traitement de DataLab à partir de notebooks Jupyter</p></li>
-<li><p>Un cas d’utilisation typique pourrait également consister à utiliser DataLab pour manipuler des signaux ou des images de manière efficace, et à utiliser Jupyter pour l’analyse de données personnalisée basée sur des algorithmes spécifiques / faits maison</p></li>
-<li><p>Ce plugin pourrait être implémenté en utilisant l’interface du noyau Jupyter (voir ci-dessus)</p></li>
-</ul>
-</li>
-<li><p>Créer un plugin Spyder pour l’analyse de données interactive connectée à DataLab :</p>
-<ul>
-<li><p>Il s’agit exactement du même cas d’utilisation que pour le plugin Jupyter, mais pour Spyder</p></li>
-<li><p>Ce plugin pourrait également être implémenté en utilisant l’interface du noyau Jupyter (voir ci-dessus)</p></li>
-</ul>
-</li>
-<li><p>Ajouter la prise en charge des séries temporelles (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/27">Issue #27</a>)</p></li>
-<li><p>Ajouter une interface de noyau Jupyter à DataLab :</p>
-<ul>
-<li><p>Cela permettrait d’utiliser DataLab à partir d’autres logiciels, tels que des notebooks Jupyter, Spyder ou Visual Studio Code</p></li>
-<li><p>Cela permettrait également de partager des données entre DataLab et d’autres logiciels (par exemple, afficher les résultats numériques de DataLab dans des notebooks Jupyter ou vice versa, afficher les résultats de Jupyter dans DataLab, etc.)</p></li>
-<li><p>Après un premier examen rapide, il semble que l’interface du noyau Jupyter ne soit pas simple à implémenter, de sorte qu’il peut ne pas être utile de s’y atteler (la communication entre DataLab et Jupyter est actuellement déjà possible grâce aux fonctionnalités de contrôle à distance)</p></li>
-</ul>
-</li>
-</ul>
 </section>
-<section id="maintenance">
-<h3>Maintenance<a class="headerlink" href="#maintenance" title="Lien vers cette rubrique">#</a></h3>
+<section id="planned-milestones">
+<span id="id2"></span><h2>🚀 Jalons planifiés<a class="headerlink" href="#planned-milestones" title="Lien vers cette rubrique">#</a></h2>
+<blockquote>
+<div><p>ℹ️ Les tâches suivantes sont prévues pour les futures versions de DataLab. Le calendrier et les détails spécifiques peuvent changer en fonction des retours des utilisateurs, de la disponibilité du financement et d’autres facteurs.</p>
+</div></blockquote>
+<p>Cette section décrit les fonctionnalités et améliorations prévues pour DataLab, ainsi que leurs dates de sortie prévues.</p>
+<p>Ces fonctionnalités et améliorations sont financées par les organisations suivantes (voir <a class="reference internal" href="#funding">Financement</a> pour plus de détails) :</p>
 <ul class="simple">
-<li><p>2024 : passer à gRPC pour le contrôle à distance (au lieu de XML-RPC), s’il y a besoin d’un protocole de communication plus efficace (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/18">Issue #18</a>)</p></li>
-<li><p>2025 : abandonner le support de PyQt5 (fin de vie : mi-2025), et passer à PyQt6 ; cela devrait être simple, grâce à la couche de compatibilité <cite>qtpy</cite> et au fait que <cite>PlotPyStack</cite> est déjà compatible avec PyQt6)</p></li>
+<li><p><a class="reference external" href="https://www.cea.fr/">CEA</a>: Commissariat à l’énergie atomique et aux énergies alternatives</p></li>
+<li><p><a class="reference external" href="https://codra.net/en/">CODRA</a>: société d’ingénierie en informatique et éditeur de logiciels</p></li>
+<li><p><a class="reference external" href="https://nlnet.nl/">NLnet</a>: Fondation NLnet, dans le cadre du NGI0 Commons Fund</p></li>
 </ul>
+<blockquote>
+<div><p>⚠️ <em>Remarque : Les jalons et dates présentés ci-dessous sont indicatifs et susceptibles de changer.</em></p>
+</div></blockquote>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Jalon</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>📅 <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/milestone/12">2.0</a> 2025/12</p></td>
+<td><p>Cette version introduit la <a class="reference external" href="https://nlnet.nl/project/DataLab/">refonte de l’architecture de base de DataLab</a> :<br>• Noyau : découplage du modèle de données, du calcul et de l’E/S de l’interface utilisateur<br>• Validation : migration complète de l’infrastructure de test, tests automatisés et manuels<br>• Documentation et formation : guides d’installation, documentation API, manuels d’utilisation, matériel d’intégration</p></td>
+</tr>
+<tr class="row-odd"><td><p>📅 <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/milestone/1">1.0</a><br>2025/09</p></td>
+<td><p>Cette version consolide les fonctionnalités introduites dans la série V0.x, et intègre également :<br>• Commun : outils de Fourier, génération de bruit, sauvegarde multi-fichiers, …<br>• Image : soustraction de fond, lissage local, filtrage, extraction de sous-image, rééchantillonnage, …<br>• Signal : nouveaux formats (.SIG, .IMA), générateurs de signaux, ajustement de courbes, filtrage avancé, …</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="future-milestones">
+<span id="id3"></span><h2>🏗️ Jalons futurs<a class="headerlink" href="#future-milestones" title="Lien vers cette rubrique">#</a></h2>
+<blockquote>
+<div><p>ℹ️ Les tâches suivantes sont des objectifs à long terme pour DataLab. Elles ne sont pas programmées pour une version spécifique et peuvent évoluer au fil du temps en fonction des besoins des utilisateurs et de l’orientation du projet.</p>
+</div></blockquote>
+<p>Le tableau suivant résume les évolutions futures et les plans de maintenance de DataLab qui sont détaillés dans les sections ci-dessous.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Type de jalon</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>🔄 Evolutions futures</p></td>
+<td><p>• Prise en charge de l’acquisition de données<br>• Interface Web<br>• Prise en charge des séries temporelles<br>• Connecteurs de base de données<br>• Plugin Jupyter pour l’analyse de données interactive<br>• Plugin Spyder pour l’analyse de données interactive<br>• Interface de noyau Jupyter pour DataLab</p></td>
+</tr>
+<tr class="row-odd"><td><p>🛠️ Maintenance</p></td>
+<td><p>• Passer à gRPC pour le contrôle à distance<br>• Abandonner la prise en charge de Qt5 et migrer vers Qt6</p></td>
+</tr>
+<tr class="row-even"><td><p>🧱 Autres tâches</p></td>
+<td><p>• Créer un modèle de plugin DataLab</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<section id="support-for-data-acquisition">
+<h3>🔄 Prise en charge de l’acquisition de données<a class="headerlink" href="#support-for-data-acquisition" title="Lien vers cette rubrique">#</a></h3>
+<p>Ajouter la prise en charge de l’acquisition de données serait une avancée majeure pour faire de DataLab non seulement une plateforme de traitement des signaux et des images, mais aussi un <strong>outil polyvalent pour les flux de travail expérimentaux en temps réel</strong>. L’idée serait de permettre aux utilisateurs d’acquérir des données directement à partir de divers appareils matériels (caméras, numériseurs, spectromètres, etc.) <strong>au sein même de DataLab</strong>.</p>
+<p>Une telle fonctionnalité permettrait une <strong>intégration transparente entre l’acquisition et l’analyse</strong>, permettant aux utilisateurs de traiter et de visualiser les données immédiatement après leur capture, sans avoir à changer d’outil ou à exporter/importer des fichiers.</p>
+<p>Bien qu’aucun travail de conception formel n’ait encore été établi, une approche viable pourrait être de :</p>
+<ul class="simple">
+<li><p>Introduire une <strong>nouvelle famille de plugins dédiée à l’acquisition de données</strong>, suivant l’architecture modulaire de DataLab ;</p></li>
+<li><p>Définir une <strong>API générique pour les plugins d’acquisition</strong>, garantissant flexibilité et compatibilité entre les types de dispositifs ;</p></li>
+<li><p><strong>Tirer parti des solutions existantes</strong> telles que <a class="reference external" href="https://pymodaq.cnrs.fr/">PyMoDAQ</a>, un cadre d’acquisition de données basé sur Python déjà compatible avec un large éventail d’instruments de laboratoire.</p></li>
+</ul>
+<p>Une <strong>collaboration potentielle avec l’équipe de développement de PyMoDAQ</strong> pourrait être envisagée, pour bénéficier de leur écosystème et éviter de dupliquer les efforts. Cela aiderait également à favoriser l’interopérabilité et à promouvoir des normes ouvertes dans la communauté d’instrumentation scientifique Python.</p>
+</section>
+<section id="web-frontend">
+<h3>🌐 Interface Web<a class="headerlink" href="#web-frontend" title="Lien vers cette rubrique">#</a></h3>
+<p>À mesure que l’architecture modulaire de DataLab évolue, une étape naturelle consiste à fournir une <strong>interface Web</strong> pour compléter l’application de bureau existante.</p>
+<p>Une interface Web permettrait aux utilisateurs de :</p>
+<ul class="simple">
+<li><p><strong>Exécuter DataLab à distance</strong> (par exemple, depuis un serveur ou une plateforme cloud) et y accéder via un navigateur ;</p></li>
+<li><p>Effectuer des tâches de traitement et de visualisation sans avoir besoin d’un environnement Python local ;</p></li>
+<li><p>Faciliter l”<strong>analyse de données collaborative</strong>, le partage de sessions ou de résultats avec des collègues ;</p></li>
+<li><p>Intégrer JupyterHub, des tableaux de bord ou des outils de gestion de laboratoire pour une utilisation centralisée.</p></li>
+</ul>
+<p>Cette interface pourrait être construite sur la bibliothèque <code class="docutils literal notranslate"><span class="pre">DataLab-core</span></code> à venir, exposant ses fonctionnalités via une interface Web - en s’appuyant éventuellement sur des outils tels que les <strong>extensions JupyterLab</strong>, <strong>Panel</strong> ou <strong>Dash</strong>, selon la pile choisie.</p>
+<p>Bien que toujours exploratoire, cette direction augmenterait l”<strong>accessibilité, la portabilité et l’évolutivité</strong> de DataLab, en particulier dans les environnements académiques, industriels et basés sur le cloud.</p>
+</section>
+<section id="support-for-time-series">
+<h3>⏱️ Prise en charge des séries temporelles<a class="headerlink" href="#support-for-time-series" title="Lien vers cette rubrique">#</a></h3>
+<p>DataLab se concentre actuellement sur le traitement générique des signaux et des images, mais de nombreux cas d’utilisation - en particulier dans l’instrumentation scientifique et la physique expérimentale - impliquent des <strong>données de séries temporelles</strong>.</p>
+<p>Ajouter une prise en charge dédiée des séries temporelles faciliterait :</p>
+<ul class="simple">
+<li><p>Prendre en charge des signaux avec des horodatages associés ou un échantillonnage non uniforme ;</p></li>
+<li><p>Effectuer un traitement et une visualisation sensibles au temps (alignement d’événements, filtrage basé sur le temps, rééchantillonnage) ;</p></li>
+<li><p>Intégrer des systèmes externes générant des données indexées dans le temps.</p></li>
+</ul>
+<p>Cette fonctionnalité est tracée par l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/27">Issue #27</a>, où les cas d’utilisation potentiels et les considérations de conception sont discutés.</p>
+<p>Introduire une gestion robuste des séries temporelles élargirait l’applicabilité de DataLab dans des domaines tels que l’enregistrement de données, le contrôle lent et la surveillance en temps réel.</p>
+</section>
+<section id="database-connectors">
+<h3>🗃️ Connecteurs de base de données<a class="headerlink" href="#database-connectors" title="Lien vers cette rubrique">#</a></h3>
+<p>Actuellement, DataLab fonctionne principalement sur des fichiers et des structures de données en mémoire. L’ajout de <strong>connecteurs aux bases de données</strong> étendrait considérablement ses capacités, en particulier pour les utilisateurs traitant de grands ensembles de données structurées ou historiques.</p>
+<p>Cette fonctionnalité permettrait à DataLab de :</p>
+<ul class="simple">
+<li><p><strong>Interroger et charger des données</strong> à partir de bases de données SQL ou NoSQL (PostgreSQL, SQLite, MongoDB, etc.) ;</p></li>
+<li><p>Prendre en charge des flux de travail pilotés par les métadonnées, où les expériences ou ensembles de données sont référencés à partir d’une base de données ;</p></li>
+<li><p><strong>Stocker les résultats d’analyse</strong> ou les annotations dans une base de données pour la traçabilité et la reproductibilité ;</p></li>
+<li><p>Faciliter l’intégration dans les systèmes de gestion de l’information de laboratoire (LIMS) ou les infrastructures de données d’entreprise.</p></li>
+</ul>
+<p>Le design pourrait inclure :</p>
+<ul class="simple">
+<li><p>Un <strong>système basé sur des plugins</strong> pour prendre en charge divers backends de base de données ;</p></li>
+<li><p>Une interface de configuration simple pour les paramètres de connexion et la gestion des requêtes ;</p></li>
+<li><p>Intégration avec pandas ou SQLAlchemy pour un échange de données flexible.</p></li>
+</ul>
+<p>Cette évolution aiderait à combler le fossé entre <strong>l’acquisition de données, l’analyse et le stockage à long terme</strong>, permettant des flux de travail scientifiques plus robustes.</p>
+</section>
+<section id="jupyter-plugin-for-interactive-data-analysis">
+<h3>📓 Plugin Jupyter pour l’analyse de données interactive<a class="headerlink" href="#jupyter-plugin-for-interactive-data-analysis" title="Lien vers cette rubrique">#</a></h3>
+<p>Bien que DataLab puisse déjà être contrôlé à distance depuis un notebook Jupyter - grâce à ses capacités de contrôle à distance existantes (voir <a class="reference internal" href="../features/general/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance</span></a>) - l’expérience utilisateur pourrait être considérablement améliorée en développant un <strong>plugin Jupyter dédié</strong>.</p>
+<p>Ce plugin offrirait une <strong>intégration plus étroite</strong> entre Jupyter et DataLab, offrant les fonctionnalités suivantes :</p>
+<ul class="simple">
+<li><p>Utiliser DataLab comme un <strong>noyau Jupyter</strong>, permettant un accès direct à ses capacités de traitement depuis un notebook ;</p></li>
+<li><p><strong>Afficher les résultats numériques de DataLab dans Jupyter</strong>, et vice versa - par exemple, importer des résultats calculés dans un notebook Jupyter dans l’interface DataLab ;</p></li>
+<li><p>Autoriser la <strong>manipulation interactive des données</strong> : utiliser DataLab pour des opérations efficaces sur les signaux et les images, et Jupyter pour des routines d’analyse de données personnalisées ou faites maison ;</p></li>
+<li><p>Créer un pont entre les flux de travail de script et d’interface graphique, rendant DataLab plus attrayant pour les utilisateurs scientifiques familiers avec les environnements Jupyter.</p></li>
+</ul>
+<p>Techniquement, ce plugin pourrait s’appuyer sur l”<strong>interface de noyau Jupyter</strong> pour exposer les capacités de DataLab dans un contexte de programmation interactive.</p>
+<p>Une telle intégration renforcerait le rôle de DataLab dans l’écosystème scientifique Python et faciliterait les flux de travail d’analyse pilotés par des notebooks reproductibles.</p>
+</section>
+<section id="spyder-plugin-for-interactive-data-analysis">
+<h3>🧩 Plugin Spyder pour l’analyse de données interactive<a class="headerlink" href="#spyder-plugin-for-interactive-data-analysis" title="Lien vers cette rubrique">#</a></h3>
+<p>Un plugin pour l”<a class="reference external" href="https://www.spyder-ide.org/">IDE Spyder</a> répondrait aux <strong>mêmes cas d’utilisation que le plugin Jupyter</strong>, offrant une intégration transparente entre DataLab et l’environnement interactif de Spyder.</p>
+<p>Ce plugin permettrait aux utilisateurs de :</p>
+<ul class="simple">
+<li><p>Interagir avec DataLab directement depuis Spyder ;</p></li>
+<li><p>Visualiser ou envoyer des données entre l’interface DataLab et la console Spyder ;</p></li>
+<li><p>Utiliser les capacités de traitement de DataLab en temps réel tout en scriptant des flux de travail d’analyse personnalisés dans Spyder.</p></li>
+</ul>
+<p>Comme pour l’intégration Jupyter, ce plugin pourrait être mis en œuvre en s’appuyant sur l”<strong>interface de noyau Jupyter</strong> (voir <a class="reference internal" href="../features/general/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance</span></a>), que Spyder prend déjà en charge en interne.</p>
+<p>Un tel plugin améliorerait l’utilisabilité de DataLab pour les scientifiques et les ingénieurs qui préfèrent l’environnement de développement intégré de Spyder pour l’analyse exploratoire.</p>
+</section>
+<section id="jupyter-kernel-interface-for-datalab">
+<h3>🧠 Interface de noyau Jupyter pour DataLab<a class="headerlink" href="#jupyter-kernel-interface-for-datalab" title="Lien vers cette rubrique">#</a></h3>
+<p>Mettre en œuvre une interface de <strong>noyau Jupyter</strong> native pour DataLab fournirait un moyen plus intégré de l’utiliser à partir d’autres environnements tels que <strong>Jupyter notebooks, Spyder ou Visual Studio Code</strong>.</p>
+<p>Cette interface permettrait :</p>
+<ul class="simple">
+<li><p>Contrôle direct de DataLab à partir d’outils tiers qui prennent en charge les noyaux Jupyter ;</p></li>
+<li><p><strong>Échange de données bidirectionnel</strong> : par exemple, afficher les résultats de DataLab dans un notebook, ou visualiser les données générées par Jupyter dans l’interface DataLab ;</p></li>
+<li><p>Intégration plus étroite dans les flux de travail de script et les IDE au-delà d’un simple contrôle à distance.</p></li>
+</ul>
+<p>Cependant, sur la base d’explorations initiales, la mise en œuvre d’un noyau Jupyter complet peut être <strong>non triviale et potentiellement chronophage</strong>. Étant donné que le contrôle à distance permet déjà la communication entre DataLab et Jupyter (voir <a class="reference internal" href="../features/general/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance</span></a>), la valeur ajoutée d’une intégration complète du noyau doit être soigneusement évaluée par rapport à sa complexité et à son coût de maintenance.</p>
+<p>Cette option reste ouverte à la discussion en fonction de la demande des utilisateurs et des ressources de développement.</p>
+</section>
+<section id="maintenance-plan">
+<h3>🛠️ Plan de maintenance<a class="headerlink" href="#maintenance-plan" title="Lien vers cette rubrique">#</a></h3>
+<section id="transition-to-grpc-for-remote-control">
+<h4>🔄 2026 : Passer à gRPC pour le contrôle à distance<a class="headerlink" href="#transition-to-grpc-for-remote-control" title="Lien vers cette rubrique">#</a></h4>
+<p>DataLab s’appuie actuellement sur XML-RPC pour le contrôle à distance, ce qui peut devenir une limitation pour des cas d’utilisation plus avancés ou haute performance. Si le besoin se fait sentir pour un protocole de communication plus <strong>efficace, robuste et extensible</strong>, un passage à <strong>gRPC</strong> est envisagé.</p>
+<p>Cette amélioration est tracée par l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/18">Issue #18</a>.</p>
+</section>
+<section id="drop-qt5-support-and-migrate-to-qt6">
+<h4>🚫 2025 : Abandonner la prise en charge de Qt5 et migrer vers Qt6<a class="headerlink" href="#drop-qt5-support-and-migrate-to-qt6" title="Lien vers cette rubrique">#</a></h4>
+<p>Avec la <strong>fin de vie de Qt5 prévue pour mi-2025</strong>, DataLab migrera entièrement vers <strong>Qt6</strong>. Cette transition devrait être <strong>simple</strong>, grâce à :</p>
+<ul class="simple">
+<li><p>L’utilisation de la couche d’abstraction <code class="docutils literal notranslate"><span class="pre">qtpy</span></code> ;</p></li>
+<li><p>La bibliothèque <code class="docutils literal notranslate"><span class="pre">PlotPyStack</span></code> est déjà compatible avec Qt6.</p></li>
+</ul>
+<p>Ce changement garantira la compatibilité avec les futures versions de Qt et les environnements Python modernes.</p>
+</section>
 </section>
 <section id="other-tasks">
-<h3>Autres tâches<a class="headerlink" href="#other-tasks" title="Lien vers cette rubrique">#</a></h3>
+<h3>🧱 Autres tâches<a class="headerlink" href="#other-tasks" title="Lien vers cette rubrique">#</a></h3>
+<section id="create-a-datalab-plugin-template">
+<h4>🧩 Créer un modèle de plugin DataLab<a class="headerlink" href="#create-a-datalab-plugin-template" title="Lien vers cette rubrique">#</a></h4>
+<p>Pour encourager les contributions de la communauté et faciliter le développement d’extensions, un <strong>modèle pour créer des plugins DataLab</strong> est prévu.</p>
+<p>Ce modèle permettrait :</p>
 <ul class="simple">
-<li><p>Créer un modèle de plugin DataLab (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/26">Issue #26</a>)</p></li>
+<li><p>Fournir une structure prête à l’emploi avec les meilleures pratiques ;</p></li>
+<li><p>Aider les nouveaux développeurs à comprendre rapidement l’architecture des plugins ;</p></li>
+<li><p>Promouvoir la cohérence et la modularité entre les plugins tiers.</p></li>
 </ul>
+<p>Cette tâche est tracée par l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/26">Issue #26</a>.</p>
+</section>
 </section>
 </section>
 <section id="past-milestones">
-<h2>Jalons passés<a class="headerlink" href="#past-milestones" title="Lien vers cette rubrique">#</a></h2>
-<section id="datalab-0-11">
-<h3>DataLab 0.11<a class="headerlink" href="#datalab-0-11" title="Lien vers cette rubrique">#</a></h3>
+<span id="id4"></span><h2>🏆 Jalons passés<a class="headerlink" href="#past-milestones" title="Lien vers cette rubrique">#</a></h2>
+<p>De la version 0.9 à 0.19, DataLab a connu un développement et des améliorations significatifs. Le projet a évolué d’un simple outil d’analyse de données à une plateforme puissante pour le traitement et la visualisation des signaux et des images.</p>
+<p>Ces améliorations ont été rendues possibles grâce au soutien des organisations suivantes (voir <a class="reference internal" href="#funding">Financement</a> pour plus de détails) :</p>
 <ul class="simple">
-<li><p>Ajouter une fonctionnalité de glisser-déposer aux panneaux de signaux et d’images, pour permettre de réorganiser les signaux et les images (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/17">Issue #17</a>)</p></li>
-<li><p>Ajouter des boutons « Monter » et « Descendre » aux panneaux de signaux et d’images, pour permettre de réorganiser les signaux et les images (voir <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/22">Issue #22</a>)</p></li>
-<li><p>Ajouter des fonctionnalités de convolution 1D, d’interpolation, de rééchantillonnage et d’élimination des tendances</p></li>
+<li><p><a class="reference external" href="https://www.cea.fr/">CEA</a>: Commissariat à l’énergie atomique et aux énergies alternatives</p></li>
+<li><p><a class="reference external" href="https://codra.net/en/">CODRA</a>: société d’ingénierie en informatique et éditeur de logiciels</p></li>
 </ul>
-</section>
-<section id="datalab-0-10">
-<h3>DataLab 0.10<a class="headerlink" href="#datalab-0-10" title="Lien vers cette rubrique">#</a></h3>
-<ul class="simple">
-<li><p>Développer un plugin DataLab très simple pour démontrer le système de plugins</p></li>
-<li><p>Sérialiser les styles de courbes et d’images dans les fichiers HDF5</p></li>
-<li><p>Ajouter une option globale « Rafraîchissement automatique », pour pouvoir désactiver le rafraîchissement automatique de la fenêtre principale lors de l’exécution de plusieurs étapes de traitement, améliorant ainsi les performances</p></li>
-<li><p>Améliorer la lisibilité des courbes (par exemple, éviter les lignes en pointillés, utiliser des couleurs contrastées et utiliser l’anti-crénelage)</p></li>
-</ul>
-</section>
-<section id="datalab-0-9">
-<h3>DataLab 0.9<a class="headerlink" href="#datalab-0-9" title="Lien vers cette rubrique">#</a></h3>
-<ul>
-<li><p>Python 3.11 est la nouvelle référence</p></li>
-<li><p>Exécuter les calculs dans un processus séparé :</p>
-<ul class="simple">
-<li><p>Exécuter un « serveur de calcul » en arrière-plan, dans un autre processus</p></li>
-<li><p>Pour chaque calcul, envoyer les données sérialisées et la fonction de calcul au serveur et attendre le résultat</p></li>
-<li><p>Il est alors possible d’arrêter n’importe quel calcul à tout moment en tuant le processus du serveur et en le redémarrant (éventuellement après avoir incrémenté le numéro de port de communication)</p></li>
-</ul>
-</li>
-<li><p>Optimiser les performances d’affichage des images</p></li>
-<li><p>Ajouter une boîte de dialogue de préférences</p></li>
-<li><p>Ajouter de nouvelles fonctionnalités de traitement d’images : débruitage, …</p></li>
-<li><p>Résultats du traitement d’images : ajout de la prise en charge des formes polygonales (par exemple, pour la détection des contours)</p></li>
-<li><p>Nouveau système de plugins : API pour les extensions tierces</p>
-<blockquote>
-<div><ul class="simple">
-<li><p>Objectif n°1 : un plugin doit être gérable à l’aide d’un seul script Python, qui inclut une extension de <cite>ImageProcessor</cite>, <cite>ActionHandler</cite> et une nouvelle prise en charge du format de fichier</p></li>
-<li><p>Objectif n°2 : les plugins doivent simplement être stockés dans un dossier qui est par défaut le répertoire de l’utilisateur (même dossier que le fichier de configuration « .DataLab.ini »)</p></li>
-</ul>
-</div></blockquote>
-</li>
-<li><p>Ajouter un système de macro-commandes :</p>
-<ul class="simple">
-<li><p>Nouvel éditeur Python intégré</p></li>
-<li><p>Scripts utilisant la même API que les scénarios de test applicatifs de haut niveau</p></li>
-<li><p>Prise en charge de l’enregistrement de macro</p></li>
-</ul>
-</li>
-<li><p>Ajouter un serveur xmlrpc pour permettre le contrôle à distance de DataLab :</p>
-<ul class="simple">
-<li><p>Contrôle des principales fonctionnalités de DataLab (ouvrir un signal ou une image, ouvrir un fichier HDF5, etc.) et des fonctionnalités de traitement (exécuter un calcul, etc.)</p></li>
-<li><p>Prendre le contrôle de DataLab à partir d’un logiciel tiers</p></li>
-<li><p>Exécuter des calculs interactifs à partir d’un IDE (par exemple Spyder ou Visual Studio Code)</p></li>
-</ul>
-</li>
-</ul>
-</section>
+<p>Le tableau suivant résume les principaux jalons passés de DataLab, y compris les dates de publication et une brève description des fonctionnalités ou améliorations introduites dans chaque version.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Jalon</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.19.0">0.19</a><br>2025/04</p></td>
+<td><p>• Ouvrir tous les signaux ou images d’un dossier (récursivement)<br>• Éditeur de ROI : ajouter des options pour créer des ROI à partir de coordonnées</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.18.0">0.18</a><br>2024/11</p></td>
+<td><p>• Nouveau mode d’opérande par paires (l’opération est effectuée sur chaque paire de signaux/images)<br>• Nouvelle fonctionnalité de ROI polygonal<br>• Prise en charge de Windows 7 SP1 à Windows 11 avec un seul installateur</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.17.0">0.17</a><br>2024/08</p></td>
+<td><p>• Introduire la prise en charge des ROI dans toutes les fonctionnalités de traitement<br>• Ajouter des opérations arithmétiques sur les signaux et les images<br>• Nouveau package Ubuntu pour une installation native sur Linux<br>• Nouveau package Conda pour toutes les plateformes (Windows, Linux, MacOS)</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.16.0">0.16</a><br>2024/06</p></td>
+<td><p>• Nouveau processus de validation pour les fonctionnalités de signal et d’image<br>• Ajouter la prise en charge des images binaires (déverrouillage de nouvelles fonctionnalités de traitement)</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.15.0">0.15</a><br>2024/04</p></td>
+<td><p>• Nouvel installateur MSI pour la version autonome sur Windows<br>• Ajouter la prise en charge de fichiers texte/CSV volumineux (&gt; 1 Go)<br>• Ajouter une fonctionnalité de sous-échantillonnage automatique</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.14.0">0.14</a><br>2024/03</p></td>
+<td><p>• Navigateur HDF5 : prise en charge de plusieurs fichiers, informations détaillées sur les groupes et les attributs<br>• Nouveau package Debian pour une installation native sur Linux</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.12.0">0.12</a><br>2024/02</p></td>
+<td><p>• Ajouter une visite et une fonctionnalité de démonstration<br>• Ajouter des tutoriels à la documentation<br>• Ajouter un assistant d’importation de fichiers texte</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.11.0">0.11</a><br>2024/01</p></td>
+<td><p>• Ajouter des fonctionnalités pour réorganiser les signaux et les images (par exemple, glisser-déposer)<br>• Ajouter des fonctionnalités de convolution 1D, d’interpolation, de rééchantillonnage et de désajustement</p></td>
+</tr>
+<tr class="row-even"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.10.0">0.10</a><br>2023-12</p></td>
+<td><p>• Développer un plugin DataLab très simple pour démontrer le système de plugins<br>• Permettre de désactiver le rafraîchissement automatique lors de plusieurs étapes de traitement<br>• Sérialiser les styles de courbe et d’image dans des fichiers HDF5<br>• Améliorer la lisibilité des courbes</p></td>
+</tr>
+<tr class="row-odd"><td><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases/tag/v0.9.0">0.9</a><br>2023-11</p></td>
+<td><p>• Exécuter des calculs dans un processus séparé<br>• Ajouter un système de plugin : API pour les extensions tierces<br>• Ajouter un système de macro-commande<br>• Ajouter un serveur XML-RPC pour permettre le contrôle à distance de DataLab</p></td>
+</tr>
+</tbody>
+</table>
+</div>
 </section>
 </section>
 
@@ -637,18 +774,28 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#future-milestones">Jalons futurs</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#features-or-enhancements">Fonctionnalités ou améliorations</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance">Maintenance</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-tasks">Autres tâches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#funding">📈 Financement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#planned-milestones">🚀 Jalons planifiés</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#future-milestones">🏗️ Jalons futurs</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-data-acquisition">🔄 Prise en charge de l’acquisition de données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#web-frontend">🌐 Interface Web</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#support-for-time-series">⏱️ Prise en charge des séries temporelles</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#database-connectors">🗃️ Connecteurs de base de données</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-plugin-for-interactive-data-analysis">📓 Plugin Jupyter pour l’analyse de données interactive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#spyder-plugin-for-interactive-data-analysis">🧩 Plugin Spyder pour l’analyse de données interactive</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#jupyter-kernel-interface-for-datalab">🧠 Interface de noyau Jupyter pour DataLab</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintenance-plan">🛠️ Plan de maintenance</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#transition-to-grpc-for-remote-control">🔄 2026 : Passer à gRPC pour le contrôle à distance</a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#drop-qt5-support-and-migrate-to-qt6">🚫 2025 : Abandonner la prise en charge de Qt5 et migrer vers Qt6</a></li>
 </ul>
 </li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#past-milestones">Jalons passés</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-0-11">DataLab 0.11</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-0-10">DataLab 0.10</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-0-9">DataLab 0.9</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#other-tasks">🧱 Autres tâches</a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-datalab-plugin-template">🧩 Créer un modèle de plugin DataLab</a></li>
 </ul>
 </li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#past-milestones">🏆 Jalons passés</a></li>
 </ul>
   </nav></div>
 
