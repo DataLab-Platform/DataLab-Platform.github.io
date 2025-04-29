@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=d0f7d321"></script>
+    <script src="../../../_static/documentation_options.js?v=3da08d6f"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.19.2</p>
+    <p class="title logo__title">v0.20.0</p>
   
 </a></div>
     
@@ -584,7 +584,7 @@
     <span class="n">SIG_SERVER_PORT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">SIG_CLOSE_APP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
     <span class="n">SIG_RAISE_WINDOW</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
-    <span class="n">SIG_ADD_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
+    <span class="n">SIG_ADD_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_ADD_GROUP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_LOAD_FROM_FILES</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">SIG_LOAD_FROM_DIRECTORY</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
@@ -811,6 +811,8 @@
         <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
 
@@ -818,10 +820,12 @@
 <span class="sd">            title: Signal title</span>
 <span class="sd">            xbinary: X data</span>
 <span class="sd">            ybinary: Y data</span>
-<span class="sd">            xunit: X unit. Defaults to None.</span>
-<span class="sd">            yunit: Y unit. Defaults to None.</span>
-<span class="sd">            xlabel: X label. Defaults to None.</span>
-<span class="sd">            ylabel: Y label. Defaults to None.</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added signal as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
@@ -833,7 +837,7 @@
         <span class="n">signal</span><span class="o">.</span><span class="n">yunit</span> <span class="o">=</span> <span class="n">yunit</span>
         <span class="n">signal</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span>
         <span class="n">signal</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
@@ -847,18 +851,22 @@
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Image title</span>
 <span class="sd">            zbinary: Z data</span>
-<span class="sd">            xunit: X unit. Defaults to None.</span>
-<span class="sd">            yunit: Y unit. Defaults to None.</span>
-<span class="sd">            zunit: Z unit. Defaults to None.</span>
-<span class="sd">            xlabel: X label. Defaults to None.</span>
-<span class="sd">            ylabel: Y label. Defaults to None.</span>
-<span class="sd">            zlabel: Z label. Defaults to None.</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            zunit: Z unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            zlabel: Z label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added image as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
@@ -871,21 +879,25 @@
         <span class="n">image</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span>
         <span class="n">image</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span>
         <span class="n">image</span><span class="o">.</span><span class="n">zlabel</span> <span class="o">=</span> <span class="n">zlabel</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">image</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
-    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj_data: Object data</span>
+<span class="sd">            group_id: Group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added object as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">json_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
@@ -1306,6 +1318,8 @@
         <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
 
@@ -1313,10 +1327,12 @@
 <span class="sd">            title: Signal title</span>
 <span class="sd">            xdata: X data</span>
 <span class="sd">            ydata: Y data</span>
-<span class="sd">            xunit: X unit. Defaults to None.</span>
-<span class="sd">            yunit: Y unit. Defaults to None.</span>
-<span class="sd">            xlabel: X label. Defaults to None.</span>
-<span class="sd">            ylabel: Y label. Defaults to None.</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added signal as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if signal was added successfully, False otherwise</span>
@@ -1331,7 +1347,7 @@
         <span class="n">xbinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">xdata</span><span class="p">)</span>
         <span class="n">ybinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">ydata</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span>
-            <span class="n">title</span><span class="p">,</span> <span class="n">xbinary</span><span class="p">,</span> <span class="n">ybinary</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">xbinary</span><span class="p">,</span> <span class="n">ybinary</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span>
         <span class="p">)</span></div>
 
 
@@ -1347,18 +1363,22 @@
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Image title</span>
 <span class="sd">            data: Image data</span>
-<span class="sd">            xunit: X unit. Defaults to None.</span>
-<span class="sd">            yunit: Y unit. Defaults to None.</span>
-<span class="sd">            zunit: Z unit. Defaults to None.</span>
-<span class="sd">            xlabel: X label. Defaults to None.</span>
-<span class="sd">            ylabel: Y label. Defaults to None.</span>
-<span class="sd">            zlabel: Z label. Defaults to None.</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            zunit: Z unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            zlabel: Z label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added image as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if image was added successfully, False otherwise</span>
@@ -1371,20 +1391,36 @@
         <span class="n">obj</span><span class="o">.</span><span class="n">check_data</span><span class="p">()</span>
         <span class="n">zbinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
-            <span class="n">title</span><span class="p">,</span> <span class="n">zbinary</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">zunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span>
+            <span class="n">title</span><span class="p">,</span>
+            <span class="n">zbinary</span><span class="p">,</span>
+            <span class="n">xunit</span><span class="p">,</span>
+            <span class="n">yunit</span><span class="p">,</span>
+            <span class="n">zunit</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="p">,</span>
+            <span class="n">zlabel</span><span class="p">,</span>
+            <span class="n">group_id</span><span class="p">,</span>
+            <span class="n">set_current</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RemoteClient.add_object">
 <a class="viewcode-back" href="../../../features/general/remote.html#cdl.core.remote.RemoteClient.add_object">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Signal or image object</span>
+<span class="sd">            group_id: group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added object as current</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj_data</span> <span class="o">=</span> <span class="n">dataset_to_json</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RemoteClient.calc">

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=587b3f23"></script>
+    <script src="../../../_static/documentation_options.js?v=b52c616d"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.19.2</p>
+    <p class="title logo__title">v0.20.0</p>
   
 </a></div>
     
@@ -502,6 +502,27 @@
 
 
 <span class="c1"># MARK: Fourier analysis ---------------------------------------------------------------</span>
+
+
+<div class="viewcode-block" id="zero_padding">
+<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.zero_padding">[docs]</a>
+<span class="k">def</span> <span class="nf">zero_padding</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">n</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Append n zeros at the end of the signal.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: X data</span>
+<span class="sd">        y: Y data</span>
+<span class="sd">        n: Number of zeros to append</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        X data, Y data (tuple)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">n</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Number of zeros to append must be greater than 0&quot;</span><span class="p">)</span>
+    <span class="n">x1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+</span> <span class="n">n</span> <span class="o">*</span> <span class="p">(</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">-</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="n">n</span><span class="p">)</span>
+    <span class="n">y1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros</span><span class="p">(</span><span class="n">n</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span></div>
+
 
 
 <div class="viewcode-block" id="fft1d">
@@ -1075,10 +1096,70 @@
 
 
 
+<div class="viewcode-block" id="find_first_x_at_y_value">
+<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.find_first_x_at_y_value">[docs]</a>
+<span class="k">def</span> <span class="nf">find_first_x_at_y_value</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the first x value where the signal reaches a given y value (interpolated).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: x signal data</span>
+<span class="sd">        y: y signal data (possibly non-monotonic)</span>
+<span class="sd">        y_value: the y value to find the corresponding x value for</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The first interpolated x value at the given y, or `nan` if not found</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">y_value</span> <span class="o">&lt;</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="ow">or</span> <span class="n">y_value</span> <span class="o">&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># out of bounds</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+        <span class="n">y1</span><span class="p">,</span> <span class="n">y2</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y1</span><span class="p">)</span> <span class="ow">or</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y2</span><span class="p">):</span>
+            <span class="k">continue</span>  <span class="c1"># skip bad segments</span>
+
+        <span class="k">if</span> <span class="p">(</span><span class="n">y1</span> <span class="o">&lt;=</span> <span class="n">y_value</span> <span class="o">&lt;=</span> <span class="n">y2</span><span class="p">)</span> <span class="ow">or</span> <span class="p">(</span><span class="n">y2</span> <span class="o">&lt;=</span> <span class="n">y_value</span> <span class="o">&lt;=</span> <span class="n">y1</span><span class="p">):</span>
+            <span class="n">x1</span><span class="p">,</span> <span class="n">x2</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">y1</span> <span class="o">==</span> <span class="n">y2</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">x1</span>  <span class="c1"># flat segment, arbitrary choice</span>
+            <span class="c1"># Linear interpolation</span>
+            <span class="k">return</span> <span class="n">x1</span> <span class="o">+</span> <span class="p">(</span><span class="n">y_value</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span> <span class="o">*</span> <span class="p">(</span><span class="n">x2</span> <span class="o">-</span> <span class="n">x1</span><span class="p">)</span> <span class="o">/</span> <span class="p">(</span><span class="n">y2</span> <span class="o">-</span> <span class="n">y1</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>  <span class="c1"># not found</span></div>
+
+
+
+<div class="viewcode-block" id="find_y_at_x_value">
+<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.find_y_at_x_value">[docs]</a>
+<span class="k">def</span> <span class="nf">find_y_at_x_value</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">x_value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the y value at a given x value using linear interpolation.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        x: Monotonic X data</span>
+<span class="sd">        y: Y data (may contain NaNs)</span>
+<span class="sd">        x_value: The x value to find the corresponding y value for</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        The interpolated y value at the given x, or `nan` if not computable</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x_value</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="c1"># Filter out NaNs</span>
+    <span class="n">valid</span> <span class="o">=</span> <span class="o">~</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">|</span> <span class="n">np</span><span class="o">.</span><span class="n">isnan</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
+    <span class="n">x_valid</span> <span class="o">=</span> <span class="n">x</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span>
+    <span class="n">y_valid</span> <span class="o">=</span> <span class="n">y</span><span class="p">[</span><span class="n">valid</span><span class="p">]</span>
+
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x_valid</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span> <span class="ow">or</span> <span class="n">x_value</span> <span class="o">&lt;</span> <span class="n">x_valid</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="ow">or</span> <span class="n">x_value</span> <span class="o">&gt;</span> <span class="n">x_valid</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">nan</span>
+
+    <span class="k">return</span> <span class="nb">float</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">interp</span><span class="p">(</span><span class="n">x_value</span><span class="p">,</span> <span class="n">x_valid</span><span class="p">,</span> <span class="n">y_valid</span><span class="p">))</span></div>
+
+
+
 <div class="viewcode-block" id="find_x_at_value">
 <a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.find_x_at_value">[docs]</a>
 <span class="k">def</span> <span class="nf">find_x_at_value</span><span class="p">(</span><span class="n">x</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">y</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the x value where the y value is the closest to the given value using</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the x values where the y value is the closest to the given value using</span>
 <span class="sd">    linear interpolation to deduce the precise x value.</span>
 
 <span class="sd">    Args:</span>
@@ -1413,6 +1494,28 @@
 <span class="c1"># MARK: Pulse analysis -----------------------------------------------------------------</span>
 
 
+<div class="viewcode-block" id="full_width_at_y">
+<a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.full_width_at_y">[docs]</a>
+<span class="k">def</span> <span class="nf">full_width_at_y</span><span class="p">(</span>
+    <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span> <span class="n">level</span><span class="p">:</span> <span class="nb">float</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Compute the full width at a given y level using zero-crossing method.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        data: X,Y data</span>
+<span class="sd">        level: The Y level at which to compute the width</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Full width segment coordinates</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">data</span>
+    <span class="n">crossings</span> <span class="o">=</span> <span class="n">find_x_at_value</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">level</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">crossings</span><span class="o">.</span><span class="n">size</span> <span class="o">&lt;</span> <span class="mi">2</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Not enough zero-crossing points found&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">crossings</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">level</span><span class="p">,</span> <span class="n">crossings</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">],</span> <span class="n">level</span></div>
+
+
+
 <div class="viewcode-block" id="fwhm">
 <a class="viewcode-back" href="../../../api/algorithms.html#cdl.algorithms.signal.fwhm">[docs]</a>
 <span class="k">def</span> <span class="nf">fwhm</span><span class="p">(</span>
@@ -1529,7 +1632,7 @@
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">y</span><span class="p">):</span>
         <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
-            <span class="s2">&quot;Time array (x) and measured values array (y) &quot;</span> <span class="s2">&quot;must have the same length.&quot;</span>
+            <span class="s2">&quot;Time array (x) and measured values array (y) must have the same length.&quot;</span>
         <span class="p">)</span>
 
     <span class="n">dt</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Time step size</span>

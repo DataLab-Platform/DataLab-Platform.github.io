@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=587b3f23"></script>
+    <script src="../../../_static/documentation_options.js?v=b52c616d"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.19.2</p>
+    <p class="title logo__title">v0.20.0</p>
   
 </a></div>
     
@@ -1866,6 +1866,87 @@
 <span class="sd">        Output image object</span>
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">return</span> <span class="n">Wrap11Func</span><span class="p">(</span><span class="n">sps</span><span class="o">.</span><span class="n">wiener</span><span class="p">)(</span><span class="n">src</span><span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="ZeroPadding2DParam">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.image.ZeroPadding2DParam">[docs]</a>
+<span class="k">class</span> <span class="nc">ZeroPadding2DParam</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Zero padding parameters for 2D images&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
+<div class="viewcode-block" id="ZeroPadding2DParam.update_from_image">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.image.ZeroPadding2DParam.update_from_image">[docs]</a>
+    <span class="k">def</span> <span class="nf">update_from_image</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update parameters from image&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">choice_callback</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">strategy</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ZeroPadding2DParam.choice_callback">
+<a class="viewcode-back" href="../../../api/param.html#cdl.computation.image.ZeroPadding2DParam.choice_callback">[docs]</a>
+    <span class="k">def</span> <span class="nf">choice_callback</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">,</span> <span class="n">value</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Callback to update padding values&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">rows</span><span class="p">,</span> <span class="n">cols</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;next_pow2&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">rows</span><span class="p">)))</span> <span class="o">-</span> <span class="n">rows</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="mi">2</span> <span class="o">**</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ceil</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">log2</span><span class="p">(</span><span class="n">cols</span><span class="p">)))</span> <span class="o">-</span> <span class="n">cols</span>
+        <span class="k">elif</span> <span class="n">value</span> <span class="o">==</span> <span class="s2">&quot;multiple_of_64&quot;</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">rows</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span> <span class="o">-</span> <span class="n">rows</span> <span class="o">%</span> <span class="mi">64</span><span class="p">)</span> <span class="k">if</span> <span class="n">rows</span> <span class="o">%</span> <span class="mi">64</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">cols</span> <span class="o">=</span> <span class="p">(</span><span class="mi">64</span> <span class="o">-</span> <span class="n">cols</span> <span class="o">%</span> <span class="mi">64</span><span class="p">)</span> <span class="k">if</span> <span class="n">cols</span> <span class="o">%</span> <span class="mi">64</span> <span class="o">!=</span> <span class="mi">0</span> <span class="k">else</span> <span class="mi">0</span></div>
+
+
+    <span class="n">strategies</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;next_pow2&quot;</span><span class="p">,</span> <span class="s2">&quot;multiple_of_64&quot;</span><span class="p">,</span> <span class="s2">&quot;custom&quot;</span><span class="p">)</span>
+    <span class="n">_prop</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">GetAttrProp</span><span class="p">(</span><span class="s2">&quot;strategy&quot;</span><span class="p">)</span>
+    <span class="n">strategy</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Padding strategy&quot;</span><span class="p">),</span> <span class="nb">zip</span><span class="p">(</span><span class="n">strategies</span><span class="p">,</span> <span class="n">strategies</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">strategies</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+    <span class="p">)</span><span class="o">.</span><span class="n">set_prop</span><span class="p">(</span><span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="n">store</span><span class="o">=</span><span class="n">_prop</span><span class="p">,</span> <span class="n">callback</span><span class="o">=</span><span class="n">choice_callback</span><span class="p">)</span>
+
+    <span class="n">_func_prop</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FuncProp</span><span class="p">(</span><span class="n">_prop</span><span class="p">,</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">==</span> <span class="s2">&quot;custom&quot;</span><span class="p">)</span>
+    <span class="n">rows</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rows to add&quot;</span><span class="p">),</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">set_prop</span><span class="p">(</span><span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">_func_prop</span><span class="p">)</span>
+    <span class="n">cols</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Columns to add&quot;</span><span class="p">),</span> <span class="nb">min</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span><span class="o">.</span><span class="n">set_prop</span><span class="p">(</span>
+        <span class="s2">&quot;display&quot;</span><span class="p">,</span> <span class="n">active</span><span class="o">=</span><span class="n">_func_prop</span>
+    <span class="p">)</span>
+
+    <span class="n">positions</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;bottom-right&quot;</span><span class="p">,</span> <span class="s2">&quot;center&quot;</span><span class="p">)</span>
+    <span class="n">position</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">ChoiceItem</span><span class="p">(</span>
+        <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Padding position&quot;</span><span class="p">),</span> <span class="nb">zip</span><span class="p">(</span><span class="n">positions</span><span class="p">,</span> <span class="n">positions</span><span class="p">),</span> <span class="n">default</span><span class="o">=</span><span class="n">positions</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="p">)</span></div>
+
+
+
+<div class="viewcode-block" id="compute_zero_padding">
+<a class="viewcode-back" href="../../../api/computation.html#cdl.computation.image.compute_zero_padding">[docs]</a>
+<span class="k">def</span> <span class="nf">compute_zero_padding</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">ZeroPadding2DParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">ImageObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Compute zero padding for an image using `cdl.algorithms.image.zero_padding`.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        src: source image object</span>
+<span class="sd">        p: parameters</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        New padded image object</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">strategy</span> <span class="o">==</span> <span class="s2">&quot;custom&quot;</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;rows=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">rows</span><span class="si">}</span><span class="s2">, cols=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">cols</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="k">else</span><span class="p">:</span>
+        <span class="n">suffix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;strategy=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">strategy</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">suffix</span> <span class="o">+=</span> <span class="sa">f</span><span class="s2">&quot;, position=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="si">}</span><span class="s2">&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;zero_padding&quot;</span><span class="p">,</span> <span class="n">suffix</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">alg</span><span class="o">.</span><span class="n">zero_padding</span><span class="p">(</span>
+        <span class="n">src</span><span class="o">.</span><span class="n">data</span><span class="p">,</span>
+        <span class="n">rows</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">rows</span><span class="p">,</span>
+        <span class="n">cols</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">cols</span><span class="p">,</span>
+        <span class="n">position</span><span class="o">=</span><span class="n">p</span><span class="o">.</span><span class="n">position</span><span class="p">,</span>
+    <span class="p">)</span>
+    <span class="n">dst</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">result</span>
+    <span class="k">return</span> <span class="n">dst</span></div>
 
 
 

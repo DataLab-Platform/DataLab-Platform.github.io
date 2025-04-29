@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=d0f7d321"></script>
+    <script src="../../_static/documentation_options.js?v=3da08d6f"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.19.2</p>
+    <p class="title logo__title">v0.20.0</p>
   
 </a></div>
     
@@ -598,7 +598,7 @@
 <span class="sd">    process than the proxy.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        autoconnect (bool): Automatically connect to DataLab XML-RPC server.</span>
+<span class="sd">        autoconnect: Automatically connect to DataLab XML-RPC server.</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ConnectionRefusedError: Unable to connect to DataLab</span>
@@ -668,26 +668,32 @@
         <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Signal title</span>
-<span class="sd">            xdata (numpy.ndarray): X data</span>
-<span class="sd">            ydata (numpy.ndarray): Y data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
+<span class="sd">            title: Signal title</span>
+<span class="sd">            xdata: X data</span>
+<span class="sd">            ydata: Y data</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added signal as current</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if signal was added successfully, False otherwise</span>
+<span class="sd">            True if signal was added successfully, False otherwise</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid xdata dtype</span>
 <span class="sd">            ValueError: Invalid ydata dtype</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">)</span></div>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span>
+            <span class="n">title</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span>
+        <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.add_image">
@@ -702,39 +708,59 @@
         <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            title (str): Image title</span>
-<span class="sd">            data (numpy.ndarray): Image data</span>
-<span class="sd">            xunit (str | None): X unit. Defaults to None.</span>
-<span class="sd">            yunit (str | None): Y unit. Defaults to None.</span>
-<span class="sd">            zunit (str | None): Z unit. Defaults to None.</span>
-<span class="sd">            xlabel (str | None): X label. Defaults to None.</span>
-<span class="sd">            ylabel (str | None): Y label. Defaults to None.</span>
-<span class="sd">            zlabel (str | None): Z label. Defaults to None.</span>
+<span class="sd">            title: Image title</span>
+<span class="sd">            data: Image data</span>
+<span class="sd">            xunit: X unit. Defaults to None</span>
+<span class="sd">            yunit: Y unit. Defaults to None</span>
+<span class="sd">            zunit: Z unit. Defaults to None</span>
+<span class="sd">            xlabel: X label. Defaults to None</span>
+<span class="sd">            ylabel: Y label. Defaults to None</span>
+<span class="sd">            zlabel: Z label. Defaults to None</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added image as current</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            bool: True if image was added successfully, False otherwise</span>
+<span class="sd">            True if image was added successfully, False otherwise</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid data dtype</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
-            <span class="n">title</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">zunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">zlabel</span>
+            <span class="n">title</span><span class="p">,</span>
+            <span class="n">data</span><span class="p">,</span>
+            <span class="n">xunit</span><span class="p">,</span>
+            <span class="n">yunit</span><span class="p">,</span>
+            <span class="n">zunit</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="p">,</span>
+            <span class="n">zlabel</span><span class="p">,</span>
+            <span class="n">group_id</span><span class="p">,</span>
+            <span class="n">set_current</span><span class="p">,</span>
         <span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.add_object">
 <a class="viewcode-back" href="../../api/proxy.html#cdl.proxy.LocalProxy.add_object">[docs]</a>
-    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span> <span class="nf">add_object</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            obj (SignalObj | ImageObj): Signal or image object</span>
+<span class="sd">            obj: Signal or image object</span>
+<span class="sd">            group_id: group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            set_current: if True, set the added object as current</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.calc">
@@ -744,7 +770,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            name: Compute function name</span>
-<span class="sd">            param: Compute function parameter. Defaults to None.</span>
+<span class="sd">            param: Compute function parameter. Defaults to None</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: unknown function</span>
@@ -763,8 +789,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
-<span class="sd">             Defaults to None (current object).</span>
-<span class="sd">            panel: Panel name. Defaults to None (current panel).</span>
+<span class="sd">             Defaults to None (current object)</span>
+<span class="sd">            panel: Panel name. Defaults to None (current panel)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Object</span>
@@ -786,8 +812,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
-<span class="sd">             Defaults to None (current object).</span>
-<span class="sd">            panel: Panel name. Defaults to None (current panel).</span>
+<span class="sd">             Defaults to None (current object)</span>
+<span class="sd">            panel: Panel name. Defaults to None (current panel)</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of plot item shapes</span>
@@ -803,10 +829,10 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            items (list): annotation plot items</span>
-<span class="sd">            refresh_plot (bool | None): refresh plot. Defaults to True.</span>
-<span class="sd">            panel (str | None): panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
-<span class="sd">                If None, current panel is used.</span>
+<span class="sd">            itemsTrue: annotation plot items</span>
+<span class="sd">            refresh_plotTrue: refresh plot. Defaults to True</span>
+<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">             If None, current panel is used</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cdl</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
 </div>
@@ -820,11 +846,11 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager handling CDL proxy creation and destruction.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        what (str): proxy type (&quot;local&quot; or &quot;remote&quot;)</span>
+<span class="sd">        what: proxy type (&quot;local&quot; or &quot;remote&quot;)</span>
 <span class="sd">         For remote proxy, the port can be specified as &quot;remote:port&quot;</span>
 
 <span class="sd">    Yields:</span>
-<span class="sd">        Generator[LocalProxy | RemoteProxy, None, None]: proxy</span>
+<span class="sd">        proxy</span>
 <span class="sd">            LocalProxy if what == &quot;local&quot;</span>
 <span class="sd">            RemoteProxy if what == &quot;remote&quot; or &quot;remote:port&quot;</span>
 
