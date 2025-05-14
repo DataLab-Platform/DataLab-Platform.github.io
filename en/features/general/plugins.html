@@ -410,7 +410,7 @@
 <li class="toctree-l1"><a class="reference internal" href="model.html">Internal data model</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logviewer.html">Log viewer</a></li>
-<li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation and configuration viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation and Configuration</a></li>
 <li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="command.html">Command line features</a></li>
 </ul>
@@ -495,77 +495,74 @@
                   
   <section id="plugins">
 <span id="about-plugins"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading">#</a></h1>
-<p>DataLab is a modular application. It is possible to add new features to DataLab
-by writing plugins. A plugin is a Python module that is loaded at startup by
-DataLab. A plugin may add new features to DataLab, or modify existing features.</p>
-<p>The plugin system currently supports the following features:</p>
-<ul class="simple">
-<li><p>Processing features: add new processing tasks to the DataLab processing
-system, including specific graphical user interfaces.</p></li>
-<li><p>Input/output features: add new file formats to the DataLab file I/O system.</p></li>
-<li><p>HDF5 features: add new HDF5 file formats to the DataLab HDF5 I/O system.</p></li>
-</ul>
+<p>DataLab supports a robust plugin architecture, allowing users to extend the application’s features without modifying its core. Plugins can introduce new processing tools, data import/export formats, or custom GUI elements — all seamlessly integrated into the platform.</p>
 <section id="what-is-a-plugin">
 <h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Link to this heading">#</a></h2>
-<p>A plugin is a Python module that is loaded at startup by DataLab. A plugin may
-add new features to DataLab, or modify existing features.</p>
-<p>A plugin is a Python module which file name starts with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code>, and which
-contains a class derived from the <a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> class.
-The name of the class is not important, as long as it is derived from
-<a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a> and has a <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute that is an
-instance of the <a class="reference internal" href="#cdl.plugins.PluginInfo" title="cdl.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginInfo</span></code></a> class. The <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> attribute
-is used by DataLab to retrieve information about the plugin.</p>
+<p>A plugin is a Python module that is automatically loaded by DataLab at startup. It can define new features or modify existing ones.</p>
+<p>To be recognized as a plugin, the file must:</p>
+<ul class="simple">
+<li><p>Be a Python module whose name <strong>starts with</strong> <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">cdl_myplugin.py</span></code>),</p></li>
+<li><p>Contain a class that <strong>inherits from</strong> <a class="reference internal" href="#cdl.plugins.PluginBase" title="cdl.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></a>,</p></li>
+<li><p>Include a class attribute named <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code>, which must be an instance of <a class="reference internal" href="#cdl.plugins.PluginInfo" title="cdl.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">cdl.plugins.PluginInfo</span></code></a>.</p></li>
+</ul>
+<p>This <cite>PLUGIN_INFO</cite> object is used by DataLab to retrieve metadata such as the plugin name, type, and menu integration.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>DataLab’s plugin discovery mechanism will only load plugins that are defined
-in Python files which names start with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">cdl_myplugin.py</span></code>).</p>
+<p>Only Python files whose names start with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> will be scanned for plugins.</p>
 </div>
+<p>DataLab supports three categories of plugins, each with its own purpose and registration mechanism:</p>
+<ul class="simple">
+<li><p><strong>Processing and visualization plugins</strong>
+Add custom actions for signal or image processing. These may include new computation functions, data visualization tools, or interactive dialogs. Integrated into a dedicated submenu of the “Plugins” menu.</p></li>
+<li><p><strong>Input/Output plugins</strong>
+Define new file formats (read and/or write) handled transparently by DataLab’s I/O framework. These plugins extend compatibility with custom or third-party data formats.</p></li>
+<li><p><strong>HDF5 plugins</strong>
+Special plugins that support HDF5 files with domain-specific tree structures. These allow DataLab to interpret signals or images organized in non-standard ways.</p></li>
+</ul>
 </section>
 <section id="where-to-put-a-plugin">
 <h2>Where to put a plugin?<a class="headerlink" href="#where-to-put-a-plugin" title="Link to this heading">#</a></h2>
-<p>As plugins are Python modules, they can be put anywhere in the Python path of
-the DataLab installation.</p>
-<p>Special additional locations are available for plugins:</p>
+<p>Plugins are automatically discovered at startup from multiple locations:</p>
 <ul class="simple">
-<li><p>The <cite>plugins</cite> directory in the user configuration folder
-(e.g. <cite>C:/Users/JohnDoe/.DataLab/plugins</cite> on Windows
-or <cite>~/.DataLab/plugins</cite> on Linux).</p></li>
-<li><p>The <cite>plugins</cite> directory in the same folder as the <cite>DataLab</cite> executable
-in case of a standalone installation.</p></li>
-<li><p>The <cite>plugins</cite> directory in the <cite>cdl</cite> package in case for internal plugins
-only (i.e. it is not recommended to put your own plugins there).</p></li>
+<li><p>The user plugin directory:
+Typically <cite>~/.DataLab/plugins</cite> on Linux/macOS or <cite>C:/Users/YourName/.DataLab/plugins</cite> on Windows.</p></li>
+<li><p>A custom plugin directory:
+Configurable in DataLab’s preferences.</p></li>
+<li><p>The standalone distribution directory:
+If using a frozen (standalone) build, the <cite>plugins</cite> folder located next to the executable is scanned.</p></li>
+<li><p>The internal <cite>cdl/plugins</cite> folder (not recommended for user plugins):
+This location is reserved for built-in or bundled plugins and should not be modified manually.</p></li>
 </ul>
 </section>
 <section id="how-to-develop-a-plugin">
 <h2>How to develop a plugin?<a class="headerlink" href="#how-to-develop-a-plugin" title="Link to this heading">#</a></h2>
-<p>To develop a plugin, you may start by deriving from one of the example plugins
-(see below) and modify it to suit your needs.</p>
-<p>If you want to code a plugin in your usual Python development environment (preferably
-with an IDE like <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>) and take advantage of the
-code completion, you can add the <cite>cdl</cite> package to your Python path.</p>
-<p>This can be done:</p>
+<p>The recommended approach to developing a plugin is to derive from an existing example and adapt it to your needs. You can explore the source code in the <cite>cdl/plugins</cite> folder or refer to community-contributed examples.</p>
+<p>To develop in your usual Python environment (e.g., with an IDE like <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>), you can:</p>
+<ol class="arabic simple">
+<li><p><strong>Install DataLab in your Python environment</strong>, using one of the following methods:</p>
 <ul class="simple">
-<li><p>By installing DataLab in your Python environment (using one of the following methods:
-<a class="reference internal" href="../../intro/installation.html#install-conda"><span class="std std-ref">Conda package</span></a>, <a class="reference internal" href="../../intro/installation.html#install-pip"><span class="std std-ref">Package manager pip</span></a>, <a class="reference internal" href="../../intro/installation.html#install-wheel"><span class="std std-ref">Wheel package</span></a>, or <a class="reference internal" href="../../intro/installation.html#install-source"><span class="std std-ref">Source package</span></a>),</p></li>
-<li><p>Or by adding the <cite>cdl</cite> package to your Python path manually:</p>
-<ul>
-<li><p>Download the DataLab source code from the <a class="reference external" href="https://pypi.org/project/cdl/">PyPI page</a>,</p></li>
-<li><p>Unzip the source code to a folder on your computer,</p></li>
-<li><p>Add the <cite>cdl</cite> package to your Python path (e.g. by using the <em>PYTHONPATH Manager</em> in Spyder).</p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-conda"><span class="std std-ref">Conda package</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-pip"><span class="std std-ref">Package manager pip</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-wheel"><span class="std std-ref">Wheel package</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-source"><span class="std std-ref">Source package</span></a></p></li>
 </ul>
 </li>
+<li><p><strong>Or add the `cdl` package manually to your Python path</strong>:</p>
+<ul class="simple">
+<li><p>Download the source from the <a class="reference external" href="https://pypi.org/project/cdl/">PyPI page</a>,</p></li>
+<li><p>Unzip the archive,</p></li>
+<li><p>Add the <cite>cdl</cite> directory to your PYTHONPATH (e.g., using the <em>PYTHONPATH Manager</em> in Spyder).</p></li>
 </ul>
+</li>
+</ol>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Even if you have installed the <cite>cdl</cite> package properly in your Python environment,
-you won’t be able to run the DataLab application from your development environment
-to test your plugin. You will need to run DataLab from the command line or from
-the shortcut created during the installation.</p>
+<p>Even if you’ve installed <cite>cdl</cite> in your environment, you cannot run the full DataLab application directly from an IDE. You must launch DataLab via the command line or using the installer-created shortcut to properly test your plugin.</p>
 </div>
 </section>
 <section id="example-processing-plugin">
 <h2>Example: processing plugin<a class="headerlink" href="#example-processing-plugin" title="Link to this heading">#</a></h2>
-<p>Here is a simple example of a plugin that adds a new features to DataLab.</p>
+<p>Here is a minimal example of a plugin that prints a message when activated:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -947,8 +944,7 @@ the shortcut created during the installation.</p>
 </section>
 <section id="other-examples">
 <h2>Other examples<a class="headerlink" href="#other-examples" title="Link to this heading">#</a></h2>
-<p>Other examples of plugins can be found in the <cite>plugins/examples</cite> directory of
-the DataLab source code (explore <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">here on GitHub</a>).</p>
+<p>Other examples of plugins can be found in the <cite>plugins/examples</cite> directory of the DataLab source code (explore <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">here on GitHub</a>).</p>
 </section>
 <section id="module-cdl.plugins">
 <span id="public-api"></span><h2>Public API<a class="headerlink" href="#module-cdl.plugins" title="Link to this heading">#</a></h2>
