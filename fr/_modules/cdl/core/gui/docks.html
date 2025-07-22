@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=3da08d6f"></script>
+    <script src="../../../../_static/documentation_options.js?v=99d80976"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.20.0</p>
+    <p class="title logo__title">v0.20.1</p>
   
 </a></div>
     
@@ -505,26 +505,58 @@
     <span class="kn">from</span> <span class="nn">plotpy.styles</span> <span class="kn">import</span> <span class="n">BaseImageParam</span>
 
 
-<span class="k">def</span> <span class="nf">fwhm_info</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return FWHM information string&quot;&quot;&quot;</span>
-    <span class="k">try</span><span class="p">:</span>
-        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
-            <span class="n">x0</span><span class="p">,</span> <span class="n">_y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">fwhm</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="s2">&quot;zero-crossing&quot;</span><span class="p">)</span>
-            <span class="n">wstr</span> <span class="o">=</span> <span class="s2">&quot; ⚠️&quot;</span> <span class="k">if</span> <span class="n">w</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
-    <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
-        <span class="k">return</span> <span class="s2">&quot;🛑&quot;</span>
-    <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x0</span><span class="si">:</span><span class="s2">g</span><span class="si">}{</span><span class="n">wstr</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">class</span> <span class="nc">CurveStatsToolFunctions</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Statistical functions for CurveStatsTool&quot;&quot;&quot;</span>
 
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span> <span class="nf">set_labelfuncs</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">statstool</span><span class="p">:</span> <span class="n">CurveStatsTool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set label functions for CurveStatsTool&quot;&quot;&quot;</span>
+        <span class="n">labelfuncs</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; x &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">nan_min_max</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; y &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">nan_min_max</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;&amp;lt;y&amp;gt;=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">nan_mean</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;σ(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="bp">cls</span><span class="o">.</span><span class="n">nan_std</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;∑(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;∫ydx=</span><span class="si">%g</span><span class="s2">&lt;br&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
+            <span class="p">(</span><span class="s2">&quot;FWHM = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="bp">cls</span><span class="o">.</span><span class="n">fwhm_info</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">statstool</span><span class="o">.</span><span class="n">set_labelfuncs</span><span class="p">(</span><span class="n">labelfuncs</span><span class="p">)</span>
 
-<span class="n">CURVESTATSTOOL_LABELFUNCS</span> <span class="o">=</span> <span class="p">(</span>
-    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; x &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]))),</span>
-    <span class="p">(</span><span class="s2">&quot;</span><span class="si">%g</span><span class="s2"> &amp;lt; y &amp;lt; </span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">]))),</span>
-    <span class="p">(</span><span class="s2">&quot;&amp;lt;y&amp;gt;=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
-    <span class="p">(</span><span class="s2">&quot;σ(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
-    <span class="p">(</span><span class="s2">&quot;∑(y)=</span><span class="si">%g</span><span class="s2">&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">])),</span>
-    <span class="p">(</span><span class="s2">&quot;∫ydx=</span><span class="si">%g</span><span class="s2">&lt;br&gt;&quot;</span><span class="p">,</span> <span class="k">lambda</span> <span class="o">*</span><span class="n">args</span><span class="p">:</span> <span class="n">spt</span><span class="o">.</span><span class="n">trapezoid</span><span class="p">(</span><span class="n">args</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">])),</span>
-    <span class="p">(</span><span class="s2">&quot;FWHM = </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">fwhm_info</span><span class="p">),</span>
-<span class="p">)</span>
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">nan_min_max</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return min/max tuple&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">min_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmin</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+            <span class="n">max_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmax</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="p">(</span><span class="n">min_val</span><span class="p">,</span> <span class="n">max_val</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">nan_mean</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return mean value, ignoring NaNs&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">mean_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanmean</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">mean_val</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">nan_std</span><span class="p">(</span><span class="n">arr</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return standard deviation, ignoring NaNs&quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">():</span>
+            <span class="n">warnings</span><span class="o">.</span><span class="n">simplefilter</span><span class="p">(</span><span class="s2">&quot;ignore&quot;</span><span class="p">,</span> <span class="ne">RuntimeWarning</span><span class="p">)</span>
+            <span class="n">std_val</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">nanstd</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">std_val</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span> <span class="nf">fwhm_info</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return FWHM information string&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">warnings</span><span class="o">.</span><span class="n">catch_warnings</span><span class="p">(</span><span class="n">record</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="k">as</span> <span class="n">w</span><span class="p">:</span>
+                <span class="n">x0</span><span class="p">,</span> <span class="n">_y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">_y1</span> <span class="o">=</span> <span class="n">fwhm</span><span class="p">((</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">),</span> <span class="s2">&quot;zero-crossing&quot;</span><span class="p">)</span>
+                <span class="n">wstr</span> <span class="o">=</span> <span class="s2">&quot; ⚠️&quot;</span> <span class="k">if</span> <span class="n">w</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">except</span> <span class="p">(</span><span class="ne">ValueError</span><span class="p">,</span> <span class="ne">ZeroDivisionError</span><span class="p">):</span>
+            <span class="k">return</span> <span class="s2">&quot;🛑&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">x1</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">x0</span><span class="si">:</span><span class="s2">g</span><span class="si">}{</span><span class="n">wstr</span><span class="si">}</span><span class="s2">&quot;</span>
 
 
 <span class="k">def</span> <span class="nf">get_more_image_stats</span><span class="p">(</span>
@@ -689,7 +721,7 @@
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">options</span><span class="o">.</span><span class="n">type</span> <span class="o">==</span> <span class="n">PlotType</span><span class="o">.</span><span class="n">CURVE</span><span class="p">:</span>
             <span class="n">mgr</span><span class="o">.</span><span class="n">register_curve_tools</span><span class="p">()</span>
             <span class="n">statstool</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_tool</span><span class="p">(</span><span class="n">CurveStatsTool</span><span class="p">)</span>
-            <span class="n">statstool</span><span class="o">.</span><span class="n">set_labelfuncs</span><span class="p">(</span><span class="n">CURVESTATSTOOL_LABELFUNCS</span><span class="p">)</span>
+            <span class="n">CurveStatsToolFunctions</span><span class="o">.</span><span class="n">set_labelfuncs</span><span class="p">(</span><span class="n">statstool</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">mgr</span><span class="o">.</span><span class="n">register_image_tools</span><span class="p">()</span>
             <span class="c1"># Customizing the ImageStatsTool</span>

@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=3da08d6f"></script>
+    <script src="../_static/documentation_options.js?v=99d80976"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v0.20.0</p>
+    <p class="title logo__title">v0.20.1</p>
   
 </a></div>
     
@@ -463,6 +463,22 @@
   <section id="changelog">
 <h1>Historique des modifications<a class="headerlink" href="#changelog" title="Lien vers cette rubrique">#</a></h1>
 <p>Voir la page de la <a class="reference external" href="https://datalab-platform.com/fr/contributing/roadmap.html">feuille de route</a> de DataLab pour les jalons futurs et passés.</p>
+<section id="datalab-version-0-20-1">
+<h2>DataLab Version 0.20.1<a class="headerlink" href="#datalab-version-0-20-1" title="Lien vers cette rubrique">#</a></h2>
+<p>🛠️ Corrections de bugs :</p>
+<ul class="simple">
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/233">Issue #233</a> - Plantage sévère lors de l’activation de l’outil de statistiques de courbe sur un signal nul</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/184">Issue #184</a> - Le style du marqueur de courbe change de manière inattendue en « Carré » après validation de la boîte de dialogue « Paramètres… »</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/117">Issue #117</a> - Le filtre médian mobile de DataLab plante sur Linux avec <code class="docutils literal notranslate"><span class="pre">mode='mirror'</span></code> : <code class="docutils literal notranslate"><span class="pre">free():</span> <span class="pre">invalid</span> <span class="pre">next</span> <span class="pre">size</span> <span class="pre">(normal)</span></code> (il s’agit d’un bug dans SciPy v1.15.0 à v1.15.2, qui a été corrigé dans SciPy v1.15.3)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/186">Issue #186</a> - Les fichiers texte d’image avec une virgule comme séparateur décimal ne peuvent pas être ouverts directement (seul l’Assistant d’importation prend en charge cela)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/238">Issue #238</a> - Les fichiers texte d’image avec un délimiteur final entraînent l’apparition d’une colonne superflue dans les données importées lorsqu’ils sont ouverts directement (ce qui ne se produit pas dans l’Assistant d’importation)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/239">Issue #239</a> - L’Assistant d’importation de texte ne préserve pas les titres et unités définis par l’utilisateur</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/240">Issue #240</a> - L’Assistant d’importation de texte ne préserve pas le type de données défini par l’utilisateur (par exemple, <code class="docutils literal notranslate"><span class="pre">int16</span></code>, <code class="docutils literal notranslate"><span class="pre">float32</span></code>, etc.)</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/235">Issue #235</a> - L’Assistant d’importation de texte : ajout de la prise en charge de l’importation de fichiers de signal avec des valeurs entières</p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/236">Issue #236</a> - L’Assistant d’importation de texte : ajout de la prise en charge des fichiers <code class="docutils literal notranslate"><span class="pre">.mca</span></code></p></li>
+<li><p>Correction de l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/243">Issue #243</a> - Afficher dans une nouvelle fenêtre (image) : les outils de profil d’intensité sont parfois désactivés (corrigé dans PlotPy v2.7.5)</p></li>
+</ul>
+</section>
 <section id="datalab-version-0-20-0">
 <h2>DataLab Version 0.20.0<a class="headerlink" href="#datalab-version-0-20-0" title="Lien vers cette rubrique">#</a></h2>
 <p>💥 Nouvelles fonctionnalités et améliorations :</p>
@@ -1719,8 +1735,7 @@
 <li><p>Un gestionnaire de contexte <code class="docutils literal notranslate"><span class="pre">context_no_refresh</span></code> est également disponible pour désactiver temporairement la fonctionnalité « Rafraîchissement automatique » à partir d’une macro-commande, d’un plugin ou d’un client de contrôle à distance. Utilisation typique :</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">with</span> <span class="n">proxy</span><span class="o">.</span><span class="n">context_no_refresh</span><span class="p">():</span>
     <span class="c1"># Do something without refreshing the plot view</span>
-    <span class="n">proxy</span><span class="o">.</span><span class="n">compute_fft</span><span class="p">()</span> <span class="c1"># (...)      ```</span>
-
+    <span class="n">proxy</span><span class="o">.</span><span class="n">compute_fft</span><span class="p">()</span> <span class="c1"># (...)</span>
 </pre></div>
 </div>
 </li>
@@ -2011,6 +2026,7 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-20-1">DataLab Version 0.20.1</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-20-0">DataLab Version 0.20.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-19-2">DataLab Version 0.19.2</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-0-19-1">DataLab Version 0.19.1</a></li>
