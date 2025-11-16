@@ -1,0 +1,1410 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>datalab.gui.objectview &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=05dadb3a"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=bf059b8c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/datalab/gui/objectview';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/datalab/gui/objectview.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! Un cas d'usage avancé de DataLab sera présenté à <a href='outreach/osxp2025.html'>OSXP 2025</a> (11 déc.) 🚀 — <a href='outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Code du module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">datalab.gui.objectview</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Code source de datalab.gui.objectview</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Object view</span>
+<span class="sd">===========</span>
+
+<span class="sd">The :mod:`datalab.gui.objectview` module provides widgets to display object</span>
+<span class="sd">(signal/image) trees.</span>
+
+<span class="sd">.. note::</span>
+
+<span class="sd">    This module provides tree widgets to display signals, images and groups. It</span>
+<span class="sd">    is important to note that, by design, the user can only select either individual</span>
+<span class="sd">    signals/images or groups, but not both at the same time. This is an important</span>
+<span class="sd">    design choice, as it allows to simplify the user experience, and to avoid</span>
+<span class="sd">    potential confusion between the two types of selection.</span>
+
+<span class="sd">Simple object tree</span>
+<span class="sd">------------------</span>
+
+<span class="sd">.. autoclass:: SimpleObjectTree</span>
+
+<span class="sd">Get object dialog</span>
+<span class="sd">-----------------</span>
+
+<span class="sd">.. autoclass:: GetObjectsDialog</span>
+
+<span class="sd">Object view</span>
+<span class="sd">-----------</span>
+
+<span class="sd">.. autoclass:: ObjectView</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">guidata.configtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_icon</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtCore</span> <span class="k">as</span> <span class="n">QC</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtGui</span> <span class="k">as</span> <span class="n">QG</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">SignalObj</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectGroup</span><span class="p">,</span> <span class="n">get_short_id</span><span class="p">,</span> <span class="n">get_uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">block_signals</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">Any</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDataPanel</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectModel</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">metadata_to_html</span><span class="p">(</span><span class="n">metadata</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert metadata to human-readable string.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        HTML string</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">textlines</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">key</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">metadata</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">textlines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">5</span><span class="p">:</span>
+            <span class="n">textlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;[...]&quot;</span><span class="p">)</span>
+            <span class="k">break</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+            <span class="n">vlines</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">)</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">vlines</span><span class="p">:</span>
+                <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;b&gt;</span><span class="si">{</span><span class="n">key</span><span class="si">}</span><span class="s2">:&lt;/b&gt; </span><span class="si">{</span><span class="n">vlines</span><span class="p">[</span><span class="mi">0</span><span class="p">][:</span><span class="mi">100</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">vlines</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">text</span> <span class="o">+=</span> <span class="s2">&quot; [...]&quot;</span>
+                <span class="n">textlines</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">textlines</span><span class="p">:</span>
+        <span class="n">ptit</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Object metadata&quot;</span><span class="p">)</span>
+        <span class="n">psub</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;(click on Metadata button for more details)&quot;</span><span class="p">)</span>
+        <span class="n">prefix</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;&lt;i&gt;&lt;u&gt;</span><span class="si">{</span><span class="n">ptit</span><span class="si">}</span><span class="s2">:&lt;/u&gt; </span><span class="si">{</span><span class="n">psub</span><span class="si">}</span><span class="s2">&lt;/i&gt;&lt;br&gt;&quot;</span>
+        <span class="k">return</span> <span class="sa">f</span><span class="s2">&quot;&lt;p style=&#39;white-space:pre&#39;&gt;</span><span class="si">{</span><span class="n">prefix</span><span class="si">}{</span><span class="s1">&#39;&lt;br&gt;&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textlines</span><span class="p">)</span><span class="si">}</span><span class="s2">&lt;/p&gt;&quot;</span>
+    <span class="k">return</span> <span class="s2">&quot;&quot;</span>
+
+
+<div class="viewcode-block" id="SimpleObjectTree">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SimpleObjectTree</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidget</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Base object handling panel list widget, object (sig/ima) lists&quot;&quot;&quot;</span>
+
+    <span class="n">SIG_ITEM_DOUBLECLICKED</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">SIG_CONTEXT_MENU</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">QPoint</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">,</span> <span class="n">objmodel</span><span class="p">:</span> <span class="n">ObjectModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">:</span> <span class="n">ObjectModel</span> <span class="o">=</span> <span class="n">objmodel</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setHeaderHidden</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setColumnCount</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAlternatingRowColors</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemDoubleClicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_double_clicked</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">header</span><span class="p">()</span><span class="o">.</span><span class="n">setSectionResizeMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QHeaderView</span><span class="o">.</span><span class="n">Interactive</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__str__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return string representation&quot;&quot;&quot;</span>
+        <span class="n">textlist</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">tl_index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">()):</span>
+            <span class="n">tl_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">tl_index</span><span class="p">)</span>
+            <span class="n">textlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tl_item</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">tl_item</span><span class="o">.</span><span class="n">childCount</span><span class="p">()):</span>
+                <span class="n">textlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s2">&quot;    &quot;</span> <span class="o">+</span> <span class="n">tl_item</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">text</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">os</span><span class="o">.</span><span class="n">linesep</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">textlist</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SimpleObjectTree.initialize_from">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.initialize_from">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">initialize_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sobjlist</span><span class="p">:</span> <span class="n">SimpleObjectTree</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Init from another SimpleObjectList, without making copies of objects&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span> <span class="o">=</span> <span class="n">sobjlist</span><span class="o">.</span><span class="n">objmodel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">populate_tree</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">sobjlist</span><span class="o">.</span><span class="n">get_current_item_id</span><span class="p">())</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.iter_items">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.iter_items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">iter_items</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Recursively iterate over all items&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">()):</span>
+                <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">index</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">yield</span> <span class="n">item</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">childCount</span><span class="p">()):</span>
+                <span class="k">yield from</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_items</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">index</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_item_from_id">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_item_from_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_item_from_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item_id</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return QTreeWidgetItem from id (stored in item&#39;s data)&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">iter_items</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="o">==</span> <span class="n">item_id</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">item</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_current_item_id">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_current_item_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_item_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">object_only</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current item id&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="p">(</span><span class="ow">not</span> <span class="n">object_only</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.set_current_item_id">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.set_current_item_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_current_item_id</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">extend</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set current item by id&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">uuid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">extend</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setCurrentItem</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">QItemSelectionModel</span><span class="o">.</span><span class="n">Select</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setCurrentItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_current_group_id">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_current_group_id">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_group_id</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current group ID&quot;&quot;&quot;</span>
+        <span class="n">selected_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">selected_item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">selected_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">selected_item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">selected_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_group_items">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_group_items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_group_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_group_uuids">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_group_uuids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_group_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected group uuids&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_object_items">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_object_items">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_object_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected object items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="n">item</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">selectedItems</span><span class="p">()</span> <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_object_uuids">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_object_uuids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects uuids.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            include_groups: If True, also return objects from selected groups.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of selected objects uuids.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">sel_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_items</span><span class="p">:</span>
+            <span class="n">cur_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">cur_item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">cur_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">sel_items</span> <span class="o">=</span> <span class="p">[</span><span class="n">cur_item</span><span class="p">]</span>
+        <span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_items</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">include_groups</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">group_id</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">():</span>
+                <span class="n">uuids</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_group_object_ids</span><span class="p">(</span><span class="n">group_id</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">uuids</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_objects">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_objects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_objects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects.</span>
+
+<span class="sd">        If include_groups is True, also return objects from selected groups.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)]</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.get_sel_groups">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.get_sel_groups">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_groups</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">ObjectGroup</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected groups&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_uuids</span><span class="p">())</span></div>
+
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__update_item</span><span class="p">(</span>
+        <span class="n">item</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="n">ObjectGroup</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update item&quot;&quot;&quot;</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">setText</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">get_short_id</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">)):</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">metadata_to_html</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="p">))</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">setData</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">,</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+
+<div class="viewcode-block" id="SimpleObjectTree.populate_tree">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.populate_tree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">populate_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate tree with objects&quot;&quot;&quot;</span>
+        <span class="n">uuid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_item_id</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">block_signals</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_group_item</span><span class="p">(</span><span class="n">group</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">uuid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">uuid</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.update_tree">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.update_tree">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update tree&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">group</span><span class="p">)),</span> <span class="n">group</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)),</span> <span class="n">obj</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__add_to_group_item</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">group_item</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to group item&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">()</span>
+        <span class="n">icon</span> <span class="o">=</span> <span class="s2">&quot;signal.svg&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;image.svg&quot;</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="n">icon</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+        <span class="n">group_item</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+<div class="viewcode-block" id="SimpleObjectTree.add_group_item">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.add_group_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_group_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="n">ObjectGroup</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add group item&quot;&quot;&quot;</span>
+        <span class="n">group_item</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">()</span>
+        <span class="n">group_item</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;group.svg&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="n">group_item</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">addTopLevelItem</span><span class="p">(</span><span class="n">group_item</span><span class="p">)</span>
+        <span class="n">group_item</span><span class="o">.</span><span class="n">setExpanded</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__add_to_group_item</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_item</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.add_object_item">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.add_object_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_object_item</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add item&quot;&quot;&quot;</span>
+        <span class="n">group_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">group_id</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__add_to_group_item</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_item</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">set_current</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">resizeColumnToContents</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.update_item">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.update_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">uuid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update item&quot;&quot;&quot;</span>
+        <span class="n">obj_or_group</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_or_group</span><span class="p">(</span><span class="n">uuid</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">uuid</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="n">obj_or_group</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.remove_item">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.remove_item">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">refresh</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove item&quot;&quot;&quot;</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">with</span> <span class="n">block_signals</span><span class="p">(</span><span class="n">widget</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable</span><span class="o">=</span><span class="ow">not</span> <span class="n">refresh</span><span class="p">):</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1">#  Group item: remove from tree</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">takeTopLevelItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="c1">#  Object item: remove from parent</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">removeChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.item_double_clicked">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.item_double_clicked">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">item_double_clicked</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QTreeWidgetItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Item was double-clicked: open a pop-up plot dialog&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">oid</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ITEM_DOUBLECLICKED</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="SimpleObjectTree.contextMenuEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.contextMenuEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">contextMenuEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QContextMenuEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=C0103</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Override Qt method&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CONTEXT_MENU</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">globalPos</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="GetObjectsDialog">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.GetObjectsDialog">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">GetObjectsDialog</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialog</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Dialog box showing groups and objects (signals or images) to select one, or more.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        parent: parent widget</span>
+<span class="sd">        panel: data panel</span>
+<span class="sd">        title: dialog title</span>
+<span class="sd">        comment: optional dialog comment</span>
+<span class="sd">        nb_objects: number of objects to select (default: 1)</span>
+<span class="sd">        minimum_size: minimum size (width, height)</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">,</span>
+        <span class="n">panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span><span class="p">,</span>
+        <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">comment</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">nb_objects</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span>
+        <span class="n">minimum_size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__nb_objects</span> <span class="o">=</span> <span class="n">nb_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setWindowTitle</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+        <span class="n">vlayout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setLayout</span><span class="p">(</span><span class="n">vlayout</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span> <span class="o">=</span> <span class="n">SimpleObjectTree</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">initialize_from</span><span class="p">(</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">SIG_ITEM_DOUBLECLICKED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">oid</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__item_selection_changed</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">nb_objects</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">ExtendedSelection</span><span class="p">)</span>
+        <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">comment</span><span class="p">:</span>
+            <span class="n">lbl</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span><span class="n">comment</span><span class="p">)</span>
+            <span class="n">lbl</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">vlayout</span><span class="o">.</span><span class="n">addSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+            <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">lbl</span><span class="p">)</span>
+
+        <span class="n">bbox</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Ok</span> <span class="o">|</span> <span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Cancel</span><span class="p">)</span>
+        <span class="n">bbox</span><span class="o">.</span><span class="n">accepted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">accept</span><span class="p">)</span>
+        <span class="n">bbox</span><span class="o">.</span><span class="n">rejected</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reject</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span> <span class="o">=</span> <span class="n">bbox</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span>
+        <span class="n">vlayout</span><span class="o">.</span><span class="n">addSpacing</span><span class="p">(</span><span class="mi">10</span><span class="p">)</span>
+        <span class="n">vlayout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">bbox</span><span class="p">)</span>
+        <span class="c1"># Update OK button state:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__item_selection_changed</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">minimum_size</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setMinimumSize</span><span class="p">(</span><span class="o">*</span><span class="n">minimum_size</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setMinimumWidth</span><span class="p">(</span><span class="mi">400</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__item_selection_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Item selection has changed&quot;&quot;&quot;</span>
+        <span class="n">nobj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__nb_objects</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">tree</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="n">nobj</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">ok_btn</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span><span class="p">)</span> <span class="o">==</span> <span class="n">nobj</span><span class="p">)</span>
+
+<div class="viewcode-block" id="GetObjectsDialog.get_selected_objects">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.GetObjectsDialog.get_selected_objects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_selected_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__selected_objects</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ObjectView">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ObjectView</span><span class="p">(</span><span class="n">SimpleObjectTree</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling panel list widget, object (sig/ima) lists&quot;&quot;&quot;</span>
+
+    <span class="n">SIG_SELECTION_CHANGED</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
+    <span class="n">SIG_IMPORT_FILES</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">parent</span><span class="p">:</span> <span class="n">BaseDataPanel</span><span class="p">,</span> <span class="n">objmodel</span><span class="p">:</span> <span class="n">ObjectModel</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">,</span> <span class="n">objmodel</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSelectionMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">ExtendedSelection</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setAcceptDrops</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDragEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDragDropMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">InternalMove</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">itemSelectionChanged</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">item_selection_changed</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_expanded_states</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QListWidgetItem</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+<div class="viewcode-block" id="ObjectView.paintEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.paintEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">paintEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">):</span>  <span class="c1"># pylint: disable=C0103</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reimplement Qt method&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">paintEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Draw empty state message with contextual hints</span>
+        <span class="n">painter</span> <span class="o">=</span> <span class="n">QG</span><span class="o">.</span><span class="n">QPainter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">viewport</span><span class="p">())</span>
+        <span class="n">rect</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">rect</span><span class="p">()</span>
+
+        <span class="c1"># Set font for main message</span>
+        <span class="n">font</span> <span class="o">=</span> <span class="n">painter</span><span class="o">.</span><span class="n">font</span><span class="p">()</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">11</span><span class="p">)</span>
+        <span class="n">painter</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+
+        <span class="c1"># Main message</span>
+        <span class="n">main_msg</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Drag files here to open&quot;</span><span class="p">)</span>
+        <span class="n">main_rect</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">QRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="n">main_rect</span><span class="o">.</span><span class="n">setHeight</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">painter</span><span class="o">.</span><span class="n">drawText</span><span class="p">(</span><span class="n">main_rect</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">,</span> <span class="n">main_msg</span><span class="p">)</span>
+
+        <span class="c1"># Contextual hint</span>
+        <span class="n">hint_rect</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">QRect</span><span class="p">(</span><span class="n">rect</span><span class="p">)</span>
+        <span class="n">hint_rect</span><span class="o">.</span><span class="n">setTop</span><span class="p">(</span><span class="n">rect</span><span class="o">.</span><span class="n">height</span><span class="p">()</span> <span class="o">//</span> <span class="mi">2</span><span class="p">)</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setPointSize</span><span class="p">(</span><span class="mi">9</span><span class="p">)</span>
+        <span class="n">font</span><span class="o">.</span><span class="n">setItalic</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">painter</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
+        <span class="n">painter</span><span class="o">.</span><span class="n">setPen</span><span class="p">(</span><span class="n">QG</span><span class="o">.</span><span class="n">QColor</span><span class="p">(</span><span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">,</span> <span class="mi">128</span><span class="p">))</span>  <span class="c1"># Gray color</span>
+
+        <span class="n">panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">panel</span><span class="o">.</span><span class="n">PANEL_STR_ID</span> <span class="o">==</span> <span class="s2">&quot;signal&quot;</span><span class="p">:</span>
+            <span class="n">hint</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span>
+                <span class="s2">&quot;Working with 2D images?</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Switch to the Image Panel using the tab above.&quot;</span>
+            <span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">hint</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span>
+                <span class="s2">&quot;Working with 1D signals?</span><span class="se">\n</span><span class="s2">&quot;</span>
+                <span class="s2">&quot;Switch to the Signal Panel using the tab above.&quot;</span>
+            <span class="p">)</span>
+        <span class="n">painter</span><span class="o">.</span><span class="n">drawText</span><span class="p">(</span><span class="n">hint_rect</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">AlignCenter</span><span class="p">,</span> <span class="n">hint</span><span class="p">)</span></div>
+
+
+    <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="ObjectView.dragEnterEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.dragEnterEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dragEnterEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDragEnterEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reimplement Qt method&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">hasUrls</span><span class="p">():</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">acceptProposedAction</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dragEnterEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_expanded_states</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">):</span> <span class="n">item</span><span class="o">.</span><span class="n">isExpanded</span><span class="p">()</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span>
+            <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.dragLeaveEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.dragLeaveEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dragLeaveEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDragLeaveEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reimplement Qt method&quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dragLeaveEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_expanded_states</span> <span class="o">=</span> <span class="p">{}</span></div>
+
+
+    <span class="c1"># pylint: disable=unused-argument</span>
+<div class="viewcode-block" id="ObjectView.dragMoveEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.dragMoveEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dragMoveEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDragMoveEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reimplement Qt method&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setDropIndicatorShown</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">hasUrls</span><span class="p">():</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">setDropAction</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CopyAction</span><span class="p">)</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dragMoveEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">setDropIndicatorShown</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__is_drop_allowed</span><span class="p">(</span><span class="n">event</span><span class="p">))</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__is_drop_allowed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDropEvent</span> <span class="o">|</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDragMoveEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if drop is allowed&quot;&quot;&quot;</span>
+        <span class="c1"># Yes, this method has too many return statements.</span>
+        <span class="c1"># But it&#39;s still quite readable, so let&#39;s focus on other things and just disable</span>
+        <span class="c1"># the pylint warning.</span>
+        <span class="c1">#</span>
+        <span class="c1"># pylint: disable=too-many-return-statements</span>
+
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">hasUrls</span><span class="p">():</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="n">drop_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropIndicatorPosition</span><span class="p">()</span>
+        <span class="n">on_item</span> <span class="o">=</span> <span class="n">drop_pos</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">OnItem</span>
+        <span class="n">above_item</span> <span class="o">=</span> <span class="n">drop_pos</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">AboveItem</span>
+        <span class="n">below_item</span> <span class="o">=</span> <span class="n">drop_pos</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">BelowItem</span>
+        <span class="n">on_viewport</span> <span class="o">=</span> <span class="n">drop_pos</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">OnViewport</span>
+        <span class="n">target_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">())</span>
+        <span class="c1"># If moved items are objects, refuse the drop on the viewport</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span> <span class="ow">and</span> <span class="n">on_viewport</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If drop indicator is on an item, refuse the drop if the target item</span>
+        <span class="c1"># is anything but a group</span>
+        <span class="k">if</span> <span class="n">on_item</span> <span class="ow">and</span> <span class="p">(</span><span class="n">target_item</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">target_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If drop indicator is on an item, refuse the drop if the moved items</span>
+        <span class="c1"># are groups</span>
+        <span class="k">if</span> <span class="n">on_item</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If target item is None, it means that the drop position is</span>
+        <span class="c1"># outside of the tree. In this case, we accept the drop and move</span>
+        <span class="c1"># the objects to the end of the list.</span>
+        <span class="k">if</span> <span class="n">target_item</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">on_viewport</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">True</span>
+        <span class="c1"># If moved items are groups, refuse the drop if the target item is</span>
+        <span class="c1"># not a group</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span> <span class="ow">and</span> <span class="n">target_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If moved items are groups, refuse the drop if the target item is</span>
+        <span class="c1"># a group but the target position is below the target instead of above</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span> <span class="ow">and</span> <span class="n">below_item</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If moved items are objects, refuse the drop if the target item is</span>
+        <span class="c1"># a group and the drop indicator is anything but on the target item</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span> <span class="ow">and</span> <span class="n">target_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">on_item</span><span class="p">:</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="c1"># If moved items are objects, refuse the drop if the target item is</span>
+        <span class="c1"># the first group item and the drop position is above the target item</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span>
+            <span class="ow">and</span> <span class="n">target_item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="kc">None</span>
+            <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexFromItem</span><span class="p">(</span><span class="n">target_item</span><span class="p">)</span><span class="o">.</span><span class="n">row</span><span class="p">()</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="ow">and</span> <span class="n">above_item</span>
+        <span class="p">):</span>
+            <span class="k">return</span> <span class="kc">False</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+<div class="viewcode-block" id="ObjectView.get_all_group_uuids">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.get_all_group_uuids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_group_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all group uuids, in a list ordered by group position in the tree&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">[</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+            <span class="k">for</span> <span class="n">index</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">())</span>
+        <span class="p">]</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.get_all_object_uuids">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.get_all_object_uuids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_all_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return all object uuids, in a dictionary that maps group uuids to the</span>
+<span class="sd">        list of object uuids in each group, in the correct order&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="p">{</span>
+            <span class="n">group_id</span><span class="p">:</span> <span class="p">[</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">child</span><span class="p">(</span><span class="n">idx</span><span class="p">)</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)</span>
+                <span class="k">for</span> <span class="n">idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">index</span><span class="p">)</span><span class="o">.</span><span class="n">childCount</span><span class="p">())</span>
+            <span class="p">]</span>
+            <span class="k">for</span> <span class="n">index</span><span class="p">,</span> <span class="n">group_id</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_all_group_uuids</span><span class="p">())</span>
+        <span class="p">}</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.dropEvent">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.dropEvent">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">dropEvent</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">event</span><span class="p">:</span> <span class="n">QG</span><span class="o">.</span><span class="n">QDropEvent</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=C0103</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reimplement Qt method&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">hasUrls</span><span class="p">():</span>
+            <span class="n">fnames</span> <span class="o">=</span> <span class="p">[</span><span class="n">url</span><span class="o">.</span><span class="n">toLocalFile</span><span class="p">()</span> <span class="k">for</span> <span class="n">url</span> <span class="ow">in</span> <span class="n">event</span><span class="o">.</span><span class="n">mimeData</span><span class="p">()</span><span class="o">.</span><span class="n">urls</span><span class="p">()]</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_FILES</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">fnames</span><span class="p">)</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">setDropAction</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">CopyAction</span><span class="p">)</span>
+            <span class="n">event</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">is_allowed</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__is_drop_allowed</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">is_allowed</span><span class="p">:</span>
+                <span class="n">event</span><span class="o">.</span><span class="n">ignore</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">drop_pos</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">dropIndicatorPosition</span><span class="p">()</span>
+                <span class="n">on_viewport</span> <span class="o">=</span> <span class="n">drop_pos</span> <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAbstractItemView</span><span class="o">.</span><span class="n">OnViewport</span>
+                <span class="n">target_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">itemAt</span><span class="p">(</span><span class="n">event</span><span class="o">.</span><span class="n">pos</span><span class="p">())</span>
+                <span class="c1"># If target item is None, it means that the drop position is</span>
+                <span class="c1"># outside of the tree. In this case, we accept the drop and move</span>
+                <span class="c1"># the objects to the end of the list.</span>
+                <span class="k">if</span> <span class="n">target_item</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">on_viewport</span><span class="p">:</span>
+                    <span class="c1"># If moved items are groups, move them to the end of the list</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">takeTopLevelItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">item</span><span class="p">))</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">addTopLevelItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                    <span class="c1"># If moved items are objects, move them to the last group</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span><span class="p">:</span>
+                        <span class="n">lastgrp_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+                        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span><span class="p">:</span>
+                            <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span><span class="o">.</span><span class="n">removeChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                            <span class="n">lastgrp_item</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+                    <span class="n">event</span><span class="o">.</span><span class="n">accept</span><span class="p">()</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">dropEvent</span><span class="p">(</span><span class="n">event</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">event</span><span class="o">.</span><span class="n">isAccepted</span><span class="p">():</span>
+                <span class="c1"># Ok, the drop was accepted, so we need to update the model accordingly</span>
+                <span class="c1"># (at this stage, the model has not been updated yet but the tree has</span>
+                <span class="c1"># been updated already, e.g. by the super().dropEvent(event) calls).</span>
+                <span class="c1"># Thus, we have to loop over all tree items and reproduce the tree</span>
+                <span class="c1"># structure in the model, by reordering the groups and objects.</span>
+                <span class="c1"># We have two cases to consider (that mutually exclude each other):</span>
+                <span class="c1"># 1. Groups are moved: we need to reorder the groups in the model</span>
+                <span class="c1"># 2. Objects are moved: we need to reorder the objects in all groups</span>
+                <span class="c1">#    in the model</span>
+                <span class="c1"># Let&#39;s start with case 1:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span>
+                    <span class="c1"># First, we need to get the list of all groups in the model</span>
+                    <span class="c1"># (in the correct order)</span>
+                    <span class="n">gids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_group_uuids</span><span class="p">()</span>
+                    <span class="c1"># Then, we need to reorder the groups in the model</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">reorder_groups</span><span class="p">(</span><span class="n">gids</span><span class="p">)</span>
+                <span class="c1"># Now, let&#39;s consider case 2:</span>
+                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span><span class="p">:</span>
+                    <span class="c1"># First, we need to get a dictionary that maps group ids to</span>
+                    <span class="c1"># the list of objects in each group (in the correct order)</span>
+                    <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_all_object_uuids</span><span class="p">()</span>
+                    <span class="c1"># Then, we need to reorder the objects in all groups in the model</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">reorder_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+                <span class="c1"># Finally, we need to update tree</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">update_tree</span><span class="p">()</span>
+                <span class="c1"># Restore expanded states of moved groups</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">setExpanded</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_expanded_states</span><span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)]</span>
+                    <span class="p">)</span>
+                <span class="c1"># Restore selection, either of groups or objects</span>
+                <span class="n">sel_items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_groups</span> <span class="ow">or</span> <span class="bp">self</span><span class="o">.</span><span class="n">__dragged_objects</span>
+                <span class="n">extend</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">sel_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span>
+                <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_items</span><span class="p">:</span>
+                    <span class="k">if</span> <span class="n">extend</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">setCurrentItem</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">QItemSelectionModel</span><span class="o">.</span><span class="n">Select</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">setCurrentItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.get_current_object">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.get_current_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_current_object</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current object&quot;&quot;&quot;</span>
+        <span class="n">oid</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_current_item_id</span><span class="p">(</span><span class="n">object_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">oid</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+        <span class="k">return</span> <span class="kc">None</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.set_current_object">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.set_current_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_current_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set current object&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.item_selection_changed">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.item_selection_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">item_selection_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refreshing the selection of objects and groups, emitting the</span>
+<span class="sd">        SIG_SELECTION_CHANGED signal which triggers the update of the</span>
+<span class="sd">        object properties panel, the plot items and the actions of the</span>
+<span class="sd">        toolbar and menu bar.</span>
+
+<span class="sd">        This method is called when the user selects or deselects items in the tree.</span>
+<span class="sd">        It is also called when the user clicks on an item that was already selected.</span>
+
+<span class="sd">        This method emits the SIG_SELECTION_CHANGED signal.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># ==&gt; This is a very important design choice &lt;==</span>
+        <span class="c1"># When a group is selected, all individual objects are deselected, even if</span>
+        <span class="c1"># they belong to other groups. This is intended to simplify the user experience.</span>
+        <span class="c1"># In other words, the user may either select groups or individual objects, but</span>
+        <span class="c1"># not both at the same time.</span>
+        <span class="n">sel_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">sel_groups</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">():</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">currentItem</span><span class="p">()</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">setCurrentItem</span><span class="p">(</span><span class="n">sel_groups</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECTION_CHANGED</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.select_objects">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.select_objects">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_objects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">selection</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select multiple objects</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            selection: list of objects, object numbers (1 to N) or object uuids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">):</span>
+            <span class="n">all_uuids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span>
+            <span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">all_uuids</span><span class="p">[</span><span class="n">num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">num</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">):</span>
+            <span class="n">uuids</span> <span class="o">=</span> <span class="n">selection</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">))</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">)</span>
+            <span class="n">uuids</span> <span class="o">=</span> <span class="p">[</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span> <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">selection</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">uuid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">uuids</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">uuid</span><span class="p">,</span> <span class="n">extend</span><span class="o">=</span><span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.select_groups">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.select_groups">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">select_groups</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">groups</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ObjectGroup</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select multiple groups</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            groups: list of groups, group numbers (1 to N), group names or None</span>
+<span class="sd">             (select all groups). Defaults to None.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">groups</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">int</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">):</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">()[</span><span class="n">grp_num</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="k">for</span> <span class="n">grp_num</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">]</span>
+        <span class="k">elif</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="nb">str</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">):</span>
+            <span class="n">groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">(</span><span class="n">groups</span><span class="p">)</span>
+        <span class="k">assert</span> <span class="nb">all</span><span class="p">(</span><span class="nb">isinstance</span><span class="p">(</span><span class="n">group</span><span class="p">,</span> <span class="n">ObjectGroup</span><span class="p">)</span> <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="n">groups</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">group</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">groups</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">set_current_item_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">group</span><span class="p">),</span> <span class="n">extend</span><span class="o">=</span><span class="n">idx</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__reorder_model</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reorder model&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">reorder_groups</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_all_group_uuids</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">reorder_objects</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_all_object_uuids</span><span class="p">())</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_tree</span><span class="p">()</span>
+
+<div class="viewcode-block" id="ObjectView.move_up">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.move_up">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_up</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move selected objects/groups up&quot;&quot;&quot;</span>
+        <span class="n">sel_objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
+        <span class="n">sel_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()</span>
+        <span class="c1"># Sort selected objects/groups by their position in the tree</span>
+        <span class="n">sel_objs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexFromItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">row</span><span class="p">())</span>
+        <span class="n">sel_groups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexFromItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">row</span><span class="p">())</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_objs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">sel_groups</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">sel_objs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_objs</span><span class="p">:</span>
+                <span class="n">parent</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+                <span class="n">idx_item</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">indexOfChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">idx_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">idx_item</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">takeChild</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">insertChild</span><span class="p">(</span><span class="n">idx_item</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">idx_parent</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="c1"># If the object is the first child of its parent, we check if</span>
+                    <span class="c1"># there is a group above the parent. If so, we move the object</span>
+                    <span class="c1"># to the end of the group above.</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">takeChild</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">idx_parent</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">addChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Store groups expanded state</span>
+            <span class="n">expstates</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">):</span> <span class="n">item</span><span class="o">.</span><span class="n">isExpanded</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span><span class="p">:</span>
+                <span class="n">idx_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">idx_item</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">takeTopLevelItem</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">insertTopLevelItem</span><span class="p">(</span><span class="n">idx_item</span> <span class="o">-</span> <span class="mi">1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="c1"># Restore groups expanded state</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span><span class="p">:</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setExpanded</span><span class="p">(</span><span class="n">expstates</span><span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reorder_model</span><span class="p">()</span>
+        <span class="c1"># Restore selection</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_objs</span> <span class="o">+</span> <span class="n">sel_groups</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectView.move_down">
+<a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.ObjectView.move_down">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">move_down</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Move selected objects/groups down&quot;&quot;&quot;</span>
+        <span class="n">sel_objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_object_items</span><span class="p">()</span>
+        <span class="n">sel_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_sel_group_items</span><span class="p">()</span>
+        <span class="c1"># Sort selected objects/groups by their position in the tree</span>
+        <span class="n">sel_objs</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexFromItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">sel_groups</span><span class="o">.</span><span class="n">sort</span><span class="p">(</span><span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">item</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexFromItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">row</span><span class="p">(),</span> <span class="n">reverse</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">sel_objs</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">sel_groups</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">sel_objs</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_objs</span><span class="p">:</span>
+                <span class="n">parent</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">parent</span><span class="p">()</span>
+                <span class="n">idx_item</span> <span class="o">=</span> <span class="n">parent</span><span class="o">.</span><span class="n">indexOfChild</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="n">idx_parent</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">idx_item</span> <span class="o">&lt;</span> <span class="n">parent</span><span class="o">.</span><span class="n">childCount</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">takeChild</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">insertChild</span><span class="p">(</span><span class="n">idx_item</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">elif</span> <span class="n">idx_parent</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="c1"># If the object is the last child of its parent, we check if</span>
+                    <span class="c1"># there is a group below the parent. If so, we move the object</span>
+                    <span class="c1"># to the beginning of the group below.</span>
+                    <span class="n">parent</span><span class="o">.</span><span class="n">takeChild</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItem</span><span class="p">(</span><span class="n">idx_parent</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span><span class="o">.</span><span class="n">insertChild</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Store groups expanded state</span>
+            <span class="n">expstates</span> <span class="o">=</span> <span class="p">{</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">):</span> <span class="n">item</span><span class="o">.</span><span class="n">isExpanded</span><span class="p">()</span> <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span>
+            <span class="p">}</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span><span class="p">:</span>
+                <span class="n">idx_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexOfTopLevelItem</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">idx_item</span> <span class="o">&lt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">topLevelItemCount</span><span class="p">()</span> <span class="o">-</span> <span class="mi">1</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">takeTopLevelItem</span><span class="p">(</span><span class="n">idx_item</span><span class="p">)</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">insertTopLevelItem</span><span class="p">(</span><span class="n">idx_item</span> <span class="o">+</span> <span class="mi">1</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="k">return</span>
+            <span class="c1"># Restore groups expanded state</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_groups</span><span class="p">:</span>
+                <span class="n">item</span><span class="o">.</span><span class="n">setExpanded</span><span class="p">(</span><span class="n">expstates</span><span class="p">[</span><span class="n">item</span><span class="o">.</span><span class="n">data</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">UserRole</span><span class="p">)])</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__reorder_model</span><span class="p">()</span>
+        <span class="c1"># Restore selection</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">sel_objs</span> <span class="o">+</span> <span class="n">sel_groups</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">setSelected</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

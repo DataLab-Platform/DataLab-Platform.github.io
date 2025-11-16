@@ -1,0 +1,802 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Overview and basic concepts of DataLab, the open-source scientific data analysis and visualization platform" name="description" />
+<meta content="DataLab, workspace, scientific, data, analysis, visualization, platform" name="keywords" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Overview &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/common/overview';</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/common/overview.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Settings" href="settings.html" />
+    <link rel="prev" title="Features" href="../index.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA), presented at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, and <a href='https://www.opensource-experience.com/'>OSXP 2024</a>! An advanced use case will be presented at <a href='outreach/osxp2025.html'>OSXP 2025</a> (Dec 11) 🚀 — <a href='outreach/index.html'>Learn more</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview &amp; Common features:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h5browser.html">HDF5 Browser</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Open and save Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Create Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Operations on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Processing Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analysis features on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">View options for Signals</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Open and save Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Create Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Operations on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Processing Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analysis features on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">View options for Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">2D Peak Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Contour Detection</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Technical Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Functional validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Validation Status of DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced features:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Remote controlling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/model.html">Internal data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/logviewer.html">Log viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/instviewer.html">Installation and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/command.html">Command line features</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/index.html">GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Features</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Overview</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="overview">
+<span id="id1"></span><h1>Overview<a class="headerlink" href="#overview" title="Link to this heading">#</a></h1>
+<section id="basic-concepts">
+<h2>Basic concepts<a class="headerlink" href="#basic-concepts" title="Link to this heading">#</a></h2>
+<p>Working with DataLab is very easy. The user interface is intuitive and
+self-explanatory. The main window is divided into two main areas:</p>
+<ul class="simple">
+<li><p>The left area shows the list of data sets which are currently loaded in
+DataLab, distibuted over two tabs: <strong>Signals</strong> and <strong>Images</strong>. The user can
+switch between the two tabs by clicking on the corresponding tab: this
+switches the main window to the corresponding panel, as well as the menu
+and toolbar contents. Below the list of data sets, a <strong>Properties</strong> view
+shows information about the currently selected data set.</p></li>
+<li><p>The right area shows the visualization of the currently selected data set.
+The visualization is updated automatically when the user selects a new data
+set in the list of data sets.</p></li>
+</ul>
+<figure class="align-default" id="id2">
+<img alt="../../_images/s_app_at_startup.png" src="../../_images/s_app_at_startup.png" />
+<figcaption>
+<p><span class="caption-text">DataLab main window, at startup.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="internal-data-model-and-workspace">
+<h2>Internal data model and workspace<a class="headerlink" href="#internal-data-model-and-workspace" title="Link to this heading">#</a></h2>
+<p>DataLab has its own internal data model, in which data sets are organized around
+a tree structure. Each panel in the main window corresponds to a branch of the
+tree. Each data set shown in the panels corresponds to a leaf of the tree. Inside
+the data set, the data is organized in an object-oriented way, with a set of
+attributes and methods. The data model is described in more details in the
+API section (see <code class="xref py py-mod docutils literal notranslate"><span class="pre">sigima.objects</span></code>).</p>
+<p>For each data set (1D signal or 2D image), not only the data itself is stored,
+but also a set of metadata, which describes the data or the way it has to be
+displayed. The metadata is stored in a dictionary, which is accessible through
+the <code class="docutils literal notranslate"><span class="pre">metadata</span></code> attribute of the data set (and may also be browsed in the
+<strong>Properties</strong> view, with the <strong>Metadata</strong> button).</p>
+<p>The DataLab <strong>Workspace</strong> is defined as the collection of all data sets which
+are currently loaded in DataLab, in both the <strong>Signals</strong> and <strong>Images</strong> panels.</p>
+</section>
+<section id="loading-and-saving-the-workspace">
+<h2>Loading and saving the workspace<a class="headerlink" href="#loading-and-saving-the-workspace" title="Link to this heading">#</a></h2>
+<p>The following actions are available to manage the workspace from the <strong>File</strong> menu:</p>
+<ul class="simple">
+<li><p><strong>Open HDF5 file</strong>: load a workspace from an HDF5 file.</p></li>
+<li><p><strong>Save to HDF5 file</strong>: save the current workspace to an HDF5 file.</p></li>
+<li><p><strong>Browse HDF5 file</strong>: open the <a class="reference internal" href="h5browser.html#h5browser"><span class="std std-ref">HDF5 Browser</span></a> to explore the content of an
+HDF5 file and import data sets into the workspace.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Data sets may also be saved or loaded individually, using data formats
+such as <cite>.txt</cite> or <cite>.npy</cite> for 1D signals (see <a class="reference internal" href="../signal/menu_file.html#open-signal"><span class="std std-ref">Open signal</span></a> for the
+list of supported formats), , or <cite>.tiff</cite> or <cite>.dcm</cite> for 2D images
+(see <a class="reference internal" href="../image/menu_file.html#open-image"><span class="std std-ref">Open image</span></a> for the list of supported formats).</p>
+</div>
+</section>
+<section id="interactive-object-creation-and-processing">
+<h2>Interactive object creation and processing<a class="headerlink" href="#interactive-object-creation-and-processing" title="Link to this heading">#</a></h2>
+<p>DataLab provides an interactive workflow for creating objects and adjusting processing
+parameters, allowing you to fine-tune results without creating multiple objects.</p>
+<section id="interactive-object-creation">
+<h3>Interactive object creation<a class="headerlink" href="#interactive-object-creation" title="Link to this heading">#</a></h3>
+<p>When creating a new signal or image using the creation functions (e.g., Gaussian signal,
+2D peak image, etc.), DataLab stores the creation parameters in the object’s metadata.
+This enables interactive parameter adjustment after creation:</p>
+<ol class="arabic simple">
+<li><p>Create a signal or image using <strong>Operations</strong> &gt; <strong>Create</strong> menu</p></li>
+<li><p>Select the created object in the list</p></li>
+<li><p>A <strong>Creation</strong> tab appears in the Properties panel (bottom-left)</p></li>
+<li><p>Modify any creation parameter (amplitude, frequency, size, etc.)</p></li>
+<li><p>Click <strong>Apply</strong> to regenerate the object with new parameters</p></li>
+</ol>
+<p>The object is updated in-place, preserving any subsequent processing or analysis results.
+This is particularly useful for:</p>
+<ul class="simple">
+<li><p>Exploring different parameter values without cluttering the workspace</p></li>
+<li><p>Fine-tuning object characteristics while observing the results</p></li>
+<li><p>Educational purposes to demonstrate parameter effects</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Interactive creation is only available for objects created with parameter classes
+(not for imported data from files).</p>
+</div>
+</section>
+<section id="interactive-1-to-1-processing">
+<h3>Interactive 1-to-1 processing<a class="headerlink" href="#interactive-1-to-1-processing" title="Link to this heading">#</a></h3>
+<p>When applying a 1-to-1 processing operation that has configurable parameters (e.g.,
+Gaussian filter, threshold, morphological operations), DataLab stores the processing
+metadata, enabling parameter adjustment and re-processing:</p>
+<ol class="arabic simple">
+<li><p>Apply a processing operation with parameters (e.g., <strong>Processing</strong> &gt; <strong>Filtering</strong> &gt; <strong>Gaussian filter</strong>)</p></li>
+<li><p>The result object contains processing metadata (parameters, source object, function name)</p></li>
+<li><p>Select the processed object in the list</p></li>
+<li><p>A <strong>Processing</strong> tab appears in the Properties panel</p></li>
+<li><p>Modify processing parameters (e.g., filter sigma value)</p></li>
+<li><p>Click <strong>Apply</strong> to re-process with updated parameters</p></li>
+</ol>
+<p>The processed object is updated in-place with the new results. This workflow is ideal for:</p>
+<ul class="simple">
+<li><p>Iteratively tuning filter parameters while observing results in real-time</p></li>
+<li><p>Adjusting threshold values without creating multiple intermediate objects</p></li>
+<li><p>Experimenting with different morphological structure element sizes</p></li>
+<li><p>Educational demonstrations of parameter effects on processing results</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Processing metadata requirements:</strong></p>
+<ul class="simple">
+<li><p>Only works for 1-to-1 processing functions with parameter classes</p></li>
+<li><p>Processing functions without parameters (e.g., absolute value, inverse) work as before</p></li>
+<li><p>Source object must still exist for re-processing (error shown if deleted)</p></li>
+</ul>
+<p><strong>Not supported for:</strong></p>
+<ul class="simple">
+<li><p>2-to-1 processing (operations combining two objects)</p></li>
+<li><p>n-to-1 processing (operations aggregating multiple objects)</p></li>
+<li><p>These patterns don’t benefit significantly from interactive parameter adjustment</p></li>
+</ul>
+</div>
+</section>
+<section id="example-workflow">
+<h3>Example workflow<a class="headerlink" href="#example-workflow" title="Link to this heading">#</a></h3>
+<p>Here’s a typical workflow using interactive processing:</p>
+<ol class="arabic simple">
+<li><p><strong>Create a test signal</strong>: Operations &gt; Create &gt; Gaussian signal</p>
+<ul class="simple">
+<li><p>Initial parameters: amplitude=1.0, mu=50, sigma=10</p></li>
+</ul>
+</li>
+<li><p><strong>Adjust creation parameters</strong>: In the Creation tab, change sigma to 20, click Apply</p>
+<ul class="simple">
+<li><p>Signal is regenerated with new width</p></li>
+</ul>
+</li>
+<li><p><strong>Apply Gaussian filter</strong>: Processing &gt; Filtering &gt; Gaussian filter</p>
+<ul class="simple">
+<li><p>Initial sigma=2.0</p></li>
+</ul>
+</li>
+<li><p><strong>Fine-tune filtering</strong>: In the Processing tab, try sigma=1.0, then sigma=5.0</p>
+<ul class="simple">
+<li><p>Each Apply updates the filtered result</p></li>
+<li><p>Compare different smoothing levels without creating multiple objects</p></li>
+</ul>
+</li>
+</ol>
+<p>This interactive approach provides immediate visual feedback and keeps your workspace
+organized by avoiding proliferation of test objects with slightly different parameters.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../index.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Features</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="settings.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Settings</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#basic-concepts">Basic concepts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#internal-data-model-and-workspace">Internal data model and workspace</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#loading-and-saving-the-workspace">Loading and saving the workspace</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-object-creation-and-processing">Interactive object creation and processing</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-object-creation">Interactive object creation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#interactive-1-to-1-processing">Interactive 1-to-1 processing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-workflow">Example workflow</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

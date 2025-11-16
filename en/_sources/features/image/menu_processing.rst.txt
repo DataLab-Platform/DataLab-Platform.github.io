@@ -22,28 +22,76 @@ The "Processing" menu allows you to perform various processing on the current
 image or group of images: it allows you to apply filters, to perform exposure
 correction, to perform denoising, to perform morphological operations, and so on.
 
-Axis transformation
-^^^^^^^^^^^^^^^^^^^
+Geometry
+^^^^^^^^
 
-Linear calibration
-~~~~~~~~~~~~~~~~~~
+Flip and rotation
+~~~~~~~~~~~~~~~~~
 
-Create a new image which is a linear calibration
-of each selected image with respect to Z axis:
+Create a new image by flipping or rotating the data of the selected image.
+The image may be flipped horizontally, vertically, or diagonally (transposition).
+It may be rotated by 90°, 270° or any user-defined value.
 
 .. list-table::
     :header-rows: 1
     :widths: 40, 60
 
-    * - Parameter
-      - Linear calibration
-    * - Z-axis
-      - :math:`z_{1} = a.z_{0} + b`
+    * - Operation
+      - Description
+    * - Flip horizontally
+      - Mirror image along the vertical axis
+    * - Flip diagonally
+      - Transpose the image (swap X/Y axes)
+    * - Flip vertically
+      - Mirror image along the horizontal axis
+    * - Rotate 90° right
+      - Rotate image 90° clockwise
+    * - Rotate 90° left
+      - Rotate image 90° counter-clockwise
+    * - Rotate by...
+      - Rotate image by any angle (user-defined)
 
-Swap X/Y axes
-~~~~~~~~~~~~~
+Distribute images along a grid
+~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
 
-Create a new image which is the result of swapping X/Y data.
+.. list-table::
+    :header-rows: 1
+    :widths: 40, 60
+
+    * - Feature
+      - Description
+    * - |distribute_on_grid| Distribute on a grid
+      - Distribute selected images on a regular grid
+    * - |reset_positions| Reset image positions
+      - Reset the positions of the selected images to first image (x0, y0) coordinates
+
+.. |distribute_on_grid| image:: ../../../datalab/data/icons/processing/distribute_on_grid.svg
+    :width: 24px
+    :height: 24px
+    :class: dark-light no-scaled-link
+
+.. |reset_positions| image:: ../../../datalab/data/icons/processing/reset_positions.svg
+    :width: 24px
+    :height: 24px
+    :class: dark-light no-scaled-link
+
+Axis transformation
+^^^^^^^^^^^^^^^^^^^
+
+Set uniform coordinates
+~~~~~~~~~~~~~~~~~~~~~~~
+
+Create a new image with uniform coordinates (i.e., with a constant pixel size in both X and Y directions).
+
+Polynomial calibration
+~~~~~~~~~~~~~~~~~~~~~~
+
+Create a new image which is a polynomial calibration
+of each selected image with respect to Z axis.
+
+.. note::
+
+    Linear calibration was removed from the UI as it is a special case of polynomial calibration with degree 1.
 
 Level adjustment
 ^^^^^^^^^^^^^^^^
@@ -61,15 +109,15 @@ by maximum, amplitude, sum, energy or RMS:
     * - Normalization
       - Equation
     * - Maximum
-      - :math:`z_{1} = \dfrac{z_{0}}{z_{max}}`
+      - :math:`z_{1} = \dfrac{z_{0}}{z_{\max}}`
     * - Amplitude
-      - :math:`z_{1} = \dfrac{z_{0}}{z_{max}-z_{min}}`
+      - :math:`z_{1} = \dfrac{z_{0}}{z_{\max}-z_{\min}}`
     * - Area
       - :math:`z_{1} = \dfrac{z_{0}}{\sum_{i=0}^{N-1}{z_{i}}}`
     * - Energy
-      - :math:`z_{1}= \dfrac{z_{0}}{\sqrt{\sum_{n=0}^{N}|z_{0}[n]|^2}}`
+      - :math:`z_{1}= \dfrac{z_{0}}{\sqrt{\sum_{n=0}^{N}\left|z_{0}[n]\right|^2}}`
     * - RMS
-      - :math:`z_{1}= \dfrac{z_{0}}{\sqrt{\dfrac{1}{N}\sum_{n=0}^{N}|z_{0}[n]|^2}}`
+      - :math:`z_{1}= \dfrac{z_{0}}{\sqrt{\dfrac{1}{N}\sum_{n=0}^{N}\left|z_{0}[n]\right|^2}}`
 
 Clipping
 ~~~~~~~~
@@ -82,6 +130,25 @@ Offset correction
 Create a new image which is the result of offset correction on each selected image.
 This operation is performed by subtracting the image background value which is estimated
 by the mean value of a user-defined rectangular area.
+
+Noise addition
+^^^^^^^^^^^^^^
+
+Generate new images by adding the same noise to each selected image.
+The available noise types are:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Noise
+      - Description
+    * - Gaussian
+      - Normal distribution
+    * - Uniform
+      - Uniform distribution
+    * - Poisson
+      - Poisson distribution
 
 Noise reduction
 ^^^^^^^^^^^^^^^
@@ -166,19 +233,37 @@ The following functions are available:
       - Inverse Fast Fourier Transform
       - `numpy.fft.ifft2 <https://numpy.org/doc/stable/reference/generated/numpy.fft.ifft2.html>`_
     * - Magnitude spectrum
-      - Optionnal: use logarithmic scale (dB)
-      - :math:`z_{1} = |FFT(z_{0})|` or :math:`z_{1} = 20 \log_{10}(|FFT(z_{0})|)` (dB)
+      - Optional: output in decibels (dB)
+      - | :math:`z_{1} = \left|\FFT\left(z_{0}\right)\right|` or
+        | :math:`z_{1} = 20 \log_{10} \left(\left|\FFT\left(z_{0}\right)\right|\right)` (dB)
     * - Phase spectrum
-      -
-      - :math:`z_{1} = \angle(FFT(z_{0}))`
+      - Phase of the FFT expressed in degrees, using `numpy.angle <https://docs.scipy.org/doc/numpy/reference/generated/numpy.angle.html>`_
+      - :math:`z_{1} = \angle\left(\FFT\left(z_{0}\right)\right)`
     * - Power spectral density
-      - Optionnal: use logarithmic scale (dB)
-      - :math:`z_{1} = |FFT(z_{0})|^2` or :math:`z_{1} = 10 \log_{10}(|FFT(z_{0})|^2)` (dB)
+      - Optional: output in decibels (dB)
+      - | :math:`z_{1} = \left|\FFT\left(z_{0}\right)\right|^2` or
+        | :math:`z_{1} = 10 \log_{10} \left(\left|\FFT\left(z_{0}\right)\right|^2\right)` (dB)
 
 .. note::
 
     FFT and inverse FFT are performed using frequency shifting if the option is enabled
     in DataLab settings (see :ref:`settings`).
+
+Frequency-domain filters
+^^^^^^^^^^^^^^^^^^^^^^^^
+
+The following frequency-domain filters are available:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Method
+      - Description
+    * - Butterworth
+      - Butterworth filter, based on `skimage.filters.butterworth <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.butterworth>`_
+    * - Gaussian filter
+      - Gaussian filter
 
 Thresholding
 ^^^^^^^^^^^^
@@ -346,26 +431,8 @@ The following functions are available:
 
     * - Function
       - Implementation
-    * - Roberts filter
-      - `skimage.filters.roberts <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.roberts>`_
-    * - Prewitt filter
-      - `skimage.filters.prewitt <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt>`_
-    * - Prewitt filter (horizontal)
-      - `skimage.filters.prewitt_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt_h>`_
-    * - Prewitt filter (vertical)
-      - `skimage.filters.prewitt_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt_v>`_
-    * - Sobel filter
-      - `skimage.filters.sobel <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel>`_
-    * - Sobel filter (horizontal)
-      - `skimage.filters.sobel_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel_h>`_
-    * - Sobel filter (vertical)
-      - `skimage.filters.sobel_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel_v>`_
-    * - Scharr filter
-      - `skimage.filters.scharr <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr>`_
-    * - Scharr filter (horizontal)
-      - `skimage.filters.scharr_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr_h>`_
-    * - Scharr filter (vertical)
-      - `skimage.filters.scharr_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr_v>`_
+    * - Canny filter
+      - `skimage.feature.canny <https://scikit-image.org/docs/stable/api/skimage.feature.html#skimage.feature.canny>`_
     * - Farid filter
       - `skimage.filters.farid <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters>`_
     * - Farid filter (horizontal)
@@ -374,8 +441,26 @@ The following functions are available:
       - `skimage.filters.farid_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.farid_v>`_
     * - Laplace filter
       - `skimage.filters.laplace <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.laplace>`_
-    * - Canny filter
-      - `skimage.feature.canny <https://scikit-image.org/docs/stable/api/skimage.feature.html#skimage.feature.canny>`_
+    * - Prewitt filter
+      - `skimage.filters.prewitt <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt>`_
+    * - Prewitt filter (horizontal)
+      - `skimage.filters.prewitt_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt_h>`_
+    * - Prewitt filter (vertical)
+      - `skimage.filters.prewitt_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.prewitt_v>`_
+    * - Roberts filter
+      - `skimage.filters.roberts <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.roberts>`_
+    * - Scharr filter
+      - `skimage.filters.scharr <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr>`_
+    * - Scharr filter (horizontal)
+      - `skimage.filters.scharr_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr_h>`_
+    * - Scharr filter (vertical)
+      - `skimage.filters.scharr_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.scharr_v>`_
+    * - Sobel filter
+      - `skimage.filters.sobel <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel>`_
+    * - Sobel filter (horizontal)
+      - `skimage.filters.sobel_h <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel_h>`_
+    * - Sobel filter (vertical)
+      - `skimage.filters.sobel_v <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.sobel_v>`_
 
 .. note::
 
@@ -383,11 +468,18 @@ The following functions are available:
     on the same image. Combined with the "distribute on a grid" option, this allows
     to compare the different edge filters on the same image.
 
-Butterworth filter
-^^^^^^^^^^^^^^^^^^
+Erase area
+^^^^^^^^^^
 
-Perform Butterworth filter on an image
-(implementation based on `skimage.filters.butterworth <https://scikit-image.org/docs/stable/api/skimage.filters.html#skimage.filters.butterworth>`_)
+Erase an area in the image as defined by a region of interest (ROI).
+
+.. note::
+
+    The region to erase is defined by the user through a dialog box. It can consist of
+    a single ROI or multiple ROIs with various shapes (rectangular, circular, etc.).
+    Note that the ROI defined here is not bound to any object; it is used solely to
+    specify the area to erase in the image. In particular, it is independent of the
+    image’s ROI, if any (the latter is shown in the dialog box as a masked area).
 
 Resize
 ^^^^^^
@@ -401,12 +493,39 @@ Combine clusters of adjacent pixels, throughout the image,
 into single pixels. The result can be the sum, average, median, minimum,
 or maximum value of the cluster.
 
-ROI extraction
-^^^^^^^^^^^^^^
+Resampling
+^^^^^^^^^^
 
-Create a new image from a user-defined Region of Interest.
+Generate new images by resampling each selected image.
+The following parameters are available:
 
-.. figure:: /images/shots/i_roi_dialog.png
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
 
-    ROI extraction dialog: the ROI is defined by moving the position
-    and adjusting the size of a rectangle shape.
+    * - Parameter
+      - Description
+    * - math:`x_{min}`
+      - Minimum x-coordinate of the output image
+    * - :math:`x_{max}`
+      - Maximum x-coordinate of the output image
+    * - :math:`y_{min}`
+      - Minimum y-coordinate of the output image
+    * - :math:`y_{max}`
+      - Maximum y-coordinate of the output image
+    * - Mode
+      - Image size definition mode: 'Pixel size' or 'Output shape'. The 'Pixel size' mode
+        allows to define the pixel size of the new image, while the 'Output shape' mode
+        allows to define the number of pixels of the new image.
+    * - ΔX
+      - Pixel size in x-direction (if 'Pixel size' mode is selected)
+    * - ΔY
+      - Pixel size in y-direction (if 'Pixel size' mode is selected)
+    * - Width
+      - Output image width in pixels (if 'Output shape' mode is selected)
+    * - Height
+      - Output image height in pixels (if 'Output shape' mode is selected)
+    * - Interpolation method
+      - Interpolation method to use: 'nearest', 'linear', 'cubic'
+    * - Fill value
+      - Value to use for points outside the input image domain (if None, function uses NaN for extrapolation)

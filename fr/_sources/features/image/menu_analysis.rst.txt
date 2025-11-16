@@ -63,12 +63,89 @@ Parameters are:
 
     Example of histogram.
 
+Intensity profiles
+^^^^^^^^^^^^^^^^^^
+
+Line profile
+~~~~~~~~~~~~
+
+Extract an horizontal or vertical profile from each selected image, and create
+new signals from these profiles.
+
+.. figure:: /images/shots/i_profile.png
+
+    Line profile dialog. Parameters may also be set manually
+    ("Edit profile parameters" button).
+
+Segment profile
+~~~~~~~~~~~~~~~
+
+Extract a segment profile from each selected image, and create new signals
+from these profiles.
+
+Average profile
+~~~~~~~~~~~~~~~
+
+Extract an horizontal or vertical profile averaged over a rectangular area, from
+each selected image, and create new signals from these profiles.
+
+.. figure:: /images/shots/i_profile_average.png
+
+    Average profile dialog: the area is defined by a rectangle shape.
+    Parameters may also be set manually ("Edit profile parameters" button).
+
+Radial profile extraction
+~~~~~~~~~~~~~~~~~~~~~~~~~
+
+Extract a radial profile from each selected image, and create new signals from
+these profiles.
+
+The following parameters are available:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Parameter
+      - Description
+    * - Center
+      - Center around which the radial profile is computed: centroid, image center, or user-defined
+    * - X
+      - X coordinate of the center (if user-defined), in pixels
+    * - Y
+      - Y coordinate of the center (if user-defined), in pixels
+
+Horizontal and vertical projections
+^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+
+Compute horizontal and vertical projection profiles:
+
+- Horizontal projection: Sum the pixel values along each row (projection on the x-axis).
+- Vertical projection: Sum the pixel values along each column (projection on the y-axis).
+
 Centroid
 ^^^^^^^^
 
-Compute image centroid using a Fourier transform method
-(as discussed by `Weisshaar et al. <http://www.mnd-umwelttechnik.fh-wiesbaden.de/pig/weisshaar_u5.pdf>`_).
-This method is quite insensitive to background noise.
+Compute the centroid of the image using a robust adaptive algorithm.
+
+DataLab uses the :py:func:`sigima.tools.image.get_centroid_auto` function to estimate
+the image centroid.
+
+This function combines the robustness of a Fourier-based approach
+(as discussed by `Weisshaar et al. <http://www.mnd-umwelttechnik.fh-wiesbaden.de/pig/weisshaar_u5.pdf>`_)
+with fallback mechanisms designed to handle pathological cases, such as:
+
+- truncated or asymmetric shapes,
+- off-center objects,
+- strong background noise.
+
+Internally, :py:func:`sigima.tools.image.get_centroid_auto` compares the
+Fourier result with two alternative estimators (a projected profile-based method
+:py:func:`sigima.tools.image.get_projected_profile_centroid` and a standard centroid
+from `scikit-image`), and selects the most consistent one.
+
+This strategy ensures accurate and stable results across a wide range
+of image types — from clean laboratory data to noisy or partial acquisitions.
 
 Minimum enclosing circle center
 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
@@ -111,6 +188,8 @@ Circle Hough transform
 Detect circular shapes using circle Hough transform
 (implementation based on `skimage.transform.hough_circle_peaks <https://scikit-image.org/docs/stable/api/skimage.transform.html?highlight=hough#skimage.transform.hough_circle_peaks>`_).
 
+.. _ima-blob-detection:
+
 Blob detection
 ^^^^^^^^^^^^^^
 
@@ -129,11 +208,36 @@ Blob detection (LOG)
 Blob detection (OpenCV)
     Detect blobs using OpenCV implementation of `SimpleBlobDetector <https://docs.opencv.org/3.4/d0/d7a/classcv_1_1SimpleBlobDetector.html>`_.
 
+.. note::
+    **Automatic ROI creation for detection features**
+
+    All detection features (2D peak detection, contour detection, circle Hough
+    transform, and blob detection) support automatic ROI creation around detected
+    objects. This feature:
+
+    - Creates rectangular or circular ROIs around each detected feature
+    - Automatically sizes ROIs based on minimum distance between detections
+    - Requires at least 2 detected objects to determine appropriate ROI size
+    - Enables subsequent processing on individual detected regions
+
+    To use this feature, enable "Create regions of interest" in the detection
+    parameters dialog and choose the desired ROI geometry.
+
 Show results
 ^^^^^^^^^^^^
 
 Show the results of all analyses performed on the selected images. This shows the
 same table as the one shown after having performed a computation.
+
+Results label
+^^^^^^^^^^^^^
+
+Toggle the visibility of result labels on the plot. When enabled, this checkable
+menu item displays result annotations (such as centroid markers, detected contours,
+blob circles, or other analysis shapes) directly on the image plot.
+
+This option is synchronized between Signal and Image panels and persists across
+sessions. It is only enabled when results are available for the selected image.
 
 Plot results
 ^^^^^^^^^^^^

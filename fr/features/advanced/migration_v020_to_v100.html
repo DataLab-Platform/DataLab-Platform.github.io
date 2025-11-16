@@ -1,0 +1,1630 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Guide de migration des plugins DataLab de v0.20 à v1.0" name="description" translated="True" />
+<meta content="DataLab, plugin, migration, v0.20, v1.0, Sigima, changements API" name="keywords" translated="True" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Migration de DataLab v0.20 vers v1.0 &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=05dadb3a"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=bf059b8c"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/migration_v020_to_v100';</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/migration_v020_to_v100.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Macros" href="macros.html" />
+    <link rel="prev" title="Plugins" href="plugins.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! Un cas d'usage avancé de DataLab sera présenté à <a href='outreach/osxp2025.html'>OSXP 2025</a> (11 déc.) 🚀 — <a href='outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Migration de DataLab v0.20 vers v1.0</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="migrating-from-datalab-v0-20-to-v1-0">
+<span id="migration-v020-to-v100"></span><h1>Migration de DataLab v0.20 vers v1.0<a class="headerlink" href="#migrating-from-datalab-v0-20-to-v1-0" title="Lien vers cette rubrique">#</a></h1>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p><strong>Note de compatibilité critique :</strong></p>
+<p>DataLab v1.0 introduit des <strong>changements majeurs</strong> qui ne sont <strong>pas rétrocompatibles</strong> avec v0.20.</p>
+<ul class="simple">
+<li><p><strong>Les plugins</strong> développés pour v0.20 <strong>ne fonctionneront pas</strong> et doivent être mis à jour</p></li>
+<li><p><strong>Les changements d’API</strong> nécessitent des modifications de code pour toutes les intégrations personnalisées</p></li>
+</ul>
+<p>Veuillez lire ce guide attentivement avant de passer à la v1.0.</p>
+</div>
+<p>DataLab v1.0 introduit des changements architecturaux importants par rapport à la v0.20. Le changement le plus important est l”<strong>externalisation des fonctionnalités de traitement du signal et de l’image</strong> dans une bibliothèque séparée appelée <strong>Sigima</strong>.</p>
+<p>Ce changement architectural améliore la modularité, la testabilité et permet la réutilisation des fonctions de traitement dans d’autres projets. Cependant, cela nécessite des mises à jour des plugins existants pour s’adapter à la nouvelle API.</p>
+<p>Ce guide décrit les étapes pour migrer les plugins de DataLab v0.20 vers v1.0.</p>
+<nav class="contents local" id="sommaire">
+<ul class="simple">
+<li><p><a class="reference internal" href="#what-changed-in-v1-0" id="id2">Qu’est-ce qui a changé dans la v1.0 ?</a></p>
+<ul>
+<li><p><a class="reference internal" href="#major-architectural-changes" id="id3">Changements architecturaux majeurs</a></p></li>
+<li><p><a class="reference internal" href="#package-renaming" id="id4">Renommage du package</a></p></li>
+<li><p><a class="reference internal" href="#new-result-objects" id="id5">Nouveaux objets résultat</a></p></li>
+<li><p><a class="reference internal" href="#unified-processor-interface" id="id6">Interface processeur unifiée</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#updating-the-imports" id="id7">Mise à jour des imports</a></p>
+<ul>
+<li><p><a class="reference internal" href="#import-path-changes" id="id8">Changements des chemins d’import</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#migrating-plugin-code" id="id9">Migration du code des plugins</a></p>
+<ul>
+<li><p><a class="reference internal" href="#example-1-simple-processing-plugin" id="id10">Exemple 1 : Plugin de traitement simple</a></p></li>
+<li><p><a class="reference internal" href="#example-2-plugin-using-built-in-features" id="id11">Exemple 2 : Plugin utilisant des fonctionnalités intégrées</a></p></li>
+<li><p><a class="reference internal" href="#example-3-plugin-creating-objects-and-handling-results" id="id12">Exemple 3 : Plugin créant des objets et gérant les résultats</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#working-with-result-objects" id="id13">Travailler avec les objets résultat</a></p>
+<ul>
+<li><p><a class="reference internal" href="#changes-to-result-objects" id="id14">Modifications des objets résultat</a></p></li>
+<li><p><a class="reference internal" href="#using-tableresult-and-geometryresult" id="id15">Utilisation de TableResult et GeometryResult</a></p></li>
+<li><p><a class="reference internal" href="#retrieving-results-from-metadata" id="id16">Récupération des résultats depuis les métadonnées</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#processor-method-changes" id="id17">Modifications des méthodes du processeur</a></p>
+<ul>
+<li><p><a class="reference internal" href="#using-run-feature" id="id18">Utilisation de run_feature()</a></p></li>
+<li><p><a class="reference internal" href="#method-renaming" id="id19">Renommage des méthodes</a></p></li>
+<li><p><a class="reference internal" href="#built-in-features-using-run-feature" id="id20">Fonctionnalités intégrées utilisant run_feature</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#testing-your-plugin" id="id21">Tester votre plugin</a></p></li>
+<li><p><a class="reference internal" href="#common-issues-and-solutions" id="id22">Problèmes courants et solutions</a></p>
+<ul>
+<li><p><a class="reference internal" href="#import-errors" id="id23">Erreurs d’import</a></p></li>
+<li><p><a class="reference internal" href="#attribute-errors-on-processor" id="id24">Erreurs d’attribut sur le processeur</a></p></li>
+<li><p><a class="reference internal" href="#result-object-incompatibility" id="id25">Incompatibilité d’objet résultat</a></p></li>
+<li><p><a class="reference internal" href="#missing-parameters" id="id26">Paramètres manquants</a></p></li>
+</ul>
+</li>
+<li><p><a class="reference internal" href="#additional-resources" id="id27">Ressources supplémentaires</a></p></li>
+<li><p><a class="reference internal" href="#getting-help" id="id28">Obtenir de l’aide</a></p></li>
+</ul>
+</nav>
+<section id="what-changed-in-v1-0">
+<h2><a class="toc-backref" href="#id2" role="doc-backlink">Qu’est-ce qui a changé dans la v1.0 ?</a><a class="headerlink" href="#what-changed-in-v1-0" title="Lien vers cette rubrique">#</a></h2>
+<section id="major-architectural-changes">
+<h3><a class="toc-backref" href="#id3" role="doc-backlink">Changements architecturaux majeurs</a><a class="headerlink" href="#major-architectural-changes" title="Lien vers cette rubrique">#</a></h3>
+<p>Le changement le plus significatif dans DataLab v1.0 est la création de la <strong>bibliothèque Sigima</strong>, qui contient désormais :</p>
+<ul class="simple">
+<li><p><strong>Objets signal et image</strong> (<code class="docutils literal notranslate"><span class="pre">SignalObj</span></code>, <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code>, classes ROI)</p></li>
+<li><p><strong>Paramètres de traitement</strong> (toutes les classes <code class="docutils literal notranslate"><span class="pre">*Param</span></code>)</p></li>
+<li><p><strong>Fonctions de traitement</strong> (modules <code class="docutils literal notranslate"><span class="pre">sigima.proc.signal</span></code> et <code class="docutils literal notranslate"><span class="pre">sigima.proc.image</span></code>)</p></li>
+<li><p><strong>Algorithmes</strong> pour le traitement du signal et de l’image, ou conversion de types de données, transformation de coordonnées, … (module <code class="docutils literal notranslate"><span class="pre">sigima.tools</span></code>)</p></li>
+<li><p><strong>Fonctions d’entrée/sortie</strong> (lecture et écriture de signaux/images)</p></li>
+<li><p><strong>Utilitaires de données de test</strong> (génération de signaux et d’images de test)</p></li>
+<li><p><strong>Objets résultat</strong> (<code class="docutils literal notranslate"><span class="pre">TableResult</span></code> et <code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code>, remplaçant <code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> et <code class="docutils literal notranslate"><span class="pre">ResultShape</span></code>)</p></li>
+</ul>
+<p>Ce qui reste dans DataLab :</p>
+<ul class="simple">
+<li><p><strong>Composants d’interface graphique</strong> (panneaux, widgets, intégration de tracés)</p></li>
+<li><p><strong>Système de plugins</strong> (module <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code>)</p></li>
+<li><p><strong>Logique applicative</strong> (fenêtre principale, configuration, gestion de projet)</p></li>
+<li><p><strong>Adaptateurs de métadonnées de résultats</strong> (<code class="docutils literal notranslate"><span class="pre">TableAdapter</span></code>, <code class="docutils literal notranslate"><span class="pre">GeometryAdapter</span></code> pour stocker les résultats dans les métadonnées des objets)</p></li>
+</ul>
+</section>
+<section id="package-renaming">
+<h3><a class="toc-backref" href="#id4" role="doc-backlink">Renommage du package</a><a class="headerlink" href="#package-renaming" title="Lien vers cette rubrique">#</a></h3>
+<p>Le package DataLab a été renommé de <code class="docutils literal notranslate"><span class="pre">cdl</span></code> à <code class="docutils literal notranslate"><span class="pre">datalab</span></code> par souci de clarté :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.20</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.param</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdl.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span>
+
+<span class="c1"># v1.0</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.objects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.params</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span>
+</pre></div>
+</div>
+</section>
+<section id="new-result-objects">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Nouveaux objets résultat</a><a class="headerlink" href="#new-result-objects" title="Lien vers cette rubrique">#</a></h3>
+<p>DataLab v1.0 introduit deux nouveaux types de résultats immuables :</p>
+<ul class="simple">
+<li><p><strong>TableResult</strong> : Remplace <code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> pour les résultats scalaires tabulaires (par exemple, statistiques, mesures)</p></li>
+<li><p><strong>GeometryResult</strong> : Remplace <code class="docutils literal notranslate"><span class="pre">ResultShape</span></code> pour les résultats géométriques (par exemple, caractéristiques détectées, contours)</p></li>
+</ul>
+<p>Ces nouveaux types de résultats sont orientés calcul et exempts de logique spécifique à l’application (par exemple, Qt, métadonnées). Tous les comportements liés aux métadonnées ont été migrés vers la couche applicative de DataLab en utilisant des <strong>classes d’adaptation</strong> (<code class="docutils literal notranslate"><span class="pre">TableAdapter</span></code>, <code class="docutils literal notranslate"><span class="pre">GeometryAdapter</span></code>).</p>
+</section>
+<section id="unified-processor-interface">
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">Interface processeur unifiée</a><a class="headerlink" href="#unified-processor-interface" title="Lien vers cette rubrique">#</a></h3>
+<p>Les méthodes du processeur ont été unifiées et renommées :</p>
+<ul class="simple">
+<li><p>La plupart des méthodes spécifiques <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> utilisent désormais la méthode générique <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code></p></li>
+<li><p>Conventions de nommage mises à jour : <code class="docutils literal notranslate"><span class="pre">compute_11</span></code> → <code class="docutils literal notranslate"><span class="pre">compute_1_to_1</span></code>, <code class="docutils literal notranslate"><span class="pre">compute_10</span></code> → <code class="docutils literal notranslate"><span class="pre">compute_1_to_0</span></code>, etc.</p></li>
+</ul>
+</section>
+</section>
+<section id="updating-the-imports">
+<h2><a class="toc-backref" href="#id7" role="doc-backlink">Mise à jour des imports</a><a class="headerlink" href="#updating-the-imports" title="Lien vers cette rubrique">#</a></h2>
+<section id="import-path-changes">
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Changements des chemins d’import</a><a class="headerlink" href="#import-path-changes" title="Lien vers cette rubrique">#</a></h3>
+<p>Le tableau suivant donne l’équivalence entre les imports DataLab v0.20 et v1.0.</p>
+<p>Le tableau ci-dessous présente la correspondance entre l’API DataLab v0.20 et v1.0. Pour la plupart des entrées, seule l’instruction d’import doit être mise à jour.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Tableau de compatibilité DataLab v0.20 vers v1.0</span><a class="headerlink" href="#id1" title="Lien vers ce tableau">#</a></caption>
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>DataLab v0.20</p></th>
+<th class="head"><p>DataLab v1.0</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><strong>Renommages de modules/packages</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.image</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.image</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.signal</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.signal</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.plugins</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Création et manipulation d’objets</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.create_image()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.create_image()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.create_signal()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.create_signal()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ImageObj</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.ImageObj</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.SignalObj</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.SignalObj</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.create_image_roi()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.create_image_roi()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.create_signal_roi()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.create_signal_roi()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ImageROI</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.ImageROI</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.SignalROI</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.SignalROI</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Classes de paramètres</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param.BinningParam</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params.BinningParam</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param.MovingMedianParam</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params.MovingMedianParam</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param.BlobOpenCVParam</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params.BlobOpenCVParam</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param.GaussianParam</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params.GaussianParam</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.param.*Param</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.params.*Param</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Enveloppes de fonctions de calcul</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.image.Wrap11Func</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.image.Wrap1to1Func</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.signal.Wrap11Func</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.signal.Wrap1to1Func</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.image.dst_11()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.image.dst_1to1()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.signal.dst_11()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.proc.signal.dst_1to1()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Méthodes du processeur</strong> (<cite>p</cite> est une instance de processeur de signal ou d’image)</p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_11(...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.compute_1_to_1(...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_10(...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.compute_1_to_0(...)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_n1(...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.compute_n_to_1(...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_binning(param)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.run_feature(&quot;binning&quot;,</span> <span class="pre">param)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_moving_median(param)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.run_feature(&quot;moving_median&quot;,</span> <span class="pre">param)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_blob_opencv(param)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.run_feature(&quot;blob_opencv&quot;,</span> <span class="pre">param)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">p.compute_*(param)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">p.run_feature(&quot;feature_name&quot;,</span> <span class="pre">param)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Objets résultat</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ResultProperties</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.TableResult</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ResultShape</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.GeometryResult</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">result.add_to(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">TableAdapter(result).add_to(obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">ResultShape.from_metadata_entry()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">GeometryAdapter.from_metadata_entry()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">result.to_html(obj)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">ResultHtmlGenerator.generate_html(result,</span> <span class="pre">obj)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Fonctions de données de test</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data.*</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.tests.data.*</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data.create_paracetamol_signal()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.tests.data.create_paracetamol_signal()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data.add_gaussian_noise_to_signal()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.tests.data.add_gaussian_noise_to_signal()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data.create_noisygauss_image()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.tests.data.create_noisy_gaussian_image()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data.create_multigauss_image()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.tests.data.create_multigaussian_image()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Nouveaux paramètres d’image</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_image_dtype=True)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_dtype=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_image_type=True)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_type=True)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_image_height=True)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters(hide_height=True)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Fonctions d’entrée/sortie</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.io.image.read_image()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.io.image.read_image()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.io.image.write_image()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.io.image.write_image()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.io.signal.read_signal()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.io.signal.read_signal()</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.io.signal.write_signal()</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.io.signal.write_signal()</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><strong>Énumérations</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ImageDatatypes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.ImageDatatypes</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.obj.ImageTypes</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">sigima.objects.ImageTypes</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><strong>Fonctionnalités spécifiques à DataLab</strong></p></td>
+<td></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.config._</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab.config._</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.plugins.PluginBase</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">cdl.plugins.PluginInfo</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="migrating-plugin-code">
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Migration du code des plugins</a><a class="headerlink" href="#migrating-plugin-code" title="Lien vers cette rubrique">#</a></h2>
+<section id="example-1-simple-processing-plugin">
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Exemple 1 : Plugin de traitement simple</a><a class="headerlink" href="#example-1-simple-processing-plugin" title="Lien vers cette rubrique">#</a></h3>
+<p>Voici comment un plugin de filtre personnalisé simple doit être mis à jour :</p>
+<p><strong>DataLab v0.20 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spi</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.computation.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">cpi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.param</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.plugins</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom denoising filter to an image.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter_func</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">central_pixel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">central_pixel</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">differences</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">differences</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spi</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomFilters</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Custom Filters Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My custom filters&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span>
+        <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;Weighted average denoise&quot;</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
+                <span class="c1"># Wrap function to handle ImageObj objects</span>
+                <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">cpi</span><span class="o">.</span><span class="n">Wrap11Func</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+                <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">name</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+                <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>DataLab v1.0 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sipi</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datalab.plugins</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom denoising filter to an image.&quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter_func</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+        <span class="n">central_pixel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">central_pixel</span><span class="p">)</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">differences</span> <span class="o">/</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">differences</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">spi</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomFilters</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Custom Filters Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My custom filters&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="n">proc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span>
+        <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;Weighted average denoise&quot;</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
+                <span class="c1"># Wrap function to handle ImageObj objects</span>
+                <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">Wrap1to1Func</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+                <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                    <span class="n">name</span><span class="p">,</span>
+                    <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="n">proc</span><span class="o">.</span><span class="n">compute_1_to_1</span><span class="p">(</span><span class="n">wrapped_func</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="n">name</span><span class="p">),</span>
+                <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Changements clés :</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.image</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.proc.image</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.plugins</span></code> → <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">Wrap11Func</span></code> → <code class="docutils literal notranslate"><span class="pre">Wrap1to1Func</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_11</span></code> → <code class="docutils literal notranslate"><span class="pre">compute_1_to_1</span></code></p></li>
+</ol>
+</section>
+<section id="example-2-plugin-using-built-in-features">
+<h3><a class="toc-backref" href="#id11" role="doc-backlink">Exemple 2 : Plugin utilisant des fonctionnalités intégrées</a><a class="headerlink" href="#example-2-plugin-using-built-in-features" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>DataLab v0.20 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.param</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.plugins</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtractBlobs</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Example Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Extract blobs (example)&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image&quot;&quot;&quot;</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BinningParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_moving_median</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect circular blobs&quot;&quot;&quot;</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BlobOpenCVParam</span><span class="p">()</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">filter_by_color</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">min_area</span> <span class="o">=</span> <span class="mf">600.0</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">max_area</span> <span class="o">=</span> <span class="mf">6000.0</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">filter_by_circularity</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">min_circularity</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">max_circularity</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_blob_opencv</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Preprocess image&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Detect circular blobs&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>DataLab v1.0 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sigima.objects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.params</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datalab.plugins</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">ExtractBlobs</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Example Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Extract blobs (example)&quot;</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image&quot;&quot;&quot;</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">BinningParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span>
+            <span class="s2">&quot;moving_median&quot;</span><span class="p">,</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">detect_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect circular blobs&quot;&quot;&quot;</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">BlobOpenCVParam</span><span class="p">()</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">filter_by_color</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">min_area</span> <span class="o">=</span> <span class="mf">600.0</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">max_area</span> <span class="o">=</span> <span class="mf">6000.0</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">filter_by_circularity</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">min_circularity</span> <span class="o">=</span> <span class="mf">0.8</span>
+        <span class="n">param</span><span class="o">.</span><span class="n">max_circularity</span> <span class="o">=</span> <span class="mf">1.0</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;blob_opencv&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Preprocess image&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Detect circular blobs&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Changements clés :</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.param</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.params</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.plugins</span></code> → <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_binning(param)</span></code> → <code class="docutils literal notranslate"><span class="pre">run_feature(&quot;binning&quot;,</span> <span class="pre">param)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_moving_median(param)</span></code> → <code class="docutils literal notranslate"><span class="pre">run_feature(&quot;moving_median&quot;,</span> <span class="pre">param)</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_blob_opencv(param)</span></code> → <code class="docutils literal notranslate"><span class="pre">run_feature(&quot;blob_opencv&quot;,</span> <span class="pre">param)</span></code></p></li>
+</ol>
+</section>
+<section id="example-3-plugin-creating-objects-and-handling-results">
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Exemple 3 : Plugin créant des objets et gérant les résultats</a><a class="headerlink" href="#example-3-plugin-creating-objects-and-handling-results" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>DataLab v0.20 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dlo</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">cdl.tests.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">test_data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdl.computation</span><span class="w"> </span><span class="kn">import</span> <span class="n">image</span> <span class="k">as</span> <span class="n">cpima</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdl.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdl.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span><span class="p">,</span> <span class="n">PluginInfo</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">dlo</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">dlo</span><span class="o">.</span><span class="n">NormalRandomParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dlo</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add gaussian noise to image&quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">cpima</span><span class="o">.</span><span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;add_gaussian_noise&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">test_data</span><span class="o">.</span><span class="n">add_gaussian_noise_to_image</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add noise to image&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
+            <span class="n">add_noise_to_image</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">dlo</span><span class="o">.</span><span class="n">NormalRandomParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_noisygauss_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span>
+            <span class="n">hide_image_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_image_type</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_noisygauss_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">,</span> <span class="n">add_annotations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise to image&quot;</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gauss image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisygauss_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>DataLab v1.0 :</strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.objects</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.tests.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">test_data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.proc</span><span class="w"> </span><span class="kn">import</span> <span class="n">image</span> <span class="k">as</span> <span class="n">sipi</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span><span class="p">,</span> <span class="n">PluginInfo</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span>
+    <span class="n">src</span><span class="p">:</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NormalDistribution2DParam</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add gaussian noise to image&quot;&quot;&quot;</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">dst_1to1</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;add_gaussian_noise&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">test_data</span><span class="o">.</span><span class="n">add_gaussian_noise_to_image</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">dst</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add noise to image&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_1_to_1</span><span class="p">(</span>
+            <span class="n">add_noise_to_image</span><span class="p">,</span>
+            <span class="n">paramclass</span><span class="o">=</span><span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NormalDistribution2DParam</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_noisy_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span>
+            <span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">,</span> <span class="n">add_annotations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise to image&quot;</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Changements clés :</strong></p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.obj</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.objects</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.tests.data</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.tests.data</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl.computation.image</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.proc.image</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dst_11</span></code> → <code class="docutils literal notranslate"><span class="pre">dst_1to1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">compute_11</span></code> → <code class="docutils literal notranslate"><span class="pre">compute_1_to_1</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">dlo.NormalRandomParam</span></code> → <code class="docutils literal notranslate"><span class="pre">sigima.objects.NormalDistribution2DParam</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">create_noisygauss_image</span></code> → <code class="docutils literal notranslate"><span class="pre">create_noisy_gaussian_image</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">hide_image_height</span></code> → <code class="docutils literal notranslate"><span class="pre">hide_height</span></code>, <code class="docutils literal notranslate"><span class="pre">hide_image_type</span></code> → <code class="docutils literal notranslate"><span class="pre">hide_type</span></code></p></li>
+</ol>
+</section>
+</section>
+<section id="working-with-result-objects">
+<h2><a class="toc-backref" href="#id13" role="doc-backlink">Travailler avec les objets résultat</a><a class="headerlink" href="#working-with-result-objects" title="Lien vers cette rubrique">#</a></h2>
+<section id="changes-to-result-objects">
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Modifications des objets résultat</a><a class="headerlink" href="#changes-to-result-objects" title="Lien vers cette rubrique">#</a></h3>
+<p>L’architecture des objets résultat a été complètement repensée dans la v1.0 :</p>
+<p><strong>Objets résultat v0.20 :</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> : Pour les résultats tabulaires (statistiques, etc.)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">ResultShape</span></code> : Pour les résultats géométriques (caractéristiques détectées, etc.)</p></li>
+<li><p>Ces objets contenaient du code spécifique à Qt et de la logique de gestion des métadonnées</p></li>
+<li><p>Les méthodes comme <code class="docutils literal notranslate"><span class="pre">add_to(obj)</span></code> et <code class="docutils literal notranslate"><span class="pre">from_metadata_entry()</span></code> faisaient partie de la classe résultat</p></li>
+</ul>
+<p><strong>Objets résultat v1.0 :</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">TableResult</span></code> : Résultats tabulaires immuables, orientés calcul</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code> : Résultats géométriques immuables, orientés calcul</p></li>
+<li><p>Aucune dépendance Qt ou métadonnées</p></li>
+<li><p>La gestion des métadonnées a été déplacée vers les classes d’adaptation DataLab</p></li>
+</ul>
+</section>
+<section id="using-tableresult-and-geometryresult">
+<h3><a class="toc-backref" href="#id15" role="doc-backlink">Utilisation de TableResult et GeometryResult</a><a class="headerlink" href="#using-tableresult-and-geometryresult" title="Lien vers cette rubrique">#</a></h3>
+<p>Dans la v1.0, lorsque votre plugin reçoit des résultats d’opérations <code class="docutils literal notranslate"><span class="pre">compute_1_to_0</span></code>, vous travaillerez avec des objets <code class="docutils literal notranslate"><span class="pre">TableResult</span></code> ou <code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code>.</p>
+<p><strong>Exemple 1 : Calcul des paramètres dynamiques du signal (TableResult)</strong></p>
+<p>Cet exemple montre comment calculer les paramètres dynamiques (ENOB, SINAD, THD, etc.) et travailler avec le <code class="docutils literal notranslate"><span class="pre">TableResult</span></code> résultant :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sigima.params</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">TableAdapter</span>
+
+<span class="c1"># Get the current signal from the panel</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+
+<span class="c1"># Compute dynamic parameters</span>
+<span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">DynamicParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">full_scale</span><span class="o">=</span><span class="mf">1.0</span><span class="p">)</span>
+<span class="n">table</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">dynamic_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># Access specific values from the table</span>
+<span class="n">enob</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;enob&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Effective Number of Bits</span>
+<span class="n">sinad</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;sinad&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Signal-to-Noise and Distortion Ratio</span>
+<span class="n">thd</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;thd&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Total Harmonic Distortion</span>
+
+<span class="c1"># Convert to dictionary for easy access</span>
+<span class="n">result_dict</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ENOB: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">&#39;enob&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SINAD: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">&#39;sinad&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+
+<span class="c1"># Store result in object metadata using adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">TableAdapter</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
+<span class="n">adapter</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="c1"># Convert to pandas DataFrame for further processing</span>
+<span class="n">df</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple 2 : Détection de pics dans une image (GeometryResult)</strong></p>
+<p>Cet exemple montre comment détecter des pics dans une image et travailler avec le <code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code> résultant :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sigima.params</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.image</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryAdapter</span>
+
+<span class="c1"># Get the current image from the panel</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+
+<span class="c1"># Configure peak detection parameters</span>
+<span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">Peak2DDetectionParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span>
+    <span class="n">size</span><span class="o">=</span><span class="mi">50</span><span class="p">,</span>  <span class="c1"># Neighborhood size</span>
+    <span class="n">threshold</span><span class="o">=</span><span class="mf">0.5</span><span class="p">,</span>  <span class="c1"># Relative threshold</span>
+    <span class="n">create_rois</span><span class="o">=</span><span class="kc">True</span>  <span class="c1"># Create ROI for each peak</span>
+<span class="p">)</span>
+
+<span class="c1"># Compute peak detection</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">image</span><span class="o">.</span><span class="n">peak_detection</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># Access geometry data</span>
+<span class="n">coords</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">coords</span>  <span class="c1"># numpy array of shape (n_peaks, 2)</span>
+<span class="n">n_peaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="n">n_peaks</span><span class="si">}</span><span class="s2"> peaks&quot;</span><span class="p">)</span>
+
+<span class="c1"># Iterate over detected peaks</span>
+<span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coords</span><span class="p">):</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check geometry kind</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">KindShape</span>
+<span class="k">assert</span> <span class="n">geometry</span><span class="o">.</span><span class="n">kind</span> <span class="o">==</span> <span class="n">KindShape</span><span class="o">.</span><span class="n">POINT</span>
+
+<span class="c1"># Store geometry in object metadata using adapter</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">GeometryAdapter</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+<span class="n">adapter</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</pre></div>
+</div>
+<p><strong>Exemple 3 : Calcul de la bande passante (GeometryResult avec segments)</strong></p>
+<p>Cet exemple montre comment calculer la bande passante d’un signal, qui renvoie une géométrie de segment :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryAdapter</span>
+
+<span class="c1"># Get the current signal from the panel</span>
+<span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span>
+<span class="n">obj</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+
+<span class="c1"># Compute -3dB bandwidth</span>
+<span class="n">geometry</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">bandwidth_3db</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="c1"># Access segment coordinates [x0, y0, x1, y1]</span>
+<span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bandwidth segment: (</span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y0</span><span class="si">}</span><span class="s2">) to (</span><span class="si">{</span><span class="n">x1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y1</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+
+<span class="c1"># Calculate bandwidth length</span>
+<span class="n">bandwidth</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">segments_lengths</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bandwidth@-3dB: </span><span class="si">{</span><span class="n">bandwidth</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Store in metadata</span>
+<span class="n">adapter</span> <span class="o">=</span> <span class="n">GeometryAdapter</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
+<span class="n">adapter</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="retrieving-results-from-metadata">
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Récupération des résultats depuis les métadonnées</a><a class="headerlink" href="#retrieving-results-from-metadata" title="Lien vers cette rubrique">#</a></h3>
+<p>Pour récupérer les résultats stockés dans les métadonnées de l’objet :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">TableAdapter</span><span class="p">,</span> <span class="n">GeometryAdapter</span>
+
+<span class="n">obj</span> <span class="o">=</span> <span class="o">...</span>  <span class="c1"># Some signal or image object</span>
+
+<span class="c1"># Iterate over all table results</span>
+<span class="k">for</span> <span class="n">adapter</span> <span class="ow">in</span> <span class="n">TableAdapter</span><span class="o">.</span><span class="n">iterate_from_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">result</span>  <span class="c1"># TableResult instance</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">to_dataframe</span><span class="p">()</span>
+
+<span class="c1"># Iterate over all geometry results</span>
+<span class="k">for</span> <span class="n">adapter</span> <span class="ow">in</span> <span class="n">GeometryAdapter</span><span class="o">.</span><span class="n">iterate_from_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">result</span>  <span class="c1"># GeometryResult instance</span>
+    <span class="n">title</span> <span class="o">=</span> <span class="n">adapter</span><span class="o">.</span><span class="n">title</span>
+    <span class="n">coords</span> <span class="o">=</span> <span class="n">result</span><span class="o">.</span><span class="n">coords</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="processor-method-changes">
+<h2><a class="toc-backref" href="#id17" role="doc-backlink">Modifications des méthodes du processeur</a><a class="headerlink" href="#processor-method-changes" title="Lien vers cette rubrique">#</a></h2>
+<p>L’interface du processeur a été unifiée dans la v1.0. La plupart des méthodes spécifiques <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> utilisent désormais la méthode générique <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code>.</p>
+<section id="using-run-feature">
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Utilisation de run_feature()</a><a class="headerlink" href="#using-run-feature" title="Lien vers cette rubrique">#</a></h3>
+<p>La méthode <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> est une interface unifiée pour exécuter des fonctionnalités de traitement :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v1.0 - Generic interface</span>
+<span class="n">proc</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">processor</span>
+
+<span class="c1"># Simple features (no parameters)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;fft&quot;</span><span class="p">)</span>
+
+<span class="c1"># Features with parameters</span>
+<span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">GaussianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;gaussian_filter&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># Features with direct function reference</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sipi</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="n">sipi</span><span class="o">.</span><span class="n">normalize</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="n">sipi</span><span class="o">.</span><span class="n">gaussian_filter</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="method-renaming">
+<h3><a class="toc-backref" href="#id19" role="doc-backlink">Renommage des méthodes</a><a class="headerlink" href="#method-renaming" title="Lien vers cette rubrique">#</a></h3>
+<p>Plusieurs méthodes du processeur ont été renommées par souci de cohérence :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 50.0%" />
+<col style="width: 50.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>v0.20</p></th>
+<th class="head"><p>v1.0</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_11(func,</span> <span class="pre">...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute_1_to_1(func,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute_10(func,</span> <span class="pre">...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute_1_to_0(func,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_n1(func,</span> <span class="pre">...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute_n_to_1(func,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">compute_1n(func,</span> <span class="pre">...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute_1_to_n(func,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">compute_21(func,</span> <span class="pre">...)</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">compute_2_to_1(func,</span> <span class="pre">...)</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="built-in-features-using-run-feature">
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Fonctionnalités intégrées utilisant run_feature</a><a class="headerlink" href="#built-in-features-using-run-feature" title="Lien vers cette rubrique">#</a></h3>
+<p>La plupart des fonctionnalités de traitement intégrées qui avaient auparavant des méthodes dédiées <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> utilisent désormais <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.20</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_moving_median</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_blob_opencv</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_gaussian_filter</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># v1.0</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;moving_median&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;blob_opencv&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;gaussian_filter&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>Certaines fonctionnalités complexes ont toujours des méthodes dédiées :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># These still use dedicated methods in v1.0</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_roi_extraction</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_multigaussianfit</span><span class="p">()</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_peak_detection</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="testing-your-plugin">
+<h2><a class="toc-backref" href="#id21" role="doc-backlink">Tester votre plugin</a><a class="headerlink" href="#testing-your-plugin" title="Lien vers cette rubrique">#</a></h2>
+<p>Après la migration, testez minutieusement votre plugin :</p>
+<ol class="arabic simple">
+<li><p><strong>Vérification des imports</strong> : Vérifiez que tous les imports fonctionnent correctement</p></li>
+<li><p><strong>Création de paramètres</strong> : Vérifiez que les classes de paramètres sont correctement instanciées</p></li>
+<li><p><strong>Création d’objets</strong> : Testez les fonctions de création d’objets signal/image</p></li>
+<li><p><strong>Opérations de traitement</strong> : Vérifiez que toutes les fonctionnalités de traitement fonctionnent comme prévu</p></li>
+<li><p><strong>Gestion des résultats</strong> : Vérifiez que les résultats sont correctement générés et stockés</p></li>
+<li><p><strong>Intégration de l’interface graphique</strong> : Testez que les menus et actions apparaissent correctement</p></li>
+</ol>
+</section>
+<section id="common-issues-and-solutions">
+<h2><a class="toc-backref" href="#id22" role="doc-backlink">Problèmes courants et solutions</a><a class="headerlink" href="#common-issues-and-solutions" title="Lien vers cette rubrique">#</a></h2>
+<section id="import-errors">
+<h3><a class="toc-backref" href="#id23" role="doc-backlink">Erreurs d’import</a><a class="headerlink" href="#import-errors" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Problème</strong> : <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'cdl'</span></code></p>
+<p><strong>Solution</strong> : Mettez à jour tous les imports de <code class="docutils literal notranslate"><span class="pre">cdl.*</span></code> vers soit <code class="docutils literal notranslate"><span class="pre">datalab.*</span></code> soit <code class="docutils literal notranslate"><span class="pre">sigima.*</span></code> selon le module.</p>
+</section>
+<section id="attribute-errors-on-processor">
+<h3><a class="toc-backref" href="#id24" role="doc-backlink">Erreurs d’attribut sur le processeur</a><a class="headerlink" href="#attribute-errors-on-processor" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Problème</strong> : <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'ImageProcessor'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'compute_binning'</span></code></p>
+<p><strong>Solution</strong> : Remplacez les appels de méthode <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> par des appels <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong (v0.20 style)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># Correct (v1.0 style)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="result-object-incompatibility">
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Incompatibilité d’objet résultat</a><a class="headerlink" href="#result-object-incompatibility" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Problème</strong> : <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'TableResult'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'add_to'</span></code></p>
+<p><strong>Solution</strong> : Utilisez des classes d’adaptation pour les opérations de métadonnées :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong (v0.20 style)</span>
+<span class="n">result</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="c1"># Correct (v1.0 style)</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">TableAdapter</span>
+<span class="n">TableAdapter</span><span class="p">(</span><span class="n">result</span><span class="p">)</span><span class="o">.</span><span class="n">add_to</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="missing-parameters">
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Paramètres manquants</a><a class="headerlink" href="#missing-parameters" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Problème</strong> : <code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">cannot</span> <span class="pre">import</span> <span class="pre">name</span> <span class="pre">'SomeParam'</span> <span class="pre">from</span> <span class="pre">'datalab'</span></code></p>
+<p><strong>Solution</strong> : Importez les paramètres depuis <code class="docutils literal notranslate"><span class="pre">sigima.params</span></code> au lieu de <code class="docutils literal notranslate"><span class="pre">cdl.param</span></code> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">cdl.param</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianParam</span>
+
+<span class="c1"># Correct</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.params</span><span class="w"> </span><span class="kn">import</span> <span class="n">GaussianParam</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="additional-resources">
+<h2><a class="toc-backref" href="#id27" role="doc-backlink">Ressources supplémentaires</a><a class="headerlink" href="#additional-resources" title="Lien vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://datalab-platform.com/">Documentation DataLab v1.0</a></p></li>
+<li><p><a class="reference external" href="https://sigima.readthedocs.io/fr/latest/">Documentation Sigima</a></p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">Exemples de plugins</a></p></li>
+<li><p><a class="reference internal" href="api.html"><span class="doc">Référence de l’API DataLab</span></a></p></li>
+<li><p><a class="reference external" href="https://sigima.readthedocs.io/fr/latest/api/index.html">Référence de l’API Sigima</a></p></li>
+</ul>
+</section>
+<section id="getting-help">
+<h2><a class="toc-backref" href="#id28" role="doc-backlink">Obtenir de l’aide</a><a class="headerlink" href="#getting-help" title="Lien vers cette rubrique">#</a></h2>
+<p>Si vous rencontrez des problèmes pendant la migration :</p>
+<ol class="arabic simple">
+<li><p>Consultez le <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues">suivi des problèmes GitHub</a></p></li>
+<li><p>Consultez les exemples de plugins intégrés dans le répertoire <code class="docutils literal notranslate"><span class="pre">datalab/plugins</span></code></p></li>
+</ol>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="plugins.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Plugins</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="macros.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Macros</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changed-in-v1-0">Qu’est-ce qui a changé dans la v1.0 ?</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#major-architectural-changes">Changements architecturaux majeurs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#package-renaming">Renommage du package</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-result-objects">Nouveaux objets résultat</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-processor-interface">Interface processeur unifiée</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#updating-the-imports">Mise à jour des imports</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-path-changes">Changements des chemins d’import</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-plugin-code">Migration du code des plugins</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-1-simple-processing-plugin">Exemple 1 : Plugin de traitement simple</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-2-plugin-using-built-in-features">Exemple 2 : Plugin utilisant des fonctionnalités intégrées</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-3-plugin-creating-objects-and-handling-results">Exemple 3 : Plugin créant des objets et gérant les résultats</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#working-with-result-objects">Travailler avec les objets résultat</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#changes-to-result-objects">Modifications des objets résultat</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-tableresult-and-geometryresult">Utilisation de TableResult et GeometryResult</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#retrieving-results-from-metadata">Récupération des résultats depuis les métadonnées</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#processor-method-changes">Modifications des méthodes du processeur</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#using-run-feature">Utilisation de run_feature()</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#method-renaming">Renommage des méthodes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#built-in-features-using-run-feature">Fonctionnalités intégrées utilisant run_feature</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#testing-your-plugin">Tester votre plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#common-issues-and-solutions">Problèmes courants et solutions</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#import-errors">Erreurs d’import</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#attribute-errors-on-processor">Erreurs d’attribut sur le processeur</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#result-object-incompatibility">Incompatibilité d’objet résultat</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#missing-parameters">Paramètres manquants</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-resources">Ressources supplémentaires</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#getting-help">Obtenir de l’aide</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1373 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Plugin system for DataLab, the open-source scientific data analysis and visualization platform" name="description" />
+<meta content="DataLab, plugin, processing, input/output, HDF5, file format, data analysis, visualization, scientific, open-source, platform" name="keywords" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Plugins &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=8d563738"></script>
+    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/plugins';</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/plugins.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Migrating from DataLab v0.20 to v1.0" href="migration_v020_to_v100.html" />
+    <link rel="prev" title="Validation Status of DataLab" href="../validation/status.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab has been introduced at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 (Tacoma, WA), presented at <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, and <a href='https://www.opensource-experience.com/'>OSXP 2024</a>! An advanced use case will be presented at <a href='outreach/osxp2025.html'>OSXP 2025</a> (Dec 11) 🚀 — <a href='outreach/index.html'>Learn more</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Search</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../changelog.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Color mode" data-bs-title="Color mode"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Light"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Dark"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="System Settings"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview &amp; Common features:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">HDF5 Browser</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Open and save Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Create Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Operations on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Processing Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analysis features on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">View options for Signals</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Open and save Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Create Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Operations on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Processing Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analysis features on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">View options for Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">2D Peak Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Contour Detection</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Technical Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Functional validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Validation Status of DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced features:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Remote controlling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Internal data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logviewer.html">Log viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Command line features</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html">GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Features</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Plugins</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="plugins">
+<span id="about-plugins"></span><h1>Plugins<a class="headerlink" href="#plugins" title="Link to this heading">#</a></h1>
+<p>DataLab supports a robust plugin architecture, allowing users to extend the application’s features without modifying its core. Plugins can introduce new processing tools, data import/export formats, or custom GUI elements — all seamlessly integrated into the platform.</p>
+<section id="what-is-a-plugin">
+<h2>What is a plugin?<a class="headerlink" href="#what-is-a-plugin" title="Link to this heading">#</a></h2>
+<p>A plugin is a Python module that is automatically loaded by DataLab at startup. It can define new features or modify existing ones.</p>
+<p>To be recognized as a plugin, the file must:</p>
+<ul class="simple">
+<li><p>Be a Python module whose name <strong>starts with</strong> <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>),</p></li>
+<li><p>Contain a class that <strong>inherits from</strong> <a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a>,</p></li>
+<li><p>Include a class attribute named <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code>, which must be an instance of <a class="reference internal" href="#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></a>.</p></li>
+</ul>
+<p>This <cite>PLUGIN_INFO</cite> object is used by DataLab to retrieve metadata such as the plugin name, type, and menu integration.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Only Python files whose names start with <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> will be scanned for plugins.</p>
+</div>
+<p>DataLab supports three categories of plugins, each with its own purpose and registration mechanism:</p>
+<ul class="simple">
+<li><p><strong>Processing and visualization plugins</strong>
+Add custom actions for signal or image processing. These may include new computation functions, data visualization tools, or interactive dialogs. Integrated into a dedicated submenu of the “Plugins” menu.</p></li>
+<li><p><strong>Input/Output plugins</strong>
+Define new file formats (read and/or write) handled transparently by DataLab’s I/O framework. These plugins extend compatibility with custom or third-party data formats.</p></li>
+<li><p><strong>HDF5 plugins</strong>
+Special plugins that support HDF5 files with domain-specific tree structures. These allow DataLab to interpret signals or images organized in non-standard ways.</p></li>
+</ul>
+</section>
+<section id="where-to-put-a-plugin">
+<h2>Where to put a plugin?<a class="headerlink" href="#where-to-put-a-plugin" title="Link to this heading">#</a></h2>
+<p>Plugins are automatically discovered at startup from multiple locations:</p>
+<ul class="simple">
+<li><p>The user plugin directory:
+Typically <cite>~/.DataLab/plugins</cite> on Linux/macOS or <cite>C:/Users/YourName/.DataLab/plugins</cite> on Windows.</p></li>
+<li><p>A custom plugin directory:
+Configurable in DataLab’s preferences.</p></li>
+<li><p>The standalone distribution directory:
+If using a frozen (standalone) build, the <cite>plugins</cite> folder located next to the executable is scanned.</p></li>
+<li><p>The internal <cite>datalab/plugins</cite> folder (not recommended for user plugins):
+This location is reserved for built-in or bundled plugins and should not be modified manually.</p></li>
+</ul>
+</section>
+<section id="how-to-develop-a-plugin">
+<h2>How to develop a plugin?<a class="headerlink" href="#how-to-develop-a-plugin" title="Link to this heading">#</a></h2>
+<p>The recommended approach to developing a plugin is to derive from an existing example and adapt it to your needs. You can explore the source code in the <cite>datalab/plugins</cite> folder or refer to community-contributed examples.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Most of DataLab’s signal and image processing functionalities have been externalized into a dedicated library called <strong>Sigima</strong> (<a class="reference external" href="https://sigima.readthedocs.io/en/latest/">https://sigima.readthedocs.io/en/latest/</a>). When developing DataLab plugins, you will typically import and use many Sigima functions and features to perform data processing, analysis, and visualization tasks. Sigima provides a comprehensive set of tools for scientific data manipulation that can be leveraged directly in your plugins.</p>
+</div>
+<p>To develop in your usual Python environment (e.g., with an IDE like <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>), you can:</p>
+<ol class="arabic simple">
+<li><p><strong>Install DataLab in your Python environment</strong>, using one of the following methods:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../intro/installation.html#install-conda"><span class="std std-ref">Conda package</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-pip"><span class="std std-ref">Package manager pip</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-wheel"><span class="std std-ref">Wheel package</span></a></p></li>
+<li><p><a class="reference internal" href="../../intro/installation.html#install-source"><span class="std std-ref">Source package</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Or add the `datalab` package manually to your Python path</strong>:</p>
+<ul class="simple">
+<li><p>Download the source from the <a class="reference external" href="https://pypi.org/project/datalab-platform/">PyPI page</a>,</p></li>
+<li><p>Unzip the archive,</p></li>
+<li><p>Add the <cite>datalab</cite> directory to your PYTHONPATH (e.g., using the <em>PYTHONPATH Manager</em> in Spyder).</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Even if you’ve installed <cite>datalab</cite> in your environment, you cannot run the full DataLab application directly from an IDE. You must launch DataLab via the command line or using the installer-created shortcut to properly test your plugin.</p>
+</div>
+</section>
+<section id="example-processing-plugin">
+<h2>Example: processing plugin<a class="headerlink" href="#example-processing-plugin" title="Link to this heading">#</a></h2>
+<p>Here is a minimal example of a plugin that prints a message when activated:</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Test Data Plugin for DataLab</span>
+<span class="sd">----------------------------</span>
+
+<span class="sd">This plugin is an example of DataLab plugin. It provides test data samples</span>
+<span class="sd">and some actions to test DataLab functionalities.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.tests.data</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">test_data</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageIORegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalIORegistry</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.tests</span><span class="w"> </span><span class="kn">import</span> <span class="n">helpers</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span><span class="p">,</span> <span class="n">PluginInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_progress_bar</span>
+
+<span class="c1"># ------------------------------------------------------------------------------</span>
+<span class="c1"># All computation functions must be defined as global functions, otherwise</span>
+<span class="c1"># they cannot be pickled and sent to the worker process</span>
+<span class="c1"># ------------------------------------------------------------------------------</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_test_objs</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">registry_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">SignalIORegistry</span> <span class="o">|</span> <span class="n">ImageIORegistry</span><span class="p">],</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test objects from a given registry class</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            registry_class: Registry class (SignalIORegistry or ImageIORegistry)</span>
+<span class="sd">            title: Progress bar title</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of (filename, object) tuples</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">test_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">helpers</span><span class="o">.</span><span class="n">read_test_objects</span><span class="p">(</span><span class="n">registry_class</span><span class="p">))</span>
+        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">test_objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">prog</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">i_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">_fname</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_objs</span><span class="p">):</span>
+                <span class="n">prog</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_obj</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">prog</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                    <span class="k">break</span>
+                <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="c1"># Signal processing features ------------------------------------------------</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_paracetamol_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create paracetamol signal&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_paracetamol_signal</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="c1"># Image processing features ------------------------------------------------</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_peak_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D peak image&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">new_object</span><span class="p">(</span><span class="n">add_to_panel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">PeakDataParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">update_param_defaults</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">):</span>
+                <span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> <span class="n">_coords</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">get_peak2d_data</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_sincos_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D sin cos image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_sincos_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_noisy_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">,</span> <span class="n">add_annotations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_multigaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D multi gauss image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_multigaussian_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_2dstep_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D step image&quot;&quot;&quot;</span>
+        <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_2dstep_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_ring_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D ring image&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">RingParam</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Ring&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_ring_image</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_annotated_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create annotated image&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_annotated_image</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_grid_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create image with a grid of gaussian spots&quot;&quot;&quot;</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">GridOfGaussianImages</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Grid of Gaussian Images&quot;</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">):</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_grid_of_gaussian_images</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+    <span class="c1"># Plugin menu entries ------------------------------------------------------</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+        <span class="c1"># Signal Panel ----------------------------------------------------------</span>
+        <span class="n">sah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">sah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+            <span class="n">sah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load spectrum of paracetamol&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_paracetamol_signal</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">sah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span> <span class="n">regclass</span><span class="o">=</span><span class="n">SignalIORegistry</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">regclass</span><span class="p">,</span> <span class="n">title</span><span class="p">),</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+        <span class="c1"># Image Panel -----------------------------------------------------------</span>
+        <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create image with peaks&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_peak_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D sin cos image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_sincos_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D multi gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_multigaussian_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create annotated image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_annotated_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D step image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_2dstep_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create ring image&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_ring_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create image with a grid of gaussian spots&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_grid_gaussian_image</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+            <span class="p">)</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span> <span class="n">regclass</span><span class="o">=</span><span class="n">ImageIORegistry</span><span class="p">,</span>
+                <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">regclass</span><span class="p">,</span> <span class="n">title</span><span class="p">),</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+            <span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-input-output-plugin">
+<h2>Example: input/output plugin<a class="headerlink" href="#example-input-output-plugin" title="Link to this heading">#</a></h2>
+<p>Here is a simple example of a plugin that adds a new file formats to DataLab.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Image file formats Plugin for DataLab</span>
+<span class="sd">-------------------------------------</span>
+
+<span class="sd">This plugin is an example of DataLab plugin.</span>
+<span class="sd">It provides image file formats from cameras, scanners, and other acquisition devices.</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.image.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleImageFormatBase</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Thales Pixium FXD file format</span>
+<span class="c1"># ==============================================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXDFile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class implementing Thales Pixium FXD Image file reading feature</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fname (str): path to FXD file</span>
+<span class="sd">        debug (bool): debug mode</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+
+    <span class="n">HEADER</span> <span class="o">=</span> <span class="s2">&quot;&lt;llllllffl&quot;</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_format</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the object&quot;&quot;&quot;</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">&quot;Image width&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Image Height&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Frame number&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;File format&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Pixel type&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Quantlevels&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Min. level&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Max. level&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">&quot;Comment length&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">desc_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">info</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;{:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;}</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">description</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load header and image pixel data</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fname (str): path to FXD file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
+            <span class="n">header_s</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HEADER</span><span class="p">)</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">unpacked_rec</span> <span class="o">=</span> <span class="n">header_s</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">unpacked_rec</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">unpacked_rec</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">data_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">128</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported pixel type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span> <span class="o">*</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXDImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing Thales Pixium (FXD) image file type&quot;&quot;&quot;</span>
+
+    <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Thales Pixium&quot;</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">&quot;*.fxd&quot;</span><span class="p">,</span>
+        <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">writeable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read data and return it</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to FXD file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: image data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">fxd_file</span> <span class="o">=</span> <span class="n">FXDFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fxd_file</span><span class="o">.</span><span class="n">data</span>
+
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Dürr NDT XYZ file format</span>
+<span class="c1"># ==============================================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">XYZImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing Dürr NDT XYZ image file type&quot;&quot;&quot;</span>
+
+    <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dürr NDT&quot;</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">&quot;*.xyz&quot;</span><span class="p">,</span>
+        <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">writeable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read data and return it</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to XYZ file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: image data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">cols</span> <span class="o">*</span> <span class="n">rows</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename: File name</span>
+<span class="sd">            data: Image array data</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="other-examples">
+<h2>Other examples<a class="headerlink" href="#other-examples" title="Link to this heading">#</a></h2>
+<p>Other examples of plugins can be found in the <cite>plugins/examples</cite> directory of the DataLab source code (explore <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">here on GitHub</a>).</p>
+</section>
+<section id="migrating-from-v0-20-to-v1-0">
+<h2>Migrating from v0.20 to v1.0<a class="headerlink" href="#migrating-from-v0-20-to-v1-0" title="Link to this heading">#</a></h2>
+<p>If you have existing plugins written for DataLab v0.20, please refer to the <a class="reference internal" href="migration_v020_to_v100.html#migration-v020-to-v100"><span class="std std-ref">migration guide</span></a> for detailed instructions on updating your plugins to work with DataLab v1.0.</p>
+</section>
+<section id="module-datalab.plugins">
+<span id="public-api"></span><h2>Public API<a class="headerlink" href="#module-datalab.plugins" title="Link to this heading">#</a></h2>
+<section id="datalab-plugin-system">
+<h3>DataLab plugin system<a class="headerlink" href="#datalab-plugin-system" title="Link to this heading">#</a></h3>
+<p>DataLab plugin system provides a way to extend the application with new
+functionalities.</p>
+<p>Plugins are Python modules that relies on two classes:</p>
+<blockquote>
+<div><ul class="simple">
+<li><p><a class="reference internal" href="#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">PluginInfo</span></code></a>, which stores information about the plugin</p></li>
+<li><p><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">PluginBase</span></code></a>, which is the base class for all plugins</p></li>
+</ul>
+</div></blockquote>
+<p>Plugins may also extends DataLab I/O features by providing new image or
+signal formats. To do so, they must provide a subclass of <code class="xref py py-class docutils literal notranslate"><span class="pre">ImageFormatBase</span></code>
+or <code class="xref py py-class docutils literal notranslate"><span class="pre">SignalFormatBase</span></code>, in which format information is defined using the
+<code class="xref py py-class docutils literal notranslate"><span class="pre">FormatInfo</span></code> class.</p>
+</section>
+<dl class="py class">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginRegistry</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">attrs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry" title="Link to this definition">#</a></dt>
+<dd><p>Metaclass for registering plugins</p>
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_plugin_classes">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugin_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_plugin_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_plugin_classes" title="Link to this definition">#</a></dt>
+<dd><p>Return plugin classes</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_plugins">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Return plugin instances</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_plugin">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name_or_class</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_plugin" title="Link to this definition">#</a></dt>
+<dd><p>Return plugin instance</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.register_plugin">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">register_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.register_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.register_plugin" title="Link to this definition">#</a></dt>
+<dd><p>Register plugin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.unregister_plugin">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unregister_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plugin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.unregister_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.unregister_plugin" title="Link to this definition">#</a></dt>
+<dd><p>Unregister plugin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.unregister_all_plugins">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">unregister_all_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.unregister_all_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.unregister_all_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Unregister all plugins</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_plugin_info">
+<em class="property"><span class="pre">classmethod</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugin_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_plugin_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_plugin_info" title="Link to this definition">#</a></dt>
+<dd><p>Return plugin information (names, versions, descriptions) in html format</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>html</strong> – return html formatted text (default: True)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datalab.plugins.PluginInfo">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">version</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'0.0.0'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">description</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">''</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">icon</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginInfo" title="Link to this definition">#</a></dt>
+<dd><p>Plugin info</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBaseMeta">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginBaseMeta</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">bases</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">namespace</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBaseMeta"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBaseMeta" title="Link to this definition">#</a></dt>
+<dd><p>Mixed metaclass to avoid conflicts</p>
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase">
+<em class="property"><span class="pre">class</span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">PluginBase</span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase" title="Link to this definition">#</a></dt>
+<dd><p>Plugin base class</p>
+<dl class="py property">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.signalpanel">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">signalpanel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="api/panel.html#datalab.gui.panel.signal.SignalPanel" title="datalab.gui.panel.signal.SignalPanel"><span class="pre">SignalPanel</span></a></em><a class="headerlink" href="#datalab.plugins.PluginBase.signalpanel" title="Link to this definition">#</a></dt>
+<dd><p>Return signal panel</p>
+</dd></dl>
+
+<dl class="py property">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.imagepanel">
+<em class="property"><span class="pre">property</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">imagepanel</span></span><em class="property"><span class="p"><span class="pre">:</span></span><span class="w"> </span><a class="reference internal" href="api/panel.html#datalab.gui.panel.image.ImagePanel" title="datalab.gui.panel.image.ImagePanel"><span class="pre">ImagePanel</span></a></em><a class="headerlink" href="#datalab.plugins.PluginBase.imagepanel" title="Link to this definition">#</a></dt>
+<dd><p>Return image panel</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.show_warning">
+<span class="sig-name descname"><span class="pre">show_warning</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.show_warning"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.show_warning" title="Link to this definition">#</a></dt>
+<dd><p>Show warning message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.show_error">
+<span class="sig-name descname"><span class="pre">show_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.show_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.show_error" title="Link to this definition">#</a></dt>
+<dd><p>Show error message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.show_info">
+<span class="sig-name descname"><span class="pre">show_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.show_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.show_info" title="Link to this definition">#</a></dt>
+<dd><p>Show info message</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.ask_yesno">
+<span class="sig-name descname"><span class="pre">ask_yesno</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">message</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">cancelable</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.ask_yesno"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.ask_yesno" title="Link to this definition">#</a></dt>
+<dd><p>Ask yes/no question</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.edit_new_signal_parameters">
+<span class="sig-name descname"><span class="pre">edit_new_signal_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">size</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NewSignalParam</span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.edit_new_signal_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.edit_new_signal_parameters" title="Link to this definition">#</a></dt>
+<dd><p>Create and edit new signal parameter dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – title of the new signal</p></li>
+<li><p><strong>size</strong> – size of the new signal (default: None, get from current signal)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New signal parameter dataset (or None if canceled)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.edit_new_image_parameters">
+<span class="sig-name descname"><span class="pre">edit_new_image_parameters</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">shape</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_height</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_width</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_type</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">hide_dtype</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">NewImageParam</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.edit_new_image_parameters"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.edit_new_image_parameters" title="Link to this definition">#</a></dt>
+<dd><p>Create and edit new image parameter dataset</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>title</strong> – title of the new image</p></li>
+<li><p><strong>shape</strong> – shape of the new image (default: None, get from current image)</p></li>
+<li><p><strong>hide_height</strong> – hide image heigth parameter (default: False)</p></li>
+<li><p><strong>hide_width</strong> – hide image width parameter (default: False)</p></li>
+<li><p><strong>hide_type</strong> – hide image type parameter (default: True)</p></li>
+<li><p><strong>hide_dtype</strong> – hide image data type parameter (default: False)</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>New image parameter dataset (or None if canceled)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.is_registered">
+<span class="sig-name descname"><span class="pre">is_registered</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.is_registered"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.is_registered" title="Link to this definition">#</a></dt>
+<dd><p>Return True if plugin is registered</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.register">
+<span class="sig-name descname"><span class="pre">register</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">main</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="api/main.html#datalab.gui.main.DLMainWindow" title="datalab.gui.main.DLMainWindow"><span class="pre">main.DLMainWindow</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.register"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.register" title="Link to this definition">#</a></dt>
+<dd><p>Register plugin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.unregister">
+<span class="sig-name descname"><span class="pre">unregister</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.unregister"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.unregister" title="Link to this definition">#</a></dt>
+<dd><p>Unregister plugin</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.register_hooks">
+<span class="sig-name descname"><span class="pre">register_hooks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.register_hooks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.register_hooks" title="Link to this definition">#</a></dt>
+<dd><p>Register plugin hooks</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.unregister_hooks">
+<span class="sig-name descname"><span class="pre">unregister_hooks</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.unregister_hooks"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.unregister_hooks" title="Link to this definition">#</a></dt>
+<dd><p>Unregister plugin hooks</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginBase.create_actions">
+<em class="property"><span class="pre">abstract</span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">create_actions</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginBase.create_actions"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginBase.create_actions" title="Link to this definition">#</a></dt>
+<dd><p>Create actions</p>
+</dd></dl>
+
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="datalab.plugins.discover_plugins">
+<span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">discover_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#discover_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.discover_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Discover plugins using naming convention</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of discovered plugins (as classes)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="datalab.plugins.discover_v020_plugins">
+<span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">discover_v020_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#tuple" title="(in Python v3.14)"><span class="pre">tuple</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#discover_v020_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.discover_v020_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Discover v0.20 plugins (with <code class="docutils literal notranslate"><span class="pre">cdl_</span></code> prefix) without importing them</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of tuples (plugin_name, directory_path) for discovered v0.20 plugins</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="datalab.plugins.get_available_plugins">
+<span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">get_available_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#get_available_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.get_available_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Instantiate and get available plugins</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of available plugins (as instances)</p>
+</dd>
+</dl>
+</dd></dl>
+
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="../validation/status.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Validation Status of DataLab</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="migration_v020_to_v100.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Migrating from DataLab v0.20 to v1.0</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-plugin">What is a plugin?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-put-a-plugin">Where to put a plugin?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-develop-a-plugin">How to develop a plugin?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-processing-plugin">Example: processing plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-input-output-plugin">Example: input/output plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-from-v0-20-to-v1-0">Migrating from v0.20 to v1.0</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-datalab.plugins">Public API</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-plugin-system">DataLab plugin system</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry"><code class="docutils literal notranslate"><span class="pre">PluginRegistry</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_plugin_classes"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin_classes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugins()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.register_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.register_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.unregister_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.unregister_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.unregister_all_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.unregister_all_plugins()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_plugin_info"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin_info()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginInfo"><code class="docutils literal notranslate"><span class="pre">PluginInfo</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBaseMeta"><code class="docutils literal notranslate"><span class="pre">PluginBaseMeta</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase"><code class="docutils literal notranslate"><span class="pre">PluginBase</span></code></a><ul class="nav section-nav flex-column">
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.signalpanel"><code class="docutils literal notranslate"><span class="pre">PluginBase.signalpanel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.imagepanel"><code class="docutils literal notranslate"><span class="pre">PluginBase.imagepanel</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.show_warning"><code class="docutils literal notranslate"><span class="pre">PluginBase.show_warning()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.show_error"><code class="docutils literal notranslate"><span class="pre">PluginBase.show_error()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.show_info"><code class="docutils literal notranslate"><span class="pre">PluginBase.show_info()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.ask_yesno"><code class="docutils literal notranslate"><span class="pre">PluginBase.ask_yesno()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.edit_new_signal_parameters"><code class="docutils literal notranslate"><span class="pre">PluginBase.edit_new_signal_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.edit_new_image_parameters"><code class="docutils literal notranslate"><span class="pre">PluginBase.edit_new_image_parameters()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.is_registered"><code class="docutils literal notranslate"><span class="pre">PluginBase.is_registered()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.register"><code class="docutils literal notranslate"><span class="pre">PluginBase.register()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.unregister"><code class="docutils literal notranslate"><span class="pre">PluginBase.unregister()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.register_hooks"><code class="docutils literal notranslate"><span class="pre">PluginBase.register_hooks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.unregister_hooks"><code class="docutils literal notranslate"><span class="pre">PluginBase.unregister_hooks()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase.create_actions"><code class="docutils literal notranslate"><span class="pre">PluginBase.create_actions()</span></code></a></li>
+</ul>
+</li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.discover_plugins"><code class="docutils literal notranslate"><span class="pre">discover_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.discover_v020_plugins"><code class="docutils literal notranslate"><span class="pre">discover_v020_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.get_available_plugins"><code class="docutils literal notranslate"><span class="pre">get_available_plugins()</span></code></a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

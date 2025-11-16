@@ -155,12 +155,11 @@ Compute the following dynamic parameters on selected signal:
 Bandwidth at -3 dB
 ^^^^^^^^^^^^^^^^^^
 
-Assuming the signal is a filter response, compute the bandwidth at -3 dB by finding the
-frequency range where the signal is above -3 dB.
+Determine the bandwidth at -3 dB by identifying the range of abscissa values where the signal remains greater than its maximum value minus 3 dB.
 
 .. warning::
 
-  This feature assumes that the signal is a filter response, already expressed in dB.
+  This feature requires that the signal is expressed in decibels (dB).
 
 Contrast
 ^^^^^^^^
@@ -178,11 +177,98 @@ and minimum values:
   This feature assumes that the signal is a profile from an image, where the contrast
   is meaningful. This justifies the optical definition of contrast.
 
+Extract pulse features
+^^^^^^^^^^^^^^^^^^^^^^
+
+Perform comprehensive pulse analysis on selected signals, automatically extracting timing and amplitude characteristics for step and square pulse signals.
+
+This feature provides automated pulse characterization with intelligent signal type recognition and robust parameter extraction for digital signal analysis, oscilloscope measurements, and pulse timing validation.
+
+.. figure:: /images/shots/s_pulse_features.png
+
+    Pulse features results as displayed in the Signal View.
+
+**Key Capabilities:**
+
+* **Automated signal recognition**: Heuristically identifies signal type (step, square, or other) for optimal analysis
+* **Polarity detection**: Automatically determines positive/negative pulse polarity using baseline comparison
+* **Comprehensive timing measurements**: Extracts rise time, fall time, FWHM, and timing parameters at specific amplitude fractions
+* **Baseline characterization**: Analyzes start and end baseline regions for accurate feature computation
+* **Robust algorithms**: Uses advanced statistical methods with noise tolerance and error handling
+
+**Parameters:**
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Parameter
+      - Description
+    * - Signal shape
+      - Signal type selection: Auto (automatic detection), Step, or Square
+    * - Start baseline min
+      - Lower X boundary for the start (initial) baseline region
+    * - Start baseline max
+      - Upper X boundary for the start (initial) baseline region
+    * - End baseline min
+      - Lower X boundary for the end (final) baseline region
+    * - End baseline max
+      - Upper X boundary for the end (final) baseline region
+    * - Rise/Fall time
+      - Reference levels for rise/fall time measurement with predefined choices: 5%-95% (High precision), 10%-90% (IEEE standard), 20%-80% (Noisy signals), 25%-75% (Alternative)
+
+**Extracted Features:**
+
+The analysis computes the following pulse characteristics:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Feature
+      - Description
+    * - Signal shape
+      - Detected signal type (STEP, SQUARE, or OTHER)
+    * - Polarity
+      - Signal polarity (+1 for positive, -1 for negative pulses)
+    * - Amplitude
+      - Peak-to-peak amplitude of the pulse
+    * - Offset
+      - DC offset (baseline level)
+    * - Rise time
+      - Time from the lower to upper reference levels during rising edge
+    * - Fall time
+      - Time from the lower to upper reference levels during falling edge (square pulses only)
+    * - FWHM
+      - Full Width at Half Maximum (square pulses only)
+    * - x50
+      - Time at which signal reaches 50% of maximum amplitude
+    * - x100
+      - Time at which signal reaches 100% of maximum amplitude (plateau start)
+    * - Foot duration
+      - Duration of flat region before pulse rise
+    * - Baseline ranges
+      - Extracted start and end baseline boundary coordinates
+
+.. note::
+
+    Results are displayed in a comprehensive table showing all extracted parameters, and as visual annotations on the signal plot. For step signals, fall-related parameters (fall_time, fwhm) are not applicable and show as None. The feature works best with well-defined pulse signals that have clear baseline regions.
+
 Show results
 ^^^^^^^^^^^^
 
 Show the results of all analyses performed on the selected signals. This shows the
 same table as the one shown after having performed a computation.
+
+Results label
+^^^^^^^^^^^^^
+
+Toggle the visibility of result labels on the plot. When enabled, this checkable
+menu item displays result annotations (such as FWHM, peak positions, or other
+analysis markers) directly on the signal plot.
+
+This option is synchronized between Signal and Image panels and persists across
+sessions. It is only enabled when results are available for the selected signal.
 
 Plot results
 ^^^^^^^^^^^^

@@ -1,0 +1,1357 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>datalab.gui.plothandler &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../../_static/documentation_options.js?v=05dadb3a"></script>
+    <script src="../../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=bf059b8c"></script>
+    <script src="../../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = '_modules/datalab/gui/plothandler';</script>
+    <link rel="canonical" href="https://datalab-platform.com/_modules/datalab/gui/plothandler.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été dévoilé à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍 et présenté en détails à <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, puis à <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>Open Source Experience 2024</a> ! Un cas d'usage avancé de DataLab sera présenté à <a href='outreach/osxp2025.html'>OSXP 2025</a> (11 déc.) 🚀 — <a href='outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar hide-on-wide">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Code du module</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">datalab.gui.plothandler</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <h1>Code source de datalab.gui.plothandler</h1><div class="highlight"><pre>
+<span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Plot handler</span>
+<span class="sd">============</span>
+
+<span class="sd">The :mod:`datalab.gui.plothandler` module provides plot handlers for signal</span>
+<span class="sd">and image panels, that is, classes handling `PlotPy` plot items for representing</span>
+<span class="sd">signals and images.</span>
+
+<span class="sd">Signal plot handler</span>
+<span class="sd">-------------------</span>
+
+<span class="sd">.. autoclass:: SignalPlotHandler</span>
+<span class="sd">    :members:</span>
+<span class="sd">    :inherited-members:</span>
+
+<span class="sd">Image plot handler</span>
+<span class="sd">------------------</span>
+
+<span class="sd">.. autoclass:: ImagePlotHandler</span>
+<span class="sd">    :members:</span>
+<span class="sd">    :inherited-members:</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">hashlib</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Iterator</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Generic</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">weakref</span><span class="w"> </span><span class="kn">import</span> <span class="n">WeakKeyDictionary</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.constants</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.items</span><span class="w"> </span><span class="kn">import</span> <span class="n">CurveItem</span><span class="p">,</span> <span class="n">GridItem</span><span class="p">,</span> <span class="n">LegendBoxItem</span><span class="p">,</span> <span class="n">MaskedXYImageItem</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotOptions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qwt</span><span class="w"> </span><span class="kn">import</span> <span class="n">QwtScaleDraw</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">,</span> <span class="n">TypeObj</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">GeometryAdapter</span><span class="p">,</span> <span class="n">TableAdapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_plotpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypePlotItem</span><span class="p">,</span> <span class="n">create_adapter_from_object</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_plotpy.objects.scalar</span><span class="w"> </span><span class="kn">import</span> <span class="n">MergedResultPlotPyAdapter</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">_</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">block_signals</span><span class="p">,</span> <span class="n">create_progress_bar</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.items</span><span class="w"> </span><span class="kn">import</span> <span class="n">LabelItem</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">PlotWidget</span>
+
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDataPanel</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate a hash for a SignalObj | ImageObj object&#39;s data&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">BasePlotHandler</span><span class="p">(</span><span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">]):</span>  <span class="c1"># type: ignore</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling plot items associated to objects (signals/images)&quot;&quot;&quot;</span>
+
+    <span class="n">PLOT_TYPE</span><span class="p">:</span> <span class="n">PlotType</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Replaced in subclasses</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span><span class="p">,</span>
+        <span class="n">plotwidget</span><span class="p">:</span> <span class="n">PlotWidget</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span> <span class="o">=</span> <span class="n">panel</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span> <span class="o">=</span> <span class="n">plotwidget</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span> <span class="o">=</span> <span class="n">plotwidget</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+
+        <span class="c1"># Plot items: key = object uuid, value = plot item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">:</span> <span class="n">WeakKeyDictionary</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span><span class="p">]]</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="n">WeakKeyDictionary</span><span class="p">()</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="c1"># Mapping from object UUID to merged result adapter</span>
+        <span class="c1"># The merged adapter consolidates all result labels for an object</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">MergedResultPlotPyAdapter</span><span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return number of items&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return item associated to object uuid&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+        <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="c1"># Item does not exist: this may happen when &quot;auto refresh&quot; is disabled</span>
+            <span class="c1"># (object has been added to model but the corresponding plot item has not</span>
+            <span class="c1"># been created yet)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">only_visible</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+            <span class="c1"># Item does not exist and auto refresh is enabled: this should not happen</span>
+            <span class="k">raise</span> <span class="n">exc</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">key</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">default</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return item associated to object uuid.</span>
+<span class="sd">        If the key is not found, default is returned if given,</span>
+<span class="sd">        otherwise None is returned.&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">default</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_obj_from_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypeObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return object associated to plot item</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item: plot item</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Object associated to plot item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">:</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span> <span class="ow">is</span> <span class="n">item</span><span class="p">:</span>
+                <span class="k">return</span> <span class="n">obj</span>
+        <span class="k">return</span> <span class="kc">None</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__setitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set item associated to object uuid&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__iter__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Iterator</span><span class="p">[</span><span class="n">TypePlotItem</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return an iterator over plothandler values (plot items)&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">iter</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove plot item associated to object uuid&quot;&quot;&quot;</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">KeyError</span><span class="p">:</span>
+            <span class="c1"># Item does not exist: this may happen when &quot;auto refresh&quot; is disabled</span>
+            <span class="c1"># (object has been added to model but the corresponding plot item has not</span>
+            <span class="c1"># been created yet).</span>
+            <span class="c1"># This may also happen after opening a project, then immediately selecting</span>
+            <span class="c1"># a group containing more than one object: plot item would have been created</span>
+            <span class="c1"># only for the first object in group, and this exception would be raised</span>
+            <span class="c1"># for the second one (which does not have a plot item yet).</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">del_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear plot items&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_dataview</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_shape_items</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">do_autoscale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add geometric shape items associated to computed results and annotations,</span>
+<span class="sd">        for the object with the given uuid&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="p">:</span>
+            <span class="n">obj_adapter</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">obj_adapter</span><span class="o">.</span><span class="n">iterate_shape_items</span><span class="p">(</span><span class="n">editable</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+
+            <span class="c1"># Collect all result adapters</span>
+            <span class="n">results</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">TableAdapter</span><span class="o">.</span><span class="n">iterate_from_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span> <span class="o">+</span> <span class="nb">list</span><span class="p">(</span>
+                <span class="n">GeometryAdapter</span><span class="o">.</span><span class="n">iterate_from_obj</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="p">)</span>
+
+            <span class="c1"># Create or update merged result adapter</span>
+            <span class="k">if</span> <span class="n">results</span><span class="p">:</span>
+                <span class="n">merged_adapter</span> <span class="o">=</span> <span class="n">MergedResultPlotPyAdapter</span><span class="p">(</span><span class="n">results</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">merged_adapter</span>
+
+                <span class="c1"># Get the merged label</span>
+                <span class="n">merged_label</span> <span class="o">=</span> <span class="n">merged_adapter</span><span class="o">.</span><span class="n">get_merged_label</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">merged_label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># Set initial visibility based on configuration</span>
+                    <span class="n">merged_label</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">show_result_label</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+                    <span class="n">items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">merged_label</span><span class="p">)</span>
+
+                <span class="c1"># Add other items from the merged adapter (e.g., geometric shapes)</span>
+                <span class="n">items</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">merged_adapter</span><span class="o">.</span><span class="n">get_other_items</span><span class="p">())</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># No results, remove any existing adapter</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+            <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">do_autoscale</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">do_autoscale</span><span class="p">()</span>
+                <span class="c1"># Performance optimization: block `plotpy.plot.BasePlot` signals, add</span>
+                <span class="c1"># all items except the last one, unblock signals, then add the last one</span>
+                <span class="c1"># (this avoids some unnecessary refresh process by PlotPy)</span>
+                <span class="k">with</span> <span class="n">block_signals</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="p">):</span>
+                    <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creating geometric shapes&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">items</span><span class="p">)</span> <span class="o">-</span> <span class="mi">1</span>
+                    <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                        <span class="k">for</span> <span class="n">i_item</span><span class="p">,</span> <span class="n">item</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">items</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]):</span>
+                            <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_item</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                            <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                                <span class="k">break</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                            <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                            <span class="c1"># Only process events every 10 items to keep UI responsive</span>
+                            <span class="c1"># without killing performance</span>
+                            <span class="k">if</span> <span class="p">(</span><span class="n">i_item</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">%</span> <span class="mi">10</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                                <span class="n">QW</span><span class="o">.</span><span class="n">QApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">items</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">])</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_resultproperty_from_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">:</span> <span class="n">LabelItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update result properties from merged label plot item.</span>
+
+<span class="sd">        When the merged results label is moved, update the stored position</span>
+<span class="sd">        in the merged result adapter.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            item: Merged results label item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Find the merged adapter that owns this label</span>
+        <span class="k">for</span> <span class="n">merged_adapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="k">if</span> <span class="n">merged_adapter</span><span class="o">.</span><span class="n">get_cached_label</span><span class="p">()</span> <span class="ow">is</span> <span class="n">item</span><span class="p">:</span>
+                <span class="c1"># Update the adapter&#39;s metadata with the new position</span>
+                <span class="n">merged_adapter</span><span class="o">.</span><span class="n">update_obj_metadata_from_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">break</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_all_shape_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all geometric shapes associated to result items&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="p">)</span><span class="o">.</span><span class="n">issubset</span><span class="p">(</span><span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">items</span><span class="p">)):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">del_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="c1"># Clear cached labels in merged result adapters since they were removed</span>
+        <span class="k">for</span> <span class="n">merged_adapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">merged_adapter</span><span class="o">.</span><span class="n">invalidate_cached_label</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh_all_shape_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh all geometric shapes to apply new style parameters.</span>
+
+<span class="sd">        This method is called when shape/marker visualization settings</span>
+<span class="sd">        are changed in the Settings dialog. It removes and recreates all shape</span>
+<span class="sd">        items to apply the new parameters.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Get all object IDs that have shape items</span>
+        <span class="n">oids_with_shapes</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">oids_with_shapes</span><span class="p">:</span>
+            <span class="k">return</span>
+
+        <span class="c1"># Remove all existing shape items</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_shape_items</span><span class="p">()</span>
+
+        <span class="c1"># Recreate shape items for all objects with the new settings</span>
+        <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="n">oids_with_shapes</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">add_shapes</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="n">do_autoscale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">toggle_result_label_visibility</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle the visibility of all merged result labels on the plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            show: True to show the labels, False to hide them</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">merged_adapter</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">merged_adapter</span><span class="o">.</span><span class="n">get_cached_label</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">label</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">label</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">show</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__add_item_to_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">TypePlotItem</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Make plot item and add it to plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oid: object uuid</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Plot item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">make_item</span><span class="p">()</span>
+        <span class="n">item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span> <span class="o">=</span> <span class="n">item</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">item</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__update_item_on_plot</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">just_show</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plot item.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oid: object uuid</span>
+<span class="sd">            just_show: if True, only show the item (do not update it).</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">just_show</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+            <span class="n">cached_hash</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">new_hash</span> <span class="o">=</span> <span class="n">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">data_changed</span> <span class="o">=</span> <span class="n">cached_hash</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">cached_hash</span> <span class="o">!=</span> <span class="n">new_hash</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__cached_hashes</span><span class="p">[</span><span class="n">obj</span><span class="p">]</span> <span class="o">=</span> <span class="n">new_hash</span>
+            <span class="n">adapter</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">adapter</span><span class="o">.</span><span class="n">update_item</span><span class="p">(</span><span class="bp">self</span><span class="p">[</span><span class="n">oid</span><span class="p">],</span> <span class="n">data_changed</span><span class="o">=</span><span class="n">data_changed</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">auto_refresh</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set auto refresh mode.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            auto_refresh: if True, refresh plot items automatically</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span> <span class="o">=</span> <span class="n">auto_refresh</span>
+        <span class="k">if</span> <span class="n">auto_refresh</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_show_first_only</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show_first_only</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set show first only mode.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            show_first_only: if True, show only the first selected item</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span> <span class="o">=</span> <span class="n">show_first_only</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_existing_oids</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get existing object uuids.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of object uuids that have a plot item associated to them.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__plotitems</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_shown_oids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduce the number of shown objects to visible items only. The base</span>
+<span class="sd">        implementation is to show only the first selected item if the option</span>
+<span class="sd">        &quot;Show first only&quot; is enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oids: list of object uuids</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reduced list of object uuids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__show_first_only</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">oids</span><span class="p">[:</span><span class="mi">1</span><span class="p">]</span>
+        <span class="k">return</span> <span class="n">oids</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            what: string describing the objects to refresh.</span>
+<span class="sd">             Valid values are &quot;selected&quot; (refresh the selected objects),</span>
+<span class="sd">             &quot;all&quot; (refresh all objects), &quot;existing&quot; (refresh existing plot items),</span>
+<span class="sd">             or an object uuid.</span>
+<span class="sd">            update_items: if True, update the items.</span>
+<span class="sd">             If False, only show the items (do not update them).</span>
+<span class="sd">             Defaults to True.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled.</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">            only_visible: if True, only refresh visible items. Defaults to True.</span>
+<span class="sd">             Visible items are the ones that are not hidden by other items or the items</span>
+<span class="sd">             except the first one if the option &quot;Show first only&quot; is enabled.</span>
+<span class="sd">             This is useful for images, where the last image is the one that is shown.</span>
+<span class="sd">             If False, all items are refreshed.</span>
+<span class="sd">            only_existing: if True, only refresh existing items. Defaults to False.</span>
+<span class="sd">             Existing items are the ones that have already been created and are</span>
+<span class="sd">             associated to the object uuid. If False, create new items for the</span>
+<span class="sd">             objects that do not have an item yet.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if `what` is not a valid value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">__auto_refresh</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">force</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;selected&quot;</span><span class="p">:</span>
+            <span class="c1"># Refresh selected objects</span>
+            <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_dataview</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_shape_items</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+                <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">item</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;existing&quot;</span><span class="p">:</span>
+            <span class="c1"># Refresh existing objects</span>
+            <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_oids</span><span class="p">()</span>
+        <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+            <span class="c1"># Refresh all objects</span>
+            <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Refresh a single object defined by its uuid</span>
+            <span class="n">oids</span> <span class="o">=</span> <span class="p">[</span><span class="n">what</span><span class="p">]</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Check if this is a valid object uuid</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid value for `what`: </span><span class="si">{</span><span class="n">what</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+
+        <span class="c1"># Initialize titles and scales dictionaries</span>
+        <span class="n">title_keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;title&quot;</span><span class="p">,</span> <span class="s2">&quot;xlabel&quot;</span><span class="p">,</span> <span class="s2">&quot;ylabel&quot;</span><span class="p">,</span> <span class="s2">&quot;zlabel&quot;</span><span class="p">,</span> <span class="s2">&quot;xunit&quot;</span><span class="p">,</span> <span class="s2">&quot;yunit&quot;</span><span class="p">,</span> <span class="s2">&quot;zunit&quot;</span><span class="p">)</span>
+        <span class="n">titles_dict</span> <span class="o">=</span> <span class="p">{}</span>
+        <span class="n">autoscale</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">scale_keys</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="s2">&quot;xscalelog&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xscalemin&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;xscalemax&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yscalelog&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yscalemin&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;yscalemax&quot;</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">scales_dict</span> <span class="o">=</span> <span class="p">{}</span>
+
+        <span class="k">if</span> <span class="n">oids</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">what</span> <span class="o">!=</span> <span class="s2">&quot;existing&quot;</span> <span class="ow">and</span> <span class="n">only_visible</span><span class="p">:</span>
+                <span class="c1"># Remove hidden items from the list of objects to refresh</span>
+                <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creating plot items&quot;</span><span class="p">),</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+            <span class="p">)</span> <span class="k">as</span> <span class="n">progress</span><span class="p">:</span>
+                <span class="c1"># Iterate over objects</span>
+                <span class="k">for</span> <span class="n">i_obj</span><span class="p">,</span> <span class="n">oid</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">oids</span><span class="p">):</span>
+                    <span class="n">progress</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_obj</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">progress</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                        <span class="k">break</span>
+                    <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+
+                    <span class="c1"># Collecting titles information</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">title_keys</span><span class="p">:</span>
+                        <span class="n">title</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span>
+                        <span class="n">value</span> <span class="o">=</span> <span class="n">titles_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">value</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">titles_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">title</span>
+                        <span class="k">elif</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">title</span><span class="p">:</span>
+                            <span class="n">titles_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+                    <span class="c1"># Collecting scales information</span>
+                    <span class="n">autoscale</span> <span class="o">=</span> <span class="n">autoscale</span> <span class="ow">or</span> <span class="n">obj</span><span class="o">.</span><span class="n">autoscale</span>
+                    <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">scale_keys</span><span class="p">:</span>
+                        <span class="n">scale</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">key</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+                        <span class="k">if</span> <span class="n">scale</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                            <span class="n">cmp</span> <span class="o">=</span> <span class="nb">min</span> <span class="k">if</span> <span class="s2">&quot;min&quot;</span> <span class="ow">in</span> <span class="n">key</span> <span class="k">else</span> <span class="nb">max</span>
+                            <span class="n">scales_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">cmp</span><span class="p">(</span><span class="n">scales_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">,</span> <span class="n">scale</span><span class="p">),</span> <span class="n">scale</span><span class="p">)</span>
+
+                    <span class="c1"># Update or add item to plot</span>
+                    <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="n">only_existing</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__add_item_to_plot</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">__update_item_on_plot</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="n">just_show</span><span class="o">=</span><span class="ow">not</span> <span class="n">update_items</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">what</span> <span class="o">!=</span> <span class="s2">&quot;existing&quot;</span> <span class="ow">or</span> <span class="n">item</span><span class="o">.</span><span class="n">isVisible</span><span class="p">():</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_item_visible</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="n">replot</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                        <span class="n">item</span><span class="o">.</span><span class="n">unselect</span><span class="p">()</span>
+
+                    <span class="c1"># Add geometric shapes</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">add_shapes</span><span class="p">(</span><span class="n">oid</span><span class="p">,</span> <span class="n">do_autoscale</span><span class="o">=</span><span class="n">autoscale</span><span class="p">)</span>
+
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># No object to refresh: clean up titles</span>
+            <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">title_keys</span><span class="p">:</span>
+                <span class="n">titles_dict</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+
+        <span class="c1"># Set titles</span>
+        <span class="n">tdict</span> <span class="o">=</span> <span class="n">titles_dict</span>
+        <span class="n">tdict</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tdict</span><span class="p">[</span><span class="s2">&quot;ylabel&quot;</span><span class="p">],</span> <span class="n">tdict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;zlabel&quot;</span><span class="p">))</span>
+        <span class="n">tdict</span><span class="p">[</span><span class="s2">&quot;yunit&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">tdict</span><span class="p">[</span><span class="s2">&quot;yunit&quot;</span><span class="p">],</span> <span class="n">tdict</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;zunit&quot;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_titles</span><span class="p">(</span><span class="o">**</span><span class="n">titles_dict</span><span class="p">)</span>
+
+        <span class="c1"># Set scales</span>
+        <span class="n">replot</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)):</span>
+            <span class="n">axis_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_id</span><span class="p">(</span><span class="n">axis_name</span><span class="p">)</span>
+            <span class="n">scalelog</span> <span class="o">=</span> <span class="n">scales_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">scalelog&quot;</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">scalelog</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">new_scale</span> <span class="o">=</span> <span class="s2">&quot;log&quot;</span> <span class="k">if</span> <span class="n">scalelog</span> <span class="k">else</span> <span class="s2">&quot;lin&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_axis_scale</span><span class="p">(</span><span class="n">axis_id</span><span class="p">,</span> <span class="n">new_scale</span><span class="p">,</span> <span class="n">autoscale</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+                <span class="n">replot</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">if</span> <span class="n">autoscale</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">do_autoscale</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">for</span> <span class="n">axis_name</span><span class="p">,</span> <span class="n">axis</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;x&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;y&quot;</span><span class="p">)):</span>
+                <span class="n">axis_id</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_id</span><span class="p">(</span><span class="n">axis_name</span><span class="p">)</span>
+                <span class="n">new_vmin</span> <span class="o">=</span> <span class="n">scales_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">scalemin&quot;</span><span class="p">)</span>
+                <span class="n">new_vmax</span> <span class="o">=</span> <span class="n">scales_dict</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">axis</span><span class="si">}</span><span class="s2">scalemax&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">new_vmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">or</span> <span class="n">new_vmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">do_autoscale</span><span class="p">(</span><span class="n">replot</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">axis_id</span><span class="o">=</span><span class="n">axis_id</span><span class="p">)</span>
+                    <span class="n">vmin</span><span class="p">,</span> <span class="n">vmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_limits</span><span class="p">(</span><span class="n">axis_id</span><span class="p">)</span>
+                    <span class="n">new_vmin</span> <span class="o">=</span> <span class="n">new_vmin</span> <span class="k">if</span> <span class="n">new_vmin</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vmin</span>
+                    <span class="n">new_vmax</span> <span class="o">=</span> <span class="n">new_vmax</span> <span class="k">if</span> <span class="n">new_vmax</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">vmax</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_axis_limits</span><span class="p">(</span><span class="n">axis_id</span><span class="p">,</span> <span class="n">new_vmin</span><span class="p">,</span> <span class="n">new_vmax</span><span class="p">)</span>
+                    <span class="n">replot</span> <span class="o">=</span> <span class="kc">True</span>
+            <span class="k">if</span> <span class="n">replot</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup_dataview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up data view&quot;&quot;&quot;</span>
+        <span class="c1"># Find items to remove (items that are not in the handler and not special items)</span>
+        <span class="c1"># Skip shape items since they&#39;re managed separately and checking membership</span>
+        <span class="c1"># for many items is expensive</span>
+        <span class="n">shape_items_set</span> <span class="o">=</span> <span class="nb">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__shapeitems</span><span class="p">)</span>
+        <span class="n">items_to_remove</span> <span class="o">=</span> <span class="p">[</span>
+            <span class="n">item</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">items</span><span class="p">[:]</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">shape_items_set</span>
+            <span class="ow">and</span> <span class="n">item</span> <span class="ow">not</span> <span class="ow">in</span> <span class="bp">self</span>
+            <span class="ow">and</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="p">,</span> <span class="p">(</span><span class="n">LegendBoxItem</span><span class="p">,</span> <span class="n">GridItem</span><span class="p">))</span>
+        <span class="p">]</span>
+        <span class="c1"># Delete items one by one with error handling for items already removed</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items_to_remove</span><span class="p">:</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">del_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                <span class="c1"># Item was already removed (e.g., by detach())</span>
+                <span class="k">pass</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotOptions</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return standard signal/image plot options&quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="n">PlotOptions</span><span class="p">(</span>
+            <span class="nb">type</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">PLOT_TYPE</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_title</span><span class="p">(</span><span class="s2">&quot;bottom&quot;</span><span class="p">),</span>
+            <span class="n">ylabel</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_title</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">),</span>
+            <span class="n">xunit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_unit</span><span class="p">(</span><span class="s2">&quot;bottom&quot;</span><span class="p">),</span>
+            <span class="n">yunit</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_unit</span><span class="p">(</span><span class="s2">&quot;left&quot;</span><span class="p">),</span>
+            <span class="n">show_axes_tab</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+        <span class="p">)</span>
+
+
+<div class="viewcode-block" id="SignalPlotHandler">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.SignalPlotHandler">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">SignalPlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">CurveItem</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling signal plot items, plot dialogs, plot options&quot;&quot;&quot;</span>
+
+    <span class="n">PLOT_TYPE</span> <span class="o">=</span> <span class="n">PlotType</span><span class="o">.</span><span class="n">CURVE</span>
+
+<div class="viewcode-block" id="SignalPlotHandler.toggle_anti_aliasing">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.SignalPlotHandler.toggle_anti_aliasing">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">toggle_anti_aliasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle anti-aliasing</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            state: if True, enable anti-aliasing</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_antialiasing</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="SignalPlotHandler.get_plot_options">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.SignalPlotHandler.get_plot_options">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotOptions</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return standard signal/image plot options&quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plot_options</span><span class="p">()</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">curve_antialiasing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">antialiased</span>
+        <span class="k">return</span> <span class="n">options</span></div>
+
+
+<div class="viewcode-block" id="SignalPlotHandler.refresh_plot">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.SignalPlotHandler.refresh_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot and configure datetime axis if needed.</span>
+
+<span class="sd">        This override adds automatic datetime axis configuration when at least one</span>
+<span class="sd">        of the displayed signals has a datetime X-axis.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            what: string describing the objects to refresh</span>
+<span class="sd">            update_items: if True, update the items</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled</span>
+<span class="sd">            only_visible: if True, only refresh visible items</span>
+<span class="sd">            only_existing: if True, only refresh existing items</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Call parent implementation</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="n">what</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="n">force</span><span class="p">,</span> <span class="n">only_visible</span><span class="p">,</span> <span class="n">only_existing</span><span class="p">)</span>
+
+        <span class="c1"># Check if any visible signal has datetime X-axis</span>
+        <span class="n">has_datetime</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">datetime_format</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">item</span><span class="o">.</span><span class="n">isVisible</span><span class="p">():</span>
+                <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_obj_from_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_x_datetime</span><span class="p">():</span>
+                    <span class="n">has_datetime</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="c1"># Get format from signal metadata, or use configured default</span>
+                    <span class="n">datetime_format</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">metadata</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;x_datetime_format&quot;</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">datetime_format</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="c1"># Use configured format based on time unit</span>
+                        <span class="n">unit</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">xunit</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">xunit</span> <span class="k">else</span> <span class="s2">&quot;s&quot;</span>
+                        <span class="k">if</span> <span class="n">unit</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;ns&quot;</span><span class="p">,</span> <span class="s2">&quot;us&quot;</span><span class="p">,</span> <span class="s2">&quot;ms&quot;</span><span class="p">):</span>
+                            <span class="n">datetime_format</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">sig_datetime_format_ms</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="s2">&quot;%H:%M:%S.</span><span class="si">%f</span><span class="s2">&quot;</span>
+                            <span class="p">)</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="n">datetime_format</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">sig_datetime_format_s</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                                <span class="s2">&quot;%H:%M:%S&quot;</span>
+                            <span class="p">)</span>
+                    <span class="k">break</span>
+
+        <span class="c1"># Configure X-axis for datetime or restore default</span>
+        <span class="k">if</span> <span class="n">has_datetime</span> <span class="ow">and</span> <span class="n">datetime_format</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">set_axis_datetime</span><span class="p">(</span><span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="nb">format</span><span class="o">=</span><span class="n">datetime_format</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Restore default scale draw (remove datetime formatting)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">setAxisScaleDraw</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_id</span><span class="p">(</span><span class="s2">&quot;bottom&quot;</span><span class="p">),</span> <span class="n">QwtScaleDraw</span><span class="p">())</span></div>
+</div>
+
+
+
+<div class="viewcode-block" id="ImagePlotHandler">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.ImagePlotHandler">[docs]</a>
+<span class="k">class</span><span class="w"> </span><span class="nc">ImagePlotHandler</span><span class="p">(</span><span class="n">BasePlotHandler</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">MaskedXYImageItem</span><span class="p">]):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling image plot items, plot dialogs, plot options&quot;&quot;&quot;</span>
+
+    <span class="n">PLOT_TYPE</span> <span class="o">=</span> <span class="n">PlotType</span><span class="o">.</span><span class="n">IMAGE</span>
+
+<div class="viewcode-block" id="ImagePlotHandler.reduce_shown_oids">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.ImagePlotHandler.reduce_shown_oids">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reduce_shown_oids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oids</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reduce the number of shown objects to visible items only. The base</span>
+<span class="sd">        implementation is to show only the first selected item if the option</span>
+<span class="sd">        &quot;Show first only&quot; is enabled.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            oids: list of object uuids</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Reduced list of object uuids</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">oids</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+
+        <span class="c1"># For Image View, we show only the last image (which is the highest z-order</span>
+        <span class="c1"># plot item) if more than one image is selected, if last image has no</span>
+        <span class="c1"># transparency and if the other images are all completely covered by the last</span>
+        <span class="c1"># image.</span>
+        <span class="c1"># TODO: [P4] Enhance this algorithm to handle more complex cases</span>
+        <span class="c1"># (not sure it&#39;s worth it)</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="c1"># Get objects associated to the oids</span>
+            <span class="n">objs</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_objects</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span>
+            <span class="c1"># First condition is about the image transparency</span>
+            <span class="n">last_obj</span> <span class="o">=</span> <span class="n">objs</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">alpha_cond</span> <span class="o">=</span> <span class="p">(</span>
+                <span class="n">last_obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;alpha&quot;</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)</span> <span class="o">==</span> <span class="mf">1.0</span>
+                <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;alpha_function&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span> <span class="o">==</span> <span class="mi">0</span>
+            <span class="p">)</span>
+            <span class="k">if</span> <span class="n">alpha_cond</span><span class="p">:</span>
+                <span class="c1"># Second condition is about the image size and position</span>
+                <span class="n">geom_cond</span> <span class="o">=</span> <span class="kc">True</span>
+                <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">objs</span><span class="p">[:</span><span class="o">-</span><span class="mi">1</span><span class="p">]:</span>
+                    <span class="c1"># Handle both uniform and non-uniform coordinates</span>
+                    <span class="k">if</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">is_uniform_coords</span> <span class="ow">and</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span><span class="p">:</span>
+                        <span class="c1"># Both have uniform coordinates, use old logic</span>
+                        <span class="n">geom_cond</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">geom_cond</span>
+                            <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">&lt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span>
+                            <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">&lt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span>
+                            <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">width</span> <span class="o">&gt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">width</span>
+                            <span class="ow">and</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">height</span> <span class="o">&gt;=</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">height</span>
+                        <span class="p">)</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="c1"># At least one has non-uniform coordinates,</span>
+                        <span class="c1"># use extent comparison</span>
+                        <span class="n">last_x0</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span>
+                            <span class="k">if</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">xcoords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">last_y0</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span>
+                            <span class="k">if</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">ycoords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">last_x1</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">last_obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">width</span>
+                            <span class="k">if</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">xcoords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">last_y1</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">last_obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">height</span>
+                            <span class="k">if</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">last_obj</span><span class="o">.</span><span class="n">ycoords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="p">)</span>
+
+                        <span class="n">obj_x0</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">x0</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span> <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">xcoords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">obj_y0</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">y0</span> <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span> <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">ycoords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+                        <span class="n">obj_x1</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">obj</span><span class="o">.</span><span class="n">x0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">width</span>
+                            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">xcoords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="p">)</span>
+                        <span class="n">obj_y1</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">obj</span><span class="o">.</span><span class="n">y0</span> <span class="o">+</span> <span class="n">obj</span><span class="o">.</span><span class="n">height</span>
+                            <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span>
+                            <span class="k">else</span> <span class="n">obj</span><span class="o">.</span><span class="n">ycoords</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                        <span class="p">)</span>
+
+                        <span class="n">geom_cond</span> <span class="o">=</span> <span class="p">(</span>
+                            <span class="n">geom_cond</span>
+                            <span class="ow">and</span> <span class="n">last_x0</span> <span class="o">&lt;=</span> <span class="n">obj_x0</span>
+                            <span class="ow">and</span> <span class="n">last_y0</span> <span class="o">&lt;=</span> <span class="n">obj_y0</span>
+                            <span class="ow">and</span> <span class="n">last_x1</span> <span class="o">&gt;=</span> <span class="n">obj_x1</span>
+                            <span class="ow">and</span> <span class="n">last_y1</span> <span class="o">&gt;=</span> <span class="n">obj_y1</span>
+                        <span class="p">)</span>
+                    <span class="k">if</span> <span class="ow">not</span> <span class="n">geom_cond</span><span class="p">:</span>
+                        <span class="k">break</span>
+                <span class="k">if</span> <span class="n">geom_cond</span><span class="p">:</span>
+                    <span class="n">oids</span> <span class="o">=</span> <span class="n">oids</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">:]</span>
+        <span class="k">return</span> <span class="n">oids</span></div>
+
+
+<div class="viewcode-block" id="ImagePlotHandler.refresh_plot">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.ImagePlotHandler.refresh_plot">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">refresh_plot</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">update_items</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+        <span class="n">only_visible</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">only_existing</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Refresh plot.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            what: string describing the objects to refresh.</span>
+<span class="sd">             Valid values are &quot;selected&quot; (refresh the selected objects),</span>
+<span class="sd">             &quot;all&quot; (refresh all objects), &quot;existing&quot; (refresh existing plot items),</span>
+<span class="sd">             or an object uuid.</span>
+<span class="sd">            update_items: if True, update the items.</span>
+<span class="sd">             If False, only show the items (do not update them).</span>
+<span class="sd">             Defaults to True.</span>
+<span class="sd">            force: if True, force refresh even if auto refresh is disabled.</span>
+<span class="sd">             Defaults to False.</span>
+<span class="sd">            only_visible: if True, only refresh visible items. Defaults to True.</span>
+<span class="sd">             Visible items are the ones that are not hidden by other items or the items</span>
+<span class="sd">             except the first one if the option &quot;Show first only&quot; is enabled.</span>
+<span class="sd">             This is useful for images, where the last image is the one that is shown.</span>
+<span class="sd">             If False, all items are refreshed.</span>
+<span class="sd">            only_existing: if True, only refresh existing items. Defaults to False.</span>
+<span class="sd">             Existing items are the ones that have already been created and are</span>
+<span class="sd">             associated to the object uuid. If False, create new items for the</span>
+<span class="sd">             objects that do not have an item yet.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if `what` is not a valid value</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span>
+            <span class="n">what</span><span class="o">=</span><span class="n">what</span><span class="p">,</span>
+            <span class="n">update_items</span><span class="o">=</span><span class="n">update_items</span><span class="p">,</span>
+            <span class="n">force</span><span class="o">=</span><span class="n">force</span><span class="p">,</span>
+            <span class="n">only_visible</span><span class="o">=</span><span class="n">only_visible</span><span class="p">,</span>
+            <span class="n">only_existing</span><span class="o">=</span><span class="n">only_existing</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">contrast</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">show_contrast</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">True</span><span class="p">))</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+        <span class="n">new_aspect_ratio</span> <span class="o">=</span> <span class="n">current_aspect_ratio</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">get_aspect_ratio</span><span class="p">()</span>
+        <span class="n">new_lock</span> <span class="o">=</span> <span class="n">current_lock</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">lock_aspect_ratio</span>
+        <span class="k">if</span> <span class="n">Conf</span><span class="o">.</span><span class="n">view</span><span class="o">.</span><span class="n">ima_aspect_ratio_1_1</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+            <span class="c1"># Lock aspect ratio to 1:1</span>
+            <span class="n">new_aspect_ratio</span> <span class="o">=</span> <span class="mf">1.0</span>
+            <span class="n">new_lock</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Use physical pixel size to set aspect ratio</span>
+            <span class="c1"># Determine which objects to check based on the &#39;what&#39; parameter</span>
+            <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;selected&quot;</span><span class="p">:</span>
+                <span class="c1"># Use selected objects to determine aspect ratio</span>
+                <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;existing&quot;</span><span class="p">:</span>
+                <span class="c1"># Use existing objects</span>
+                <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_oids</span><span class="p">()</span>
+            <span class="k">elif</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;all&quot;</span><span class="p">:</span>
+                <span class="c1"># Use all objects</span>
+                <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_object_ids</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># Single object by uuid</span>
+                <span class="n">oids</span> <span class="o">=</span> <span class="p">[</span><span class="n">what</span><span class="p">]</span>
+
+            <span class="c1"># Reduce to visible items and check aspect ratio</span>
+            <span class="k">for</span> <span class="n">oid</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reduce_shown_oids</span><span class="p">(</span><span class="n">oids</span><span class="p">)):</span>
+                <span class="k">if</span> <span class="n">oid</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_existing_oids</span><span class="p">()</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">oid</span><span class="p">)</span><span class="o">.</span><span class="n">isVisible</span><span class="p">():</span>
+                    <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">oid</span><span class="p">]</span>
+                    <span class="k">if</span> <span class="n">obj</span><span class="o">.</span><span class="n">is_uniform_coords</span><span class="p">:</span>
+                        <span class="n">new_aspect_ratio</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">dx</span> <span class="o">/</span> <span class="n">obj</span><span class="o">.</span><span class="n">dy</span>
+                        <span class="n">new_lock</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">else</span><span class="p">:</span>
+                        <span class="n">new_lock</span> <span class="o">=</span> <span class="kc">False</span>
+                    <span class="k">break</span>
+        <span class="k">if</span> <span class="n">new_aspect_ratio</span> <span class="o">!=</span> <span class="n">current_aspect_ratio</span> <span class="ow">or</span> <span class="n">new_lock</span> <span class="o">!=</span> <span class="n">current_lock</span><span class="p">:</span>
+            <span class="c1"># Update aspect ratio only if it has changed</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">set_aspect_ratio</span><span class="p">(</span><span class="n">new_aspect_ratio</span><span class="p">,</span> <span class="n">lock</span><span class="o">=</span><span class="n">new_lock</span><span class="p">)</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">do_autoscale</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ImagePlotHandler.cleanup_dataview">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.ImagePlotHandler.cleanup_dataview">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">cleanup_dataview</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clean up data view&quot;&quot;&quot;</span>
+        <span class="k">for</span> <span class="n">widget</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">xcsw</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">ycsw</span><span class="p">):</span>
+            <span class="n">widget</span><span class="o">.</span><span class="n">hide</span><span class="p">()</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">cleanup_dataview</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="ImagePlotHandler.get_plot_options">
+<a class="viewcode-back" href="../../../features/advanced/api/plothandler.html#datalab.gui.plothandler.ImagePlotHandler.get_plot_options">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_plot_options</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">PlotOptions</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return standard signal/image plot options&quot;&quot;&quot;</span>
+        <span class="n">options</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plot_options</span><span class="p">()</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">zlabel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_title</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">zunit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_unit</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">options</span></div>
+</div>
+
+</pre></div>
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

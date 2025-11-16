@@ -56,11 +56,11 @@ Convert to Cartesian coordinates
 
 Create a new signal which is the result of converting polar coordinates to Cartesian coordinates.
 
-.. note::
+This function assumes that the x-axis represents the radius and the y-axis the angle.
 
-    This function assumes that the x-axis represents the radius and the y-axis
-    represents the angle. Negative values are not allowed for the radius, and will
-    be clipped to 0 (a warning will be raised).
+.. warning::
+
+    A radius cannot be negative. Any negative value is clipped to 0.
 
 
 Convert to polar coordinates
@@ -84,15 +84,15 @@ by maximum, amplitude, sum, energy or RMS:
     * - Parameter
       - Normalization
     * - Maximum
-      - :math:`y_{1}= \dfrac{y_{0}}{max(y_{0})}`
+      - :math:`y_{1}= \dfrac{y_{0}}{\max\left(y_{0}\right)}`
     * - Amplitude
-      - :math:`y_{1}= \dfrac{y_{0}'}{max(y_{0}')}` with :math:`y_{0}'=y_{0}-min(y_{0})`
+      - :math:`y_{1}= \dfrac{y_{0}'}{\max\left(y_{0}'\right)}` with :math:`y_{0}'=y_{0}-\min\left(y_{0}\right)`
     * - Area
       - :math:`y_{1}= \dfrac{y_{0}}{\sum_{n=0}^{N}y_{0}[n]}`
     * - Energy
-      - :math:`y_{1}= \dfrac{y_{0}}{\sqrt{\sum_{n=0}^{N}|y_{0}[n]|^2}}`
+      - :math:`y_{1}= \dfrac{y_{0}}{\sqrt{\sum_{n=0}^{N}\left|y_{0}[n]\right|^2}}`
     * - RMS
-      - :math:`y_{1}= \dfrac{y_{0}}{\sqrt{\dfrac{1}{N}\sum_{n=0}^{N}|y_{0}[n]|^2}}`
+      - :math:`y_{1}= \dfrac{y_{0}}{\sqrt{\dfrac{1}{N}\sum_{n=0}^{N}\left|y_{0}[n]\right|^2}}`
 
 Clipping
 ~~~~~~~~
@@ -105,6 +105,25 @@ Offset correction
 Create a new signal which is the result of offset correction of each selected signal.
 This operation is performed by subtracting the signal baseline which is estimated by
 the mean value of a user-defined range.
+
+Noise addition
+^^^^^^^^^^^^^^
+
+Generate new signals by adding the same noise to each selected signal.
+The available noise types are:
+
+.. list-table::
+    :header-rows: 1
+    :widths: 25, 75
+
+    * - Noise
+      - Description
+    * - Gaussian
+      - Normal distribution
+    * - Uniform
+      - Uniform distribution
+    * - Poisson
+      - Poisson distribution
 
 Noise reduction
 ^^^^^^^^^^^^^^^
@@ -187,15 +206,17 @@ The following functions are available:
       - Inverse Fast Fourier Transform
       - `numpy.fft.ifft <https://docs.scipy.org/doc/numpy/reference/generated/numpy.fft.ifft.html>`_
     * - Magnitude spectrum
-      - Optionnal: use logarithmic scale (dB)
-      - :math:`y_{1} = |FFT(y_{0})|` or :math:`20.log_{10}(|FFT(y_{0})|)` (dB)
+      - Optional: output in decibels (dB)
+      - | :math:`y_{1} = \left|\FFT\left(y_{0}\right)\right|` or
+        | :math:`y_{1} = 20 \log_{10} \left(\left|\FFT\left(y_{0}\right)\right|\right)` (dB)
     * - Phase spectrum
-      - Phase of the FFT expressed in degrees, using `numpy.angle <https://docs.scipy.org/doc/numpy/reference/generated/numpy.angle.html>`_ function
-      - :math:`y_{1} = \angle FFT(y_{0})`
+      - Phase of the FFT expressed in degrees, using `numpy.angle <https://docs.scipy.org/doc/numpy/reference/generated/numpy.angle.html>`_
+      - :math:`y_{1} = \angle \FFT\left(y_{0}\right)`
     * - Power spectral density (PSD)
-      - Optionnal: use logarithmic scale (dB). PSD is estimated using Welch's method
+      - Optional: output in decibels (dB). PSD is estimated using Welch's method
         (see `scipy.signal.welch <https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.welch.html>`_)
-      - :math:`Y_{k} = PSD(y_{k})` or :math:`10.log_{10}(PSD(y_{k}))` (dB)
+      - | :math:`y_{1} = \PSD\left(y_{0}\right)` or
+        | :math:`y_{1} = 10 \log_{10} \left(\PSD\left(y_{0}\right)\right)` (dB)
 
 .. note::
 
@@ -224,22 +245,22 @@ The following filters are available:
     * - |bandstop| Band-stop
       - Filter out frequencies inside a range
 
-.. |lowpass| image:: ../../../cdl/data/icons/processing/lowpass.svg
+.. |lowpass| image:: ../../../datalab/data/icons/processing/lowpass.svg
     :width: 24px
     :height: 24px
     :class: dark-light no-scaled-link
 
-.. |highpass| image:: ../../../cdl/data/icons/processing/highpass.svg
+.. |highpass| image:: ../../../datalab/data/icons/processing/highpass.svg
     :width: 24px
     :height: 24px
     :class: dark-light no-scaled-link
 
-.. |bandpass| image:: ../../../cdl/data/icons/processing/bandpass.svg
+.. |bandpass| image:: ../../../datalab/data/icons/processing/bandpass.svg
     :width: 24px
     :height: 24px
     :class: dark-light no-scaled-link
 
-.. |bandstop| image:: ../../../cdl/data/icons/processing/bandstop.svg
+.. |bandstop| image:: ../../../datalab/data/icons/processing/bandstop.svg
     :width: 24px
     :height: 24px
     :class: dark-light no-scaled-link
@@ -254,6 +275,8 @@ For each filter, the following methods are available:
       - Description
     * - Bessel
       - Bessel filter, using SciPy's `scipy.signal.bessel <https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.bessel.html>`_ function
+    * - Brick wall
+      - Ideal (rectangular) filter in the frequency domain
     * - Butterworth
       - Butterworth filter, using SciPy's `scipy.signal.butter <https://docs.scipy.org/doc/scipy/reference/generated/scipy.signal.butter.html>`_ function
     * - Chebyshev I
@@ -266,7 +289,8 @@ For each filter, the following methods are available:
 Fitting
 ^^^^^^^
 
-Open an interactive curve fitting tool in a modal dialog box.
+Fit a model to each selected signal.
+This can be done automatically or through an interactive curve fitting dialog.
 
 .. list-table::
     :header-rows: 1
@@ -275,23 +299,33 @@ Open an interactive curve fitting tool in a modal dialog box.
     * - Model
       - Equation
     * - Linear
-      - :math:`y = c_{0}+c_{1}.x`
+      - :math:`y = c_{0} + c_{1} \cdot x`
     * - Polynomial
-      - :math:`y = c_{0}+c_{1}.x+c_{2}.x^2+...+c_{n}.x^n`
+      - :math:`y = c_{0} + c_{1} \cdot x + c_{2} \cdot x^2 + ... + c_{n} \cdot x^n`
     * - Gaussian
-      - :math:`y = y_{0}+\dfrac{A}{\sqrt{2\pi}.\sigma}.exp(-\dfrac{1}{2}.(\dfrac{x-x_{0}}{\sigma})^2)`
+      - :math:`y = y_{0} + \dfrac{A}{\sqrt{2 \pi} \sigma} \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0}}{\sigma}\right)^2\right)`
     * - Lorentzian
-      - :math:`y = y_{0}+\dfrac{A}{\sigma.\pi}.\dfrac{1}{1+(\dfrac{x-x_{0}}{\sigma})^2}`
+      - :math:`y = y_{0} + \dfrac{A}{\pi \sigma} \cdot \dfrac{1}{1+\left(\dfrac{x-x_{0}}{\sigma}\right)^2}`
     * - Voigt
-      - :math:`y = y_{0}+A.\dfrac{Re(exp(-z^2).erfc(-j.z))}{\sqrt{2\pi}.\sigma}` with :math:`z = \dfrac{x-x_{0}-j.\sigma}{\sqrt{2}.\sigma}`
+      - :math:`y = y_{0} + A \cdot \dfrac{\Re\left(\exp(-z^2) \cdot \operatorname{erfc}(-j \cdot z)\right)}{\sqrt{2 \pi} \sigma}` with :math:`z = \dfrac{x - x_{0} - j \cdot \sigma}{\sqrt{2} \sigma}`
     * - Multi-Gaussian
-      - :math:`y = y_{0}+\sum_{i=0}^{K}\dfrac{A_{i}}{\sqrt{2\pi}.\sigma_{i}}.exp(-\dfrac{1}{2}.(\dfrac{x-x_{0,i}}{\sigma_{i}})^2)`
+      - :math:`y = y_{0} + \sum_{i=0}^{N}\dfrac{A_{i}}{\sqrt{2 \pi} \sigma_{i}} \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2\right)`
+    * - Multi-Lorentzian
+      - :math:`y = y_{0} + \sum_{i=0}^{N}\dfrac{A_{i}}{\pi \sigma_{i}} \cdot \dfrac{1}{1 + \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2}`
+    * - Planck
+      - :math:`y = y_{0} + A\cdot \dfrac{2h \cdot c^2}{\lambda^5} \cdot \left(\exp\left(\dfrac{h \cdot c}{\lambda \cdot k \cdot T}\right)-1\right)^{-1}`
+    * - Two half Gaussians
+      - | :math:`y = y_{0} + A \cdot \dfrac{1}{\sqrt{2 \pi} \sigma_{0}} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{0}}{\sigma_{0}}\right)^2\right)` if :math:`x < x_{0}`
+        | :math:`y = y_{0} + A \cdot \dfrac{1}{\sqrt{2 \pi} \sigma_{1}} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{1}}{\sigma_{1}}\right)^2\right)` otherwise
+    * - Two back-to-back exponentials
+      - | :math:`y = y_{0} + A_{1} \cdot \exp\left(-x/\tau_{1}\right)` if :math:`x < 0`
+        | :math:`y = y_{0} + A_{2} \cdot \exp(-x/\tau_{2})` otherwise
     * - Exponential
-      - :math:`y = y_{0}+A.exp(B.x)`
+      - :math:`y = y_{0} + A \exp\left(B \cdot x\right)`
     * - Sinusoidal
-      - :math:`y = y_{0}+A.sin(2\pi.f.x+\phi)`
+      - :math:`y = y_{0} + A \sin\left(2 \pi f \cdot x + \phi\right)`
     * - Cumulative Distribution Function (CDF)
-      - :math:`y = y_{0}+A.erf(\dfrac{x-x_{0}}{\sigma.\sqrt{2}})`
+      - :math:`y = y_{0} + A \erf\left(\dfrac{x - x_{0}}{\sqrt{2} \sigma}\right)`
 
 Windowing
 ^^^^^^^^^
@@ -316,7 +350,7 @@ The following window functions are available:
       - :py:func:`scipy.signal.windows.blackmanharris`
     * - Bohman
       - :py:func:`scipy.signal.windows.bohman`
-    * - Boxcar
+    * - Boxcar (rectangular)
       - :py:func:`scipy.signal.windows.boxcar`
     * - Cosine
       - :py:func:`scipy.signal.windows.cosine`
@@ -328,7 +362,7 @@ The following window functions are available:
       - :py:func:`scipy.signal.windows.gaussian`
     * - Hamming
       - :py:func:`numpy.hamming`
-    * - Hanning
+    * - Hann
       - :py:func:`numpy.hanning`
     * - Kaiser
       - :py:func:`scipy.signal.windows.kaiser`
@@ -338,8 +372,6 @@ The following window functions are available:
       - :py:func:`scipy.signal.windows.nuttall`
     * - Parzen
       - :py:func:`scipy.signal.windows.parzen`
-    * - Rectangular
-      - :py:func:`numpy.ones`
     * - Taylor
       - :py:func:`scipy.signal.windows.taylor`
     * - Tukey
@@ -455,13 +487,3 @@ X-Y Mode
 ^^^^^^^^
 
 Simulate the X-Y mode of an oscilloscope.
-
-ROI extraction
-^^^^^^^^^^^^^^
-
-Create a new signal from a user-defined Region of Interest (ROI).
-
-.. figure:: /images/shots/s_roi_dialog.png
-
-    ROI extraction dialog: the ROI is defined by moving the position
-    and adjusting the width of an horizontal range.
