@@ -1,0 +1,980 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Guide d'installation hors ligne de DataLab sur des systèmes sans accès Internet" name="description" translated="True" />
+<meta content="DataLab, hors ligne, installation, Python, pip, wheel, sans internet, Windows, Linux, macOS" name="keywords" translated="True" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Installation hors ligne &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../_static/documentation_options.js?v=a1a25f23"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/translations.js?v=bf059b8c"></script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro/installation_offline';</script>
+    <link rel="canonical" href="https://datalab-platform.com/intro/installation_offline.html" />
+    <link rel="icon" href="../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Recherche" href="../search.html" />
+    <link rel="next" title="Cas d’usage, principales fonctionnalités et points forts" href="introduction.html" />
+    <link rel="prev" title="Installation" href="installation.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a> et <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> ! Un cas d'usage avancé sera présenté à <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.0.1</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../features/index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../changelog.html">
+    Versions
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Sommaire :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="installation.html">Installation</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Installation hors ligne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="introduction.html">Cas d’usage, principales fonctionnalités et points forts</a></li>
+<li class="toctree-l1"><a class="reference internal" href="keyfeatures.html">Fonctionnalités principales</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="tutorials/index.html">Tutoriels</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Démo rapide</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Ajouter vos propres fonctionnalités</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Traitement d’un spectre</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Détection de taches sur une image</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesure de franges de Fabry-Perot</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/laser_beam.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</a></li>
+<li class="toctree-l2"><a class="reference internal" href="tutorials/work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab et Spyder : un duo gagnant</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Premiers pas</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Installation hors ligne</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="offline-installation">
+<span id="installation-offline"></span><h1>Installation hors ligne<a class="headerlink" href="#offline-installation" title="Lien vers cette rubrique">#</a></h1>
+<p>Ce guide explique comment installer DataLab sur un système <strong>sans accès Internet</strong>.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Cette page se concentre sur <strong>l’installation hors ligne avec pip</strong> (gestionnaire de paquets Python). Pour les autres méthodes d’installation hors ligne, consultez la section <a class="reference internal" href="#installation-offline-alternatives"><span class="std std-ref">Autres méthodes d’installation hors ligne</span></a> ci-dessous.</p>
+</div>
+<section id="offline-installation-via-pip">
+<h2>Installation hors ligne via pip<a class="headerlink" href="#offline-installation-via-pip" title="Lien vers cette rubrique">#</a></h2>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-info sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">GNU/Linux</span> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">Windows</span> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">macOS</span></p>
+<p>Cette méthode fonctionne sur <strong>tout système d’exploitation</strong> avec <strong>Python 3.9 à 3.14</strong>. Elle suppose que vous disposez d’une machine en ligne pour télécharger les paquets, et d’une machine hors ligne distincte où DataLab sera installé.</p>
+</section>
+<section id="requirements">
+<h2>Prérequis<a class="headerlink" href="#requirements" title="Lien vers cette rubrique">#</a></h2>
+<section id="offline-machine">
+<h3>Machine hors ligne<a class="headerlink" href="#offline-machine" title="Lien vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>GNU/Linux, Windows ou macOS</p></li>
+<li><p>Python 3.9 à 3.14 installé avec la <strong>même version majeure</strong> que la machine en ligne</p></li>
+<li><p>Aucune hypothèse concernant les paquets installés</p></li>
+</ul>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p><strong>La compatibilité des versions est critique :</strong></p>
+<ul class="simple">
+<li><p>✅ <strong>Autorisé :</strong> Python 3.10.2 ↔ Python 3.10.11 (même version majeure)</p></li>
+<li><p>❌ <strong>Non autorisé :</strong> Python 3.10.x ↔ Python 3.11.x (versions majeures différentes)</p></li>
+</ul>
+<p>SciPy, NumPy et scikit-image dépendent fortement de la version majeure de Python. Les deux machines doivent utiliser la même version majeure de Python pour une installation hors ligne fiable.</p>
+</div>
+<p>Pour vérifier votre version de Python, exécutez :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python --version</span>
+</pre></div>
+</div>
+</section>
+<section id="online-machine">
+<h3>Machine en ligne<a class="headerlink" href="#online-machine" title="Lien vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p>Windows, Linux ou macOS</p></li>
+<li><p>Python avec la <strong>même version majeure</strong> que la machine hors ligne</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pip</span></code> installé</p></li>
+</ul>
+</section>
+</section>
+<section id="preparing-packages-online-machine">
+<h2>Préparation des paquets (machine en ligne)<a class="headerlink" href="#preparing-packages-online-machine" title="Lien vers cette rubrique">#</a></h2>
+<p>Téléchargez tous les <strong>paquets Wheel</strong> nécessaires pour l’installation hors ligne.</p>
+<section id="create-a-folder-for-packages">
+<h3>Créer un dossier pour les paquets<a class="headerlink" href="#create-a-folder-for-packages" title="Lien vers cette rubrique">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-0" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-0">
+Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir C:\datalab-offline</span>
+<span class="go">cd C:\datalab-offline</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-1" name="sd-tab-set-0" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-1">
+GNU/Linux / macOS</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">mkdir ~/datalab-offline</span>
+<span class="go">cd ~/datalab-offline</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="download-datalab-and-dependencies">
+<h3>Télécharger DataLab et ses dépendances<a class="headerlink" href="#download-datalab-and-dependencies" title="Lien vers cette rubrique">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-2" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-2">
+Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download datalab-platform --dest C:\datalab-offline</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-3" name="sd-tab-set-1" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-3">
+GNU/Linux / macOS</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download datalab-platform --dest ~/datalab-offline</span>
+</pre></div>
+</div>
+</div>
+</div>
+<p>Cette commande télécharge :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">datalab-platform</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">sigima</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">plotpy</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">guidata</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">pythonqwt</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">numpy</span></code>, <code class="docutils literal notranslate"><span class="pre">scipy</span></code>, <code class="docutils literal notranslate"><span class="pre">scikit-image</span></code> et d’autres dépendances</p></li>
+</ul>
+</section>
+<section id="expected-folder-structure">
+<h3>Structure de dossier attendue<a class="headerlink" href="#expected-folder-structure" title="Lien vers cette rubrique">#</a></h3>
+<p>Après le téléchargement, votre dossier devrait contenir des fichiers similaires à :</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>datalab-offline/
+├─ datalab_platform‑1.x.x‑py3‑none‑any.whl
+├─ sigima‑1.x.x‑py3‑none‑any.whl
+├─ plotpy‑x.x.x‑py3‑none‑any.whl
+├─ guidata‑3.x.x‑py3‑none‑any.whl
+├─ pythonqwt‑x.x.x‑py3‑none‑any.whl
+├─ numpy‑...‑cp310‑cp310‑[platform].whl
+├─ scipy‑...‑cp310‑cp310‑[platform].whl
+├─ scikit_image‑...‑cp310‑cp310‑[platform].whl
+└─ ...
+</pre></div>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Le suffixe <code class="docutils literal notranslate"><span class="pre">[platform]</span></code> dans les noms de fichiers wheel variera en fonction de votre système : <code class="docutils literal notranslate"><span class="pre">win_amd64</span></code> (Windows), <code class="docutils literal notranslate"><span class="pre">manylinux</span></code> (Linux), <code class="docutils literal notranslate"><span class="pre">macosx</span></code> (macOS).</p>
+</div>
+</section>
+<section id="transfer-to-offline-machine">
+<h3>Transfert vers la machine hors ligne<a class="headerlink" href="#transfer-to-offline-machine" title="Lien vers cette rubrique">#</a></h3>
+<p>Transférez le dossier <code class="docutils literal notranslate"><span class="pre">datalab-offline</span></code> vers votre machine hors ligne en utilisant :</p>
+<ul class="simple">
+<li><p>Clé USB</p></li>
+<li><p>Partage réseau</p></li>
+<li><p>Toute autre méthode approuvée dans votre organisation</p></li>
+</ul>
+</section>
+</section>
+<section id="id1">
+<h2>Installation hors ligne<a class="headerlink" href="#id1" title="Lien vers cette rubrique">#</a></h2>
+<p>Sur la machine hors ligne, naviguez vers le dossier et installez DataLab.</p>
+<section id="navigate-to-the-folder">
+<h3>Naviguer vers le dossier<a class="headerlink" href="#navigate-to-the-folder" title="Lien vers cette rubrique">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-4" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-4">
+Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd C:\datalab-offline</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-5" name="sd-tab-set-2" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-5">
+GNU/Linux / macOS</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd ~/datalab-offline</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="install-datalab-offline">
+<h3>Installer DataLab hors ligne<a class="headerlink" href="#install-datalab-offline" title="Lien vers cette rubrique">#</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install --no-index --find-links . datalab-platform</span>
+</pre></div>
+</div>
+<p>L’option <code class="docutils literal notranslate"><span class="pre">--no-index</span></code> indique à pip de ne pas se connecter à Internet, et <code class="docutils literal notranslate"><span class="pre">--find-links</span> <span class="pre">.</span></code> indique à pip de rechercher les paquets dans le répertoire courant.</p>
+</section>
+</section>
+<section id="verification">
+<h2>Vérification<a class="headerlink" href="#verification" title="Lien vers cette rubrique">#</a></h2>
+<p>Pour vérifier que DataLab est correctement installé, exécutez :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m datalab.app</span>
+</pre></div>
+</div>
+<p>Cela devrait lancer l’application DataLab.</p>
+</section>
+<section id="optional-virtual-environment">
+<h2>Optionnel : Environnement virtuel<a class="headerlink" href="#optional-virtual-environment" title="Lien vers cette rubrique">#</a></h2>
+<p>Il est recommandé d’installer DataLab dans un environnement virtuel pour éviter les conflits avec d’autres paquets Python.</p>
+<section id="create-and-activate-a-virtual-environment">
+<h3>Créer et activer un environnement virtuel<a class="headerlink" href="#create-and-activate-a-virtual-environment" title="Lien vers cette rubrique">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-6" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-6">
+Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m venv C:\venvs\datalab</span>
+<span class="go">C:\venvs\datalab\Scripts\activate</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-7" name="sd-tab-set-3" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-7">
+GNU/Linux / macOS</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m venv ~/venvs/datalab</span>
+<span class="go">source ~/venvs/datalab/bin/activate</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="install-datalab-in-the-virtual-environment">
+<h3>Installer DataLab dans l’environnement virtuel<a class="headerlink" href="#install-datalab-in-the-virtual-environment" title="Lien vers cette rubrique">#</a></h3>
+<div class="sd-tab-set docutils">
+<input checked="checked" id="sd-tab-item-8" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-8">
+Windows</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install --no-index --find-links C:\datalab-offline datalab-platform</span>
+</pre></div>
+</div>
+</div>
+<input id="sd-tab-item-9" name="sd-tab-set-4" type="radio">
+<label class="sd-tab-label" for="sd-tab-item-9">
+GNU/Linux / macOS</label><div class="sd-tab-content docutils">
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install --no-index --find-links ~/datalab-offline datalab-platform</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="launch-datalab">
+<h3>Lancer DataLab<a class="headerlink" href="#launch-datalab" title="Lien vers cette rubrique">#</a></h3>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m datalab.app</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="winpython-for-offline-usage">
+<h2>WinPython pour une utilisation hors ligne<a class="headerlink" href="#winpython-for-offline-usage" title="Lien vers cette rubrique">#</a></h2>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-info sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">Windows</span></p>
+<p><a class="reference external" href="https://winpython.github.io/">WinPython</a> est particulièrement adapté aux installations hors ligne car il fournit un environnement Python portable et autonome.</p>
+<section id="prepare-on-online-machine">
+<h3>Préparation sur la machine en ligne<a class="headerlink" href="#prepare-on-online-machine" title="Lien vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>Téléchargez WinPython avec la <strong>même version majeure de Python</strong> que votre système cible</p></li>
+<li><p>Installez WinPython</p></li>
+<li><p>Ouvrez l”<em>invite de commandes WinPython</em></p></li>
+<li><p>Téléchargez les paquets :</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download datalab-platform --dest C:\datalab-offline</span>
+</pre></div>
+</div>
+</section>
+<section id="install-on-offline-machine">
+<h3>Installation sur la machine hors ligne<a class="headerlink" href="#install-on-offline-machine" title="Lien vers cette rubrique">#</a></h3>
+<ol class="arabic simple">
+<li><p>Transférez WinPython et le dossier <code class="docutils literal notranslate"><span class="pre">datalab-offline</span></code> vers la machine hors ligne</p></li>
+<li><p>Ouvrez l”<em>invite de commandes WinPython</em></p></li>
+<li><p>Installez DataLab :</p></li>
+</ol>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">cd C:\datalab-offline</span>
+<span class="go">python -m pip install --no-index --find-links . datalab-platform</span>
+</pre></div>
+</div>
+</section>
+<section id="benefits-of-winpython">
+<h3>Avantages de WinPython<a class="headerlink" href="#benefits-of-winpython" title="Lien vers cette rubrique">#</a></h3>
+<ul class="simple">
+<li><p><strong>Portable :</strong> Aucune installation requise, peut fonctionner depuis une clé USB</p></li>
+<li><p><strong>Autonome :</strong> Toutes les dépendances incluses</p></li>
+<li><p><strong>Idéal pour les environnements restreints :</strong> Aucun droit administrateur nécessaire</p></li>
+<li><p><strong>Versions multiples :</strong> Peut avoir plusieurs versions de Python côte à côte</p></li>
+</ul>
+</section>
+</section>
+<section id="quick-summary">
+<h2>Résumé rapide<a class="headerlink" href="#quick-summary" title="Lien vers cette rubrique">#</a></h2>
+<p>Le flux de travail complet en quatre étapes :</p>
+<ol class="arabic">
+<li><p><strong>Sur la machine en ligne :</strong> Télécharger les paquets</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">pip download datalab-platform --dest /path/to/datalab-offline</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Transfert :</strong> Copier le dossier <code class="docutils literal notranslate"><span class="pre">datalab-offline</span></code> vers la machine hors ligne</p></li>
+<li><p><strong>Sur la machine hors ligne :</strong> Installer hors ligne</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m pip install --no-index --find-links /path/to/datalab-offline datalab-platform</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Vérification :</strong> Lancer DataLab</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">python -m datalab.app</span>
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
+<section id="other-offline-installation-methods">
+<span id="installation-offline-alternatives"></span><h2>Autres méthodes d’installation hors ligne<a class="headerlink" href="#other-offline-installation-methods" title="Lien vers cette rubrique">#</a></h2>
+<p>Bien que ce guide se concentre sur l’installation hors ligne avec pip, DataLab peut également être installé hors ligne en utilisant d’autres méthodes :</p>
+<section id="stand-alone-installer-windows">
+<h3>Installateur autonome (Windows)<a class="headerlink" href="#stand-alone-installer-windows" title="Lien vers cette rubrique">#</a></h3>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-info sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">Windows</span> <strong>Recommandé pour l’installation hors ligne</strong></p>
+<p>L”<strong>installateur tout-en-un</strong> est le moyen le plus simple d’installer DataLab hors ligne sur Windows. Il ne nécessite aucune distribution Python ni connexion Internet sur la machine cible.</p>
+<p><strong>Avantages :</strong></p>
+<ul class="simple">
+<li><p>Aucune installation Python requise</p></li>
+<li><p>Fichier exécutable unique</p></li>
+<li><p>Autonome avec toutes les dépendances</p></li>
+<li><p>Aucune connexion Internet nécessaire pendant l’installation</p></li>
+<li><p>Fonctionne sur des systèmes isolés</p></li>
+</ul>
+<p><strong>Comment l’utiliser :</strong></p>
+<ol class="arabic simple">
+<li><p>Sur une machine avec accès Internet, téléchargez l’installateur depuis la page <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/releases">DataLab Releases</a></p></li>
+<li><p>Transférez l’exécutable de l’installateur vers la machine hors ligne (clé USB, partage réseau, etc.)</p></li>
+<li><p>Exécutez l’installateur sur la machine hors ligne</p></li>
+</ol>
+<p>Pour plus d’informations, consultez <a class="reference internal" href="installation.html#install-aioinstaller"><span class="std std-ref">Installeur tout-en-un</span></a>.</p>
+</section>
+<section id="winpython-distribution-windows">
+<h3>Distribution WinPython (Windows)<a class="headerlink" href="#winpython-distribution-windows" title="Lien vers cette rubrique">#</a></h3>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-info sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">Windows</span></p>
+<p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab-WinPython">DataLab-WinPython</a> est une distribution Python portable qui inclut DataLab et toutes ses dépendances.</p>
+<p><strong>Avantages :</strong></p>
+<ul class="simple">
+<li><p>Portable (peut fonctionner depuis une clé USB)</p></li>
+<li><p>Aucune installation requise</p></li>
+<li><p>Inclut un environnement Python complet</p></li>
+<li><p>Peut être étendu avec des paquets supplémentaires</p></li>
+<li><p>Idéal pour les environnements restreints</p></li>
+</ul>
+<p><strong>Comment l’utiliser :</strong></p>
+<ol class="arabic simple">
+<li><p>Téléchargez DataLab-WinPython depuis la <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-WinPython/releases">page des versions</a></p></li>
+<li><p>Transférez vers la machine hors ligne</p></li>
+<li><p>Extrayez et exécutez</p></li>
+</ol>
+<p>Pour plus d’informations, consultez <a class="reference internal" href="installation.html#install-winpython"><span class="std std-ref">Distribution Python</span></a>.</p>
+</section>
+<section id="conda-offline-installation">
+<h3>Installation hors ligne avec Conda<a class="headerlink" href="#conda-offline-installation" title="Lien vers cette rubrique">#</a></h3>
+<p><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-info sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 8a8 8 0 1 1 16 0A8 8 0 0 1 0 8Zm8-6.5a6.5 6.5 0 1 0 0 13 6.5 6.5 0 0 0 0-13ZM6.5 7.75A.75.75 0 0 1 7.25 7h1a.75.75 0 0 1 .75.75v2.75h.25a.75.75 0 0 1 0 1.5h-2a.75.75 0 0 1 0-1.5h.25v-2h-.25a.75.75 0 0 1-.75-.75ZM8 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"></path></svg> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">GNU/Linux</span> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">Windows</span> <span class="sd-sphinx-override sd-badge sd-outline-info sd-text-info">macOS</span></p>
+<p>Les paquets Conda peuvent également être installés hors ligne en utilisant une approche similaire à pip :</p>
+<ol class="arabic">
+<li><p><strong>Sur la machine en ligne :</strong> Téléchargez le paquet conda et ses dépendances :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n datalab-offline --download-only --json conda-forge::datalab</span>
+</pre></div>
+</div>
+<p>Ou utilisez <code class="docutils literal notranslate"><span class="pre">conda</span> <span class="pre">list</span> <span class="pre">--explicit</span></code> pour créer un fichier de spécification.</p>
+</li>
+<li><p><strong>Transférez</strong> les paquets téléchargés vers la machine hors ligne</p></li>
+<li><p><strong>Sur la machine hors ligne :</strong> Installez à partir des paquets locaux :</p>
+<div class="highlight-console notranslate"><div class="highlight"><pre><span></span><span class="go">conda create -n datalab --offline -c file:///path/to/packages datalab</span>
+</pre></div>
+</div>
+</li>
+</ol>
+<p>Pour plus d’informations sur l’installation hors ligne avec conda, consultez la <a class="reference external" href="https://conda.io/projects/conda/en/latest/user-guide/tasks/manage-pkgs.html#installing-packages-offline">documentation Conda</a>.</p>
+<p>Pour l’installation en ligne standard, consultez <a class="reference internal" href="installation.html#install-conda"><span class="std std-ref">Paquet Conda</span></a>.</p>
+<div class="admonition seealso">
+<p class="admonition-title">Voir aussi</p>
+<p>Pour les méthodes d’installation en ligne standard, consultez <a class="reference internal" href="installation.html#installation"><span class="std std-ref">Installation</span></a>.</p>
+</div>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="installation.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Installation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="introduction.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Cas d’usage, principales fonctionnalités et points forts</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#offline-installation-via-pip">Installation hors ligne via pip</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#requirements">Prérequis</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#offline-machine">Machine hors ligne</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#online-machine">Machine en ligne</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#preparing-packages-online-machine">Préparation des paquets (machine en ligne)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-a-folder-for-packages">Créer un dossier pour les paquets</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#download-datalab-and-dependencies">Télécharger DataLab et ses dépendances</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#expected-folder-structure">Structure de dossier attendue</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-to-offline-machine">Transfert vers la machine hors ligne</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Installation hors ligne</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#navigate-to-the-folder">Naviguer vers le dossier</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-datalab-offline">Installer DataLab hors ligne</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#verification">Vérification</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#optional-virtual-environment">Optionnel : Environnement virtuel</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#create-and-activate-a-virtual-environment">Créer et activer un environnement virtuel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-datalab-in-the-virtual-environment">Installer DataLab dans l’environnement virtuel</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#launch-datalab">Lancer DataLab</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#winpython-for-offline-usage">WinPython pour une utilisation hors ligne</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-on-online-machine">Préparation sur la machine en ligne</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-on-offline-machine">Installation sur la machine hors ligne</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#benefits-of-winpython">Avantages de WinPython</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-summary">Résumé rapide</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-offline-installation-methods">Autres méthodes d’installation hors ligne</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#stand-alone-installer-windows">Installateur autonome (Windows)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#winpython-distribution-windows">Distribution WinPython (Windows)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#conda-offline-installation">Installation hors ligne avec Conda</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
