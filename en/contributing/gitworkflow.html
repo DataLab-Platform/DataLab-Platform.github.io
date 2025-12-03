@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -177,7 +177,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../changelog.html">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -326,7 +326,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../changelog.html">
+  <a class="nav-link nav-internal" href="../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -506,20 +506,40 @@ In the near future, we may consider adopting a more complex workflow, e.g. by ad
 </li>
 </ul>
 </section>
+<section id="release-branch">
+<h3>Release Branch<a class="headerlink" href="#release-branch" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">release</span></code>: Represents the current maintenance line for patch releases.</p>
+<ul>
+<li><p>Created from <code class="docutils literal notranslate"><span class="pre">main</span></code> after a stable release when the first patch is needed.</p></li>
+<li><p>Accepts <code class="docutils literal notranslate"><span class="pre">fix/xxx</span></code> and <code class="docutils literal notranslate"><span class="pre">hotfix/xxx</span></code> branch merges.</p></li>
+<li><p>Merged back into <code class="docutils literal notranslate"><span class="pre">main</span></code> for each patch release tag (e.g., 1.0.1, 1.0.2).</p></li>
+<li><p>Reset or recreated when starting a new minor/major release cycle.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">release</span></code> branch is not versioned (no <code class="docutils literal notranslate"><span class="pre">release/1.0.x</span></code>). It always
+represents “the current maintenance line.” When a new minor version is released
+(e.g., 1.2.0), the old <code class="docutils literal notranslate"><span class="pre">release</span></code> branch is deleted and a new one is created
+from the fresh tag when the first patch for 1.2.1 is needed.</p>
+</div>
+</section>
 <section id="bug-fix-branches">
 <h3>Bug Fix Branches<a class="headerlink" href="#bug-fix-branches" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p><code class="docutils literal notranslate"><span class="pre">fix/xxx</span></code>: Used for general bug fixes that are not urgent.</p>
 <ul>
-<li><p>Created from <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p></li>
-<li><p>Merged back into <code class="docutils literal notranslate"><span class="pre">develop</span></code> once completed.</p></li>
+<li><p>Created from <code class="docutils literal notranslate"><span class="pre">develop</span></code> (for next feature release) or <code class="docutils literal notranslate"><span class="pre">release</span></code> (for patch release).</p></li>
+<li><p>Merged back into the originating branch once completed.</p></li>
 <li><p>Deleted after merging.</p></li>
 </ul>
 </li>
 <li><p><code class="docutils literal notranslate"><span class="pre">hotfix/xxx</span></code>: Used for urgent production-critical fixes.</p>
 <ul>
-<li><p>Created from <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
-<li><p>Merged back into <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
+<li><p>Created from <code class="docutils literal notranslate"><span class="pre">release</span></code> (if exists) or <code class="docutils literal notranslate"><span class="pre">main</span></code> (if no <code class="docutils literal notranslate"><span class="pre">release</span></code> branch yet).</p></li>
+<li><p>Merged back into <code class="docutils literal notranslate"><span class="pre">release</span></code> or <code class="docutils literal notranslate"><span class="pre">main</span></code>.</p></li>
 <li><p>The fix is then cherry-picked into <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p></li>
 <li><p>Deleted after merging.</p></li>
 </ul>
@@ -576,6 +596,7 @@ Regularly rebase them on <code class="docutils literal notranslate"><span class=
 </section>
 <section id="workflow-for-regular-bug-fixes">
 <h2>Workflow for Regular Bug Fixes<a class="headerlink" href="#workflow-for-regular-bug-fixes" title="Link to this heading">#</a></h2>
+<p>For next feature release (target: <code class="docutils literal notranslate"><span class="pre">develop</span></code>):</p>
 <ol class="arabic">
 <li><p>Create a bug fix branch from <code class="docutils literal notranslate"><span class="pre">develop</span></code>:</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>develop
@@ -596,10 +617,31 @@ git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> 
 </div>
 </li>
 </ol>
+<p>For current maintenance release (target: <code class="docutils literal notranslate"><span class="pre">release</span></code>):</p>
+<ol class="arabic">
+<li><p>Create a bug fix branch from <code class="docutils literal notranslate"><span class="pre">release</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>release
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>fix/bug_description
+</pre></div>
+</div>
+</li>
+<li><p>Apply the fix and commit changes.</p></li>
+<li><p>Merge the fix branch back into <code class="docutils literal notranslate"><span class="pre">release</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>release
+git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>fix/bug_description
+</pre></div>
+</div>
+</li>
+<li><p>Delete the fix branch:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>fix/bug_description
+</pre></div>
+</div>
+</li>
+</ol>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>Do not create a <code class="docutils literal notranslate"><span class="pre">fix/xxx</span></code> branch from a <code class="docutils literal notranslate"><span class="pre">develop/feature_name</span></code> branch.
-Always branch from <code class="docutils literal notranslate"><span class="pre">develop</span></code> to ensure fixes are correctly propagated.</p>
+Always branch from <code class="docutils literal notranslate"><span class="pre">develop</span></code> or <code class="docutils literal notranslate"><span class="pre">release</span></code> to ensure fixes are correctly propagated.</p>
 <div class="highlight-sh notranslate"><div class="highlight"><pre><span></span><span class="c1"># Incorrect:</span>
 git<span class="w"> </span>checkout<span class="w"> </span>develop/feature_name
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>fix/wrong_branch
@@ -615,15 +657,15 @@ git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </
 <section id="workflow-for-critical-hotfixes">
 <h2>Workflow for Critical Hotfixes<a class="headerlink" href="#workflow-for-critical-hotfixes" title="Link to this heading">#</a></h2>
 <ol class="arabic">
-<li><p>Create a hotfix branch from <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+<li><p>Create a hotfix branch from <code class="docutils literal notranslate"><span class="pre">release</span></code> (or <code class="docutils literal notranslate"><span class="pre">main</span></code> if no <code class="docutils literal notranslate"><span class="pre">release</span></code> branch exists):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>release<span class="w">  </span><span class="c1"># or: git checkout main</span>
 git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>hotfix/critical_bug
 </pre></div>
 </div>
 </li>
 <li><p>Apply the fix and commit changes.</p></li>
-<li><p>Merge the fix back into <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
-<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+<li><p>Merge the fix back into <code class="docutils literal notranslate"><span class="pre">release</span></code> (or <code class="docutils literal notranslate"><span class="pre">main</span></code>):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>release<span class="w">  </span><span class="c1"># or: git checkout main</span>
 git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>hotfix/critical_bug
 </pre></div>
 </div>
@@ -646,6 +688,57 @@ git<span class="w"> </span>cherry-pick<span class="w"> </span>&lt;commit_hash&gt
 Ensure hotfixes are cherry-picked into <code class="docutils literal notranslate"><span class="pre">develop</span></code> to avoid losing fixes in future releases.</p>
 </div>
 </section>
+<section id="workflow-for-patch-releases">
+<h2>Workflow for Patch Releases<a class="headerlink" href="#workflow-for-patch-releases" title="Link to this heading">#</a></h2>
+<p>When ready to release a patch version (e.g., 1.0.1, 1.0.2):</p>
+<ol class="arabic">
+<li><p>Ensure the <code class="docutils literal notranslate"><span class="pre">release</span></code> branch contains all desired fixes.</p></li>
+<li><p>Merge <code class="docutils literal notranslate"><span class="pre">release</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>release
+</pre></div>
+</div>
+</li>
+<li><p>Tag the release on <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v1.0.1<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release version 1.0.1&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
+</pre></div>
+</div>
+</li>
+<li><p>Keep the <code class="docutils literal notranslate"><span class="pre">release</span></code> branch for additional patches in the same minor version series.</p></li>
+</ol>
+</section>
+<section id="workflow-for-minor-major-releases">
+<h2>Workflow for Minor/Major Releases<a class="headerlink" href="#workflow-for-minor-major-releases" title="Link to this heading">#</a></h2>
+<p>When ready to release a new minor or major version (e.g., 1.1.0, 2.0.0):</p>
+<ol class="arabic">
+<li><p>Merge <code class="docutils literal notranslate"><span class="pre">develop</span></code> into <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>merge<span class="w"> </span>--no-ff<span class="w"> </span>develop
+</pre></div>
+</div>
+</li>
+<li><p>Tag the release on <code class="docutils literal notranslate"><span class="pre">main</span></code>:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>tag<span class="w"> </span>-a<span class="w"> </span>v1.1.0<span class="w"> </span>-m<span class="w"> </span><span class="s2">&quot;Release version 1.1.0&quot;</span>
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>main<span class="w"> </span>--tags
+</pre></div>
+</div>
+</li>
+<li><p>Delete the old <code class="docutils literal notranslate"><span class="pre">release</span></code> branch (if exists):</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>branch<span class="w"> </span>-d<span class="w"> </span>release
+git<span class="w"> </span>push<span class="w"> </span>origin<span class="w"> </span>--delete<span class="w"> </span>release
+</pre></div>
+</div>
+</li>
+<li><p>Create a new <code class="docutils literal notranslate"><span class="pre">release</span></code> branch from <code class="docutils literal notranslate"><span class="pre">main</span></code> when the first patch for 1.1.1 is needed:</p>
+<div class="highlight-sh notranslate"><div class="highlight"><pre><span></span>git<span class="w"> </span>checkout<span class="w"> </span>main
+git<span class="w"> </span>checkout<span class="w"> </span>-b<span class="w"> </span>release
+git<span class="w"> </span>push<span class="w"> </span>-u<span class="w"> </span>origin<span class="w"> </span>release
+</pre></div>
+</div>
+</li>
+</ol>
+</section>
 <section id="best-practices">
 <h2>Best Practices<a class="headerlink" href="#best-practices" title="Link to this heading">#</a></h2>
 <ul>
@@ -656,15 +749,21 @@ git<span class="w"> </span>rebase<span class="w"> </span>develop
 </div>
 </li>
 <li><p>Avoid long-lived branches to minimize merge conflicts.</p></li>
-<li><p>Ensure bug fixes in <code class="docutils literal notranslate"><span class="pre">main</span></code> are <strong>always cherry-picked</strong> to <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p></li>
+<li><p>Ensure bug fixes in <code class="docutils literal notranslate"><span class="pre">release</span></code> or <code class="docutils literal notranslate"><span class="pre">main</span></code> are <strong>always cherry-picked</strong> to <code class="docutils literal notranslate"><span class="pre">develop</span></code>.</p></li>
 <li><p>Clearly differentiate between <code class="docutils literal notranslate"><span class="pre">fix/xxx</span></code> (non-urgent fixes) and <code class="docutils literal notranslate"><span class="pre">hotfix/xxx</span></code> (critical production fixes).</p></li>
+<li><p>When creating the <code class="docutils literal notranslate"><span class="pre">release</span></code> branch, update release notes to indicate which version it targets (e.g., add a comment in the merge commit: “Create release branch for v1.0.x maintenance”).</p></li>
+<li><p>The <code class="docutils literal notranslate"><span class="pre">release</span></code> branch always represents the current maintenance line. To know which version it targets, check the most recent tag on <code class="docutils literal notranslate"><span class="pre">main</span></code> or the release notes.</p></li>
 </ul>
 </section>
 <section id="takeaway">
 <h2>Takeaway<a class="headerlink" href="#takeaway" title="Link to this heading">#</a></h2>
 <p>This workflow ensures a structured yet flexible development process while keeping
 <code class="docutils literal notranslate"><span class="pre">main</span></code> stable and <code class="docutils literal notranslate"><span class="pre">develop</span></code> always updated with the latest changes.</p>
-<p>It also ensures that bug fixes are correctly managed and propagated across branches.</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">release</span></code> branch provides a dedicated maintenance line for patch releases,
+allowing <code class="docutils literal notranslate"><span class="pre">develop</span></code> to proceed with new features without interference. This solves
+the problem of coordinating unreleased changes across the PlotPyStack ecosystem
+(DataLab, Sigima, PlotPy, guidata, PythonQwt) by providing a stable branch for
+CI testing during maintenance cycles.</p>
 </section>
 </section>
 
@@ -718,6 +817,7 @@ git<span class="w"> </span>rebase<span class="w"> </span>develop
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#branching-model">Branching Model</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#main-branches">Main Branches</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#feature-branches">Feature Branches</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#release-branch">Release Branch</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fix-branches">Bug Fix Branches</a></li>
 </ul>
 </li>
@@ -725,6 +825,8 @@ git<span class="w"> </span>rebase<span class="w"> </span>develop
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-new-features">Workflow for New Features</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-regular-bug-fixes">Workflow for Regular Bug Fixes</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-critical-hotfixes">Workflow for Critical Hotfixes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-patch-releases">Workflow for Patch Releases</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workflow-for-minor-major-releases">Workflow for Minor/Major Releases</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#best-practices">Best Practices</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#takeaway">Takeaway</a></li>
 </ul>

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=a1a25f23"></script>
+    <script src="../../../_static/documentation_options.js?v=965ad549"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -175,8 +175,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../changelog.html">
-    Versions
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
   </a>
 </li>
 
@@ -322,8 +322,8 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../changelog.html">
-    Versions
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
   </a>
 </li>
 
@@ -642,7 +642,7 @@
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">:</span> <span class="n">PlotManager</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">switch_to_default_tool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toolbar_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">PolygonalROI</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">],</span> <span class="p">[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">]],</span> <span class="kc">False</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">roi</span> <span class="o">=</span> <span class="n">PolygonalROI</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span><span class="p">],</span> <span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
@@ -841,7 +841,7 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Parent dialog was accepted: updating ROI Editor data&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">plotitem_to_singleroi</span><span class="p">(</span><span class="n">roi_item</span><span class="p">))</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">plotitem_to_singleroi</span><span class="p">(</span><span class="n">roi_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">isChecked</span><span class="p">())</span>
 

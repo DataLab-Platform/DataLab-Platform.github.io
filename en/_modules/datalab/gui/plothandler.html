@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -174,7 +174,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../changelog.html">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -321,7 +321,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../changelog.html">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -510,7 +510,16 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">calc_data_hash</span><span class="p">(</span><span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate a hash for a SignalObj | ImageObj object&#39;s data&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Calculate a hash for a SignalObj | ImageObj object&#39;s data</span>
+
+<span class="sd">    For signals, this includes both X and Y data to detect axis changes.</span>
+<span class="sd">    For images, this includes only the Z data.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">):</span>
+        <span class="c1"># For signals, hash both X and Y data to detect axis changes</span>
+        <span class="c1"># (e.g., when xmin/xmax is modified without changing Y values)</span>
+        <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">xydata</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+    <span class="c1"># For images, hash only the image data</span>
     <span class="k">return</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha1</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">ascontiguousarray</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="p">))</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
 
 

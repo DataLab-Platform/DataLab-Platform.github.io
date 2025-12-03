@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -179,7 +179,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../changelog.html">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -328,7 +328,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../changelog.html">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -582,6 +582,54 @@ with respect to X or Y axis:</p>
 <section id="reverse-x-axis">
 <h3>Reverse X-axis<a class="headerlink" href="#reverse-x-axis" title="Link to this heading">#</a></h3>
 <p>Create a new signal which is the result of reversing X data.</p>
+</section>
+<section id="replace-x-by-other-signal-s-y">
+<h3>Replace X by other signal’s Y<a class="headerlink" href="#replace-x-by-other-signal-s-y" title="Link to this heading">#</a></h3>
+<p>Create a new signal by combining two signals, using Y values from the second signal
+as X coordinates for the first signal’s Y values.</p>
+<p>This feature is particularly useful for calibration scenarios, such as:</p>
+<ul class="simple">
+<li><p>Applying wavelength calibration to spectroscopy data</p></li>
+<li><p>Using a calibrated reference signal to rescale measurement data</p></li>
+<li><p>Combining signals where one contains calibration points</p></li>
+</ul>
+<p>The two signals must have the same number of points. The operation directly uses
+the Y arrays without interpolation.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 40.0%" />
+<col style="width: 60.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Input</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Signal 1</p></td>
+<td><p>Provides the Y data for the output signal</p></td>
+</tr>
+<tr class="row-odd"><td><p>Signal 2</p></td>
+<td><p>Provides the Y data that becomes the X coordinates of the output signal</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="x-y-mode">
+<h3>X-Y mode<a class="headerlink" href="#x-y-mode" title="Link to this heading">#</a></h3>
+<p>Create a new signal by simulating the X-Y mode of an oscilloscope.</p>
+<p>This operation plots one signal as a function of another by:</p>
+<ol class="arabic simple">
+<li><p>Finding the overlapping X range between both signals</p></li>
+<li><p>Resampling both signals onto a common X grid within that overlap</p></li>
+<li><p>Using the resampled Y values as coordinates (first signal’s Y as X, second signal’s Y as Y)</p></li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>This is different from “Replace X by other signal’s Y” as it performs interpolation to handle signals
+with different X arrays.</p>
+</div>
 </section>
 <section id="convert-to-cartesian-coordinates">
 <h3>Convert to Cartesian coordinates<a class="headerlink" href="#convert-to-cartesian-coordinates" title="Link to this heading">#</a></h3>
@@ -1162,10 +1210,6 @@ the selected signals).</p>
 <p>The “All stability features” option allows to compute all stability analysis methods at once.</p>
 </div>
 </section>
-<section id="x-y-mode">
-<h2>X-Y Mode<a class="headerlink" href="#x-y-mode" title="Link to this heading">#</a></h2>
-<p>Simulate the X-Y mode of an oscilloscope.</p>
-</section>
 </section>
 
 
@@ -1219,6 +1263,8 @@ the selected signals).</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#linear-calibration">Linear calibration</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#swap-x-y-axes">Swap X/Y axes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#reverse-x-axis">Reverse X-axis</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-x-by-other-signal-s-y">Replace X by other signal’s Y</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#x-y-mode">X-Y mode</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-cartesian-coordinates">Convert to Cartesian coordinates</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#convert-to-polar-coordinates">Convert to polar coordinates</a></li>
 </ul>
@@ -1243,7 +1289,6 @@ the selected signals).</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#interpolation">Interpolation</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#resampling">Resampling</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#stability-analysis">Stability analysis</a></li>
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#x-y-mode">X-Y Mode</a></li>
 </ul>
   </nav></div>
 

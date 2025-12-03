@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -174,7 +174,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../changelog.html">
+  <a class="nav-link nav-internal" href="../../../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -321,7 +321,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../../../changelog.html">
+  <a class="nav-link nav-internal" href="../../../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -682,6 +682,13 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_parameters</span><span class="o">.</span><span class="n">setReadOnly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_parameters</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
 
+        <span class="c1"># Track newly created objects to show Creation tab only once</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Track when analysis results were just computed</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="c1"># Track when object was just processed (1-to-1)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+
         <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">processing_history</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;history.svg&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;History&quot;</span><span class="p">)</span>
         <span class="p">)</span>
@@ -844,11 +851,16 @@
 
 <div class="viewcode-block" id="ObjectProp.update_properties_from">
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.update_properties_from">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">update_properties_from</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_properties_from</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">force_tab</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;creation&quot;</span><span class="p">,</span> <span class="s2">&quot;processing&quot;</span><span class="p">,</span> <span class="s2">&quot;analysis&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Update properties panel (properties, creation, processing) from object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Signal or Image object</span>
+<span class="sd">            force_tab: Force a specific tab to be current</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="o">.</span><span class="n">setDisabled</span><span class="p">(</span><span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -885,29 +897,64 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">processing_scroll</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="c1"># Setup Creation and Processing tabs (if applicable)</span>
-        <span class="n">has_creation_tab</span> <span class="o">=</span> <span class="n">has_processing_tab</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">has_creation_tab</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="n">has_processing_tab</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">has_creation_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_creation_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-            <span class="n">has_processing_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_processing_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">has_processing_tab</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_processing_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>  <span class="c1"># Processing tab setup</span>
 
         <span class="c1"># Trigger visibility update for History and Analysis parameters tabs</span>
         <span class="c1"># (will be called via textChanged signals, but we call explicitly</span>
         <span class="c1"># here to ensure initial state is correct)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_tab_visibility</span><span class="p">()</span>
 
-        <span class="c1"># Handle priority regarding the tab to set as current:</span>
-        <span class="c1"># 1. Analysis parameters if content exists</span>
-        <span class="c1"># 2. Creation tab if it exists</span>
-        <span class="c1"># 3. Processing tab if it exists</span>
-        <span class="c1"># 4. Properties tab</span>
-        <span class="k">if</span> <span class="n">has_analysis_parameters</span><span class="p">:</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">analysis_parameters</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">has_creation_tab</span><span class="p">:</span>
+        <span class="c1"># Determine which tab to show based on force_tab parameter:</span>
+        <span class="c1"># - If force_tab=&quot;creation&quot; and Creation tab exists, show it</span>
+        <span class="c1"># - If force_tab=&quot;processing&quot; and Processing tab exists, show it</span>
+        <span class="c1"># - If force_tab=&quot;analysis&quot; and Analysis tab has content, show it</span>
+        <span class="c1"># - Otherwise, always show Properties tab (default behavior)</span>
+        <span class="k">if</span> <span class="n">force_tab</span> <span class="o">==</span> <span class="s2">&quot;creation&quot;</span> <span class="ow">and</span> <span class="n">has_creation_tab</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">)</span>
-        <span class="k">elif</span> <span class="n">has_processing_tab</span><span class="p">:</span>
+        <span class="k">elif</span> <span class="n">force_tab</span> <span class="o">==</span> <span class="s2">&quot;processing&quot;</span> <span class="ow">and</span> <span class="n">has_processing_tab</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">processing_scroll</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="n">force_tab</span> <span class="o">==</span> <span class="s2">&quot;analysis&quot;</span> <span class="ow">and</span> <span class="n">has_analysis_parameters</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">analysis_parameters</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
+            <span class="c1"># Default: always show Properties tab when switching objects</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.mark_as_newly_created">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.mark_as_newly_created">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark_as_newly_created</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark object to show Creation tab on next selection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: Object to mark</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.mark_as_freshly_processed">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.mark_as_freshly_processed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark_as_freshly_processed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark object to show Processing tab on next selection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: Object to mark</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.mark_as_fresh_analysis">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.mark_as_fresh_analysis">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">mark_as_fresh_analysis</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Mark object to show Analysis tab on next selection.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: Object to mark</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectProp.get_changed_properties">
@@ -2084,6 +2131,16 @@
         <span class="n">obj</span><span class="o">.</span><span class="n">check_data</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">)</span>
 
+        <span class="c1"># Mark this object as newly created to show Creation tab on first selection</span>
+        <span class="c1"># BUT: Don&#39;t overwrite if this object is already marked as freshly processed</span>
+        <span class="c1"># or has fresh analysis results (those take precedence)</span>
+        <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">if</span> <span class="p">(</span>
+            <span class="n">obj_uuid</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span>
+            <span class="ow">and</span> <span class="n">obj_uuid</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">mark_as_newly_created</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
         <span class="c1"># Block signals to avoid updating the plot (unnecessary refresh)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">blockSignals</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">add_object_item</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="o">=</span><span class="n">set_current</span><span class="p">)</span>
@@ -3133,7 +3190,26 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">selected_objects</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">selected_groups</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_groups</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">())</span>
+
+        <span class="c1"># Determine which tab to show based on object state</span>
+        <span class="n">current_obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
+        <span class="n">force_tab</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">current_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
+            <span class="c1"># Show Creation tab for newly created objects (only once)</span>
+            <span class="k">if</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span><span class="p">:</span>
+                <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;creation&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># Show Processing tab for freshly processed objects (only once)</span>
+            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span><span class="p">:</span>
+                <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;processing&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+            <span class="c1"># Show Analysis tab for objects with fresh analysis results</span>
+            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span><span class="p">:</span>
+                <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;analysis&quot;</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">current_obj</span><span class="p">,</span> <span class="n">force_tab</span><span class="o">=</span><span class="n">force_tab</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">selected_objects_changed</span><span class="p">(</span><span class="n">selected_groups</span><span class="p">,</span> <span class="n">selected_objects</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span></div>
 

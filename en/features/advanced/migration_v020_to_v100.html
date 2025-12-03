@@ -55,7 +55,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=292eb321"></script>
+    <script src="../../_static/documentation_options.js?v=1ed6394b"></script>
     <script src="../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.1</p>
+    <p class="title logo__title">v1.0.2</p>
   
 </a></div>
     
@@ -179,7 +179,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../changelog.html">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -328,7 +328,7 @@
 
 
 <li class="nav-item ">
-  <a class="nav-link nav-internal" href="../../changelog.html">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
     Release notes
   </a>
 </li>
@@ -550,47 +550,49 @@
 <ul>
 <li><p><a class="reference internal" href="#major-architectural-changes" id="id3">Major architectural changes</a></p></li>
 <li><p><a class="reference internal" href="#package-renaming" id="id4">Package renaming</a></p></li>
-<li><p><a class="reference internal" href="#new-result-objects" id="id5">New result objects</a></p></li>
-<li><p><a class="reference internal" href="#unified-processor-interface" id="id6">Unified processor interface</a></p></li>
+<li><p><a class="reference internal" href="#plugin-file-naming-convention" id="id5">Plugin file naming convention</a></p></li>
+<li><p><a class="reference internal" href="#new-result-objects" id="id6">New result objects</a></p></li>
+<li><p><a class="reference internal" href="#object-uuid-access" id="id7">Object UUID access</a></p></li>
+<li><p><a class="reference internal" href="#unified-processor-interface" id="id8">Unified processor interface</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#updating-the-imports" id="id7">Updating the imports</a></p>
+<li><p><a class="reference internal" href="#updating-the-imports" id="id9">Updating the imports</a></p>
 <ul>
-<li><p><a class="reference internal" href="#import-path-changes" id="id8">Import path changes</a></p></li>
+<li><p><a class="reference internal" href="#import-path-changes" id="id10">Import path changes</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#migrating-plugin-code" id="id9">Migrating plugin code</a></p>
+<li><p><a class="reference internal" href="#migrating-plugin-code" id="id11">Migrating plugin code</a></p>
 <ul>
-<li><p><a class="reference internal" href="#example-1-simple-processing-plugin" id="id10">Example 1: Simple processing plugin</a></p></li>
-<li><p><a class="reference internal" href="#example-2-plugin-using-built-in-features" id="id11">Example 2: Plugin using built-in features</a></p></li>
-<li><p><a class="reference internal" href="#example-3-plugin-creating-objects-and-handling-results" id="id12">Example 3: Plugin creating objects and handling results</a></p></li>
+<li><p><a class="reference internal" href="#example-1-simple-processing-plugin" id="id12">Example 1: Simple processing plugin</a></p></li>
+<li><p><a class="reference internal" href="#example-2-plugin-using-built-in-features" id="id13">Example 2: Plugin using built-in features</a></p></li>
+<li><p><a class="reference internal" href="#example-3-plugin-creating-objects-and-handling-results" id="id14">Example 3: Plugin creating objects and handling results</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#working-with-result-objects" id="id13">Working with result objects</a></p>
+<li><p><a class="reference internal" href="#working-with-result-objects" id="id15">Working with result objects</a></p>
 <ul>
-<li><p><a class="reference internal" href="#changes-to-result-objects" id="id14">Changes to result objects</a></p></li>
-<li><p><a class="reference internal" href="#using-tableresult-and-geometryresult" id="id15">Using TableResult and GeometryResult</a></p></li>
-<li><p><a class="reference internal" href="#retrieving-results-from-metadata" id="id16">Retrieving results from metadata</a></p></li>
+<li><p><a class="reference internal" href="#changes-to-result-objects" id="id16">Changes to result objects</a></p></li>
+<li><p><a class="reference internal" href="#using-tableresult-and-geometryresult" id="id17">Using TableResult and GeometryResult</a></p></li>
+<li><p><a class="reference internal" href="#retrieving-results-from-metadata" id="id18">Retrieving results from metadata</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#processor-method-changes" id="id17">Processor method changes</a></p>
+<li><p><a class="reference internal" href="#processor-method-changes" id="id19">Processor method changes</a></p>
 <ul>
-<li><p><a class="reference internal" href="#using-run-feature" id="id18">Using run_feature()</a></p></li>
-<li><p><a class="reference internal" href="#method-renaming" id="id19">Method renaming</a></p></li>
-<li><p><a class="reference internal" href="#built-in-features-using-run-feature" id="id20">Built-in features using run_feature</a></p></li>
+<li><p><a class="reference internal" href="#using-run-feature" id="id20">Using run_feature()</a></p></li>
+<li><p><a class="reference internal" href="#method-renaming" id="id21">Method renaming</a></p></li>
+<li><p><a class="reference internal" href="#built-in-features-using-run-feature" id="id22">Built-in features using run_feature</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#testing-your-plugin" id="id21">Testing your plugin</a></p></li>
-<li><p><a class="reference internal" href="#common-issues-and-solutions" id="id22">Common issues and solutions</a></p>
+<li><p><a class="reference internal" href="#testing-your-plugin" id="id23">Testing your plugin</a></p></li>
+<li><p><a class="reference internal" href="#common-issues-and-solutions" id="id24">Common issues and solutions</a></p>
 <ul>
-<li><p><a class="reference internal" href="#import-errors" id="id23">Import errors</a></p></li>
-<li><p><a class="reference internal" href="#attribute-errors-on-processor" id="id24">Attribute errors on processor</a></p></li>
-<li><p><a class="reference internal" href="#result-object-incompatibility" id="id25">Result object incompatibility</a></p></li>
-<li><p><a class="reference internal" href="#missing-parameters" id="id26">Missing parameters</a></p></li>
+<li><p><a class="reference internal" href="#import-errors" id="id25">Import errors</a></p></li>
+<li><p><a class="reference internal" href="#attribute-errors-on-processor" id="id26">Attribute errors on processor</a></p></li>
+<li><p><a class="reference internal" href="#result-object-incompatibility" id="id27">Result object incompatibility</a></p></li>
+<li><p><a class="reference internal" href="#missing-parameters" id="id28">Missing parameters</a></p></li>
 </ul>
 </li>
-<li><p><a class="reference internal" href="#additional-resources" id="id27">Additional resources</a></p></li>
-<li><p><a class="reference internal" href="#getting-help" id="id28">Getting help</a></p></li>
+<li><p><a class="reference internal" href="#additional-resources" id="id29">Additional resources</a></p></li>
+<li><p><a class="reference internal" href="#getting-help" id="id30">Getting help</a></p></li>
 </ul>
 </nav>
 <section id="what-changed-in-v1-0">
@@ -630,8 +632,27 @@
 </pre></div>
 </div>
 </section>
+<section id="plugin-file-naming-convention">
+<h3><a class="toc-backref" href="#id5" role="doc-backlink">Plugin file naming convention</a><a class="headerlink" href="#plugin-file-naming-convention" title="Link to this heading">#</a></h3>
+<p>Plugin filenames must follow the new naming convention:</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Plugin files must be renamed from <code class="docutils literal notranslate"><span class="pre">cdl_*.py</span></code> to <code class="docutils literal notranslate"><span class="pre">datalab_*.py</span></code>.</p>
+</div>
+<p><strong>Examples:</strong></p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl_myplugin.py</span></code> → <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl_custom_filters.py</span></code> → <code class="docutils literal notranslate"><span class="pre">datalab_custom_filters.py</span></code></p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">cdl_example.py</span></code> → <code class="docutils literal notranslate"><span class="pre">datalab_example.py</span></code></p></li>
+</ul>
+<p>This naming convention is required for DataLab to automatically discover and load plugins at startup. Plugins that don’t follow this naming pattern will not be loaded.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The plugin discovery mechanism looks for Python files matching the pattern <code class="docutils literal notranslate"><span class="pre">datalab_*.py</span></code> in the plugins directory. Make sure to update your plugin filenames accordingly.</p>
+</div>
+</section>
 <section id="new-result-objects">
-<h3><a class="toc-backref" href="#id5" role="doc-backlink">New result objects</a><a class="headerlink" href="#new-result-objects" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id6" role="doc-backlink">New result objects</a><a class="headerlink" href="#new-result-objects" title="Link to this heading">#</a></h3>
 <p>DataLab v1.0 introduces two new immutable result types:</p>
 <ul class="simple">
 <li><p><strong>TableResult</strong>: Replaces <code class="docutils literal notranslate"><span class="pre">ResultProperties</span></code> for tabular scalar results (e.g., statistics, measurements)</p></li>
@@ -639,8 +660,28 @@
 </ul>
 <p>These new result types are computation-oriented and free of application-specific logic (e.g., Qt, metadata). All metadata-related behaviors have been migrated to the DataLab application layer using <strong>adapter classes</strong> (<code class="docutils literal notranslate"><span class="pre">TableAdapter</span></code>, <code class="docutils literal notranslate"><span class="pre">GeometryAdapter</span></code>).</p>
 </section>
+<section id="object-uuid-access">
+<h3><a class="toc-backref" href="#id7" role="doc-backlink">Object UUID access</a><a class="headerlink" href="#object-uuid-access" title="Link to this heading">#</a></h3>
+<p>The way to access an object’s UUID has changed:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.20 - Direct attribute access</span>
+<span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">uuid</span>
+
+<span class="c1"># v1.0 - Use helper function from datalab.objectmodel</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_uuid</span>
+<span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+
+<span class="c1"># Alternative in v1.0 - Access metadata directly</span>
+<span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;uuid&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>This change applies to both <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> and <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> objects. The UUID is now stored in the object’s metadata rather than as a direct attribute.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The <code class="docutils literal notranslate"><span class="pre">get_uuid()</span></code> function is defined in <code class="docutils literal notranslate"><span class="pre">datalab.objectmodel</span></code>, not as a method on the object itself. Import it before use: <code class="docutils literal notranslate"><span class="pre">from</span> <span class="pre">datalab.objectmodel</span> <span class="pre">import</span> <span class="pre">get_uuid</span></code>.</p>
+</div>
+</section>
 <section id="unified-processor-interface">
-<h3><a class="toc-backref" href="#id6" role="doc-backlink">Unified processor interface</a><a class="headerlink" href="#unified-processor-interface" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id8" role="doc-backlink">Unified processor interface</a><a class="headerlink" href="#unified-processor-interface" title="Link to this heading">#</a></h3>
 <p>The processor methods have been unified and renamed:</p>
 <ul class="simple">
 <li><p>Most specific <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> methods now use the generic <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> method</p></li>
@@ -649,9 +690,9 @@
 </section>
 </section>
 <section id="updating-the-imports">
-<h2><a class="toc-backref" href="#id7" role="doc-backlink">Updating the imports</a><a class="headerlink" href="#updating-the-imports" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id9" role="doc-backlink">Updating the imports</a><a class="headerlink" href="#updating-the-imports" title="Link to this heading">#</a></h2>
 <section id="import-path-changes">
-<h3><a class="toc-backref" href="#id8" role="doc-backlink">Import path changes</a><a class="headerlink" href="#import-path-changes" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id10" role="doc-backlink">Import path changes</a><a class="headerlink" href="#import-path-changes" title="Link to this heading">#</a></h3>
 <p>The following table gives the equivalence between DataLab v0.20 and v1.0 imports.</p>
 <p>The table below shows the mapping between DataLab v0.20 and v1.0 API. For most entries, only the import statement needs to be updated.</p>
 <div class="pst-scrollable-table-container"><table class="table" id="id1">
@@ -861,9 +902,9 @@
 </section>
 </section>
 <section id="migrating-plugin-code">
-<h2><a class="toc-backref" href="#id9" role="doc-backlink">Migrating plugin code</a><a class="headerlink" href="#migrating-plugin-code" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id11" role="doc-backlink">Migrating plugin code</a><a class="headerlink" href="#migrating-plugin-code" title="Link to this heading">#</a></h2>
 <section id="example-1-simple-processing-plugin">
-<h3><a class="toc-backref" href="#id10" role="doc-backlink">Example 1: Simple processing plugin</a><a class="headerlink" href="#example-1-simple-processing-plugin" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id12" role="doc-backlink">Example 1: Simple processing plugin</a><a class="headerlink" href="#example-1-simple-processing-plugin" title="Link to this heading">#</a></h3>
 <p>Here’s how a simple custom filter plugin needs to be updated:</p>
 <p><strong>DataLab v0.20:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -957,7 +998,7 @@
 </ol>
 </section>
 <section id="example-2-plugin-using-built-in-features">
-<h3><a class="toc-backref" href="#id11" role="doc-backlink">Example 2: Plugin using built-in features</a><a class="headerlink" href="#example-2-plugin-using-built-in-features" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id13" role="doc-backlink">Example 2: Plugin using built-in features</a><a class="headerlink" href="#example-2-plugin-using-built-in-features" title="Link to this heading">#</a></h3>
 <p><strong>DataLab v0.20:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cdl.param</span>
@@ -1055,7 +1096,7 @@
 </ol>
 </section>
 <section id="example-3-plugin-creating-objects-and-handling-results">
-<h3><a class="toc-backref" href="#id12" role="doc-backlink">Example 3: Plugin creating objects and handling results</a><a class="headerlink" href="#example-3-plugin-creating-objects-and-handling-results" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id14" role="doc-backlink">Example 3: Plugin creating objects and handling results</a><a class="headerlink" href="#example-3-plugin-creating-objects-and-handling-results" title="Link to this heading">#</a></h3>
 <p><strong>DataLab v0.20:</strong></p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">cdl.obj</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">dlo</span>
@@ -1180,9 +1221,9 @@
 </section>
 </section>
 <section id="working-with-result-objects">
-<h2><a class="toc-backref" href="#id13" role="doc-backlink">Working with result objects</a><a class="headerlink" href="#working-with-result-objects" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id15" role="doc-backlink">Working with result objects</a><a class="headerlink" href="#working-with-result-objects" title="Link to this heading">#</a></h2>
 <section id="changes-to-result-objects">
-<h3><a class="toc-backref" href="#id14" role="doc-backlink">Changes to result objects</a><a class="headerlink" href="#changes-to-result-objects" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id16" role="doc-backlink">Changes to result objects</a><a class="headerlink" href="#changes-to-result-objects" title="Link to this heading">#</a></h3>
 <p>The result object architecture has been completely redesigned in v1.0:</p>
 <p><strong>v0.20 Result Objects:</strong></p>
 <ul class="simple">
@@ -1200,7 +1241,7 @@
 </ul>
 </section>
 <section id="using-tableresult-and-geometryresult">
-<h3><a class="toc-backref" href="#id15" role="doc-backlink">Using TableResult and GeometryResult</a><a class="headerlink" href="#using-tableresult-and-geometryresult" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id17" role="doc-backlink">Using TableResult and GeometryResult</a><a class="headerlink" href="#using-tableresult-and-geometryresult" title="Link to this heading">#</a></h3>
 <p>In v1.0, when your plugin receives results from <code class="docutils literal notranslate"><span class="pre">compute_1_to_0</span></code> operations, you’ll work with <code class="docutils literal notranslate"><span class="pre">TableResult</span></code> or <code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code> objects.</p>
 <p><strong>Example 1: Computing signal dynamic parameters (TableResult)</strong></p>
 <p>This example shows how to compute dynamic parameters (ENOB, SINAD, THD, etc.) and work with the resulting <code class="docutils literal notranslate"><span class="pre">TableResult</span></code>:</p>
@@ -1300,7 +1341,7 @@
 </div>
 </section>
 <section id="retrieving-results-from-metadata">
-<h3><a class="toc-backref" href="#id16" role="doc-backlink">Retrieving results from metadata</a><a class="headerlink" href="#retrieving-results-from-metadata" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id18" role="doc-backlink">Retrieving results from metadata</a><a class="headerlink" href="#retrieving-results-from-metadata" title="Link to this heading">#</a></h3>
 <p>To retrieve results stored in object metadata:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="n">TableAdapter</span><span class="p">,</span> <span class="n">GeometryAdapter</span>
 
@@ -1322,10 +1363,10 @@
 </section>
 </section>
 <section id="processor-method-changes">
-<h2><a class="toc-backref" href="#id17" role="doc-backlink">Processor method changes</a><a class="headerlink" href="#processor-method-changes" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id19" role="doc-backlink">Processor method changes</a><a class="headerlink" href="#processor-method-changes" title="Link to this heading">#</a></h2>
 <p>The processor interface has been unified in v1.0. Most specific <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> methods now use the generic <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> method.</p>
 <section id="using-run-feature">
-<h3><a class="toc-backref" href="#id18" role="doc-backlink">Using run_feature()</a><a class="headerlink" href="#using-run-feature" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id20" role="doc-backlink">Using run_feature()</a><a class="headerlink" href="#using-run-feature" title="Link to this heading">#</a></h3>
 <p>The <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> method is a unified interface for running processing features:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v1.0 - Generic interface</span>
 <span class="n">proc</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">processor</span>
@@ -1346,7 +1387,7 @@
 </div>
 </section>
 <section id="method-renaming">
-<h3><a class="toc-backref" href="#id19" role="doc-backlink">Method renaming</a><a class="headerlink" href="#method-renaming" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id21" role="doc-backlink">Method renaming</a><a class="headerlink" href="#method-renaming" title="Link to this heading">#</a></h3>
 <p>Several processor methods have been renamed for consistency:</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -1379,7 +1420,7 @@
 </div>
 </section>
 <section id="built-in-features-using-run-feature">
-<h3><a class="toc-backref" href="#id20" role="doc-backlink">Built-in features using run_feature</a><a class="headerlink" href="#built-in-features-using-run-feature" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id22" role="doc-backlink">Built-in features using run_feature</a><a class="headerlink" href="#built-in-features-using-run-feature" title="Link to this heading">#</a></h3>
 <p>Most built-in processing features that previously had dedicated <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> methods now use <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># v0.20</span>
 <span class="n">proc</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
@@ -1404,7 +1445,7 @@
 </section>
 </section>
 <section id="testing-your-plugin">
-<h2><a class="toc-backref" href="#id21" role="doc-backlink">Testing your plugin</a><a class="headerlink" href="#testing-your-plugin" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id23" role="doc-backlink">Testing your plugin</a><a class="headerlink" href="#testing-your-plugin" title="Link to this heading">#</a></h2>
 <p>After migration, thoroughly test your plugin:</p>
 <ol class="arabic simple">
 <li><p><strong>Import checks</strong>: Verify all imports work correctly</p></li>
@@ -1416,14 +1457,14 @@
 </ol>
 </section>
 <section id="common-issues-and-solutions">
-<h2><a class="toc-backref" href="#id22" role="doc-backlink">Common issues and solutions</a><a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id24" role="doc-backlink">Common issues and solutions</a><a class="headerlink" href="#common-issues-and-solutions" title="Link to this heading">#</a></h2>
 <section id="import-errors">
-<h3><a class="toc-backref" href="#id23" role="doc-backlink">Import errors</a><a class="headerlink" href="#import-errors" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id25" role="doc-backlink">Import errors</a><a class="headerlink" href="#import-errors" title="Link to this heading">#</a></h3>
 <p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">ModuleNotFoundError:</span> <span class="pre">No</span> <span class="pre">module</span> <span class="pre">named</span> <span class="pre">'cdl'</span></code></p>
 <p><strong>Solution</strong>: Update all imports from <code class="docutils literal notranslate"><span class="pre">cdl.*</span></code> to either <code class="docutils literal notranslate"><span class="pre">datalab.*</span></code> or <code class="docutils literal notranslate"><span class="pre">sigima.*</span></code> depending on the module.</p>
 </section>
 <section id="attribute-errors-on-processor">
-<h3><a class="toc-backref" href="#id24" role="doc-backlink">Attribute errors on processor</a><a class="headerlink" href="#attribute-errors-on-processor" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id26" role="doc-backlink">Attribute errors on processor</a><a class="headerlink" href="#attribute-errors-on-processor" title="Link to this heading">#</a></h3>
 <p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'ImageProcessor'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'compute_binning'</span></code></p>
 <p><strong>Solution</strong>: Replace <code class="docutils literal notranslate"><span class="pre">compute_*</span></code> method calls with <code class="docutils literal notranslate"><span class="pre">run_feature()</span></code> calls:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong (v0.20 style)</span>
@@ -1435,7 +1476,7 @@
 </div>
 </section>
 <section id="result-object-incompatibility">
-<h3><a class="toc-backref" href="#id25" role="doc-backlink">Result object incompatibility</a><a class="headerlink" href="#result-object-incompatibility" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id27" role="doc-backlink">Result object incompatibility</a><a class="headerlink" href="#result-object-incompatibility" title="Link to this heading">#</a></h3>
 <p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'TableResult'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'add_to'</span></code></p>
 <p><strong>Solution</strong>: Use adapter classes for metadata operations:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong (v0.20 style)</span>
@@ -1448,7 +1489,7 @@
 </div>
 </section>
 <section id="missing-parameters">
-<h3><a class="toc-backref" href="#id26" role="doc-backlink">Missing parameters</a><a class="headerlink" href="#missing-parameters" title="Link to this heading">#</a></h3>
+<h3><a class="toc-backref" href="#id28" role="doc-backlink">Missing parameters</a><a class="headerlink" href="#missing-parameters" title="Link to this heading">#</a></h3>
 <p><strong>Problem</strong>: <code class="docutils literal notranslate"><span class="pre">ImportError:</span> <span class="pre">cannot</span> <span class="pre">import</span> <span class="pre">name</span> <span class="pre">'SomeParam'</span> <span class="pre">from</span> <span class="pre">'datalab'</span></code></p>
 <p><strong>Solution</strong>: Import parameters from <code class="docutils literal notranslate"><span class="pre">sigima.params</span></code> instead of <code class="docutils literal notranslate"><span class="pre">cdl.param</span></code>:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># Wrong</span>
@@ -1461,7 +1502,7 @@
 </section>
 </section>
 <section id="additional-resources">
-<h2><a class="toc-backref" href="#id27" role="doc-backlink">Additional resources</a><a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id29" role="doc-backlink">Additional resources</a><a class="headerlink" href="#additional-resources" title="Link to this heading">#</a></h2>
 <ul class="simple">
 <li><p><a class="reference external" href="https://datalab-platform.com/">DataLab v1.0 documentation</a></p></li>
 <li><p><a class="reference external" href="https://sigima.readthedocs.io/en/latest/">Sigima documentation</a></p></li>
@@ -1471,7 +1512,7 @@
 </ul>
 </section>
 <section id="getting-help">
-<h2><a class="toc-backref" href="#id28" role="doc-backlink">Getting help</a><a class="headerlink" href="#getting-help" title="Link to this heading">#</a></h2>
+<h2><a class="toc-backref" href="#id30" role="doc-backlink">Getting help</a><a class="headerlink" href="#getting-help" title="Link to this heading">#</a></h2>
 <p>If you encounter issues during migration:</p>
 <ol class="arabic simple">
 <li><p>Check the <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues">GitHub issue tracker</a></p></li>
@@ -1530,7 +1571,9 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-changed-in-v1-0">What changed in v1.0?</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#major-architectural-changes">Major architectural changes</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#package-renaming">Package renaming</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-file-naming-convention">Plugin file naming convention</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-result-objects">New result objects</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#object-uuid-access">Object UUID access</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#unified-processor-interface">Unified processor interface</a></li>
 </ul>
 </li>
