@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=1ed6394b"></script>
+    <script src="../_static/documentation_options.js?v=baaebd52"></script>
     <script src="../_static/doctools.js?v=9a2dae69"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -107,7 +107,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, and <a href='https://www.opensource-experience.com/'>OSXP 2024</a>! An advanced use case will be presented at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.opensource-experience.com/'>OSXP 2024</a>, and <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
 </aside>
 
   
@@ -141,7 +141,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -482,10 +482,179 @@
                   
   <section id="version-1-0">
 <h1>Version 1.0<a class="headerlink" href="#version-1-0" title="Link to this heading">#</a></h1>
+<section id="datalab-version-1-0-3-2025-12-19">
+<h2>DataLab Version 1.0.3 (2025-12-19)<a class="headerlink" href="#datalab-version-1-0-3-2025-12-19" title="Link to this heading">#</a></h2>
+<section id="bug-fixes-since-version-1-0-2">
+<h3>🛠️ Bug Fixes since version 1.0.2<a class="headerlink" href="#bug-fixes-since-version-1-0-2" title="Link to this heading">#</a></h3>
+<p><strong>Loading images with a single row or column fails:</strong></p>
+<ul class="simple">
+<li><p>Fixed loading image files with a single row or column (e.g., some SIF spectroscopy files with shape <code class="docutils literal notranslate"><span class="pre">(1,</span> <span class="pre">N)</span></code>) causing an <code class="docutils literal notranslate"><span class="pre">IndexError</span></code> and preventing the image from being displayed</p></li>
+<li><p>The underlying issue was in PlotPy’s coordinate-to-bin conversion function which assumed at least 2 points</p></li>
+<li><p>This fix is included in PlotPy 2.8.3</p></li>
+</ul>
+<p><strong>LUT range incorrectly copied when processing images:</strong></p>
+<ul class="simple">
+<li><p>Fixed processed images inheriting the LUT range (display contrast settings) from the source image, causing incorrect visualization when data values change significantly</p></li>
+<li><p>When applying operations like offset correction, the result image now auto-scales its display range to fit the new data values instead of using the original image’s LUT range</p></li>
+<li><p>Previously, users had to manually adjust the LUT to see processed images correctly (they could appear completely black or with wrong contrast)</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/288">Issue #288</a> - LUT range incorrectly copied when processing images</p></li>
+<li><p>This fix is included in Sigima 1.0.4</p></li>
+</ul>
+<p><strong>Separate plot windows - Incorrect aspect ratio for non-uniform coordinates:</strong></p>
+<ul class="simple">
+<li><p>Fixed separate plot windows (e.g., “View in a new window”, ROI editors, profile dialogs) not using the same aspect ratio configuration as the integrated plot handler</p></li>
+<li><p>When displaying images with non-uniform coordinates, the main plot correctly unlocks the aspect ratio for proper display, but separate windows were not inheriting this setting</p></li>
+<li><p>All image dialogs now properly inherit the aspect ratio settings, ensuring consistent display behavior across all plot windows</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/287">Issue #287</a> - Separate plot windows don’t use same aspect ratio configuration as integrated plot</p></li>
+</ul>
+<p><strong>Remove all results - AttributeError when ROI was removed:</strong></p>
+<ul class="simple">
+<li><p>Fixed “Remove all results” action failing with <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'NoneType'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'get_single_roi_title'</span></code> when results contain ROI information but the ROI was subsequently removed from the object</p></li>
+<li><p>The issue occurred when:</p>
+<ol class="arabic simple">
+<li><p>Running an analysis with a ROI (e.g., Centroid on an image with rectangular ROI)</p></li>
+<li><p>Removing the ROI from the object</p></li>
+<li><p>Trying to delete all results via “Analysis &gt; Remove results &gt; Remove all results”</p></li>
+</ol>
+</li>
+<li><p>The fix adds a proper None check before accessing the ROI’s title</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/286">Issue #286</a> - “Remove all results” fails with AttributeError when ROI was removed</p></li>
+</ul>
+<p><strong>Analysis auto-recompute - Stale parameters after deleting results:</strong></p>
+<ul class="simple">
+<li><p>Fixed analysis parameters not being cleared when deleting analysis results, which could cause unexpected auto-recompute behavior when modifying ROIs</p></li>
+<li><p>After deleting results (via “Delete all results” or individual result deletion), changing the ROI would trigger recomputation of the deleted analysis because the stored parameters remained in object metadata</p></li>
+<li><p>The fix ensures analysis parameters are properly cleared alongside the results, preventing unwanted automatic recomputation</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/285">Issue #285</a> - Analysis parameters not cleared after deleting results</p></li>
+</ul>
+<p><strong>Backwards-drawn rectangular ROI causes NaN statistics:</strong></p>
+<ul class="simple">
+<li><p>Fixed rectangular ROI statistics returning NaN values when the ROI was drawn “backwards” (from bottom-right to top-left instead of top-left to bottom-right)</p></li>
+<li><p>The issue occurred because the ROI coordinate conversion produced negative width/height values, causing the mask generation to fail</p></li>
+<li><p>ROI mask generation now works correctly regardless of the direction in which the rectangle was drawn</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/284">Issue #284</a> - Backwards-drawn rectangular ROI causes NaN statistics</p></li>
+<li><p>This fix is included in Sigima 1.0.4</p></li>
+</ul>
+<p><strong>Plot refresh - ROIs and annotations persist after “Remove all”:</strong></p>
+<ul class="simple">
+<li><p>Fixed ROIs and annotations occasionally remaining visible after executing “Remove all” action from the Edit menu</p></li>
+<li><p>The issue occurred because the plot widget wasn’t explicitly told to redraw after clearing all plot items and shape items</p></li>
+<li><p>The plot now correctly refreshes its display after clearing all objects, ensuring a clean view without requiring panel switching</p></li>
+<li><p>The bug was intermittent and hard to reproduce systematically, making it appear as if objects were “stuck” on the plot</p></li>
+</ul>
+<p><strong>Result labels - False “omitted” message for single-row results:</strong></p>
+<ul class="simple">
+<li><p>Fixed result labels (e.g., pulse features) incorrectly showing “X more rows omitted” message when displaying single-row results with no actual truncation</p></li>
+<li><p>The bug occurred because <code class="docutils literal notranslate"><span class="pre">len(adapter.result)</span></code> was used to get the row count, but this actually returns the number of column headers, not data rows</p></li>
+<li><p>For pulse features with 13 columns, this caused the label to think there were 13 rows when only 1 row existed, leading to a false “12 more rows omitted” message</p></li>
+<li><p>The fix ensures accurate row counting using <code class="docutils literal notranslate"><span class="pre">len(df)</span></code> instead, preventing false truncation notices</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/281">Issue #281</a> - Result Labels False “Omitted” Message</p></li>
+</ul>
+<p><strong>Signal view - XRangeSelection items persist after removing signals:</strong></p>
+<ul class="simple">
+<li><p>Fixed XRangeSelection and DataInfoLabel items (created by PlotPy’s curve statistics tools) remaining visible on the plot after removing all signals</p></li>
+<li><p>When activating the XRangeSelection tool from the PlotPy toolbar and then removing the signal(s), these tool-created graphical objects were not cleaned up</p></li>
+<li><p>The cleanup logic now correctly triggers when there are zero selected objects (after deleting the last one), not just when exactly one object is selected</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/280">Issue #280</a> - XRangeSelection items persist after removing all signals</p></li>
+</ul>
+<p><strong>Remote control - Crash when adding object via proxy:</strong></p>
+<ul class="simple">
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">AttributeError:</span> <span class="pre">'NoneType'</span> <span class="pre">object</span> <span class="pre">has</span> <span class="pre">no</span> <span class="pre">attribute</span> <span class="pre">'setText'</span></code> crash when adding objects via <code class="docutils literal notranslate"><span class="pre">RemoteProxy.add_object()</span></code> in macros</p></li>
+<li><p>The crash occurred in <code class="docutils literal notranslate"><span class="pre">update_tree()</span></code> when the tree view became temporarily out of sync with the object model (e.g., when adding objects with specific metadata configurations or ROIs via remote proxy)</p></li>
+<li><p>The tree view now rebuilds automatically if inconsistencies are detected, ensuring robust object addition in all scenarios</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/279">Issue #279</a> - AttributeError in update_tree() when adding object via RemoteProxy</p></li>
+</ul>
+<p><strong>Icons - Qt SVG warnings on Linux:</strong></p>
+<ul class="simple">
+<li><p>Fixed “qt.svg: Invalid path data; path truncated” warnings appearing 4 times at startup on Linux/Ubuntu</p></li>
+<li><p>Cleaned SVG icon files to remove Inkscape/Sodipodi metadata and fixed path syntax in two icon files that used implicit cubic Bézier command continuation (not supported by Qt’s SVG renderer on Linux)</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/278">Issue #278</a> - Fix “qt.svg: Invalid path data; path truncated” warnings on Linux</p></li>
+</ul>
+<p><strong>ROI extraction - KeyError when extracting ROIs:</strong></p>
+<ul class="simple">
+<li><p>Fixed <code class="docutils literal notranslate"><span class="pre">KeyError</span></code> when extracting ROIs from images with ROIs generated by blob detection or other analysis functions</p></li>
+<li><p>The issue occurred because the ROI editor was trying to access plot items that hadn’t been created yet (e.g., when “auto refresh” was disabled or in certain selection scenarios)</p></li>
+<li><p>The ROI extraction dialog now handles missing plot items gracefully</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/276">Issue #276</a> - KeyError when extracting ROIs from images with blob detection results</p></li>
+</ul>
+<p><strong>Plugin development - Infinite loop when iterating over group objects:</strong></p>
+<ul class="simple">
+<li><p>Fixed infinite loop occurring in plugins when iterating over object IDs returned by <code class="docutils literal notranslate"><span class="pre">ObjectGroup.get_object_ids()</span></code> while simultaneously adding new objects to the same group</p></li>
+<li><p>The method was returning a direct reference to the internal list instead of a copy, causing the iteration to include newly added objects and loop indefinitely</p></li>
+<li><p>This particularly affected plugin workflows that loop over signals/images in a group and add results to the same or another group</p></li>
+<li><p>The fix ensures <code class="docutils literal notranslate"><span class="pre">get_object_ids()</span></code> now returns a copy of the list, making iteration safe even when modifying the group</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/274">Issue #274</a> - Infinite loop when iterating over group objects while adding new objects</p></li>
+</ul>
+<p><strong>Marker visibility:</strong></p>
+<ul class="simple">
+<li><p>Fixed cross marker (shown when pressing Alt key on plot) colors inherited from PlotPy being too pale on white background, and other marker properties explicitly configured for better contrast</p></li>
+<li><p>Fixed default annotation colors inherited from PlotPy being too pale on white background - segment and drag shape annotations now use brighter green (<code class="docutils literal notranslate"><span class="pre">#00ff55</span></code>) for better visibility</p></li>
+</ul>
+<p><strong>Macro panel layout:</strong></p>
+<ul class="simple">
+<li><p>Fixed macro console taking excessive vertical space on first open - the script editor now properly gets 70% of space and console 30% by default, ensuring comfortable editing without manual resizing</p></li>
+</ul>
+<p><strong>Macro naming:</strong></p>
+<ul class="simple">
+<li><p>Fixed automatic macro naming generating duplicate names after reloading workspace from HDF5 files</p></li>
+<li><p>When macros were deserialized from saved workspaces or imported from files, the internal counter used for generating default names (e.g., “macro_01”, “macro_02”) was not updated, causing the next new macro to potentially reuse an existing name</p></li>
+<li><p>The counter now synchronizes with existing macro names after loading, ensuring unique sequential naming</p></li>
+<li><p>Default macro names simplified from translated “Untitled XX” to language-neutral “macro_XX” format for better consistency across locales</p></li>
+</ul>
+<p><strong>Macro execution:</strong></p>
+<ul class="simple">
+<li><p>Fixed syntax errors when using f-strings with nested quotes in macros (e.g., <code class="docutils literal notranslate"><span class="pre">f'text</span> <span class="pre">{func(&quot;arg&quot;)}'</span></code> now works correctly)</p></li>
+<li><p>Fixed corrupted Unicode characters in macro console output on Windows - special characters like ✅, 💡, and → now display correctly instead of showing garbled text</p></li>
+</ul>
+<p><strong>Internal console - HDF5 workspace operations:</strong></p>
+<ul class="simple">
+<li><p>Fixed application freeze when calling <code class="docutils literal notranslate"><span class="pre">open_h5_files()</span></code> from the internal console - the console runs in a separate thread and creating Qt GUI elements (progress dialogs) from non-main threads causes deadlocks</p></li>
+<li><p>Added new headless API methods <code class="docutils literal notranslate"><span class="pre">load_h5_workspace()</span></code> and <code class="docutils literal notranslate"><span class="pre">save_h5_workspace()</span></code> that can be safely called from the internal console or any script context without GUI dependencies</p></li>
+<li><p>These methods are also available through the remote control API for consistency</p></li>
+<li><p>Note: <code class="docutils literal notranslate"><span class="pre">load_h5_workspace()</span></code> only supports native DataLab HDF5 files; for importing arbitrary HDF5 files, use macros with <code class="docutils literal notranslate"><span class="pre">RemoteProxy</span></code></p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/275">Issue #275</a> - Console freezes when calling <code class="docutils literal notranslate"><span class="pre">open_h5_files()</span></code> from internal console</p></li>
+</ul>
+<p><strong>Signal cursor dialogs - Decimal input with regional settings:</strong></p>
+<ul class="simple">
+<li><p>Fixed decimal value input failing in signal cursor dialogs when using regional settings with comma as decimal separator (e.g., French, German locales)</p></li>
+<li><p>The Y input field in “First abscissa at y=…”, “Ordinate at x=…”, and “Full width at y=…” dialogs now consistently accepts dot as decimal separator regardless of system locale</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/276">Issue #276</a> - Decimal input fails with regional settings using comma as decimal separator</p></li>
+</ul>
+<p><strong>Radial profile title:</strong></p>
+<ul class="simple">
+<li><p>Fixed duplicate suffix in result image title when extracting radial profile from an image (e.g., <code class="docutils literal notranslate"><span class="pre">radial_profile(i019)|center=(192.500,</span> <span class="pre">192.500)|center=(192.500,</span> <span class="pre">192.500)</span></code> instead of <code class="docutils literal notranslate"><span class="pre">radial_profile(i019)|center=(192.500,</span> <span class="pre">192.500)</span></code>)</p></li>
+<li><p>This fix is provided by Sigima 1.0.4</p></li>
+</ul>
+<p><strong>Grid ROI - Missing spacing parameters for non-uniform grids:</strong></p>
+<ul class="simple">
+<li><p>Fixed grid ROI feature not working correctly for images where subimages don’t fill the entire image area (e.g., laser spot arrays with gaps between spots)</p></li>
+<li><p>Added missing <code class="docutils literal notranslate"><span class="pre">xstep</span></code> and <code class="docutils literal notranslate"><span class="pre">ystep</span></code> parameters to control horizontal and vertical spacing between ROI centers, as a percentage of the automatically computed cell width/height (default 100% = evenly distributed grid)</p></li>
+<li><p>Previously, the grid was always assumed to be evenly distributed across the entire image, which failed when there was significant offset or gaps between features</p></li>
+<li><p>Users can now adjust ROI spacing independently from ROI size to accurately extract grids from real-world data like laser spot arrays, diffraction patterns, or any regularly spaced features with gaps</p></li>
+<li><p>This fix is provided by Sigima 1.0.4</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/282">Issue #282</a> - Grid ROI Missing Spacing Parameters</p></li>
+</ul>
+<p><strong>Analysis auto-recompute - Redundant O(n²) calculations when adding ROI:</strong></p>
+<ul class="simple">
+<li><p>Fixed severe performance issue where adding ROI to N selected images with analysis results (e.g., Statistics, Centroid) triggered N² calculations instead of N</p></li>
+<li><p>When 10 images were selected with pre-computed statistics, adding a ROI would show 10 progress bars of 10 calculations each (100 total) instead of a single progress bar with 10 calculations</p></li>
+<li><p>The issue occurred because <code class="docutils literal notranslate"><span class="pre">auto_recompute_analysis()</span></code> was calling <code class="docutils literal notranslate"><span class="pre">compute_1_to_0()</span></code> which by default processes all selected objects, not just the specific object being recomputed</p></li>
+<li><p>Added <code class="docutils literal notranslate"><span class="pre">target_objs</span></code> parameter to <code class="docutils literal notranslate"><span class="pre">compute_1_to_0()</span></code> to allow specifying which objects to process, and updated <code class="docutils literal notranslate"><span class="pre">auto_recompute_analysis()</span></code> to use it</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/datalab-platform/datalab/issues/283">Issue #283</a> - Redundant O(n²) calculations when adding ROI to multiple images with analysis results</p></li>
+</ul>
+<p><strong>Result visualization - Analysis result segments hard to see:</strong></p>
+<ul class="simple">
+<li><p>Fixed analysis result markers (FWHM, pulse features, etc.) being difficult or impossible to see on signal plots</p></li>
+<li><p>These measurement indicators were appearing black on white backgrounds or white on dark backgrounds, making them blend into the plot</p></li>
+<li><p>They now display in bright green with thicker lines, making them clearly visible in all color themes</p></li>
+<li><p>Also removed the filled area that was obscuring the underlying signal data - markers now show only the boundary lines indicating the measured region</p></li>
+</ul>
+</section>
+</section>
 <section id="datalab-version-1-0-2-2025-12-03">
 <h2>DataLab Version 1.0.2 (2025-12-03)<a class="headerlink" href="#datalab-version-1-0-2-2025-12-03" title="Link to this heading">#</a></h2>
-<section id="bug-fixes">
-<h3>🛠️ Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
+<section id="bug-fixes-since-version-1-0-1">
+<h3>🛠️ Bug Fixes since version 1.0.1<a class="headerlink" href="#bug-fixes-since-version-1-0-1" title="Link to this heading">#</a></h3>
 <p><strong>Signal axis calibration - Replace X by other signal’s Y:</strong></p>
 <ul class="simple">
 <li><p>Added new “Replace X by other signal’s Y” operation in Processing &gt; Axis transformation menu for signal calibration workflows</p></li>
@@ -1076,8 +1245,12 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-0-3-2025-12-19">DataLab Version 1.0.3 (2025-12-19)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-0-2">🛠️ Bug Fixes since version 1.0.2</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-0-2-2025-12-03">DataLab Version 1.0.2 (2025-12-03)</a><ul class="visible nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">🛠️ Bug Fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-0-1">🛠️ Bug Fixes since version 1.0.1</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-0-1-2025-11-18">DataLab Version 1.0.1 (2025-11-18)</a><ul class="visible nav section-nav flex-column">

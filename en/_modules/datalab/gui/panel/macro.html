@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=1ed6394b"></script>
+    <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -104,7 +104,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, and <a href='https://www.opensource-experience.com/'>OSXP 2024</a>! An advanced use case will be presented at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.opensource-experience.com/'>OSXP 2024</a>, and <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
 </aside>
 
   
@@ -138,7 +138,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -688,6 +688,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setStretchFactor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setStretchFactor</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+        <span class="c1"># Set initial sizes: give more space to editor (70%) than console (30%)</span>
+        <span class="c1"># This ensures proper layout on first open</span>
+        <span class="n">total_height</span> <span class="o">=</span> <span class="mi">600</span>  <span class="c1"># Default reasonable height</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setSizes</span><span class="p">([</span><span class="nb">int</span><span class="p">(</span><span class="n">total_height</span> <span class="o">*</span> <span class="mf">0.7</span><span class="p">),</span> <span class="nb">int</span><span class="p">(</span><span class="n">total_height</span> <span class="o">*</span> <span class="mf">0.3</span><span class="p">)])</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">run_action</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">stop_action</span> <span class="o">=</span> <span class="kc">None</span>
@@ -746,7 +750,9 @@
                 <span class="c1">#  Contrary to signal or image panels, macros are not stored</span>
                 <span class="c1">#  in a group but directly in the root of the HDF5 file</span>
                 <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">deserialize_object_from_hdf5</span><span class="p">(</span><span class="n">reader</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+                <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="c1"># Update untitled number counter to prevent duplicate names</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">update_untitled_counter</span><span class="p">()</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
@@ -801,7 +807,9 @@
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all objects&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__macros</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">remove_all_objects</span><span class="p">()</span></div>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">remove_all_objects</span><span class="p">()</span>
+        <span class="c1"># Reset untitled counter when clearing all macros</span>
+        <span class="n">Macro</span><span class="o">.</span><span class="n">set_untitled_number</span><span class="p">(</span><span class="mi">0</span><span class="p">)</span></div>
 
 
     <span class="c1"># ---- Macro panel API -------------------------------------------------------------</span>
@@ -1118,8 +1126,29 @@
                 <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">base_dir</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
                 <span class="n">macro</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">add_macro</span><span class="p">()</span>
                 <span class="n">macro</span><span class="o">.</span><span class="n">from_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+            <span class="c1"># Update untitled number counter to prevent duplicate names</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">update_untitled_counter</span><span class="p">()</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_number_from_macro</span><span class="p">(</span><span class="n">macro</span><span class="p">)</span>
         <span class="k">return</span> <span class="o">-</span><span class="mi">1</span></div>
+
+
+<div class="viewcode-block" id="MacroPanel.update_untitled_counter">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.macro.MacroPanel.update_untitled_counter">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">update_untitled_counter</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update the untitled counter based on existing macro titles</span>
+
+<span class="sd">        This scans all macro titles to find the highest &quot;macro_XX&quot; number</span>
+<span class="sd">        and updates the global counter to prevent duplicate names.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">max_untitled</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="k">for</span> <span class="n">macro</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">__macros</span><span class="p">:</span>
+            <span class="c1"># Match titles like &quot;macro_01&quot;, &quot;macro_02&quot;, etc.</span>
+            <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;macro_(\d+)&quot;</span><span class="p">,</span> <span class="n">macro</span><span class="o">.</span><span class="n">title</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">match</span><span class="p">:</span>
+                <span class="n">number</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span>
+                <span class="n">max_untitled</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_untitled</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+        <span class="c1"># Set the counter to the highest found number</span>
+        <span class="n">Macro</span><span class="o">.</span><span class="n">set_untitled_number</span><span class="p">(</span><span class="n">max_untitled</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="MacroPanel.remove_macro">

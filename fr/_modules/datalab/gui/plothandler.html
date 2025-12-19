@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=965ad549"></script>
+    <script src="../../../_static/documentation_options.js?v=32225150"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -105,7 +105,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a> et <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> ! Un cas d'usage avancé sera présenté à <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> et <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
 </aside>
 
   
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -618,6 +618,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__merged_result_adapters</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_dataview</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_shape_items</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_shapes</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">oid</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">do_autoscale</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add geometric shape items associated to computed results and annotations,</span>
@@ -847,7 +848,10 @@
         <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;selected&quot;</span><span class="p">:</span>
             <span class="c1"># Refresh selected objects</span>
             <span class="n">oids</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
-            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">oids</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="c1"># Cleanup data view when there is 0 or 1 selected object.</span>
+                <span class="c1"># This removes stray plot items (like XRangeSelection, DataInfoLabel)</span>
+                <span class="c1"># that were created by PlotPy tools but are not managed by DataLab.</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">cleanup_dataview</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_shape_items</span><span class="p">()</span>
             <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="p">:</span>
@@ -1287,6 +1291,11 @@
         <span class="n">options</span> <span class="o">=</span> <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">get_plot_options</span><span class="p">()</span>
         <span class="n">options</span><span class="o">.</span><span class="n">zlabel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_title</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
         <span class="n">options</span><span class="o">.</span><span class="n">zunit</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_axis_unit</span><span class="p">(</span><span class="s2">&quot;right&quot;</span><span class="p">)</span>
+        <span class="c1"># Include aspect ratio configuration so that separate plot dialogs</span>
+        <span class="c1"># (e.g. &quot;View in a new window&quot;, ROI editors, profile dialogs) use the same</span>
+        <span class="c1"># settings as the integrated plot handler:</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">aspect_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">get_aspect_ratio</span><span class="p">()</span>
+        <span class="n">options</span><span class="o">.</span><span class="n">lock_aspect_ratio</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plot</span><span class="o">.</span><span class="n">lock_aspect_ratio</span>
         <span class="k">return</span> <span class="n">options</span></div>
 </div>
 

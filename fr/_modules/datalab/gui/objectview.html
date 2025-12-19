@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=965ad549"></script>
+    <script src="../../../_static/documentation_options.js?v=32225150"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -105,7 +105,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a> et <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> ! Un cas d'usage avancé sera présenté à <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> et <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
 </aside>
 
   
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -721,11 +721,26 @@
 <div class="viewcode-block" id="SimpleObjectTree.update_tree">
 <a class="viewcode-back" href="../../../features/advanced/api/objectview.html#datalab.gui.objectview.SimpleObjectTree.update_tree">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">update_tree</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update tree&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update tree</span>
+
+<span class="sd">        Note: If an item is not found in the tree, the tree is repopulated to ensure</span>
+<span class="sd">        consistency between the tree and the model. This can happen in rare cases when</span>
+<span class="sd">        objects are added to the model but the tree was not properly updated.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">for</span> <span class="n">group</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="o">.</span><span class="n">get_groups</span><span class="p">():</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">group</span><span class="p">)),</span> <span class="n">group</span><span class="p">)</span>
+            <span class="n">group_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">group</span><span class="p">))</span>
+            <span class="k">if</span> <span class="n">group_item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="c1"># Group item not found, repopulate tree to fix inconsistency</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">populate_tree</span><span class="p">()</span>
+                <span class="k">return</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="n">group_item</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
             <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="n">group</span><span class="p">:</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)),</span> <span class="n">obj</span><span class="p">)</span></div>
+                <span class="n">obj_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_item_from_id</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">obj_item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="c1"># Object item not found, repopulate tree to fix inconsistency</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">populate_tree</span><span class="p">()</span>
+                    <span class="k">return</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__update_item</span><span class="p">(</span><span class="n">obj_item</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__add_to_group_item</span><span class="p">(</span>

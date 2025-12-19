@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=1ed6394b"></script>
+    <script src="../../../../_static/documentation_options.js?v=baaebd52"></script>
     <script src="../../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -104,7 +104,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, and <a href='https://www.opensource-experience.com/'>OSXP 2024</a>! An advanced use case will be presented at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.opensource-experience.com/'>OSXP 2024</a>, and <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
 </aside>
 
   
@@ -138,7 +138,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -534,6 +534,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.processor.base</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">PROCESSING_PARAMETERS_OPTION</span><span class="p">,</span>
     <span class="n">ProcessingParameters</span><span class="p">,</span>
+    <span class="n">clear_analysis_parameters</span><span class="p">,</span>
     <span class="n">extract_processing_parameters</span><span class="p">,</span>
     <span class="n">insert_processing_parameters</span><span class="p">,</span>
 <span class="p">)</span>
@@ -683,11 +684,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_parameters</span><span class="o">.</span><span class="n">setFont</span><span class="p">(</span><span class="n">font</span><span class="p">)</span>
 
         <span class="c1"># Track newly created objects to show Creation tab only once</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newly_created_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># Track when analysis results were just computed</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fresh_analysis_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="c1"># Track when object was just processed (1-to-1)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fresh_processing_obj_uuid</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">addTab</span><span class="p">(</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">processing_history</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;history.svg&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;History&quot;</span><span class="p">)</span>
@@ -932,7 +933,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Object to mark</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">newly_created_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectProp.mark_as_freshly_processed">
@@ -943,7 +944,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Object to mark</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectProp.mark_as_fresh_analysis">
@@ -954,7 +955,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Object to mark</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectProp.get_changed_properties">
@@ -2135,9 +2136,9 @@
         <span class="c1"># BUT: Don&#39;t overwrite if this object is already marked as freshly processed</span>
         <span class="c1"># or has fresh analysis results (those take precedence)</span>
         <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
-        <span class="k">if</span> <span class="p">(</span>
-            <span class="n">obj_uuid</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span>
-            <span class="ow">and</span> <span class="n">obj_uuid</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span>
+        <span class="k">if</span> <span class="n">obj_uuid</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_processing_obj_uuid</span><span class="p">,</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_analysis_obj_uuid</span><span class="p">,</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">mark_as_newly_created</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
@@ -3197,17 +3198,17 @@
         <span class="k">if</span> <span class="n">current_obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
             <span class="c1"># Show Creation tab for newly created objects (only once)</span>
-            <span class="k">if</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">newly_created_obj_uuid</span><span class="p">:</span>
                 <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;creation&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_newly_created_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">newly_created_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="c1"># Show Processing tab for freshly processed objects (only once)</span>
-            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_processing_obj_uuid</span><span class="p">:</span>
                 <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;processing&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_processing_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
             <span class="c1"># Show Analysis tab for objects with fresh analysis results</span>
-            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span><span class="p">:</span>
+            <span class="k">elif</span> <span class="n">obj_uuid</span> <span class="o">==</span> <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_analysis_obj_uuid</span><span class="p">:</span>
                 <span class="n">force_tab</span> <span class="o">=</span> <span class="s2">&quot;analysis&quot;</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">_fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">fresh_analysis_obj_uuid</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">current_obj</span><span class="p">,</span> <span class="n">force_tab</span><span class="o">=</span><span class="n">force_tab</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">selected_objects_changed</span><span class="p">(</span><span class="n">selected_groups</span><span class="p">,</span> <span class="n">selected_objects</span><span class="p">)</span>
@@ -3671,9 +3672,11 @@
 <span class="sd">            dialog was accepted or not.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">(</span><span class="n">include_groups</span><span class="o">=</span><span class="kc">True</span><span class="p">)[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
-        <span class="n">item</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span>
-            <span class="n">update_from</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="p">[</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)]</span>
-        <span class="p">)</span>
+        <span class="c1"># Use get() instead of [] to avoid KeyError if the plot item doesn&#39;t exist</span>
+        <span class="c1"># (can happen when &quot;auto refresh&quot; is disabled or in &quot;show first only&quot; mode</span>
+        <span class="c1"># where not all objects have plot items created yet)</span>
+        <span class="n">existing_item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">make_item</span><span class="p">(</span><span class="n">update_from</span><span class="o">=</span><span class="n">existing_item</span><span class="p">)</span>
         <span class="n">roi_editor_class</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_roieditor_class</span><span class="p">()</span>  <span class="c1"># pylint: disable=not-callable</span>
         <span class="n">roi_editor</span> <span class="o">=</span> <span class="n">roi_editor_class</span><span class="p">(</span>
             <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parentWidget</span><span class="p">(),</span>
@@ -4039,6 +4042,9 @@
                     <span class="c1"># Remove all table and geometry results using adapter methods</span>
                     <span class="n">TableAdapter</span><span class="o">.</span><span class="n">remove_all_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
                     <span class="n">GeometryAdapter</span><span class="o">.</span><span class="n">remove_all_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+                    <span class="c1"># Clear analysis parameters to prevent auto-recompute from</span>
+                    <span class="c1"># attempting to recompute deleted analyses when ROI changes</span>
+                    <span class="n">clear_analysis_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
                     <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">():</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
                 <span class="c1"># Update action states to reflect the removal</span>

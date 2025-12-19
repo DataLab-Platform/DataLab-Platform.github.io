@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=965ad549"></script>
+    <script src="../../../_static/documentation_options.js?v=32225150"></script>
     <script src="../../../_static/doctools.js?v=9a2dae69"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -105,7 +105,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a> et <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> ! Un cas d'usage avancé sera présenté à <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> et <a href='https://datalab-platform.com/fr/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
 </aside>
 
   
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.2</p>
+    <p class="title logo__title">v1.0.3</p>
   
 </a></div>
     
@@ -780,6 +780,45 @@
 <span class="sd">             If None, current panel is used</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LocalProxy.load_h5_workspace">
+<a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.load_h5_workspace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">load_h5_workspace</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">h5files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load HDF5 workspace files without showing file dialog.</span>
+
+<span class="sd">        This method loads one or more DataLab native HDF5 files directly, bypassing</span>
+<span class="sd">        the file dialog. It is safe to call from the internal console or any context</span>
+<span class="sd">        where Qt dialogs would cause threading issues.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            h5files: Path(s) to HDF5 file(s). Can be a single path string or a list</span>
+<span class="sd">             of paths</span>
+<span class="sd">            reset_all: If True, reset workspace before loading. Defaults to False.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: if file is not a DataLab native HDF5 file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
+            <span class="n">h5files</span> <span class="o">=</span> <span class="p">[</span><span class="n">h5files</span><span class="p">]</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">load_h5_workspace</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="LocalProxy.save_h5_workspace">
+<a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.save_h5_workspace">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">save_h5_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save workspace to HDF5 file without showing file dialog.</span>
+
+<span class="sd">        This method saves the current workspace to a DataLab native HDF5 file</span>
+<span class="sd">        directly, bypassing the file dialog. It is safe to call from the internal</span>
+<span class="sd">        console or any context where Qt dialogs would cause threading issues.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename: Path to the output HDF5 file</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">save_h5_workspace</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
 </div>
 
 
