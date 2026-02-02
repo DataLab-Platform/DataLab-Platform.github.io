@@ -53,8 +53,8 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=baaebd52"></script>
-    <script src="../../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../../_static/documentation_options.js?v=71272d9f"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
@@ -141,7 +141,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.3</p>
+    <p class="title logo__title">v1.0.4</p>
   
 </a></div>
     
@@ -610,25 +610,23 @@ between detected contours (to avoid overlap)</p></li>
         <span class="p">):</span>
             <span class="k">continue</span>
         <span class="k">if</span> <span class="n">shape</span> <span class="o">==</span> <span class="n">ContourShape</span><span class="o">.</span><span class="n">CIRCLE</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">CircleModel</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">contour</span><span class="p">):</span>
-                <span class="n">yc</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
-                <span class="k">if</span> <span class="n">r</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">r</span><span class="p">])</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">fit_circle_model</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">r</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="k">if</span> <span class="n">r</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">r</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">shape</span> <span class="o">==</span> <span class="n">ContourShape</span><span class="o">.</span><span class="n">ELLIPSE</span><span class="p">:</span>
-            <span class="n">model</span> <span class="o">=</span> <span class="n">measure</span><span class="o">.</span><span class="n">EllipseModel</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">model</span><span class="o">.</span><span class="n">estimate</span><span class="p">(</span><span class="n">contour</span><span class="p">):</span>
-                <span class="n">yc</span><span class="p">,</span> <span class="n">xc</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">params</span>
-                <span class="k">if</span> <span class="n">a</span> <span class="o">&lt;=</span> <span class="mf">1.0</span> <span class="ow">or</span> <span class="n">b</span> <span class="o">&lt;=</span> <span class="mf">1.0</span><span class="p">:</span>
-                    <span class="k">continue</span>
-                <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
+            <span class="n">result</span> <span class="o">=</span> <span class="n">fit_ellipse_model</span><span class="p">(</span><span class="n">contour</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">result</span><span class="p">:</span>
+                <span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">theta</span> <span class="o">=</span> <span class="n">result</span>
+                <span class="k">if</span> <span class="n">a</span> <span class="o">&gt;</span> <span class="mf">1.0</span> <span class="ow">and</span> <span class="n">b</span> <span class="o">&gt;</span> <span class="mf">1.0</span><span class="p">:</span>
+                    <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">([</span><span class="n">xc</span><span class="p">,</span> <span class="n">yc</span><span class="p">,</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span><span class="p">,</span> <span class="n">theta</span><span class="p">])</span>
         <span class="k">elif</span> <span class="n">shape</span> <span class="o">==</span> <span class="n">ContourShape</span><span class="o">.</span><span class="n">POLYGON</span><span class="p">:</span>
             <span class="c1"># `contour` is a (N, 2) array (rows, cols): we need to convert it</span>
             <span class="c1"># to a list of x, y coordinates flattened in a single list</span>
             <span class="n">coords</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">contour</span><span class="p">[:,</span> <span class="p">::</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">flatten</span><span class="p">())</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid contour model </span><span class="si">{</span><span class="n">model</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid contour shape </span><span class="si">{</span><span class="n">shape</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
     <span class="k">if</span> <span class="n">shape</span> <span class="o">==</span> <span class="n">ContourShape</span><span class="o">.</span><span class="n">POLYGON</span><span class="p">:</span>
         <span class="c1"># `coords` is a list of arrays of shape (N, 2) where N is the number of points</span>
         <span class="c1"># that can vary from one array to another, so we need to padd with NaNs each</span>
@@ -711,7 +709,7 @@ between detected contours (to avoid overlap)</p></li>
         <div class="footer-item">
 
   <p class="sphinx-version">
-    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 7.3.7.
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
     <br/>
   </p>
 </div>
