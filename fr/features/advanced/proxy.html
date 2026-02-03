@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=f9abc19d"></script>
+    <script src="../../_static/documentation_options.js?v=740f9163"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.4</p>
+    <p class="title logo__title">v1.1.0</p>
   
 </a></div>
     
@@ -449,7 +449,8 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
-<li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logviewer.html">Journaux de bord</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation et configuration</a></li>
@@ -724,6 +725,35 @@ It looks for the function in all panels, starting with the current one.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.call_method">
+<span class="sig-name descname"><span class="pre">call_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.call_method" title="Lien vers cette définition">#</a></dt>
+<dd><p>Call a public method on a panel or main window.</p>
+<p>Method resolution order when panel is None:
+1. Try main window (DLMainWindow)
+2. If not found, try current panel (BaseDataPanel)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method_name</strong> – Name of the method to call</p></li>
+<li><p><strong>*args</strong> – Positional arguments to pass to the method</p></li>
+<li><p><strong>panel</strong> – Panel name (« signal », « image », or None for auto-detection).
+Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>The return value of the called method</p>
+</dd>
+<dt class="field-odd">Lève<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(disponible dans Python v3.14)"><strong>AttributeError</strong></a> – If the method does not exist or is not public</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(disponible dans Python v3.14)"><strong>ValueError</strong></a> – If the panel name is invalid</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.close_application">
 <span class="sig-name descname"><span class="pre">close_application</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.close_application" title="Lien vers cette définition">#</a></dt>
 <dd><p>Close DataLab application</p>
@@ -946,6 +976,17 @@ Defaults to None (all groups).</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.get_webapi_status">
+<span class="sig-name descname"><span class="pre">get_webapi_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.get_webapi_status" title="Lien vers cette définition">#</a></dt>
+<dd><p>Get the current status of the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with status info including “running”, “url”, and “port”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.import_h5_file">
 <span class="sig-name descname"><span class="pre">import_h5_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.import_h5_file" title="Lien vers cette définition">#</a></dt>
 <dd><p>Open DataLab HDF5 browser to Import HDF5 file.</p>
@@ -1042,6 +1083,17 @@ arbitrary HDF5 files (non-native), use <a class="reference internal" href="#data
 <dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.raise_window">
 <span class="sig-name descname"><span class="pre">raise_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.raise_window" title="Lien vers cette définition">#</a></dt>
 <dd><p>Raise DataLab window</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.remove_object">
+<span class="sig-name descname"><span class="pre">remove_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.remove_object" title="Lien vers cette définition">#</a></dt>
+<dd><p>Remove current object from current panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> – if True, remove object without confirmation. Defaults to False.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1147,6 +1199,23 @@ retrieved from DataLab configuration.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.start_webapi_server">
+<span class="sig-name descname"><span class="pre">start_webapi_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8080</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.start_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Start the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host address to bind to. Defaults to « 127.0.0.1 ».</p></li>
+<li><p><strong>port</strong> – Port number. Defaults to 8080.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with server info including “url” and “token”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.stop_macro">
 <span class="sig-name descname"><span class="pre">stop_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_or_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.stop_macro" title="Lien vers cette définition">#</a></dt>
 <dd><p>Stop macro.</p>
@@ -1157,6 +1226,17 @@ Defaults to None (current macro).</p>
 </dd>
 <dt class="field-even">Lève<span class="colon">:</span></dt>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(disponible dans Python v3.14)"><strong>ValueError</strong></a> – if macro not found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.RemoteProxy.stop_webapi_server">
+<span class="sig-name descname"><span class="pre">stop_webapi_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.RemoteProxy.stop_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Stop the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if server was stopped, False if it wasn’t running.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -1422,6 +1502,35 @@ If None, current panel is used.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.call_method">
+<span class="sig-name descname"><span class="pre">call_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.call_method" title="Lien vers cette définition">#</a></dt>
+<dd><p>Call a public method on a panel or main window.</p>
+<p>Method resolution order when panel is None:
+1. Try main window (DLMainWindow)
+2. If not found, try current panel (BaseDataPanel)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method_name</strong> – Name of the method to call</p></li>
+<li><p><strong>*args</strong> – Positional arguments to pass to the method</p></li>
+<li><p><strong>panel</strong> – Panel name (« signal », « image », or None for auto-detection).
+Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>The return value of the called method</p>
+</dd>
+<dt class="field-odd">Lève<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(disponible dans Python v3.14)"><strong>AttributeError</strong></a> – If the method does not exist or is not public</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(disponible dans Python v3.14)"><strong>ValueError</strong></a> – If the panel name is invalid</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.close_application">
 <span class="sig-name descname"><span class="pre">close_application</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.close_application" title="Lien vers cette définition">#</a></dt>
 <dd><p>Close DataLab application</p>
@@ -1568,6 +1677,17 @@ Defaults to None (all groups).</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.get_webapi_status">
+<span class="sig-name descname"><span class="pre">get_webapi_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.get_webapi_status" title="Lien vers cette définition">#</a></dt>
+<dd><p>Get Web API server status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with « running », « url », and « token » keys.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.import_h5_file">
 <span class="sig-name descname"><span class="pre">import_h5_file</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filename</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">reset_all</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.import_h5_file" title="Lien vers cette définition">#</a></dt>
 <dd><p>Open DataLab HDF5 browser to Import HDF5 file.</p>
@@ -1633,6 +1753,17 @@ Defaults to None (all groups).</p></li>
 <dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.raise_window">
 <span class="sig-name descname"><span class="pre">raise_window</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.raise_window" title="Lien vers cette définition">#</a></dt>
 <dd><p>Raise DataLab window</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.remove_object">
+<span class="sig-name descname"><span class="pre">remove_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.remove_object" title="Lien vers cette définition">#</a></dt>
+<dd><p>Remove current object from current panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> – if True, remove object without confirmation. Defaults to False.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1710,6 +1841,27 @@ If None, current panel is used. Defaults to None.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.start_webapi_server">
+<span class="sig-name descname"><span class="pre">start_webapi_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.start_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Start the Web API server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host address to bind to. Defaults to « 127.0.0.1 ».</p></li>
+<li><p><strong>port</strong> – Port number. Defaults to auto-detect available port.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with « url » and « token » keys.</p>
+</dd>
+<dt class="field-odd">Lève<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(disponible dans Python v3.14)"><strong>RuntimeError</strong></a> – If Web API dependencies not installed or server
+    already running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.stop_macro">
 <span class="sig-name descname"><span class="pre">stop_macro</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">number_or_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.stop_macro" title="Lien vers cette définition">#</a></dt>
 <dd><p>Stop macro.</p>
@@ -1722,6 +1874,12 @@ Defaults to None (current macro).</p>
 <dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(disponible dans Python v3.14)"><strong>ValueError</strong></a> – if macro not found</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.proxy.LocalProxy.stop_webapi_server">
+<span class="sig-name descname"><span class="pre">stop_webapi_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.proxy.LocalProxy.stop_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Stop the Web API server.</p>
 </dd></dl>
 
 <dl class="py method">
@@ -1867,6 +2025,7 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.add_object"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.add_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.add_signal"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.add_signal()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.calc"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.calc()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.call_method"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.call_method()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.close_application"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.close_application()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.connect"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.connect()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.context_no_refresh"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.context_no_refresh()</span></code></a></li>
@@ -1882,6 +2041,7 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.get_public_methods"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.get_public_methods()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.get_sel_object_uuids"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.get_sel_object_uuids()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.get_version"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.get_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.get_webapi_status"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.get_webapi_status()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.import_h5_file"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.import_h5_file()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.import_macro_from_file"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.import_macro_from_file()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.is_connected"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.is_connected()</span></code></a></li>
@@ -1890,6 +2050,7 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.load_h5_workspace"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.load_h5_workspace()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.open_h5_files"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.open_h5_files()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.raise_window"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.raise_window()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.remove_object"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.remove_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.reset_all"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.reset_all()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.run_macro"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.run_macro()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.save_h5_workspace"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.save_h5_workspace()</span></code></a></li>
@@ -1898,7 +2059,9 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.select_objects"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.select_objects()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.set_current_panel"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.set_current_panel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.set_port"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.set_port()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.start_webapi_server"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.start_webapi_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.stop_macro"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.stop_macro()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.stop_webapi_server"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.stop_webapi_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.toggle_auto_refresh"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.toggle_auto_refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.RemoteProxy.toggle_show_titles"><code class="docutils literal notranslate"><span class="pre">RemoteProxy.toggle_show_titles()</span></code></a></li>
 </ul>
@@ -1918,6 +2081,7 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.save_h5_workspace"><code class="docutils literal notranslate"><span class="pre">LocalProxy.save_h5_workspace()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.add_group"><code class="docutils literal notranslate"><span class="pre">LocalProxy.add_group()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.add_label_with_title"><code class="docutils literal notranslate"><span class="pre">LocalProxy.add_label_with_title()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.call_method"><code class="docutils literal notranslate"><span class="pre">LocalProxy.call_method()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.close_application"><code class="docutils literal notranslate"><span class="pre">LocalProxy.close_application()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.context_no_refresh"><code class="docutils literal notranslate"><span class="pre">LocalProxy.context_no_refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.delete_metadata"><code class="docutils literal notranslate"><span class="pre">LocalProxy.delete_metadata()</span></code></a></li>
@@ -1928,19 +2092,23 @@ the processor classes:</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.get_public_methods"><code class="docutils literal notranslate"><span class="pre">LocalProxy.get_public_methods()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.get_sel_object_uuids"><code class="docutils literal notranslate"><span class="pre">LocalProxy.get_sel_object_uuids()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.get_version"><code class="docutils literal notranslate"><span class="pre">LocalProxy.get_version()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.get_webapi_status"><code class="docutils literal notranslate"><span class="pre">LocalProxy.get_webapi_status()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.import_h5_file"><code class="docutils literal notranslate"><span class="pre">LocalProxy.import_h5_file()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.import_macro_from_file"><code class="docutils literal notranslate"><span class="pre">LocalProxy.import_macro_from_file()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.load_from_directory"><code class="docutils literal notranslate"><span class="pre">LocalProxy.load_from_directory()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.load_from_files"><code class="docutils literal notranslate"><span class="pre">LocalProxy.load_from_files()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.open_h5_files"><code class="docutils literal notranslate"><span class="pre">LocalProxy.open_h5_files()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.raise_window"><code class="docutils literal notranslate"><span class="pre">LocalProxy.raise_window()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.remove_object"><code class="docutils literal notranslate"><span class="pre">LocalProxy.remove_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.reset_all"><code class="docutils literal notranslate"><span class="pre">LocalProxy.reset_all()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.run_macro"><code class="docutils literal notranslate"><span class="pre">LocalProxy.run_macro()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.save_to_h5_file"><code class="docutils literal notranslate"><span class="pre">LocalProxy.save_to_h5_file()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.select_groups"><code class="docutils literal notranslate"><span class="pre">LocalProxy.select_groups()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.select_objects"><code class="docutils literal notranslate"><span class="pre">LocalProxy.select_objects()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.set_current_panel"><code class="docutils literal notranslate"><span class="pre">LocalProxy.set_current_panel()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.start_webapi_server"><code class="docutils literal notranslate"><span class="pre">LocalProxy.start_webapi_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.stop_macro"><code class="docutils literal notranslate"><span class="pre">LocalProxy.stop_macro()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.stop_webapi_server"><code class="docutils literal notranslate"><span class="pre">LocalProxy.stop_webapi_server()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.toggle_auto_refresh"><code class="docutils literal notranslate"><span class="pre">LocalProxy.toggle_auto_refresh()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.proxy.LocalProxy.toggle_show_titles"><code class="docutils literal notranslate"><span class="pre">LocalProxy.toggle_show_titles()</span></code></a></li>
 </ul>

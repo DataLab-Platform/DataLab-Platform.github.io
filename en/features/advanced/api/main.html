@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=71272d9f"></script>
+    <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.4</p>
+    <p class="title logo__title">v1.1.0</p>
   
 </a></div>
     
@@ -448,7 +448,8 @@
 <li class="toctree-l1"><a class="reference internal" href="../plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../macros.html">Macros</a></li>
-<li class="toctree-l1"><a class="reference internal" href="../remote.html">Remote controlling</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webapi.html">Web API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../remote.html">Remote controlling (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../model.html">Internal data model</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../logviewer.html">Log viewer</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../instviewer.html">Installation and Configuration</a></li>
@@ -727,6 +728,69 @@ or None to select all groups. Defaults to None.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.call_method">
+<span class="sig-name descname"><span class="pre">call_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'signal'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'image'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.call_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.call_method" title="Link to this definition">#</a></dt>
+<dd><p>Call a public method on a panel or main window.</p>
+<p>This generic method allows calling any public method that is not explicitly
+exposed in the proxy API. The method resolution follows this order:</p>
+<ol class="arabic simple">
+<li><p>If panel is specified: call method on that specific panel</p></li>
+<li><p>If panel is None:
+a. Try to call method on main window (DLMainWindow)
+b. If not found, try to call method on current panel (BaseDataPanel)</p></li>
+</ol>
+<p>This makes it convenient to call panel methods without specifying the panel
+parameter when working on the current panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method_name</strong> – Name of the method to call</p></li>
+<li><p><strong>*args</strong> – Positional arguments to pass to the method</p></li>
+<li><p><strong>panel</strong> – Panel name (“signal”, “image”, or None for auto-detection).
+Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>The return value of the called method</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(in Python v3.14)"><strong>AttributeError</strong></a> – If the method does not exist or is not public</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(in Python v3.14)"><strong>ValueError</strong></a> – If the panel name is invalid</p></li>
+</ul>
+</dd>
+</dl>
+<p class="rubric">Examples</p>
+<div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="c1"># Call remove_object on current panel (auto-detected)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">win</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="s2">&quot;remove_object&quot;</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Call a signal panel method specifically</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">win</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="s2">&quot;delete_all_objects&quot;</span><span class="p">,</span> <span class="n">panel</span><span class="o">=</span><span class="s2">&quot;signal&quot;</span><span class="p">)</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="c1"># Call main window method</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">win</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="s2">&quot;get_current_panel&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.call_method_slot">
+<span class="sig-name descname"><span class="pre">call_method_slot</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">args</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'signal'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'image'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">kwargs</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.call_method_slot"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.call_method_slot" title="Link to this definition">#</a></dt>
+<dd><p>Slot to call a method from RemoteServer thread in GUI thread.</p>
+<p>This slot receives signals from RemoteServer and executes the method in
+the GUI thread, avoiding thread-safety issues with Qt widgets and dialogs.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method_name</strong> – Name of the method to call</p></li>
+<li><p><strong>args</strong> – Positional arguments as a list</p></li>
+<li><p><strong>panel</strong> – Panel name or None for auto-detection</p></li>
+<li><p><strong>kwargs</strong> – Keyword arguments as a dict</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.get_object_shapes">
 <span class="sig-name descname"><span class="pre">get_object_shapes</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">nb_id_title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Literal</span><span class="p"><span class="pre">[</span></span><span class="s"><span class="pre">'signal'</span></span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="s"><span class="pre">'image'</span></span><span class="p"><span class="pre">]</span></span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.get_object_shapes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.get_object_shapes" title="Link to this definition">#</a></dt>
 <dd><p>Get plot item shapes associated to object (signal/image).</p>
@@ -805,6 +869,43 @@ current macro, or does nothing if there is no macro).</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
 <dd class="field-odd"><p><strong>filename</strong> – Filename.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.start_webapi_server">
+<span class="sig-name descname"><span class="pre">start_webapi_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.start_webapi_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.start_webapi_server" title="Link to this definition">#</a></dt>
+<dd><p>Start the Web API server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host address to bind to. Defaults to “127.0.0.1”.</p></li>
+<li><p><strong>port</strong> – Port number. Defaults to auto-detect available port.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Returns<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with “url” and “token” keys.</p>
+</dd>
+<dt class="field-odd">Raises<span class="colon">:</span></dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#RuntimeError" title="(in Python v3.14)"><strong>RuntimeError</strong></a> – If Web API deps not installed or server already running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.stop_webapi_server">
+<span class="sig-name descname"><span class="pre">stop_webapi_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.stop_webapi_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.stop_webapi_server" title="Link to this definition">#</a></dt>
+<dd><p>Stop the Web API server.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.get_webapi_status">
+<span class="sig-name descname"><span class="pre">get_webapi_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.14)"><span class="pre">dict</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.get_webapi_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.get_webapi_status" title="Link to this definition">#</a></dt>
+<dd><p>Get Web API server status.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with “running”, “url”, and “token” keys.</p>
 </dd>
 </dl>
 </dd></dl>
@@ -919,7 +1020,7 @@ current macro, or does nothing if there is no macro).</p>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.calc">
-<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://guidata.readthedocs.io/en/latest/reference/dataset/datatypes.html#guidata.dataset.DataSet" title="(in guidata v3.14)"><span class="pre">DataSet</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.calc" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://guidata.readthedocs.io/en/latest/reference/dataset/datatypes.html#guidata.dataset.DataSet" title="(in guidata v3.14)"><span class="pre">DataSet</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">edit</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.calc" title="Link to this definition">#</a></dt>
 <dd><p>Call computation feature <code class="docutils literal notranslate"><span class="pre">name</span></code></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -933,6 +1034,8 @@ It looks for the function in all panels, starting with the current one.</p>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>name</strong> – Compute function name</p></li>
 <li><p><strong>param</strong> – Compute function parameter. Defaults to None.</p></li>
+<li><p><strong>edit</strong> – Whether to show parameter edit dialog. Defaults to True.
+Set to False when calling from remote/API to avoid blocking dialogs.</p></li>
 </ul>
 </dd>
 <dt class="field-even">Raises<span class="colon">:</span></dt>
@@ -1013,6 +1116,17 @@ It looks for the function in all panels, starting with the current one.</p>
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.reset_all">
 <span class="sig-name descname"><span class="pre">reset_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.reset_all"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.reset_all" title="Link to this definition">#</a></dt>
 <dd><p>Reset all application data</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.remove_object">
+<span class="sig-name descname"><span class="pre">remove_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.remove_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.remove_object" title="Link to this definition">#</a></dt>
+<dd><p>Remove current object from current panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> – if True, remove object without confirmation. Defaults to False.</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="py method">
@@ -1339,12 +1453,17 @@ programmatic use when saving DataLab workspace files.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.select_objects"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.select_objects()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.select_groups"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.select_groups()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.delete_metadata"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.delete_metadata()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.call_method"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.call_method()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.call_method_slot"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.call_method_slot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.get_object_shapes"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.get_object_shapes()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.add_annotations_from_items"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.add_annotations_from_items()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.add_label_with_title"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.add_label_with_title()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.run_macro"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.run_macro()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.stop_macro"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.stop_macro()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.import_macro_from_file"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.import_macro_from_file()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.start_webapi_server"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.start_webapi_server()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.stop_webapi_server"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.stop_webapi_server()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.get_webapi_status"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.get_webapi_status()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.panels"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.panels</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.confirm_memory_state"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.confirm_memory_state()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.check_stable_release"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.check_stable_release()</span></code></a></li>
@@ -1367,6 +1486,7 @@ programmatic use when saving DataLab workspace files.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.toggle_auto_refresh"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.toggle_auto_refresh()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.toggle_show_first_only"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.toggle_show_first_only()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.reset_all"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.reset_all()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.remove_object"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.remove_object()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.save_to_h5_file"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.save_to_h5_file()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.open_h5_files"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.open_h5_files()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.browse_h5_files"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.browse_h5_files()</span></code></a></li>

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=71272d9f"></script>
+    <script src="../../../_static/documentation_options.js?v=fc837d61"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.4</p>
+    <p class="title logo__title">v1.1.0</p>
   
 </a></div>
     
@@ -503,12 +503,26 @@
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">method_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Decorator wrapper function&quot;&quot;&quot;</span>
-        <span class="bp">self</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># extracting &#39;self&#39; from method arguments</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">RemoteServer</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># extracting &#39;self&#39; from method arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span><span class="p">:</span>
             <span class="n">QC</span><span class="o">.</span><span class="n">QCoreApplication</span><span class="o">.</span><span class="n">processEvents</span><span class="p">()</span>
             <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="mf">0.05</span><span class="p">)</span>
+        <span class="c1"># Check if an exception was raised and stored by the slot</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">exc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">exception</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Clear the exception</span>
+            <span class="k">raise</span> <span class="n">exc</span>
+        <span class="c1"># For methods that use signal/slot pattern (like call_method),</span>
+        <span class="c1"># they return self.result which is set by the slot. The function</span>
+        <span class="c1"># itself returns this value, but it&#39;s set asynchronously, so we</span>
+        <span class="c1"># need to return the value AFTER waiting, not the initial return value.</span>
+        <span class="c1"># Since we wait above, self.result should now be set by the slot.</span>
+        <span class="c1"># If the function returned self.result, use the updated value.</span>
+        <span class="k">if</span> <span class="n">output</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="c1"># Return self.result which should be set by now</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
         <span class="k">return</span> <span class="n">output</span>
 
     <span class="k">return</span> <span class="n">method_wrapper</span>
@@ -536,6 +550,7 @@
     <span class="n">SIG_TOGGLE_AUTO_REFRESH</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_TOGGLE_SHOW_TITLES</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_RESET_ALL</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
+    <span class="n">SIG_REMOVE_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_SAVE_TO_H5</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_OPEN_H5</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">,</span> <span class="nb">bool</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_IMPORT_H5</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
@@ -545,6 +560,7 @@
     <span class="n">SIG_RUN_MACRO</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_STOP_MACRO</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
     <span class="n">SIG_IMPORT_MACRO_FROM_FILE</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
+    <span class="n">SIG_CALL_METHOD</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">,</span> <span class="nb">object</span><span class="p">,</span> <span class="nb">dict</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">win</span><span class="p">:</span> <span class="n">DLMainWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="n">QC</span><span class="o">.</span><span class="n">QThread</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
@@ -552,6 +568,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="p">:</span> <span class="n">SimpleXMLRPCServer</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">win</span> <span class="o">=</span> <span class="n">win</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">exception</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="n">win</span><span class="o">.</span><span class="n">SIG_READY</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">datalab_is_ready</span><span class="p">)</span>
         <span class="n">win</span><span class="o">.</span><span class="n">SIG_CLOSING</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">shutdown_server</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CLOSE_APP</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
@@ -568,6 +586,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_AUTO_REFRESH</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">toggle_auto_refresh</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_SHOW_TITLES</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">toggle_show_titles</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RESET_ALL</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">reset_all</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REMOVE_OBJECT</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">remove_object</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SAVE_TO_H5</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">save_to_h5_file</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_OPEN_H5</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">open_h5_files</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_H5</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">import_h5_file</span><span class="p">)</span>
@@ -577,6 +596,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RUN_MACRO</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">run_macro</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_STOP_MACRO</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">stop_macro</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_MACRO_FROM_FILE</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">import_macro_from_file</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CALL_METHOD</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">call_method_slot</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">serve</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Start server and serve forever&quot;&quot;&quot;</span>
@@ -688,6 +708,15 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset all application data&quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RESET_ALL</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">remove_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove current object from current panel.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            force: if True, remove object without confirmation. Defaults to False.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REMOVE_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_to_h5_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -1114,6 +1143,83 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_MACRO_FROM_FILE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call_method</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">call_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call a public method on a panel or main window.</span>
+
+<span class="sd">        Method resolution order when panel is None:</span>
+<span class="sd">        1. Try main window (DLMainWindow)</span>
+<span class="sd">        2. If not found, try current panel (BaseDataPanel)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method_name: Name of the method to call</span>
+<span class="sd">            call_params: Dictionary with keys &#39;args&#39; (list), &#39;panel&#39; (str|None),</span>
+<span class="sd">             &#39;kwargs&#39; (dict). Defaults to empty for missing keys.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The return value of the called method</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: If the method does not exist or is not public</span>
+<span class="sd">            ValueError: If the panel name is invalid</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;panel&quot;</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kwargs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize result</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CALL_METHOD</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">panel</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
+        <span class="c1"># The decorator waits for is_ready, then this returns self.result</span>
+        <span class="c1"># which was set by call_method_slot</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">result</span>
+
+    <span class="c1"># =========================================================================</span>
+    <span class="c1"># Web API control methods</span>
+    <span class="c1"># =========================================================================</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_webapi_server</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the Web API server.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            host: Host address to bind to. Defaults to &quot;127.0.0.1&quot;.</span>
+<span class="sd">            port: Port number. Defaults to auto-detect available port.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with &quot;url&quot; and &quot;token&quot; keys.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            RuntimeError: If Web API dependencies not installed or server</span>
+<span class="sd">             already running.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Delegate to main window method which is @remote_controlled</span>
+        <span class="c1"># This ensures SIG_READY is emitted for the @remote_call decorator</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_webapi_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the Web API server.&quot;&quot;&quot;</span>
+        <span class="c1"># Delegate to main window method which is @remote_controlled</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webapi_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Web API server status.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with &quot;running&quot;, &quot;url&quot;, and &quot;token&quot; keys.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Delegate to main window method which is @remote_controlled</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span>
+
 
 <span class="n">RemoteServer</span><span class="o">.</span><span class="n">check_remote_functions</span><span class="p">()</span>
 
@@ -1530,6 +1636,86 @@
         <span class="n">items_json</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemoteClient.call_method">
+<a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.call_method">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">call_method</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="o">*</span><span class="n">args</span><span class="p">,</span>
+        <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
+    <span class="p">):</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call a public method on a panel or main window.</span>
+
+<span class="sd">        Method resolution order when panel is None:</span>
+<span class="sd">        1. Try main window (DLMainWindow)</span>
+<span class="sd">        2. If not found, try current panel (BaseDataPanel)</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            method_name: Name of the method to call</span>
+<span class="sd">            *args: Positional arguments to pass to the method</span>
+<span class="sd">            panel: Panel name (&quot;signal&quot;, &quot;image&quot;, or None for auto-detection).</span>
+<span class="sd">             Defaults to None.</span>
+<span class="sd">            **kwargs: Keyword arguments to pass to the method</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            The return value of the called method</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            AttributeError: If the method does not exist or is not public</span>
+<span class="sd">            ValueError: If the panel name is invalid</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert args/kwargs to single dict for XML-RPC serialization</span>
+        <span class="c1"># This avoids XML-RPC signature mismatch issues with default parameters</span>
+        <span class="n">call_params</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="p">[],</span>
+            <span class="s2">&quot;panel&quot;</span><span class="p">:</span> <span class="n">panel</span><span class="p">,</span>
+            <span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">{},</span>
+        <span class="p">}</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">call_params</span><span class="p">)</span></div>
+
+
+    <span class="c1"># === WebAPI Server Control Methods ===</span>
+
+<div class="viewcode-block" id="RemoteClient.start_webapi_server">
+<a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.start_webapi_server">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">start_webapi_server</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8080</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the WebAPI server.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            host: Host address to bind to. Defaults to &quot;127.0.0.1&quot;.</span>
+<span class="sd">            port: Port number. Defaults to 8080.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with server info including &#39;url&#39; and &#39;token&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemoteClient.stop_webapi_server">
+<a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.stop_webapi_server">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">stop_webapi_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the WebAPI server.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if server was stopped, False if it wasn&#39;t running.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="RemoteClient.get_webapi_status">
+<a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.get_webapi_status">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_webapi_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current status of the WebAPI server.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            Dictionary with status info including &#39;running&#39;, &#39;url&#39;, and &#39;port&#39;.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span></div>
 </div>
 
 </pre></div>

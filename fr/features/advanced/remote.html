@@ -7,7 +7,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Comment contrôler à distance DataLab, la plateforme open-source d'analyse et de visualisation de données scientifiques" name="description" translated="True" />
+<meta content="Comment contrôler DataLab à distance en utilisant XML-RPC" name="description" translated="True" />
 <meta content="DataLab, contrôle à distance, XML-RPC, Python, IDE, Spyder, Jupyter, application tierce, signal, image, HDF5, calcul, processeur" name="keywords" translated="True" />
 
 <!-- Google tag (gtag.js) -->
@@ -21,7 +21,7 @@
 </script>
 
 
-    <title>Contrôle à distance &#8212; DataLab</title>
+    <title>Contrôle à distance (XML-RPC) &#8212; DataLab</title>
 
 
   
@@ -55,7 +55,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=f9abc19d"></script>
+    <script src="../../_static/documentation_options.js?v=740f9163"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -68,7 +68,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
     <link rel="next" title="Modèle de données interne" href="model.html" />
-    <link rel="prev" title="Macros" href="macros.html" />
+    <link rel="prev" title="API Web" href="webapi.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
   <meta name="docsearch:version" content="" />
@@ -144,7 +144,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.0.4</p>
+    <p class="title logo__title">v1.1.0</p>
   
 </a></div>
     
@@ -451,7 +451,8 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
-<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contrôle à distance</a></li>
+<li class="toctree-l1"><a class="reference internal" href="webapi.html">API Web</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
 <li class="toctree-l1"><a class="reference internal" href="logviewer.html">Journaux de bord</a></li>
 <li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation et configuration</a></li>
@@ -513,7 +514,7 @@
     
     <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Contrôle à distance</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Contrôle à distance (XML-RPC)</span></li>
   </ul>
 </nav>
 </div>
@@ -530,12 +531,17 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="remote-controlling">
-<span id="ref-to-remote-control"></span><h1>Contrôle à distance<a class="headerlink" href="#remote-controlling" title="Lien vers cette rubrique">#</a></h1>
+  <section id="remote-controlling-xml-rpc">
+<span id="ref-to-remote-control"></span><h1>Contrôle à distance (XML-RPC)<a class="headerlink" href="#remote-controlling-xml-rpc" title="Lien vers cette rubrique">#</a></h1>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p><strong>Pour les nouveaux projets, nous recommandons d’utiliser l”</strong> <a class="reference internal" href="webapi.html#ref-to-webapi"><span class="std std-ref">API Web</span></a> <strong>au lieu de XML-RPC.</strong> L’API Web offre de meilleures performances pour les grands tableaux, une authentification basée sur des jetons et une compatibilité avec les environnements de navigateur (WASM/Pyodide).</p>
+<p>XML-RPC reste disponible pour la compatibilité avec les intégrations existantes.</p>
+</div>
 <p>DataLab peut être contrôlé à distance en utilisant le protocole <a class="reference external" href="https://docs.python.org/3/library/xmlrpc.html">XML-RPC</a> qui est nativement supporté par Python (et beaucoup d’autres langages). Le contrôle à distance permet d’accéder aux principales fonctionnalités de DataLab à partir d’un processus séparé.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Si vous recherchez une solution alternative légère pour contrôler à distance DataLab (c’est-à-dire sans avoir à installer l’ensemble du package DataLab et ses dépendances sur votre environnement), vous pouvez utiliser le package <a class="reference external" href="https://github.com/DataLab-Platform/Sigima">Sigima</a> qui fournit un client distant simple pour DataLab. Pour l’installer, il suffit d’exécuter : <cite>pip install sigima</cite>.</p>
+<p>Si vous recherchez une solution alternative légère pour contrôler DataLab à distance (c’est-à-dire sans avoir à installer l’ensemble du package DataLab et ses dépendances sur votre environnement), vous pouvez utiliser le package <a class="reference external" href="https://github.com/DataLab-Platform/Sigima">Sigima</a> qui fournit un simple client distant pour DataLab. Pour l’installer, il suffit d’exécuter : <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sigima</span></code>.</p>
 </div>
 <section id="from-an-ide">
 <h2>Depuis un IDE<a class="headerlink" href="#from-an-ide" title="Lien vers cette rubrique">#</a></h2>
@@ -1092,6 +1098,74 @@ If None, current panel is used.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.call_method">
+<span class="sig-name descname"><span class="pre">call_method</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">method_name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="o"><span class="pre">*</span></span><span class="n"><span class="pre">args</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="o"><span class="pre">**</span></span><span class="n"><span class="pre">kwargs</span></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.call_method"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.call_method" title="Lien vers cette définition">#</a></dt>
+<dd><p>Call a public method on a panel or main window.</p>
+<p>Method resolution order when panel is None:
+1. Try main window (DLMainWindow)
+2. If not found, try current panel (BaseDataPanel)</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>method_name</strong> – Name of the method to call</p></li>
+<li><p><strong>*args</strong> – Positional arguments to pass to the method</p></li>
+<li><p><strong>panel</strong> – Panel name (« signal », « image », or None for auto-detection).
+Defaults to None.</p></li>
+<li><p><strong>**kwargs</strong> – Keyword arguments to pass to the method</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>The return value of the called method</p>
+</dd>
+<dt class="field-odd">Lève<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#AttributeError" title="(disponible dans Python v3.14)"><strong>AttributeError</strong></a> – If the method does not exist or is not public</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#ValueError" title="(disponible dans Python v3.14)"><strong>ValueError</strong></a> – If the panel name is invalid</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.start_webapi_server">
+<span class="sig-name descname"><span class="pre">start_webapi_server</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">host</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">'127.0.0.1'</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">port</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">8080</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.start_webapi_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.start_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Start the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>host</strong> – Host address to bind to. Defaults to « 127.0.0.1 ».</p></li>
+<li><p><strong>port</strong> – Port number. Defaults to 8080.</p></li>
+</ul>
+</dd>
+<dt class="field-even">Renvoie<span class="colon">:</span></dt>
+<dd class="field-even"><p>Dictionary with server info including “url” and “token”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.stop_webapi_server">
+<span class="sig-name descname"><span class="pre">stop_webapi_server</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span></span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.stop_webapi_server"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.stop_webapi_server" title="Lien vers cette définition">#</a></dt>
+<dd><p>Stop the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>True if server was stopped, False if it wasn’t running.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.get_webapi_status">
+<span class="sig-name descname"><span class="pre">get_webapi_status</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(disponible dans Python v3.14)"><span class="pre">dict</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">,</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(disponible dans Python v3.14)"><span class="pre">int</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.get_webapi_status"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.get_webapi_status" title="Lien vers cette définition">#</a></dt>
+<dd><p>Get the current status of the WebAPI server.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Renvoie<span class="colon">:</span></dt>
+<dd class="field-odd"><p>Dictionary with status info including “running”, “url”, and “port”.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.add_group">
 <span class="sig-name descname"><span class="pre">add_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">panel</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(disponible dans Python v3.14)"><span class="pre">str</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.remote.RemoteClient.add_group" title="Lien vers cette définition">#</a></dt>
 <dd><p>Add group to DataLab.</p>
@@ -1362,6 +1436,17 @@ arbitrary HDF5 files (non-native), use <a class="reference internal" href="#data
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.remove_object">
+<span class="sig-name descname"><span class="pre">remove_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">force</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(disponible dans Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.remote.RemoteClient.remove_object" title="Lien vers cette définition">#</a></dt>
+<dd><p>Remove current object from current panel.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Paramètres<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>force</strong> – if True, remove object without confirmation. Defaults to False.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.reset_all">
 <span class="sig-name descname"><span class="pre">reset_all</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(disponible dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="headerlink" href="#datalab.control.remote.RemoteClient.reset_all" title="Lien vers cette définition">#</a></dt>
 <dd><p>Reset all application data</p>
@@ -1504,12 +1589,12 @@ Defaults to None (current macro).</p>
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="macros.html"
+       href="webapi.html"
        title="page précédente">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">précédent</p>
-        <p class="prev-next-title">Macros</p>
+        <p class="prev-next-title">API Web</p>
       </div>
     </a>
     <a class="right-next"
@@ -1559,6 +1644,10 @@ Defaults to None (current macro).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.get_object"><code class="docutils literal notranslate"><span class="pre">RemoteClient.get_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.get_object_shapes"><code class="docutils literal notranslate"><span class="pre">RemoteClient.get_object_shapes()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.add_annotations_from_items"><code class="docutils literal notranslate"><span class="pre">RemoteClient.add_annotations_from_items()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.call_method"><code class="docutils literal notranslate"><span class="pre">RemoteClient.call_method()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.start_webapi_server"><code class="docutils literal notranslate"><span class="pre">RemoteClient.start_webapi_server()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.stop_webapi_server"><code class="docutils literal notranslate"><span class="pre">RemoteClient.stop_webapi_server()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.get_webapi_status"><code class="docutils literal notranslate"><span class="pre">RemoteClient.get_webapi_status()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.add_group"><code class="docutils literal notranslate"><span class="pre">RemoteClient.add_group()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.add_label_with_title"><code class="docutils literal notranslate"><span class="pre">RemoteClient.add_label_with_title()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.close_application"><code class="docutils literal notranslate"><span class="pre">RemoteClient.close_application()</span></code></a></li>
@@ -1578,6 +1667,7 @@ Defaults to None (current macro).</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.load_h5_workspace"><code class="docutils literal notranslate"><span class="pre">RemoteClient.load_h5_workspace()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.open_h5_files"><code class="docutils literal notranslate"><span class="pre">RemoteClient.open_h5_files()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.raise_window"><code class="docutils literal notranslate"><span class="pre">RemoteClient.raise_window()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.remove_object"><code class="docutils literal notranslate"><span class="pre">RemoteClient.remove_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.reset_all"><code class="docutils literal notranslate"><span class="pre">RemoteClient.reset_all()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.run_macro"><code class="docutils literal notranslate"><span class="pre">RemoteClient.run_macro()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.control.remote.RemoteClient.save_h5_workspace"><code class="docutils literal notranslate"><span class="pre">RemoteClient.save_h5_workspace()</span></code></a></li>

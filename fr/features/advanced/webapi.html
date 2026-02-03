@@ -1,0 +1,1000 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Comment utiliser l'API Web DataLab pour l'intégration HTTP/JSON" name="description" translated="True" />
+<meta content="DataLab, API Web, REST, HTTP, JSON, Jupyter, notebook, intégration" name="keywords" translated="True" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>API Web &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=8878045cc6db502f8baf" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script src="../../_static/scripts/fontawesome.js?digest=8878045cc6db502f8baf"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
+
+    <script src="../../_static/documentation_options.js?v=740f9163"></script>
+    <script src="../../_static/doctools.js?v=9bcbadda"></script>
+    <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/webapi';</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/webapi.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Contrôle à distance (XML-RPC)" href="remote.html" />
+    <link rel="prev" title="Macros" href="macros.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://cfp.scipy.org/2024/talk/G3MC9L/'>SciPy 2024</a> 🐍, <a href='https://pretalx.com/pydata-paris-2024/talk/WTDVCC/'>PyData Paris 2024</a>, <a href='https://www.youtube.com/watch?v=lBEu-DeHyz0&list=PLJjbbmRgu6RqGMOhahm2iE6NUkIYIaEDK'>OSXP 2024</a> et <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.1.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn search-button-field search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+ <i class="fa-solid fa-magnifying-glass"></i>
+ <span class="search-button__default-text">Recherche</span>
+ <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button pst-js-only" aria-label="Thème" data-bs-title="Thème"  data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <i class="theme-switch fa-solid fa-sun                fa-lg" data-mode="light" title="Clair"></i>
+  <i class="theme-switch fa-solid fa-moon               fa-lg" data-mode="dark"  title="Sombre"></i>
+  <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"  title="Paramètres système"></i>
+</button></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i>
+            <span class="sr-only">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">API Web</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="web-api">
+<span id="ref-to-webapi"></span><h1>API Web<a class="headerlink" href="#web-api" title="Lien vers cette rubrique">#</a></h1>
+<p>L’API Web DataLab fournit une interface moderne <strong>HTTP/JSON</strong> pour un accès externe à l’espace de travail DataLab. C’est la voie d’intégration recommandée pour les nouveaux projets, en particulier pour les notebooks Jupyter et les outils basés sur le web.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>L’API Web est disponible à partir de DataLab 1.1. Les dépendances requises (FastAPI, Uvicorn, Pydantic) sont incluses dans l’installation standard de DataLab.</p>
+</div>
+<section id="overview">
+<h2>Aperçu<a class="headerlink" href="#overview" title="Lien vers cette rubrique">#</a></h2>
+<p>L’API Web permet :</p>
+<ul class="simple">
+<li><p><strong>Intégration de notebooks Jupyter</strong> via <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Kernel">DataLab-Kernel</a></p></li>
+<li><p><strong>Compatibilité WASM/Pyodide</strong> (pas de dépendance XML-RPC)</p></li>
+<li><p><strong>Intégration d’outils externes</strong> (tout client HTTP)</p></li>
+</ul>
+<p>Contrairement à l’interface XML-RPC, l’API Web :</p>
+<ul class="simple">
+<li><p>Utilise <strong>JSON</strong> pour les métadonnées et <strong>NPZ</strong> pour les données binaires (transfert efficace de grands tableaux)</p></li>
+<li><p>Fournit une <strong>authentification par jeton bearer</strong> pour la sécurité</p></li>
+<li><p>Suit les <strong>conventions REST</strong> avec documentation OpenAPI</p></li>
+<li><p>Fonctionne dans les <strong>environnements navigateur</strong> (WASM/Pyodide)</p></li>
+</ul>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Comparaison avec XML-RPC</span><a class="headerlink" href="#id1" title="Lien vers ce tableau">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Fonctionnalité</p></th>
+<th class="head"><p>XML-RPC</p></th>
+<th class="head"><p>API Web</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Protocole</p></td>
+<td><p>XML</p></td>
+<td><p>JSON + Binaire (NPZ)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Support WASM</p></td>
+<td><p>❌</p></td>
+<td><p>✅</p></td>
+</tr>
+<tr class="row-even"><td><p>Grands tableaux</p></td>
+<td><p>Lent (base64)</p></td>
+<td><p>Rapide (NPZ)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Authentification</p></td>
+<td><p>Aucune</p></td>
+<td><p>Jeton Bearer</p></td>
+</tr>
+<tr class="row-even"><td><p>Standards</p></td>
+<td><p>XML-RPC</p></td>
+<td><p>REST + OpenAPI</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="quick-start">
+<h2>Démarrage rapide<a class="headerlink" href="#quick-start" title="Lien vers cette rubrique">#</a></h2>
+<section id="enabling-the-web-api">
+<h3>Activer l’API Web<a class="headerlink" href="#enabling-the-web-api" title="Lien vers cette rubrique">#</a></h3>
+<p>Il existe plusieurs façons d’activer le serveur API Web :</p>
+<ol class="arabic simple">
+<li><p><strong>Via l’interface</strong> : Fichier → API Web → Démarrer le serveur API Web</p></li>
+<li><p><strong>Via variable d’environnement</strong> : Définir <code class="docutils literal notranslate"><span class="pre">DATALAB_WEBAPI_ENABLED=1</span></code> avant de démarrer DataLab</p></li>
+</ol>
+<p>Au démarrage, DataLab affiche l’URL du serveur et le jeton d’authentification dans une boîte de dialogue. La barre d’état affiche également le port de l’API Web lorsque le serveur est en cours d’exécution.</p>
+<p>Le port par défaut est <strong>18080</strong> (ou le prochain port disponible s’il est occupé).</p>
+</section>
+<section id="auto-discovery">
+<h3>Découverte automatique<a class="headerlink" href="#auto-discovery" title="Lien vers cette rubrique">#</a></h3>
+<p>DataLab-Kernel peut automatiquement découvrir et se connecter à une instance DataLab en cours d’exécution sans aucune configuration manuelle. Lorsque l’API Web démarre, DataLab écrit les informations de connexion dans un fichier que DataLab-Kernel lit automatiquement.</p>
+<p><strong>Chargez simplement l’extension</strong> — aucune variable d’environnement ni connexion explicite requise :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># In your notebook (JupyterLab, VS Code, etc.)</span>
+<span class="o">%</span><span class="n">load_ext</span> <span class="n">datalab_kernel</span>
+
+<span class="c1"># DataLab-Kernel automatically finds and connects to DataLab</span>
+<span class="n">workspace</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>  <span class="c1"># Already connected!</span>
+</pre></div>
+</div>
+<p>Le mécanisme de découverte automatique essaie les méthodes suivantes dans l’ordre :</p>
+<ol class="arabic simple">
+<li><p><strong>Variables d’environnement</strong> (<code class="docutils literal notranslate"><span class="pre">DATALAB_WORKSPACE_URL</span></code>, <code class="docutils literal notranslate"><span class="pre">DATALAB_WORKSPACE_TOKEN</span></code>)</p></li>
+<li><p><strong>Fichier de connexion</strong> écrit par DataLab (Python natif uniquement)</p></li>
+<li><p><strong>Paramètres d’URL</strong> (JupyterLite : <code class="docutils literal notranslate"><span class="pre">?datalab_url=...&amp;datalab_token=...</span></code>)</p></li>
+<li><p><strong>Sondage du port bien connu</strong> (<code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:18080</span></code>)</p></li>
+</ol>
+<p>Si la découverte échoue, DataLab-Kernel démarre en mode autonome et vous pouvez vous connecter plus tard avec <code class="docutils literal notranslate"><span class="pre">workspace.connect()</span></code>.</p>
+</section>
+<section id="manual-connection-legacy">
+<h3>Connexion manuelle (historique)<a class="headerlink" href="#manual-connection-legacy" title="Lien vers cette rubrique">#</a></h3>
+<p>Si la découverte automatique ne fonctionne pas (par exemple, en cas d’exécution sur une machine différente), vous pouvez définir des variables d’environnement avant de démarrer le noyau de votre notebook :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="nb">export</span><span class="w"> </span><span class="nv">DATALAB_WORKSPACE_URL</span><span class="o">=</span>http://127.0.0.1:18080
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATALAB_WORKSPACE_TOKEN</span><span class="o">=</span>&lt;your-token&gt;
+</pre></div>
+</div>
+<p>Puis dans votre notebook utilisant DataLab-Kernel :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab_kernel</span><span class="w"> </span><span class="kn">import</span> <span class="n">workspace</span>
+
+<span class="c1"># List objects in DataLab</span>
+<span class="n">workspace</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
+
+<span class="c1"># Retrieve an object</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_signal&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add a processed result back to DataLab</span>
+<span class="n">workspace</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;processed&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="api-reference">
+<h2>Référence de l’API<a class="headerlink" href="#api-reference" title="Lien vers cette rubrique">#</a></h2>
+<p>URL de base : <code class="docutils literal notranslate"><span class="pre">http://127.0.0.1:&lt;port&gt;/api/v1</span></code></p>
+<section id="status-endpoint-no-auth-required">
+<h3>Point d’accès Status (sans authentification)<a class="headerlink" href="#status-endpoint-no-auth-required" title="Lien vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head"><p>Point d’accès</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/status</span></code></p></td>
+<td><p>État du serveur et informations de version</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="object-operations-auth-required">
+<h3>Opérations sur les objets (authentification requise)<a class="headerlink" href="#object-operations-auth-required" title="Lien vers cette rubrique">#</a></h3>
+<p>Tous les points d’accès ci-dessous nécessitent l’en-tête <code class="docutils literal notranslate"><span class="pre">Authorization:</span> <span class="pre">Bearer</span> <span class="pre">&lt;token&gt;</span></code>.</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head"><p>Point d’accès</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects</span></code></p></td>
+<td><p>Lister tous les objets avec métadonnées (JSON)</p></td>
+</tr>
+<tr class="row-odd"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects/{name}</span></code></p></td>
+<td><p>Obtenir les métadonnées d’un objet (JSON)</p></td>
+</tr>
+<tr class="row-even"><td><p>DELETE</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects/{name}</span></code></p></td>
+<td><p>Supprimer un objet</p></td>
+</tr>
+<tr class="row-odd"><td><p>PATCH</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects/{name}/metadata</span></code></p></td>
+<td><p>Mettre à jour les métadonnées d’un objet</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="binary-data-transfer-auth-required">
+<h3>Transfert de données binaires (authentification requise)<a class="headerlink" href="#binary-data-transfer-auth-required" title="Lien vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Méthode</p></th>
+<th class="head"><p>Point d’accès</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>GET</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects/{name}/data</span></code></p></td>
+<td><p>Télécharger l’objet sous forme d’archive NPZ</p></td>
+</tr>
+<tr class="row-odd"><td><p>PUT</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">/objects/{name}/data</span></code></p></td>
+<td><p>Envoyer un objet depuis une archive NPZ</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="data-format">
+<h2>Format des données<a class="headerlink" href="#data-format" title="Lien vers cette rubrique">#</a></h2>
+<p>Les objets sont transférés au format NPZ de NumPy pour plus d’efficacité.</p>
+<section id="signalobj-npz-structure">
+<h3>Structure NPZ de SignalObj<a class="headerlink" href="#signalobj-npz-structure" title="Lien vers cette rubrique">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my_signal.npz
+├── x.npy          # X coordinates (float64)
+├── y.npy          # Y data (float64)
+├── dx.npy         # X uncertainties (optional)
+├── dy.npy         # Y uncertainties (optional)
+└── metadata.json  # Labels, units, title
+</pre></div>
+</div>
+</section>
+<section id="imageobj-npz-structure">
+<h3>Structure NPZ de ImageObj<a class="headerlink" href="#imageobj-npz-structure" title="Lien vers cette rubrique">#</a></h3>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>my_image.npz
+├── data.npy       # 2D image array (preserves dtype)
+└── metadata.json  # Labels, units, coordinates (x0, y0, dx, dy)
+</pre></div>
+</div>
+</section>
+</section>
+<section id="authentication">
+<h2>Authentification<a class="headerlink" href="#authentication" title="Lien vers cette rubrique">#</a></h2>
+<p>Tous les points d’accès de l’API sauf <code class="docutils literal notranslate"><span class="pre">/status</span></code> nécessitent un jeton bearer :</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>Authorization: Bearer &lt;token&gt;
+</pre></div>
+</div>
+<p>Le jeton est généré au démarrage du serveur et affiché dans la boîte de dialogue de connexion.</p>
+<section id="environment-variables">
+<h3>Variables d’environnement<a class="headerlink" href="#environment-variables" title="Lien vers cette rubrique">#</a></h3>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Variable</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Valeur par défaut</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DATALAB_WEBAPI_HOST</span></code></p></td>
+<td><p>Adresse de liaison</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">DATALAB_WEBAPI_PORT</span></code></p></td>
+<td><p>Port du serveur</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">18080</span></code> (ou le suivant disponible)</p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">DATALAB_WEBAPI_TOKEN</span></code></p></td>
+<td><p>Jeton d’authentification</p></td>
+<td><p>Généré</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="security-model">
+<h2>Modèle de sécurité<a class="headerlink" href="#security-model" title="Lien vers cette rubrique">#</a></h2>
+<p>L’API Web implémente les mesures de sécurité suivantes :</p>
+<ol class="arabic simple">
+<li><p><strong>Liaison localhost</strong> : Par défaut, le serveur n’accepte que les connexions provenant de la machine locale (127.0.0.1).</p></li>
+<li><p><strong>Authentification par jeton</strong> : Chaque requête (sauf status) doit inclure un jeton bearer valide.</p></li>
+<li><p><strong>Opt-in explicite</strong> : La liaison distante (0.0.0.0) nécessite une configuration explicite.</p></li>
+</ol>
+<section id="localhost-token-bypass">
+<h3>Contournement du jeton pour localhost<a class="headerlink" href="#localhost-token-bypass" title="Lien vers cette rubrique">#</a></h3>
+<p>Pour simplifier le développement local, vous pouvez désactiver la vérification du jeton pour les connexions localhost dans <strong>Édition → Paramètres → Contournement localhost de l’API Web</strong>.</p>
+<p>Lorsque cette option est activée, les clients se connectant depuis <code class="docutils literal notranslate"><span class="pre">127.0.0.1</span></code> n’ont pas besoin de fournir de jeton. Cela permet à la découverte automatique de fonctionner de manière transparente même lorsque le fichier de connexion ne peut pas être lu (par exemple, dans JupyterLite ou les environnements sandboxés).</p>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>N’activez le contournement localhost que lorsque vous contrôlez toutes les applications s’exécutant sur votre machine. Un logiciel malveillant local pourrait accéder à vos données sans jeton.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Exposer l’API sur le réseau permet à quiconque possédant le jeton d’accéder à vos données. À utiliser avec précaution uniquement sur des réseaux de confiance.</p>
+</div>
+</section>
+</section>
+<section id="architecture">
+<h2>Architecture<a class="headerlink" href="#architecture" title="Lien vers cette rubrique">#</a></h2>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>┌─────────────────────────────────────────┐
+│           DataLab Main Window           │
+│                 (Qt)                    │
+├─────────────────────────────────────────┤
+│            WebApiController             │
+│         (Server Lifecycle)              │
+├─────────────────────────────────────────┤
+│            WorkspaceAdapter             │
+│         (Thread-safe access)            │
+├─────────────────────────────────────────┤
+│          FastAPI + Uvicorn              │
+│         (Separate thread)               │
+└─────────────────────────────────────────┘
+                  ↑
+                  │ HTTP/JSON
+                  ↓
+┌─────────────────────────────────────────┐
+│        DataLab-Kernel / Client          │
+└─────────────────────────────────────────┘
+</pre></div>
+</div>
+<p>L’API Web s’exécute dans un thread séparé de l’interface Qt. Le <code class="docutils literal notranslate"><span class="pre">WorkspaceAdapter</span></code> assure un accès thread-safe aux objets DataLab en acheminant les appels vers le thread principal via le mécanisme signal/slot de Qt.</p>
+</section>
+<section id="installation">
+<h2>Installation<a class="headerlink" href="#installation" title="Lien vers cette rubrique">#</a></h2>
+<p>Les dépendances de l’API Web sont incluses dans l’installation standard de DataLab :</p>
+<ul class="simple">
+<li><p>FastAPI (framework web)</p></li>
+<li><p>Uvicorn (serveur ASGI)</p></li>
+<li><p>Pydantic (validation de données)</p></li>
+</ul>
+<p>Aucune étape d’installation supplémentaire n’est nécessaire.</p>
+</section>
+<section id="programmatic-control">
+<h2>Contrôle programmatique<a class="headerlink" href="#programmatic-control" title="Lien vers cette rubrique">#</a></h2>
+<p>L’API Web peut également être démarrée et contrôlée par programmation via l’interface XML-RPC, ce qui est utile pour les flux de travail automatisés :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.control.remote</span><span class="w"> </span><span class="kn">import</span> <span class="n">RemoteClient</span>
+
+<span class="n">proxy</span> <span class="o">=</span> <span class="n">RemoteClient</span><span class="p">()</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
+
+<span class="c1"># Start the Web API server</span>
+<span class="n">info</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Check status</span>
+<span class="n">status</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">&#39;running&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Stop the server</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span>
+</pre></div>
+</div>
+</section>
+<section id="see-also">
+<h2>Voir aussi<a class="headerlink" href="#see-also" title="Lien vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference internal" href="remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance (XML-RPC)</span></a> pour l’interface XML-RPC (historique)</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Kernel">Documentation DataLab-Kernel</a> pour l’intégration Jupyter</p></li>
+</ul>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="macros.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Macros</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="remote.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Contrôle à distance (XML-RPC)</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Aperçu</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#quick-start">Démarrage rapide</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enabling-the-web-api">Activer l’API Web</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-discovery">Découverte automatique</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#manual-connection-legacy">Connexion manuelle (historique)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#api-reference">Référence de l’API</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#status-endpoint-no-auth-required">Point d’accès Status (sans authentification)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#object-operations-auth-required">Opérations sur les objets (authentification requise)</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#binary-data-transfer-auth-required">Transfert de données binaires (authentification requise)</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#data-format">Format des données</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#signalobj-npz-structure">Structure NPZ de SignalObj</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#imageobj-npz-structure">Structure NPZ de ImageObj</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#authentication">Authentification</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#environment-variables">Variables d’environnement</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#security-model">Modèle de sécurité</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#localhost-token-bypass">Contournement du jeton pour localhost</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#architecture">Architecture</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#installation">Installation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#programmatic-control">Contrôle programmatique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#see-also">Voir aussi</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 8.2.3.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.16.1.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
