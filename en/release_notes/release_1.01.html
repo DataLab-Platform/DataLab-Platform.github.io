@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=fc837d61"></script>
+    <script src="../_static/documentation_options.js?v=58fbf978"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.0</p>
+    <p class="title logo__title">v1.1.1</p>
   
 </a></div>
     
@@ -483,6 +483,24 @@
                   
   <section id="version-1-1">
 <h1>Version 1.1<a class="headerlink" href="#version-1-1" title="Link to this heading">#</a></h1>
+<section id="datalab-version-1-1-1-2026-04-08">
+<h2>DataLab Version 1.1.1 (2026-04-08)<a class="headerlink" href="#datalab-version-1-1-1-2026-04-08" title="Link to this heading">#</a></h2>
+<blockquote>
+<div><p><strong>Note:</strong> This is a <strong>maintenance release</strong> that fixes a single bug affecting <strong>only the
+stand-alone executable version</strong> of DataLab for <strong>Microsoft Windows</strong>. If you installed DataLab via <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>, or if you are running DataLab on Linux or macOS, <strong>you are not affected by this bug</strong> and there is no need to update to this version.</p>
+</div></blockquote>
+<section id="bug-fixes-since-version-1-1-0">
+<h3>🛠️ Bug Fixes since version 1.1.0<a class="headerlink" href="#bug-fixes-since-version-1-1-0" title="Link to this heading">#</a></h3>
+<p><strong>Flip/rotation features crash or hang in stand-alone version:</strong></p>
+<ul class="simple">
+<li><p>Fixed image flip and rotation features (“Flip horizontally”, “Flip vertically”, “Rotate 90° left/right”, “Flip diagonally”) crashing with an <code class="docutils literal notranslate"><span class="pre">ImportError</span></code> or hanging indefinitely in the stand-alone Windows version (PyInstaller build)</p></li>
+<li><p>The issue was caused by the multiprocessing worker process needing to import the full DataLab GUI module chain when unpickling the geometric transform wrapper, triggering circular imports in the frozen executable</p></li>
+<li><p>Moved the geometry post-processing code to a standalone module with no GUI dependencies, so the worker process no longer triggers the DataLab GUI import chain</p></li>
+<li><p>This was not reproducible with the Python package version of DataLab, only with the stand-alone executable</p></li>
+<li><p>This closes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/304">Issue #304</a> - Flip/rotation features crash or hang in stand-alone (PyInstaller) version</p></li>
+</ul>
+</section>
+</section>
 <section id="datalab-version-1-1-0-2026-02-02">
 <h2>DataLab Version 1.1.0 (2026-02-02)<a class="headerlink" href="#datalab-version-1-1-0-2026-02-02" title="Link to this heading">#</a></h2>
 <section id="new-features">
@@ -595,6 +613,10 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-1-1-2026-04-08">DataLab Version 1.1.1 (2026-04-08)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-1-0">🛠️ Bug Fixes since version 1.1.0</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-1-0-2026-02-02">DataLab Version 1.1.0 (2026-02-02)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">✨ New Features</a></li>
 </ul>

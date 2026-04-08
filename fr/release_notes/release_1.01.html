@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../_static/documentation_options.js?v=740f9163"></script>
+    <script src="../_static/documentation_options.js?v=d077157a"></script>
     <script src="../_static/doctools.js?v=9bcbadda"></script>
     <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -142,7 +142,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.0</p>
+    <p class="title logo__title">v1.1.1</p>
   
 </a></div>
     
@@ -484,6 +484,23 @@
                   
   <section id="version-1-1">
 <h1>Version 1.1<a class="headerlink" href="#version-1-1" title="Lien vers cette rubrique">#</a></h1>
+<section id="datalab-version-1-1-1-2026-04-08">
+<h2>DataLab Version 1.1.1 (2026-04-08)<a class="headerlink" href="#datalab-version-1-1-1-2026-04-08" title="Lien vers cette rubrique">#</a></h2>
+<blockquote>
+<div><p><strong>Remarque :</strong> Il s’agit d’une <strong>version de maintenance</strong> qui corrige un seul bug affectant <strong>uniquement la version exécutable autonome</strong> de DataLab pour <strong>Microsoft Windows</strong>. Si vous avez installé DataLab via <code class="docutils literal notranslate"><span class="pre">pip</span></code>, <code class="docutils literal notranslate"><span class="pre">conda</span></code>, ou si vous utilisez DataLab sur Linux ou macOS, <strong>vous n’êtes pas affecté par ce bug</strong> et il n’est pas nécessaire de mettre à jour vers cette version.</p>
+</div></blockquote>
+<section id="bug-fixes-since-version-1-1-0">
+<h3>🛠️ Corrections de bugs depuis la version 1.1.0<a class="headerlink" href="#bug-fixes-since-version-1-1-0" title="Lien vers cette rubrique">#</a></h3>
+<p><strong>Les fonctionnalités de rotation/symétrie échouent ou se bloquent dans la version autonome :</strong></p>
+<ul class="simple">
+<li><p>Correction des fonctionnalités de rotation et de symétrie d’image (« Symétrie horizontale », « Symétrie verticale », « Rotation 90° gauche/droite », « Symétrie diagonale ») qui plantaient avec un <code class="docutils literal notranslate"><span class="pre">ImportError</span></code> ou se bloquaient indéfiniment dans la version autonome Windows (build PyInstaller)</p></li>
+<li><p>Le problème était causé par le worker exécuté en mode multiprocessus qui devait importer la chaîne complète des modules GUI de DataLab lors du dé-pickling du wrapper de transformation géométrique, déclenchant des imports circulaires dans l’exécutable PyInstaller</p></li>
+<li><p>Le code de post-traitement géométrique a été déplacé vers un module autonome sans dépendances GUI, de sorte que le processus de travail ne déclenche plus la chaîne d’importation GUI de DataLab</p></li>
+<li><p>Cela n’était pas reproductible avec la version package Python de DataLab, uniquement avec l’exécutable autonome</p></li>
+<li><p>Ceci clôture <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/304">Issue #304</a> - Les fonctionnalités de rotation/symétrie échouent ou se bloquent dans la version autonome (PyInstaller)</p></li>
+</ul>
+</section>
+</section>
 <section id="datalab-version-1-1-0-2026-02-02">
 <h2>DataLab Version 1.1.0 (2026-02-02)<a class="headerlink" href="#datalab-version-1-1-0-2026-02-02" title="Lien vers cette rubrique">#</a></h2>
 <section id="new-features">
@@ -596,6 +613,10 @@
   </div>
   <nav class="bd-toc-nav page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-1-1-2026-04-08">DataLab Version 1.1.1 (2026-04-08)</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-1-0">🛠️ Corrections de bugs depuis la version 1.1.0</a></li>
+</ul>
+</li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-1-0-2026-02-02">DataLab Version 1.1.0 (2026-02-02)</a><ul class="visible nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">✨ Nouvelles fonctionnalités</a></li>
 </ul>
