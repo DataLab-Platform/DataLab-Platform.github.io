@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -539,6 +539,7 @@
     <span class="n">SIG_CLOSE_APP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
     <span class="n">SIG_RAISE_WINDOW</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
     <span class="n">SIG_ADD_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
+    <span class="n">SIG_SET_OBJECT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">object</span><span class="p">)</span>
     <span class="n">SIG_ADD_GROUP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span>
     <span class="n">SIG_LOAD_FROM_FILES</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">list</span><span class="p">)</span>
     <span class="n">SIG_LOAD_FROM_DIRECTORY</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">str</span><span class="p">)</span>
@@ -575,6 +576,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CLOSE_APP</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">close</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RAISE_WINDOW</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">raise_window</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">add_object</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SET_OBJECT</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">set_object</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_GROUP</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">add_group</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_FILES</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_DIRECTORY</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">load_from_directory</span><span class="p">)</span>
@@ -902,6 +904,26 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcjson_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span>
+
+    <span class="nd">@remote_call</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object data in DataLab.</span>
+
+<span class="sd">        Update an existing object in DataLab with new data from ``obj_data``.</span>
+<span class="sd">        The object is identified by its UUID.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj_data: Object data (RPC-JSON serialized)</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if successful</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if no object with matching UUID is found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcjson_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SET_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
@@ -1547,6 +1569,26 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">obj_data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">dataset_to_rpcjson</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="RemoteClient.set_object">
+<a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.set_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object data in DataLab.</span>
+
+<span class="sd">        Update an existing object in DataLab with new data from ``obj``.</span>
+<span class="sd">        The object is identified by its UUID (which is carried by ``obj``</span>
+<span class="sd">        from a previous :meth:`get_object` call).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: Signal or image object (must have the same UUID as an</span>
+<span class="sd">             existing object in DataLab)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if no object with matching UUID is found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj_data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">dataset_to_rpcjson</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">set_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RemoteClient.calc">

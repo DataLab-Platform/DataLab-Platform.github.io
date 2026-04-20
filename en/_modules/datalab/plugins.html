@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -478,10 +478,13 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">dataclasses</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">importlib</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">importlib.util</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">osp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">pkgutil</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
@@ -518,6 +521,8 @@
 
     <span class="n">_plugin_classes</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">PluginBase</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
     <span class="n">_plugin_instances</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">PluginBase</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_discovery_errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">_failed_plugins</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">FailedPluginInfo</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">):</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">bases</span><span class="p">,</span> <span class="n">attrs</span><span class="p">)</span>
@@ -584,6 +589,83 @@
         <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="s2">&quot;All plugins unregistered&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="PluginRegistry.clear_plugin_classes">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.clear_plugin_classes">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_plugin_classes</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear registered plugin classes.</span>
+
+<span class="sd">        This is mainly useful when reloading plugin modules at runtime.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_plugin_classes</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.add_discovery_error">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.add_discovery_error">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_discovery_error</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">tb_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Record an error traceback that occurred during plugin discovery.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            tb_text: Formatted traceback string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_discovery_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tb_text</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.get_discovery_errors">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.get_discovery_errors">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_discovery_errors</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return error tracebacks collected during plugin discovery.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of formatted traceback strings (may be empty)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_discovery_errors</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.clear_discovery_errors">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.clear_discovery_errors">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_discovery_errors</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear recorded discovery errors.&quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_discovery_errors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.add_failed_plugin">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.add_failed_plugin">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_failed_plugin</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">tb_text</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Record a plugin that failed to load or instantiate.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            name: Module or plugin class name</span>
+<span class="sd">            filepath: File path of the plugin module</span>
+<span class="sd">            tb_text: Formatted traceback string</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_failed_plugins</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">FailedPluginInfo</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">tb_text</span><span class="p">))</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.get_failed_plugins">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.get_failed_plugins">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">get_failed_plugins</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">FailedPluginInfo</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return structured info about plugins that failed to load.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            List of FailedPluginInfo objects (may be empty)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">return</span> <span class="nb">list</span><span class="p">(</span><span class="bp">cls</span><span class="o">.</span><span class="n">_failed_plugins</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="PluginRegistry.clear_failed_plugins">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.clear_failed_plugins">[docs]</a>
+    <span class="nd">@classmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_failed_plugins</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear recorded failed plugin info.&quot;&quot;&quot;</span>
+        <span class="bp">cls</span><span class="o">.</span><span class="n">_failed_plugins</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span></div>
+
+
 <div class="viewcode-block" id="PluginRegistry.get_plugin_info">
 <a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.PluginRegistry.get_plugin_info">[docs]</a>
     <span class="nd">@classmethod</span>
@@ -616,6 +698,18 @@
             <span class="n">text</span> <span class="o">=</span> <span class="n">italic</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Plugins are disabled (see DataLab settings)&quot;</span><span class="p">))</span>
         <span class="k">return</span> <span class="n">text</span></div>
 </div>
+
+
+
+<div class="viewcode-block" id="FailedPluginInfo">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.FailedPluginInfo">[docs]</a>
+<span class="nd">@dataclasses</span><span class="o">.</span><span class="n">dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">FailedPluginInfo</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Information about a plugin that failed to load or instantiate.&quot;&quot;&quot;</span>
+
+    <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">filepath</span><span class="p">:</span> <span class="nb">str</span>
+    <span class="n">traceback</span><span class="p">:</span> <span class="nb">str</span></div>
 
 
 
@@ -823,23 +917,96 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">discover_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">PluginBase</span><span class="p">]]:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Discover plugins using naming convention</span>
 
+<span class="sd">    This function reloads or imports all modules matching the DataLab</span>
+<span class="sd">    plugin naming scheme (``&quot;{MOD_NAME}_*&quot;``). Plugin classes are then</span>
+<span class="sd">    registered automatically via the :class:`PluginRegistry` metaclass.</span>
+
+<span class="sd">    Import errors for individual plugins are captured and logged so that</span>
+<span class="sd">    one broken plugin does not prevent the others from loading.  Error</span>
+<span class="sd">    tracebacks are accumulated in :class:`PluginRegistry` class attributes</span>
+<span class="sd">    so that callers (e.g. the main window) can replay them into the</span>
+<span class="sd">    internal console once it is ready.</span>
+
 <span class="sd">    Returns:</span>
-<span class="sd">        List of discovered plugins (as classes)</span>
+<span class="sd">        List of imported/reloaded plugin modules</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
-        <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">[</span>
-            <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_path</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
-            <span class="n">PLUGINS_DEFAULT_PATH</span><span class="p">,</span>
-        <span class="p">]</span> <span class="o">+</span> <span class="n">OTHER_PLUGINS_PATHLIST</span><span class="p">:</span>
-            <span class="n">rpath</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
-            <span class="k">if</span> <span class="n">rpath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
-                <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rpath</span><span class="p">)</span>
-        <span class="k">return</span> <span class="p">[</span>
-            <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
-            <span class="k">for</span> <span class="n">_finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">()</span>
-            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MOD_NAME</span><span class="si">}</span><span class="s2">_&quot;</span><span class="p">)</span>
-        <span class="p">]</span>
-    <span class="k">return</span> <span class="p">[]</span></div>
+    <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_discovery_errors</span><span class="p">()</span>
+    <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_failed_plugins</span><span class="p">()</span>
+
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">return</span> <span class="p">[]</span>
+
+    <span class="c1"># Ensure plugin search paths are present in sys.path</span>
+    <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="p">[</span>
+        <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_path</span><span class="o">.</span><span class="n">get</span><span class="p">(),</span>
+        <span class="n">PLUGINS_DEFAULT_PATH</span><span class="p">,</span>
+    <span class="p">]</span> <span class="o">+</span> <span class="n">OTHER_PLUGINS_PATHLIST</span><span class="p">:</span>
+        <span class="n">rpath</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">realpath</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">rpath</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="p">:</span>
+            <span class="n">sys</span><span class="o">.</span><span class="n">path</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">rpath</span><span class="p">)</span>
+
+    <span class="n">modules</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">type</span><span class="p">[</span><span class="n">PluginBase</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">finder</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">_ispkg</span> <span class="ow">in</span> <span class="n">pkgutil</span><span class="o">.</span><span class="n">iter_modules</span><span class="p">():</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">MOD_NAME</span><span class="si">}</span><span class="s2">_&quot;</span><span class="p">):</span>
+            <span class="k">continue</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="c1"># If module is already loaded, reload it so that code changes</span>
+            <span class="c1"># are taken into account (useful for hot-reload in dev).</span>
+            <span class="k">if</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">reload</span><span class="p">(</span><span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">[</span><span class="n">name</span><span class="p">])</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">module</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">import_module</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+            <span class="n">modules</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">module</span><span class="p">)</span>
+        <span class="c1"># Plugin discovery imports arbitrary third-party modules. We must catch</span>
+        <span class="c1"># every failure here so discovery can continue and the error is exposed</span>
+        <span class="c1"># through the console, log files, and plugin configuration dialog.</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">e</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+            <span class="n">tb_text</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Error loading plugin &#39;</span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39;: </span><span class="si">{</span><span class="n">e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+            <span class="c1"># Log to file so it appears in Log Files viewer</span>
+            <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+            <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error loading plugin &#39;</span><span class="si">%s</span><span class="s2">&#39;&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">traceback_log_available</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+            <span class="c1"># Accumulate for replay in internal console</span>
+            <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">add_discovery_error</span><span class="p">(</span><span class="n">tb_text</span><span class="p">)</span>
+            <span class="c1"># Record structured info about the failed plugin</span>
+            <span class="n">filepath</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="n">spec</span> <span class="o">=</span> <span class="n">importlib</span><span class="o">.</span><span class="n">util</span><span class="o">.</span><span class="n">find_spec</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">spec</span> <span class="ow">and</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span><span class="p">:</span>
+                    <span class="n">filepath</span> <span class="o">=</span> <span class="n">spec</span><span class="o">.</span><span class="n">origin</span>
+            <span class="c1"># Best effort only: failing to resolve the file path must never mask</span>
+            <span class="c1"># the original plugin import error already captured above.</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+                <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">finder</span><span class="p">,</span> <span class="s2">&quot;path&quot;</span><span class="p">):</span>
+                    <span class="n">filepath</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">finder</span><span class="o">.</span><span class="n">path</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+            <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">add_failed_plugin</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">filepath</span><span class="p">,</span> <span class="n">tb_text</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">modules</span></div>
+
+
+
+<div class="viewcode-block" id="reload_plugin_modules">
+<a class="viewcode-back" href="../../features/advanced/plugins.html#datalab.plugins.reload_plugin_modules">[docs]</a>
+<span class="k">def</span><span class="w"> </span><span class="nf">reload_plugin_modules</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Reload plugin modules and reset plugin classes.</span>
+
+<span class="sd">    This helper is intended for hot-reloading plugins at runtime. It:</span>
+
+<span class="sd">    - Updates the plugin search path</span>
+<span class="sd">    - Clears the plugin class registry</span>
+<span class="sd">    - Reloads or imports all modules matching the plugin naming convention</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+        <span class="k">return</span>
+
+    <span class="c1"># Reset class registry before re-executing modules so that plugin</span>
+    <span class="c1"># classes are rebuilt from freshly executed code.</span>
+    <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">unregister_all_plugins</span><span class="p">()</span>
+
+    <span class="c1"># Re-discover plugins; discover_plugins will reload modules that</span>
+    <span class="c1"># are already imported.</span>
+    <span class="n">discover_plugins</span><span class="p">()</span></div>
 
 
 

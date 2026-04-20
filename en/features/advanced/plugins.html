@@ -55,7 +55,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -143,7 +143,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -462,6 +462,7 @@
 <li class="toctree-l2"><a class="reference internal" href="api/main.html">Main window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/panel.html">Panel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api/objectmodel.html">Object model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/objectview.html">Object view</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/plothandler.html">Plot handler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="api/roieditor.html">ROI editor</a></li>
@@ -540,7 +541,8 @@
 <ul class="simple">
 <li><p>Be a Python module whose name <strong>starts with</strong> <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> (e.g. <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>),</p></li>
 <li><p>Contain a class that <strong>inherits from</strong> <a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a>,</p></li>
-<li><p>Include a class attribute named <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code>, which must be an instance of <a class="reference internal" href="#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></a>.</p></li>
+<li><p>Include a class attribute named <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code>, which must be an instance of <a class="reference internal" href="#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></a>,</p></li>
+<li><p>Implement the <code class="docutils literal notranslate"><span class="pre">create_actions</span></code> method.</p></li>
 </ul>
 <p>This <cite>PLUGIN_INFO</cite> object is used by DataLab to retrieve metadata such as the plugin name, type, and menu integration.</p>
 <div class="admonition note">
@@ -570,6 +572,58 @@ If using a frozen (standalone) build, the <cite>plugins</cite> folder located ne
 <li><p>The internal <cite>datalab/plugins</cite> folder (not recommended for user plugins):
 This location is reserved for built-in or bundled plugins and should not be modified manually.</p></li>
 </ul>
+</section>
+<section id="managing-plugins-in-datalab">
+<h2>Managing plugins in DataLab<a class="headerlink" href="#managing-plugins-in-datalab" title="Link to this heading">#</a></h2>
+<p>The <strong>Plugins</strong> menu provides two dedicated actions:</p>
+<ul class="simple">
+<li><p><strong>Configure plugins…</strong>
+Opens the plugin configuration dialog where you can enable or disable plugins individually.
+After saving changes, DataLab can reload plugins immediately without restarting the application.</p></li>
+<li><p><strong>Reload plugins</strong>
+Reloads plugin modules from disk without restarting DataLab.</p></li>
+</ul>
+<p>When reloading plugins, DataLab performs the following steps:</p>
+<ol class="arabic simple">
+<li><p>Unregister currently active plugins,</p></li>
+<li><p>Clear plugin actions from signal and image panels,</p></li>
+<li><p>Re-discover and reload plugin modules,</p></li>
+<li><p>Re-register enabled plugins,</p></li>
+<li><p>Recreate plugin actions and refresh menus.</p></li>
+</ol>
+<p>This workflow allows iterative plugin development while DataLab is running.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Plugin enable/disable state is persisted in DataLab settings. Disabled plugins remain listed in the configuration dialog and can be re-enabled later. The global third-party plugins setting in Preferences is also applied immediately: disabling it removes plugin actions and greys out the Plugins menu and status indicator, while enabling it reloads plugins automatically.</p>
+</div>
+<section id="hot-reload-workflow-for-plugin-development">
+<h3>Hot-reload workflow for plugin development<a class="headerlink" href="#hot-reload-workflow-for-plugin-development" title="Link to this heading">#</a></h3>
+<p>The hot-reload feature is designed to accelerate the plugin development cycle.
+Here is the recommended workflow:</p>
+<ol class="arabic simple">
+<li><p>Start DataLab normally.</p></li>
+<li><p>Create or edit your plugin file (e.g. <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>) in one of the
+plugin directories (e.g. <code class="docutils literal notranslate"><span class="pre">~/.DataLab/plugins</span></code>).</p></li>
+<li><p>In DataLab, use <strong>Plugins &gt; Reload plugins</strong> to pick up your changes instantly.</p></li>
+<li><p>Test your plugin actions directly in the running application.</p></li>
+<li><p>Iterate: edit the file, reload, test — without restarting DataLab.</p></li>
+</ol>
+<p>To selectively enable or disable specific plugins during development, use
+<strong>Plugins &gt; Configure plugins…</strong>. The dialog lists all discovered plugins
+with their name, version, description, and file path. Toggling a plugin
+takes effect immediately after closing the dialog.</p>
+</section>
+</section>
+<section id="plugin-api-helpers">
+<h2>Plugin API helpers<a class="headerlink" href="#plugin-api-helpers" title="Link to this heading">#</a></h2>
+<p>Plugins inheriting from <a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a> have direct access to useful helpers:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">self.signalpanel</span></code> and <code class="docutils literal notranslate"><span class="pre">self.imagepanel</span></code>: access to panel APIs and action handlers,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.proxy</span></code>: a <a class="reference internal" href="proxy.html#datalab.control.proxy.LocalProxy" title="datalab.control.proxy.LocalProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.control.proxy.LocalProxy</span></code></a> instance for object creation and processing,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_warning</span></code>, <code class="docutils literal notranslate"><span class="pre">show_error</span></code>, <code class="docutils literal notranslate"><span class="pre">show_info</span></code>, <code class="docutils literal notranslate"><span class="pre">ask_yesno</span></code>: convenience dialog methods,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">edit_new_signal_parameters</span></code> and <code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters</span></code>: helpers for object parameter dialogs.</p></li>
+</ul>
+<p>These helpers simplify plugin code and keep it consistent with DataLab behavior.</p>
 </section>
 <section id="how-to-develop-a-plugin">
 <h2>How to develop a plugin?<a class="headerlink" href="#how-to-develop-a-plugin" title="Link to this heading">#</a></h2>
@@ -725,6 +779,14 @@ This location is reserved for built-in or bundled plugins and should not be modi
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_grid_of_gaussian_images</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_all_test_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test signals.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">SignalIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">))</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_load_all_test_images</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test images.&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">ImageIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">))</span>
+
     <span class="c1"># Plugin menu entries ------------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
@@ -736,10 +798,10 @@ This location is reserved for built-in or bundled plugins and should not be modi
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_paracetamol_signal</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">)</span>
             <span class="n">sah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">),</span>
-                <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span> <span class="n">regclass</span><span class="o">=</span><span class="n">SignalIORegistry</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">regclass</span><span class="p">,</span> <span class="n">title</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_all_test_signals</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
                 <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
@@ -787,10 +849,10 @@ This location is reserved for built-in or bundled plugins and should not be modi
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_grid_gaussian_image</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
             <span class="p">)</span>
+            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
                 <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">),</span>
-                <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span> <span class="n">regclass</span><span class="o">=</span><span class="n">ImageIORegistry</span><span class="p">,</span>
-                <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">):</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">regclass</span><span class="p">,</span> <span class="n">title</span><span class="p">),</span>
+                <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_all_test_images</span><span class="p">,</span>
                 <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
                 <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
@@ -799,7 +861,7 @@ This location is reserved for built-in or bundled plugins and should not be modi
 </section>
 <section id="example-input-output-plugin">
 <h2>Example: input/output plugin<a class="headerlink" href="#example-input-output-plugin" title="Link to this heading">#</a></h2>
-<p>Here is a simple example of a plugin that adds a new file formats to DataLab.</p>
+<p>Here is a simple example of a plugin that adds new file formats to DataLab.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
@@ -978,6 +1040,21 @@ This location is reserved for built-in or bundled plugins and should not be modi
 </pre></div>
 </div>
 </section>
+<section id="example-templates-used-by-the-test-suite">
+<h2>Example templates used by the test suite<a class="headerlink" href="#example-templates-used-by-the-test-suite" title="Link to this heading">#</a></h2>
+<p>DataLab also provides plugin templates used by integration tests in
+<code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/templates</span></code>. They are useful as development references for:</p>
+<ul class="simple">
+<li><p>basic valid plugin structure,</p></li>
+<li><p>nested plugin menus,</p></li>
+<li><p>plugins with dialog actions,</p></li>
+<li><p>plugins with many actions,</p></li>
+<li><p>plugins with long descriptions.</p></li>
+</ul>
+<p>The corresponding feature tests are located in
+<code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/test_plugins.py</span></code> and cover plugin lifecycle,
+hot-reload behavior, error handling, duplicate names, and configuration filtering.</p>
+</section>
 <section id="other-examples">
 <h2>Other examples<a class="headerlink" href="#other-examples" title="Link to this heading">#</a></h2>
 <p>Other examples of plugins can be found in the <cite>plugins/examples</cite> directory of the DataLab source code (explore <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">here on GitHub</a>).</p>
@@ -1045,6 +1122,73 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.clear_plugin_classes">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear_plugin_classes</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.clear_plugin_classes"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.clear_plugin_classes" title="Link to this definition">#</a></dt>
+<dd><p>Clear registered plugin classes.</p>
+<p>This is mainly useful when reloading plugin modules at runtime.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.add_discovery_error">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_discovery_error</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">tb_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.add_discovery_error"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.add_discovery_error" title="Link to this definition">#</a></dt>
+<dd><p>Record an error traceback that occurred during plugin discovery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>tb_text</strong> – Formatted traceback string</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_discovery_errors">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_discovery_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_discovery_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_discovery_errors" title="Link to this definition">#</a></dt>
+<dd><p>Return error tracebacks collected during plugin discovery.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of formatted traceback strings (may be empty)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.clear_discovery_errors">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear_discovery_errors</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.clear_discovery_errors"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.clear_discovery_errors" title="Link to this definition">#</a></dt>
+<dd><p>Clear recorded discovery errors.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.add_failed_plugin">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">add_failed_plugin</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">tb_text</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.add_failed_plugin"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.add_failed_plugin" title="Link to this definition">#</a></dt>
+<dd><p>Record a plugin that failed to load or instantiate.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>name</strong> – Module or plugin class name</p></li>
+<li><p><strong>filepath</strong> – File path of the plugin module</p></li>
+<li><p><strong>tb_text</strong> – Formatted traceback string</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_failed_plugins">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_failed_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.FailedPluginInfo" title="datalab.plugins.FailedPluginInfo"><span class="pre">FailedPluginInfo</span></a><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_failed_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_failed_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Return structured info about plugins that failed to load.</p>
+<dl class="field-list simple">
+<dt class="field-odd">Returns<span class="colon">:</span></dt>
+<dd class="field-odd"><p>List of FailedPluginInfo objects (may be empty)</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.clear_failed_plugins">
+<em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">clear_failed_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.clear_failed_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.clear_failed_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Clear recorded failed plugin info.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.plugins.PluginRegistry.get_plugin_info">
 <em class="property"><span class="k"><span class="pre">classmethod</span></span><span class="w"> </span></em><span class="sig-name descname"><span class="pre">get_plugin_info</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">html</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">True</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#PluginRegistry.get_plugin_info"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.PluginRegistry.get_plugin_info" title="Link to this definition">#</a></dt>
 <dd><p>Return plugin information (names, versions, descriptions) in html format</p>
@@ -1055,6 +1199,12 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
 </dl>
 </dd></dl>
 
+</dd></dl>
+
+<dl class="py class">
+<dt class="sig sig-object py" id="datalab.plugins.FailedPluginInfo">
+<em class="property"><span class="k"><span class="pre">class</span></span><span class="w"> </span></em><span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">FailedPluginInfo</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">filepath</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">traceback</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span><a class="reference internal" href="../../_modules/datalab/plugins.html#FailedPluginInfo"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.FailedPluginInfo" title="Link to this definition">#</a></dt>
+<dd><p>Information about a plugin that failed to load or instantiate.</p>
 </dd></dl>
 
 <dl class="py class">
@@ -1189,11 +1339,31 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
 <dt class="sig sig-object py" id="datalab.plugins.discover_plugins">
 <span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">discover_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/functions.html#type" title="(in Python v3.14)"><span class="pre">type</span></a><span class="p"><span class="pre">[</span></span><a class="reference internal" href="#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><span class="pre">PluginBase</span></a><span class="p"><span class="pre">]</span></span><span class="p"><span class="pre">]</span></span></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#discover_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.discover_plugins" title="Link to this definition">#</a></dt>
 <dd><p>Discover plugins using naming convention</p>
+<p>This function reloads or imports all modules matching the DataLab
+plugin naming scheme (<code class="docutils literal notranslate"><span class="pre">&quot;{MOD_NAME}_*&quot;</span></code>). Plugin classes are then
+registered automatically via the <a class="reference internal" href="#datalab.plugins.PluginRegistry" title="datalab.plugins.PluginRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">PluginRegistry</span></code></a> metaclass.</p>
+<p>Import errors for individual plugins are captured and logged so that
+one broken plugin does not prevent the others from loading.  Error
+tracebacks are accumulated in <a class="reference internal" href="#datalab.plugins.PluginRegistry" title="datalab.plugins.PluginRegistry"><code class="xref py py-class docutils literal notranslate"><span class="pre">PluginRegistry</span></code></a> class attributes
+so that callers (e.g. the main window) can replay them into the
+internal console once it is ready.</p>
 <dl class="field-list simple">
 <dt class="field-odd">Returns<span class="colon">:</span></dt>
-<dd class="field-odd"><p>List of discovered plugins (as classes)</p>
+<dd class="field-odd"><p>List of imported/reloaded plugin modules</p>
 </dd>
 </dl>
+</dd></dl>
+
+<dl class="py function">
+<dt class="sig sig-object py" id="datalab.plugins.reload_plugin_modules">
+<span class="sig-prename descclassname"><span class="pre">datalab.plugins.</span></span><span class="sig-name descname"><span class="pre">reload_plugin_modules</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/plugins.html#reload_plugin_modules"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.plugins.reload_plugin_modules" title="Link to this definition">#</a></dt>
+<dd><p>Reload plugin modules and reset plugin classes.</p>
+<p>This helper is intended for hot-reloading plugins at runtime. It:</p>
+<ul class="simple">
+<li><p>Updates the plugin search path</p></li>
+<li><p>Clears the plugin class registry</p></li>
+<li><p>Reloads or imports all modules matching the plugin naming convention</p></li>
+</ul>
 </dd></dl>
 
 <dl class="py function">
@@ -1270,9 +1440,15 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
     <ul class="visible nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-plugin">What is a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-put-a-plugin">Where to put a plugin?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-plugins-in-datalab">Managing plugins in DataLab</a><ul class="visible nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hot-reload-workflow-for-plugin-development">Hot-reload workflow for plugin development</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-api-helpers">Plugin API helpers</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-develop-a-plugin">How to develop a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-processing-plugin">Example: processing plugin</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-input-output-plugin">Example: input/output plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-templates-used-by-the-test-suite">Example templates used by the test suite</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Other examples</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-from-v0-20-to-v1-0">Migrating from v0.20 to v1.0</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#module-datalab.plugins">Public API</a><ul class="visible nav section-nav flex-column">
@@ -1284,9 +1460,17 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.register_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.register_plugin()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.unregister_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.unregister_plugin()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.unregister_all_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.unregister_all_plugins()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.clear_plugin_classes"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.clear_plugin_classes()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.add_discovery_error"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.add_discovery_error()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_discovery_errors"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_discovery_errors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.clear_discovery_errors"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.clear_discovery_errors()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.add_failed_plugin"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.add_failed_plugin()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_failed_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_failed_plugins()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.clear_failed_plugins"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.clear_failed_plugins()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginRegistry.get_plugin_info"><code class="docutils literal notranslate"><span class="pre">PluginRegistry.get_plugin_info()</span></code></a></li>
 </ul>
 </li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.FailedPluginInfo"><code class="docutils literal notranslate"><span class="pre">FailedPluginInfo</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginInfo"><code class="docutils literal notranslate"><span class="pre">PluginInfo</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBaseMeta"><code class="docutils literal notranslate"><span class="pre">PluginBaseMeta</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.PluginBase"><code class="docutils literal notranslate"><span class="pre">PluginBase</span></code></a><ul class="nav section-nav flex-column">
@@ -1307,6 +1491,7 @@ or <code class="xref py py-class docutils literal notranslate"><span class="pre"
 </ul>
 </li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.discover_plugins"><code class="docutils literal notranslate"><span class="pre">discover_plugins()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.reload_plugin_modules"><code class="docutils literal notranslate"><span class="pre">reload_plugin_modules()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.discover_v020_plugins"><code class="docutils literal notranslate"><span class="pre">discover_v020_plugins()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.plugins.get_available_plugins"><code class="docutils literal notranslate"><span class="pre">get_available_plugins()</span></code></a></li>
 </ul>

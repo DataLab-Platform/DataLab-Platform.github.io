@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -460,6 +460,7 @@
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Main window</a></li>
 <li class="toctree-l2"><a class="reference internal" href="panel.html">Panel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectmodel.html">Object model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objectview.html">Object view</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plothandler.html">Plot handler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="roieditor.html">ROI editor</a></li>
@@ -615,7 +616,7 @@ Defaults to None (current object).</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.find_object_by_uuid">
-<span class="sig-name descname"><span class="pre">find_object_by_uuid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SignalObj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ImageObj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ObjectGroup</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.find_object_by_uuid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.find_object_by_uuid" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">find_object_by_uuid</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">uuid</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">SignalObj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ImageObj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference internal" href="objectmodel.html#datalab.objectmodel.ObjectGroup" title="datalab.objectmodel.ObjectGroup"><span class="pre">ObjectGroup</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.find_object_by_uuid"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.find_object_by_uuid" title="Link to this definition">#</a></dt>
 <dd><p>Find an object by UUID, searching across all panels.</p>
 <p>This method searches for an object in both signal and image panels,
 making it suitable for cross-panel operations (e.g., radial profile that
@@ -980,6 +981,16 @@ current macro, or does nothing if there is no macro).</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.reload_plugins">
+<span class="sig-name descname"><span class="pre">reload_plugins</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.reload_plugins"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.reload_plugins" title="Link to this definition">#</a></dt>
+<dd><p>Reload third-party plugins at runtime.</p>
+<p>This unregisters active plugins, clears plugin actions from both panels,
+re-discovers plugin modules (reloading code changes from disk),
+re-registers enabled plugins, then recreates plugin actions and refreshes
+menus.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.set_process_isolation_enabled">
 <span class="sig-name descname"><span class="pre">set_process_isolation_enabled</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">state</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.set_process_isolation_enabled"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.set_process_isolation_enabled" title="Link to this definition">#</a></dt>
 <dd><p>Enable/disable process isolation</p>
@@ -1246,6 +1257,25 @@ programmatic use when saving DataLab workspace files.</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.set_object">
+<span class="sig-name descname"><span class="pre">set_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">SignalObj</span><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><span class="pre">ImageObj</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.set_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.set_object" title="Link to this definition">#</a></dt>
+<dd><p>Set object data - update an existing signal or image in-place.</p>
+<p>The existing object is identified by UUID carried by <code class="docutils literal notranslate"><span class="pre">obj</span></code>
+(from a previous <a class="reference internal" href="#datalab.gui.main.DLMainWindow.get_object" title="datalab.gui.main.DLMainWindow.get_object"><code class="xref py py-meth docutils literal notranslate"><span class="pre">get_object()</span></code></a> call).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – object with updated data (signal or image)</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><ul class="simple">
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.14)"><strong>KeyError</strong></a> – if no object with matching UUID is found</p></li>
+<li><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#TypeError" title="(in Python v3.14)"><strong>TypeError</strong></a> – if object type is unsupported</p></li>
+</ul>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.main.DLMainWindow.load_from_files">
 <span class="sig-name descname"><span class="pre">load_from_files</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">filenames</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.14)"><span class="pre">list</span></a><span class="p"><span class="pre">[</span></span><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/main.html#DLMainWindow.load_from_files"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.main.DLMainWindow.load_from_files" title="Link to this definition">#</a></dt>
 <dd><p>Open objects from files in current panel (signals/images)</p>
@@ -1473,6 +1503,7 @@ programmatic use when saving DataLab workspace files.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.take_screenshot"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.take_screenshot()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.take_menu_screenshots"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.take_menu_screenshots()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.setup"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.setup()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.reload_plugins"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.reload_plugins()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.set_process_isolation_enabled"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.set_process_isolation_enabled()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.get_current_panel"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.get_current_panel()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.set_current_panel"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.set_current_panel()</span></code></a></li>
@@ -1494,6 +1525,7 @@ programmatic use when saving DataLab workspace files.</p>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.save_h5_workspace"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.save_h5_workspace()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.import_h5_file"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.import_h5_file()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.add_object"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.add_object()</span></code></a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.set_object"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.set_object()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.load_from_files"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.load_from_files()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.load_from_directory"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.load_from_directory()</span></code></a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.main.DLMainWindow.get_version"><code class="docutils literal notranslate"><span class="pre">DLMainWindow.get_version()</span></code></a></li>

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -527,6 +527,8 @@
     <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePlot</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.tools.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">InteractiveTool</span>
 
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDataPanel</span>
+
 
 <span class="k">def</span><span class="w"> </span><span class="nf">configure_roi_item_in_tool</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure ROI item in tool&quot;&quot;&quot;</span>
@@ -696,6 +698,7 @@
         <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">),</span> <span class="p">(</span>
@@ -706,6 +709,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QCheckBox</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">=</span> <span class="n">mode</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span> <span class="o">=</span> <span class="n">source_panel</span>
         <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">item</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">make_item</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span> <span class="o">=</span> <span class="n">item</span>
@@ -962,6 +966,7 @@
         <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
@@ -970,6 +975,7 @@
             <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
             <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+            <span class="n">source_panel</span><span class="o">=</span><span class="n">source_panel</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
         <span class="p">)</span>
 
@@ -1046,13 +1052,88 @@
     <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">&quot;roi_ima.svg&quot;</span>
     <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
     <span class="n">ROI_ITEM_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnnotatedRectangle</span><span class="p">,</span> <span class="n">AnnotatedCircle</span><span class="p">,</span> <span class="n">AnnotatedPolygon</span><span class="p">)</span>
-    <span class="n">ADDITIONAL_OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;show_contrast&quot;</span><span class="p">:</span> <span class="kc">False</span><span class="p">}</span>
+    <span class="n">ADDITIONAL_OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;show_contrast&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+        <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
+            <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span>
+            <span class="n">obj</span><span class="o">=</span><span class="n">obj</span><span class="p">,</span>
+            <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
+            <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">,</span>
+            <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
+            <span class="n">source_panel</span><span class="o">=</span><span class="n">source_panel</span><span class="p">,</span>
+            <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">image_panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_panel</span><span class="p">,</span> <span class="s2">&quot;register_contrast_editor&quot;</span><span class="p">):</span>
+                <span class="n">image_panel</span><span class="o">.</span><span class="n">register_contrast_editor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">SIG_LUT_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_lut_changed</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ImageROIEditor.get_obj_roi_class">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.get_obj_roi_class">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obj_roi_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">ImageROI</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object ROI class&quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="n">ImageROI</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_contrast_panel_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI editor contrast panel range without re-emitting LUT signals.&quot;&quot;&quot;</span>
+        <span class="n">contrast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span><span class="o">.</span><span class="n">get_contrast_panel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">contrast</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">contrast</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">set_range</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">dosignal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">contrast</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_set_editor_contrast_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI editor contrast state.</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the LUT range differs from the current main item range.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">zscalemin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">zscalemax</span> <span class="o">=</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_contrast_panel_range</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span> <span class="o">!=</span> <span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImageROIEditor.apply_shared_contrast">
+<a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.apply_shared_contrast">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_shared_contrast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a contrast change coming from the image panel.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_editor_contrast_state</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">set_lut_range</span><span class="p">((</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">))</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">update_colormap_axis</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="p">)</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">notify_colormap_changed</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+<div class="viewcode-block" id="ImageROIEditor.plot_lut_changed">
+<a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.plot_lut_changed">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">plot_lut_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">BasePlot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronize ROI editor contrast changes with the source image panel.&quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">plot</span>  <span class="c1"># unused: required by SIG_LUT_CHANGED slot signature</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_set_editor_contrast_state</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span><span class="p">,</span> <span class="s2">&quot;apply_shared_contrast&quot;</span>
+        <span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span><span class="o">.</span><span class="n">apply_shared_contrast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ImageROIEditor.add_tools_to_plot_dialog">

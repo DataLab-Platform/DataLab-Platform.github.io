@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -466,16 +466,22 @@
 <span class="sd">&quot;&quot;&quot;</span>
 
 <span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
+<span class="c1"># This module intentionally concentrates the application shell, menus, panels,</span>
+<span class="c1"># status widgets and shutdown logic. A file-length disable is more honest than</span>
+<span class="c1"># splitting high-coupling UI code only to satisfy a metric.</span>
+<span class="c1"># pylint: disable=too-many-lines</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">abc</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">base64</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">functools</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">logging</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os.path</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">osp</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sys</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">time</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">traceback</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">webbrowser</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span>
 
@@ -517,6 +523,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.docks</span><span class="w"> </span><span class="kn">import</span> <span class="n">DockablePlotWidget</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.h5io</span><span class="w"> </span><span class="kn">import</span> <span class="n">H5InputOutput</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel</span><span class="w"> </span><span class="kn">import</span> <span class="n">base</span><span class="p">,</span> <span class="n">image</span><span class="p">,</span> <span class="n">macro</span><span class="p">,</span> <span class="n">signal</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.pluginconfig</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginConfigDialog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.settings</span><span class="w"> </span><span class="kn">import</span> <span class="n">edit_settings</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectGroup</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginRegistry</span><span class="p">,</span> <span class="n">discover_plugins</span><span class="p">,</span> <span class="n">discover_v020_plugins</span>
@@ -566,9 +573,13 @@
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixed metaclass to avoid conflicts&quot;&quot;&quot;</span>
 
 
+<span class="c1"># DLMainWindow is the top-level UI shell, so it legitimately owns many widget</span>
+<span class="c1"># references and public control methods used by the rest of the application.</span>
 <div class="viewcode-block" id="DLMainWindow">
 <a class="viewcode-back" href="../../../features/advanced/api/main.html#datalab.gui.main.DLMainWindow">[docs]</a>
-<span class="k">class</span><span class="w"> </span><span class="nc">DLMainWindow</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">AbstractDLControl</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">DLMainWindowMeta</span><span class="p">):</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">DLMainWindow</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-instance-attributes,too-many-public-methods</span>
+    <span class="n">QW</span><span class="o">.</span><span class="n">QMainWindow</span><span class="p">,</span> <span class="n">AbstractDLControl</span><span class="p">,</span> <span class="n">metaclass</span><span class="o">=</span><span class="n">DLMainWindowMeta</span>
+<span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab main window</span>
 
 <span class="sd">    Args:</span>
@@ -593,7 +604,9 @@
         <span class="k">return</span> <span class="n">DLMainWindow</span><span class="o">.</span><span class="n">__instance</span></div>
 
 
-    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">console</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hide_on_close</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+    <span class="c1"># Startup wiring is intentionally kept linear here because it assembles the</span>
+    <span class="c1"># full application object graph and side effects in a predictable order.</span>
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">console</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">hide_on_close</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>  <span class="c1"># pylint: disable=too-many-statements</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Initialize main window&quot;&quot;&quot;</span>
         <span class="n">DLMainWindow</span><span class="o">.</span><span class="n">__instance</span> <span class="o">=</span> <span class="bp">self</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -609,9 +622,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__memory_warning</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memorystatus</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">MemoryStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">webapistatus</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">WebAPIStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">PluginStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">consolestatus</span><span class="p">:</span> <span class="n">status</span><span class="o">.</span><span class="n">ConsoleStatus</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="p">:</span> <span class="n">DockableConsole</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">macropanel</span><span class="p">:</span> <span class="n">MacroPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">main_toolbar</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QToolBar</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -635,6 +650,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">autorefresh_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showfirstonly_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">showlabel_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configure_plugins_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
         <span class="bp">self</span><span class="o">.</span><span class="n">file_menu</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">create_menu</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -1528,6 +1545,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__setup_webapi</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">console</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__setup_console</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__flush_startup_errors</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__update_actions</span><span class="p">(</span><span class="n">update_other_data_panel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__add_macro_panel</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__configure_panels</span><span class="p">()</span>
@@ -1541,21 +1559,95 @@
         <span class="c1"># Note: Menu is added in __update_view_menu since view_menu is cleared each show</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__register_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register plugins&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Discover and register third-party plugins at startup</span>
+
+<span class="sd">        The discovery phase imports all modules following the plugin</span>
+<span class="sd">        naming convention. Plugin classes are then provided by</span>
+<span class="sd">        :class:`PluginRegistry` and instantiated/registered here.</span>
+
+<span class="sd">        Errors are captured per-plugin so that one failing plugin does not</span>
+<span class="sd">        prevent the others from loading.  Because this method runs before</span>
+<span class="sd">        the internal console is available, error tracebacks are buffered</span>
+<span class="sd">        in ``_startup_errors`` and replayed to the console later (see</span>
+<span class="sd">        :meth:`setup`).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Clear plugin class registry to avoid duplicate registration</span>
+        <span class="c1"># when reloading modules or running tests</span>
+        <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_plugin_classes</span><span class="p">()</span>
+
         <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="s2">&quot;Discovering plugins&quot;</span><span class="p">):</span>
             <span class="c1"># Discovering plugins</span>
             <span class="n">plugin_nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">discover_plugins</span><span class="p">())</span>
             <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_nb</span><span class="si">}</span><span class="s2"> plugin(s) found&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Buffer any import errors that occurred during discovery</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="o">.</span><span class="n">extend</span><span class="p">(</span><span class="n">PluginRegistry</span><span class="o">.</span><span class="n">get_discovery_errors</span><span class="p">())</span>
+
+        <span class="c1"># Get enabled plugins list from configuration</span>
+        <span class="c1"># None = all plugins enabled (default), [] = no plugins, list = specific plugins</span>
+        <span class="n">enabled_list</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
         <span class="k">for</span> <span class="n">plugin_class</span> <span class="ow">in</span> <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">get_plugin_classes</span><span class="p">():</span>
-            <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Instantiating plugin </span><span class="si">{</span><span class="n">plugin_class</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
-                <span class="c1"># Instantiating plugin</span>
+            <span class="k">try</span><span class="p">:</span>
+                <span class="c1"># Check if plugin is enabled before instantiation</span>
+                <span class="c1"># None means all plugins are enabled</span>
+                <span class="k">if</span> <span class="n">enabled_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                    <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_class</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span>
+                    <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enabled_list</span><span class="p">:</span>
+                        <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                            <span class="bp">self</span><span class="p">,</span>
+                            <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> is disabled, skipping registration&quot;</span><span class="p">,</span>
+                        <span class="p">)</span>
+                        <span class="k">continue</span>
+
+                <span class="c1"># Instantiate and register plugin</span>
                 <span class="n">plugin</span><span class="p">:</span> <span class="n">PluginBase</span> <span class="o">=</span> <span class="n">plugin_class</span><span class="p">()</span>
-            <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Registering plugin </span><span class="si">{</span><span class="n">plugin</span><span class="o">.</span><span class="n">info</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">):</span>
-                <span class="c1"># Registering plugin</span>
                 <span class="n">plugin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="c1"># Plugin registration executes third-party code. We intentionally</span>
+            <span class="c1"># isolate any exception here so the failure is still reported in the</span>
+            <span class="c1"># internal console, log files, and plugin configuration dialog.</span>
+            <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+                <span class="k">if</span> <span class="n">qth</span><span class="o">.</span><span class="n">is_running_tests</span><span class="p">():</span>
+                    <span class="k">raise</span>
+                <span class="c1"># Log to file (same mechanism as try_or_log_error)</span>
+                <span class="n">tb_text</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+                <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+                <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+                <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span>
+                    <span class="s2">&quot;Error in Instantiating and registering plugin </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span>
+                    <span class="n">plugin_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span>
+                    <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                <span class="p">)</span>
+                <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">traceback_log_available</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                <span class="c1"># Buffer for replay in console once it is ready</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">tb_text</span><span class="p">)</span>
+                <span class="c1"># Record structured info about the failed plugin</span>
+                <span class="n">mod</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">plugin_class</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
+                <span class="n">filepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s2">&quot;__file__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">mod</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">add_failed_plugin</span><span class="p">(</span>
+                    <span class="n">plugin_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">filepath</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">tb_text</span>
+                <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__flush_startup_errors</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write any buffered startup errors to the internal console.</span>
+
+<span class="sd">        Called right after :meth:`__setup_console` so that plugin-import</span>
+<span class="sd">        tracebacks captured during :meth:`__register_plugins` become</span>
+<span class="sd">        visible to the user in the console widget.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">or</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">for</span> <span class="n">tb_text</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="n">tb_text</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__create_plugins_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create plugins actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Ask each registered plugin to create its UI actions</span>
+
+<span class="sd">        Actions created while the PLUGINS category is active are stored</span>
+<span class="sd">        in the panels&#39; action handlers and later exposed through the</span>
+<span class="sd">        *Plugins* menu.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">new_category</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">):</span>
             <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">new_category</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">):</span>
                 <span class="k">for</span> <span class="n">plugin</span> <span class="ow">in</span> <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">get_plugins</span><span class="p">():</span>
@@ -1564,9 +1656,109 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__unregister_plugins</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister plugins&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Unregister all plugins and let them cleanup their hooks&quot;&quot;&quot;</span>
         <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="s2">&quot;Unregistering plugins&quot;</span><span class="p">):</span>
             <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">unregister_all_plugins</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__configure_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open plugin configuration dialog&quot;&quot;&quot;</span>
+        <span class="n">dialog</span> <span class="o">=</span> <span class="n">PluginConfigDialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">dialog</span><span class="o">.</span><span class="n">exec</span><span class="p">()</span>
+
+<div class="viewcode-block" id="DLMainWindow.reload_plugins">
+<a class="viewcode-back" href="../../../features/advanced/api/main.html#datalab.gui.main.DLMainWindow.reload_plugins">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">reload_plugins</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reload third-party plugins at runtime.</span>
+
+<span class="sd">        This unregisters active plugins, clears plugin actions from both panels,</span>
+<span class="sd">        re-discovers plugin modules (reloading code changes from disk),</span>
+<span class="sd">        re-registers enabled plugins, then recreates plugin actions and refreshes</span>
+<span class="sd">        menus.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="s2">&quot;Reloading plugins&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="p">,</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Plugins&quot;</span><span class="p">),</span>
+                    <span class="n">_</span><span class="p">(</span>
+                        <span class="s2">&quot;Third-party plugins are disabled. Enable them in the &quot;</span>
+                        <span class="s2">&quot;Settings dialog to use this feature.&quot;</span>
+                    <span class="p">),</span>
+                <span class="p">)</span>
+                <span class="k">return</span>
+
+            <span class="c1"># Unregister existing plugin instances</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__unregister_plugins</span><span class="p">()</span>
+
+            <span class="c1"># Clear existing plugin actions on both panels so that</span>
+            <span class="c1"># removed plugins no longer appear in menus.</span>
+            <span class="k">for</span> <span class="n">panel</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="p">):</span>
+                <span class="n">panel</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">clear_plugin_actions</span><span class="p">()</span>
+
+            <span class="c1"># Reset plugin class registry and rediscover plugins. The</span>
+            <span class="c1"># discovery step will reload already-imported modules so</span>
+            <span class="c1"># that code changes are picked up.</span>
+            <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_plugin_classes</span><span class="p">()</span>
+            <span class="k">with</span> <span class="n">qth</span><span class="o">.</span><span class="n">try_or_log_error</span><span class="p">(</span><span class="s2">&quot;Discovering plugins (reload)&quot;</span><span class="p">):</span>
+                <span class="n">plugin_nb</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">discover_plugins</span><span class="p">())</span>
+                <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_nb</span><span class="si">}</span><span class="s2"> plugin(s) found (reloaded)&quot;</span><span class="p">)</span>
+
+            <span class="c1"># Get enabled plugins list from configuration</span>
+            <span class="c1"># None = all enabled (default), [] = none, list = specific plugins</span>
+            <span class="n">enabled_list</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled_list</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">None</span><span class="p">)</span>
+
+            <span class="c1"># Instantiate and register plugins again</span>
+            <span class="k">for</span> <span class="n">plugin_class</span> <span class="ow">in</span> <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">get_plugin_classes</span><span class="p">():</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="c1"># Check if plugin is enabled before instantiation</span>
+                    <span class="c1"># None means all plugins are enabled</span>
+                    <span class="k">if</span> <span class="n">enabled_list</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="n">plugin_name</span> <span class="o">=</span> <span class="n">plugin_class</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span>
+                        <span class="k">if</span> <span class="n">plugin_name</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">enabled_list</span><span class="p">:</span>
+                            <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span>
+                                <span class="bp">self</span><span class="p">,</span>
+                                <span class="sa">f</span><span class="s2">&quot;Plugin </span><span class="si">{</span><span class="n">plugin_name</span><span class="si">}</span><span class="s2"> is disabled, &quot;</span>
+                                <span class="s2">&quot;skipping registration (reload)&quot;</span><span class="p">,</span>
+                            <span class="p">)</span>
+                            <span class="k">continue</span>
+
+                    <span class="n">plugin</span><span class="p">:</span> <span class="n">PluginBase</span> <span class="o">=</span> <span class="n">plugin_class</span><span class="p">()</span>
+                    <span class="n">plugin</span><span class="o">.</span><span class="n">register</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+                <span class="c1"># Plugin registration executes third-party code. We intentionally</span>
+                <span class="c1"># isolate any exception here so the failure is still reported in the</span>
+                <span class="c1"># internal console, log files, and plugin configuration dialog.</span>
+                <span class="k">except</span> <span class="ne">Exception</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-except</span>
+                    <span class="k">if</span> <span class="n">qth</span><span class="o">.</span><span class="n">is_running_tests</span><span class="p">():</span>
+                        <span class="k">raise</span>
+                    <span class="n">context</span> <span class="o">=</span> <span class="p">(</span>
+                        <span class="sa">f</span><span class="s2">&quot;Instantiating and registering plugin &quot;</span>
+                        <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">plugin_class</span><span class="o">.</span><span class="vm">__name__</span><span class="si">}</span><span class="s2"> (reload)&quot;</span>
+                    <span class="p">)</span>
+                    <span class="n">tb_text</span> <span class="o">=</span> <span class="n">traceback</span><span class="o">.</span><span class="n">format_exc</span><span class="p">()</span>
+                    <span class="n">traceback</span><span class="o">.</span><span class="n">print_exc</span><span class="p">()</span>
+                    <span class="n">logger</span> <span class="o">=</span> <span class="n">logging</span><span class="o">.</span><span class="n">getLogger</span><span class="p">(</span><span class="vm">__name__</span><span class="p">)</span>
+                    <span class="n">logger</span><span class="o">.</span><span class="n">error</span><span class="p">(</span><span class="s2">&quot;Error in </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">context</span><span class="p">,</span> <span class="n">exc_info</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">traceback_log_available</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+                    <span class="c1"># Write error to console (available during reload)</span>
+                    <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">console</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">write_error</span><span class="p">(</span><span class="n">tb_text</span><span class="p">)</span>
+                    <span class="c1"># Record structured info about the failed plugin</span>
+                    <span class="n">mod</span> <span class="o">=</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">plugin_class</span><span class="o">.</span><span class="vm">__module__</span><span class="p">)</span>
+                    <span class="n">filepath</span> <span class="o">=</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">mod</span><span class="p">,</span> <span class="s2">&quot;__file__&quot;</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">mod</span> <span class="k">else</span> <span class="s2">&quot;&quot;</span>
+                    <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">add_failed_plugin</span><span class="p">(</span>
+                        <span class="n">plugin_class</span><span class="o">.</span><span class="vm">__name__</span><span class="p">,</span> <span class="n">filepath</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">tb_text</span>
+                    <span class="p">)</span>
+
+            <span class="c1"># Recreate plugin actions for the new plugin set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__create_plugins_actions</span><span class="p">()</span>
+
+            <span class="c1"># Update actions and menus to reflect new plugin set</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__update_actions</span><span class="p">(</span><span class="n">update_other_data_panel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Update plugin status in the status bar</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span><span class="o">.</span><span class="n">update_status</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">__update_plugins_availability</span><span class="p">()</span></div>
+
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__configure_statusbar</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">console</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Configure status bar</span>
@@ -1580,8 +1772,8 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">consolestatus</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">ConsoleStatus</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o">.</span><span class="n">addPermanentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">consolestatus</span><span class="p">)</span>
         <span class="c1"># Plugin status</span>
-        <span class="n">pluginstatus</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">PluginStatus</span><span class="p">()</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o">.</span><span class="n">addPermanentWidget</span><span class="p">(</span><span class="n">pluginstatus</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">PluginStatus</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o">.</span><span class="n">addPermanentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span><span class="p">)</span>
         <span class="c1"># XML-RPC server status</span>
         <span class="n">xmlrpcstatus</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">XMLRPCStatus</span><span class="p">()</span>
         <span class="n">xmlrpcstatus</span><span class="o">.</span><span class="n">set_port</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">remote_server</span><span class="o">.</span><span class="n">port</span><span class="p">)</span>
@@ -1596,6 +1788,41 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">memorystatus</span> <span class="o">=</span> <span class="n">status</span><span class="o">.</span><span class="n">MemoryStatus</span><span class="p">(</span><span class="n">threshold</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">memorystatus</span><span class="o">.</span><span class="n">SIG_MEMORY_ALARM</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__set_low_memory_state</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">statusBar</span><span class="p">()</span><span class="o">.</span><span class="n">addPermanentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">memorystatus</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_plugins_availability</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__update_plugins_availability</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update plugin-related UI according to third-party plugin setting.&quot;&quot;&quot;</span>
+        <span class="n">plugins_enabled</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">plugins_enabled</span><span class="p">)</span>
+
+        <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins_action</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">configure_plugins_action</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">action</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">plugins_enabled</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;pluginstatus&quot;</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">pluginstatus</span><span class="o">.</span><span class="n">update_status</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">__apply_plugins_enabled_setting</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply third-party plugin enablement without manual user intervention.&quot;&quot;&quot;</span>
+        <span class="n">plugins_enabled</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+
+        <span class="k">if</span> <span class="n">plugins_enabled</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins</span><span class="p">()</span>
+            <span class="k">return</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__unregister_plugins</span><span class="p">()</span>
+        <span class="k">for</span> <span class="n">panel</span> <span class="ow">in</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="p">):</span>
+            <span class="n">panel</span><span class="o">.</span><span class="n">acthandler</span><span class="o">.</span><span class="n">clear_plugin_actions</span><span class="p">()</span>
+
+        <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_plugin_classes</span><span class="p">()</span>
+        <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_failed_plugins</span><span class="p">()</span>
+        <span class="n">PluginRegistry</span><span class="o">.</span><span class="n">clear_discovery_errors</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_startup_errors</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_actions</span><span class="p">(</span><span class="n">update_other_data_panel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_plugins_availability</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__add_toolbar</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">position</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;top&quot;</span><span class="p">,</span> <span class="s2">&quot;bottom&quot;</span><span class="p">,</span> <span class="s2">&quot;left&quot;</span><span class="p">,</span> <span class="s2">&quot;right&quot;</span><span class="p">],</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span>
@@ -1695,6 +1922,23 @@
             <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Show or hide ROI and other graphical object titles or subtitles&quot;</span><span class="p">),</span>
             <span class="n">toggled</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">toggle_show_titles</span><span class="p">,</span>
         <span class="p">)</span>
+
+        <span class="c1"># Plugins menu actions</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins_action</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Reload plugins&quot;</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;refresh-auto.svg&quot;</span><span class="p">),</span>
+            <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Reload third-party plugins from disk&quot;</span><span class="p">),</span>
+            <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">configure_plugins_action</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
+            <span class="bp">self</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Configure plugins...&quot;</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;libre-gui-settings.svg&quot;</span><span class="p">),</span>
+            <span class="n">tip</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Enable or disable plugins&quot;</span><span class="p">),</span>
+            <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__configure_plugins</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_plugins_availability</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__add_signal_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup signal toolbar, widgets and panel&quot;&quot;&quot;</span>
@@ -1819,6 +2063,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">processing_menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addMenu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Processing&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">analysis_menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addMenu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Analysis&quot;</span><span class="p">))</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addMenu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Plugins&quot;</span><span class="p">))</span>
+        <span class="c1"># Make plugins menu scrollable to handle many plugins without overflow</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="s2">&quot;QMenu { menu-scrollable: 1; }&quot;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addMenu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;&amp;View&quot;</span><span class="p">))</span>
         <span class="n">configure_menu_about_to_show</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">view_menu</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">__update_view_menu</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">help_menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">menuBar</span><span class="p">()</span><span class="o">.</span><span class="n">addMenu</span><span class="p">(</span><span class="s2">&quot;?&quot;</span><span class="p">)</span>
@@ -2171,8 +2417,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel_toolbar</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="n">is_signal</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel_toolbar</span><span class="o">.</span><span class="n">setVisible</span><span class="p">(</span><span class="ow">not</span> <span class="n">is_signal</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">plugin_actions</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">get_category_actions</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">plugin_actions</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__tab_index_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch from signal to image mode, or vice-versa&quot;&quot;&quot;</span>
@@ -2198,6 +2443,16 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="p">:</span> <span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">,</span>
         <span class="p">}[</span><span class="n">menu</span><span class="p">]</span>
         <span class="n">actions</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">get_category_actions</span><span class="p">(</span><span class="n">category</span><span class="p">)</span>
+        <span class="c1"># Always expose the reload action in the Plugins menu, even if</span>
+        <span class="c1"># no plugin has registered actions yet (so that new plugins can be</span>
+        <span class="c1"># discovered after they are added on disk).</span>
+        <span class="k">if</span> <span class="n">menu</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">plugins_menu</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">plugins_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">():</span>
+                <span class="n">actions</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">actions</span><span class="p">)</span> <span class="o">+</span> <span class="p">[</span>
+                    <span class="kc">None</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">configure_plugins_action</span><span class="p">,</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">reload_plugins_action</span><span class="p">,</span>
+                <span class="p">]</span>
         <span class="n">add_actions</span><span class="p">(</span><span class="n">menu</span><span class="p">,</span> <span class="n">actions</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__update_file_menu</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -2586,6 +2841,30 @@
                 <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported object type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
 
 
+<div class="viewcode-block" id="DLMainWindow.set_object">
+<a class="viewcode-back" href="../../../features/advanced/api/main.html#datalab.gui.main.DLMainWindow.set_object">[docs]</a>
+    <span class="nd">@remote_controlled</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object data - update an existing signal or image in-place.</span>
+
+<span class="sd">        The existing object is identified by UUID carried by ``obj``</span>
+<span class="sd">        (from a previous :meth:`get_object` call).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: object with updated data (signal or image)</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if no object with matching UUID is found</span>
+<span class="sd">            TypeError: if object type is unsupported</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="o">.</span><span class="n">set_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">set_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported object type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="DLMainWindow.load_from_files">
 <a class="viewcode-back" href="../../../features/advanced/api/main.html#datalab.gui.main.DLMainWindow.load_from_files">[docs]</a>
     <span class="nd">@remote_controlled</span>
@@ -2683,9 +2962,11 @@
         <span class="k">return</span> <span class="kc">True</span></div>
 
 
+    <span class="c1"># This API mirrors the image metadata accepted by create_image, so the</span>
+    <span class="c1"># argument count is part of the stable public interface rather than noise.</span>
 <div class="viewcode-block" id="DLMainWindow.add_image">
 <a class="viewcode-back" href="../../../features/advanced/api/main.html#datalab.gui.main.DLMainWindow.add_image">[docs]</a>
-    <span class="k">def</span><span class="w"> </span><span class="nf">add_image</span><span class="p">(</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">add_image</span><span class="p">(</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
@@ -2697,7 +2978,7 @@
         <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
@@ -2789,7 +3070,9 @@
         <span class="c1"># Allow Qt to refresh the window:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">setUpdatesEnabled</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
 
-    <span class="k">def</span><span class="w"> </span><span class="nf">__edit_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+    <span class="c1"># Settings changes are intentionally dispatched in one place because each</span>
+    <span class="c1"># option may trigger a specific live UI update or panel refresh.</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">__edit_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-branches,too-many-statements</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Edit settings&quot;&quot;&quot;</span>
         <span class="n">changed_options</span> <span class="o">=</span> <span class="n">edit_settings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="n">sigima_options</span><span class="o">.</span><span class="n">fft_shift_enabled</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">fft_shift_enabled</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
@@ -2841,6 +3124,8 @@
                 <span class="bp">self</span><span class="o">.</span><span class="n">__update_color_mode</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">&quot;show_console_on_error&quot;</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__update_console_show_mode</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">&quot;plugins_enabled&quot;</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__apply_plugins_enabled_setting</span><span class="p">()</span>
             <span class="k">if</span> <span class="n">option</span> <span class="o">==</span> <span class="s2">&quot;plot_toolbar_position&quot;</span><span class="p">:</span>
                 <span class="k">for</span> <span class="n">dock</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">docks</span><span class="o">.</span><span class="n">values</span><span class="p">():</span>
                     <span class="n">widget</span> <span class="o">=</span> <span class="n">dock</span><span class="o">.</span><span class="n">widget</span><span class="p">()</span>
@@ -2971,7 +3256,7 @@
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">console</span><span class="o">.</span><span class="n">close</span><span class="p">()</span>
             <span class="k">except</span> <span class="ne">RuntimeError</span><span class="p">:</span>
-                <span class="c1"># TODO: [P3] Investigate further why the following error occurs when</span>
+                <span class="c1"># Note: investigate further why the following error occurs when</span>
                 <span class="c1"># restarting the mainwindow (this is *not* a production case):</span>
                 <span class="c1"># &quot;RuntimeError: wrapped C/C++ object of type DockableConsole</span>
                 <span class="c1">#  has been deleted&quot;.</span>
@@ -2987,7 +3272,8 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">__unregister_plugins</span><span class="p">()</span>
 
         <span class="c1"># Saving current tab for next session</span>
-        <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">current_tab</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">currentIndex</span><span class="p">())</span>
 
         <span class="n">execenv</span><span class="o">.</span><span class="n">log</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="s2">&quot;closed properly&quot;</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span></div>

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=d077157a"></script>
+    <script src="../../../_static/documentation_options.js?v=e6704f88"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -139,7 +139,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -706,6 +706,10 @@
 
 
 
+<span class="c1">#: Stylesheet enabling scrollable menus (used for plugin submenus)</span>
+<span class="n">SCROLLABLE_MENU_STYLESHEET</span> <span class="o">=</span> <span class="s2">&quot;QMenu { menu-scrollable: 1; }&quot;</span>
+
+
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseActionHandler</span><span class="p">(</span><span class="n">metaclass</span><span class="o">=</span><span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
 <span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling panel GUI interactions: actions, menus, ...</span>
 
@@ -884,6 +888,15 @@
         <span class="c1"># Use the same refresh pattern as delete_results() method</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
 
+    <span class="k">def</span><span class="w"> </span><span class="nf">clear_plugin_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Clear plugin actions and submenus&quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">feature_actions</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+        <span class="c1"># Clear submenus related to plugins</span>
+        <span class="n">plugin_prefix</span> <span class="o">=</span> <span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="o">.</span><span class="n">name</span> <span class="o">+</span> <span class="s2">&quot;/&quot;</span>
+        <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__submenus</span><span class="o">.</span><span class="n">keys</span><span class="p">()):</span>
+            <span class="k">if</span> <span class="n">key</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="n">plugin_prefix</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">__submenus</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">key</span><span class="p">)</span>
+
     <span class="nd">@contextmanager</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">new_category</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">category</span><span class="p">:</span> <span class="n">ActionCategory</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
 <span class="w">        </span><span class="sd">&quot;&quot;&quot;Context manager for creating a new menu.</span>
@@ -930,6 +943,8 @@
 
         <span class="k">if</span> <span class="n">is_new</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__submenus</span><span class="p">[</span><span class="n">key</span><span class="p">]</span> <span class="o">=</span> <span class="n">menu</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__category_in_progress</span> <span class="ow">is</span> <span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">:</span>
+                <span class="n">menu</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">SCROLLABLE_MENU_STYLESHEET</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">icon_name</span><span class="p">:</span>
                 <span class="n">menu</span><span class="o">.</span><span class="n">setIcon</span><span class="p">(</span><span class="n">get_icon</span><span class="p">(</span><span class="n">icon_name</span><span class="p">))</span>
             <span class="c1"># Store reference to menu if requested</span>
@@ -937,6 +952,17 @@
                 <span class="nb">setattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">store_ref</span><span class="p">,</span> <span class="n">menu</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="n">menu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__submenus</span><span class="p">[</span><span class="n">key</span><span class="p">]</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__category_in_progress</span> <span class="ow">is</span> <span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">:</span>
+                <span class="n">menu</span><span class="o">.</span><span class="n">setStyleSheet</span><span class="p">(</span><span class="n">SCROLLABLE_MENU_STYLESHEET</span><span class="p">)</span>
+            <span class="c1"># When reusing an existing submenu (e.g. after re-running</span>
+            <span class="c1"># plugin action creation), clear previous actions so that the</span>
+            <span class="c1"># submenu contents reflect the latest definitions.</span>
+            <span class="c1">#</span>
+            <span class="c1"># However, if we are in the PLUGINS category, we don&#39;t want to</span>
+            <span class="c1"># clear the menu because multiple plugins might contribute to the</span>
+            <span class="c1"># same submenu (e.g. &quot;Processing&quot;).</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__category_in_progress</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">ActionCategory</span><span class="o">.</span><span class="n">PLUGINS</span><span class="p">:</span>
+                <span class="n">menu</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
 
         <span class="c1"># Save current submenu state and push new submenu onto stack</span>
         <span class="n">submenu_state</span> <span class="o">=</span> <span class="p">{</span>
@@ -969,14 +995,24 @@
             <span class="c1"># Update submenu in progress status BEFORE adding to parent</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__submenu_in_progress</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__submenu_stack</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
 
-            <span class="k">if</span> <span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;is_new&quot;</span><span class="p">]:</span>
-                <span class="c1"># Add this submenu to its parent (either category or parent submenu)</span>
-                <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__submenu_stack</span><span class="p">:</span>
-                    <span class="c1"># We&#39;re in a nested submenu, add to parent submenu&#39;s actions</span>
-                    <span class="n">parent_submenu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__submenu_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+            <span class="c1"># Add this submenu to its parent (either category or parent submenu)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__submenu_stack</span><span class="p">:</span>
+                <span class="c1"># We&#39;re in a nested submenu, add to parent submenu&#39;s actions</span>
+                <span class="n">parent_submenu</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__submenu_stack</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span>
+                <span class="k">if</span> <span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;is_new&quot;</span><span class="p">]:</span>
                     <span class="n">parent_submenu</span><span class="p">[</span><span class="s2">&quot;actions&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;menu&quot;</span><span class="p">])</span>
-                <span class="k">else</span><span class="p">:</span>
-                    <span class="c1"># We&#39;re at the top level, add to category actions</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="c1"># We&#39;re at the top level, ensure the submenu is attached to the</span>
+                <span class="c1"># current category. This must also work when the category</span>
+                <span class="c1"># action list was cleared (e.g. when reloading plugins), in</span>
+                <span class="c1"># which case we need to re-add existing submenus.</span>
+                <span class="n">category_actions</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">feature_actions</span><span class="o">.</span><span class="n">get</span><span class="p">(</span>
+                    <span class="bp">self</span><span class="o">.</span><span class="n">__category_in_progress</span><span class="p">,</span> <span class="p">[]</span>
+                <span class="p">)</span>
+                <span class="k">if</span> <span class="p">(</span>
+                    <span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;is_new&quot;</span><span class="p">]</span>
+                    <span class="ow">or</span> <span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;menu&quot;</span><span class="p">]</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">category_actions</span>
+                <span class="p">):</span>
                     <span class="c1"># Force using the current category, not SUBMENU</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">add_to_action_list</span><span class="p">(</span>
                         <span class="n">current_submenu</span><span class="p">[</span><span class="s2">&quot;menu&quot;</span><span class="p">],</span> <span class="n">category</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">__category_in_progress</span>

@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -479,6 +479,7 @@
 <span class="kn">import</span><span class="w"> </span><span class="nn">plotpy.io</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">guidata.configtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_icon</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">guidata.dataset</span><span class="w"> </span><span class="kn">import</span> <span class="n">restore_dataset</span><span class="p">,</span> <span class="n">update_dataset</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">guidata.dataset.datatypes</span><span class="w"> </span><span class="kn">import</span> <span class="n">ComputedProp</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">guidata.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">add_actions</span><span class="p">,</span> <span class="n">create_action</span><span class="p">,</span> <span class="n">exec_dialog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePlot</span><span class="p">,</span> <span class="n">BasePlotOptions</span><span class="p">,</span> <span class="n">PlotDialog</span><span class="p">,</span> <span class="n">SyncPlotDialog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">ActionTool</span>
@@ -539,7 +540,14 @@
     <span class="n">insert_processing_parameters</span><span class="p">,</span>
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.roieditor</span><span class="w"> </span><span class="kn">import</span> <span class="n">TypeROIEditor</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">ObjectGroup</span><span class="p">,</span> <span class="n">get_short_id</span><span class="p">,</span> <span class="n">get_uuid</span><span class="p">,</span> <span class="n">set_uuid</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+    <span class="n">ObjectGroup</span><span class="p">,</span>
+    <span class="n">get_number</span><span class="p">,</span>
+    <span class="n">get_short_id</span><span class="p">,</span>
+    <span class="n">get_uuid</span><span class="p">,</span>
+    <span class="n">set_number</span><span class="p">,</span>
+    <span class="n">set_uuid</span><span class="p">,</span>
+<span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CallbackWorker</span><span class="p">,</span>
     <span class="n">create_progress_bar</span><span class="p">,</span>
@@ -2154,6 +2162,44 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_tree</span><span class="p">()</span></div>
 
 
+<div class="viewcode-block" id="BaseDataPanel.set_object">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.BaseDataPanel.set_object">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">TypeObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update an existing object in-place with data from ``obj``.</span>
+
+<span class="sd">        The existing object is identified by UUID (carried by ``obj`` from a</span>
+<span class="sd">        previous :meth:`get_object` call). All data attributes are copied from</span>
+<span class="sd">        ``obj`` to the existing object while preserving internal metadata</span>
+<span class="sd">        (number, group membership).</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            obj: SignalObj or ImageObj with the same UUID as an existing object.</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            KeyError: if no object with matching UUID is found</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">existing</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objmodel</span><span class="p">[</span><span class="n">obj_uuid</span><span class="p">]</span>  <span class="c1"># KeyError if not found</span>
+        <span class="c1"># Preserve internal number metadata before overwriting</span>
+        <span class="n">number</span> <span class="o">=</span> <span class="n">get_number</span><span class="p">(</span><span class="n">existing</span><span class="p">)</span>
+        <span class="c1"># Copy all public DataSet item values from obj to existing.</span>
+        <span class="c1"># Skip computed (read-only) items such as ImageObj.xmin/xmax/ymin/ymax,</span>
+        <span class="c1"># which would raise ValueError on assignment (see Issue #305).</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">existing</span><span class="o">.</span><span class="n">_items</span><span class="p">:</span>  <span class="c1"># pylint: disable=protected-access</span>
+            <span class="n">name</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_name</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">name</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;_&quot;</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">get_prop</span><span class="p">(</span><span class="s2">&quot;data&quot;</span><span class="p">,</span> <span class="s2">&quot;computed&quot;</span><span class="p">,</span> <span class="kc">None</span><span class="p">),</span> <span class="n">ComputedProp</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="nb">setattr</span><span class="p">(</span><span class="n">existing</span><span class="p">,</span> <span class="n">name</span><span class="p">,</span> <span class="nb">getattr</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
+        <span class="n">set_number</span><span class="p">(</span><span class="n">existing</span><span class="p">,</span> <span class="n">number</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">update_tree</span><span class="p">()</span>
+        <span class="c1"># Refresh the object properties panel so updated values are shown</span>
+        <span class="c1"># immediately if the modified object is currently selected.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">item_selection_changed</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">refresh_plot</span><span class="p">(</span><span class="s2">&quot;selected&quot;</span><span class="p">,</span> <span class="n">update_items</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">force</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+
 <div class="viewcode-block" id="BaseDataPanel.remove_all_objects">
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.BaseDataPanel.remove_all_objects">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_all_objects</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
@@ -3684,6 +3730,7 @@
             <span class="n">mode</span><span class="o">=</span><span class="n">mode</span><span class="p">,</span>
             <span class="n">item</span><span class="o">=</span><span class="n">item</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get_plot_options</span><span class="p">(),</span>
+            <span class="n">source_panel</span><span class="o">=</span><span class="bp">self</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">get_dialog_size</span><span class="p">(),</span>
         <span class="p">)</span>
         <span class="k">if</span> <span class="n">exec_dialog</span><span class="p">(</span><span class="n">roi_editor</span><span class="p">):</span>

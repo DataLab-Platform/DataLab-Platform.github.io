@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -138,7 +138,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -464,7 +464,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Type</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">weakref</span><span class="w"> </span><span class="kn">import</span> <span class="n">ReferenceType</span><span class="p">,</span> <span class="n">ref</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.interfaces</span><span class="w"> </span><span class="kn">import</span> <span class="n">IVoiImageItemType</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.tools</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">AnnotatedCircleTool</span><span class="p">,</span>
     <span class="n">AnnotatedEllipseTool</span><span class="p">,</span>
@@ -483,6 +485,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDataPanel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.plothandler</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImagePlotHandler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.processor.image</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageProcessor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_uuid</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">plotpy.plot</span><span class="w"> </span><span class="kn">import</span> <span class="n">BasePlot</span>
@@ -542,10 +545,122 @@
         <span class="n">panel_toolbar</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QToolBar</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">parent</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_editors</span><span class="p">:</span> <span class="nb">dict</span><span class="p">[</span>
+            <span class="nb">str</span><span class="p">,</span> <span class="nb">list</span><span class="p">[</span><span class="n">ReferenceType</span><span class="p">[</span><span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span><span class="p">]]</span>
+        <span class="p">]</span> <span class="o">=</span> <span class="p">{}</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span> <span class="o">=</span> <span class="n">ImagePlotHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dockableplotwidget</span><span class="o">.</span><span class="n">plotwidget</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">processor</span> <span class="o">=</span> <span class="n">ImageProcessor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">dockableplotwidget</span><span class="o">.</span><span class="n">plotwidget</span><span class="p">)</span>
         <span class="n">view_toolbar</span> <span class="o">=</span> <span class="n">dockableplotwidget</span><span class="o">.</span><span class="n">toolbar</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">acthandler</span> <span class="o">=</span> <span class="n">ImageActionHandler</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel_toolbar</span><span class="p">,</span> <span class="n">view_toolbar</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImagePanel.register_contrast_editor">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.image.ImagePanel.register_contrast_editor">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_contrast_editor</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">editor</span><span class="p">:</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register an image ROI editor for contrast synchronization.&quot;&quot;&quot;</span>
+        <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">editors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_editors</span><span class="o">.</span><span class="n">setdefault</span><span class="p">(</span><span class="n">obj_uuid</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="k">for</span> <span class="n">editor_ref</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="n">editors</span><span class="p">):</span>
+            <span class="n">current_editor</span> <span class="o">=</span> <span class="n">editor_ref</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">current_editor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="n">editors</span><span class="o">.</span><span class="n">remove</span><span class="p">(</span><span class="n">editor_ref</span><span class="p">)</span>
+            <span class="k">elif</span> <span class="n">current_editor</span> <span class="ow">is</span> <span class="n">editor</span><span class="p">:</span>
+                <span class="k">return</span>
+        <span class="n">editors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">ref</span><span class="p">(</span><span class="n">editor</span><span class="p">))</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj_uuid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span>
+            <span class="n">editor</span><span class="o">.</span><span class="n">apply_shared_contrast</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_contrast_panel_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update contrast panel range without re-emitting LUT signals.&quot;&quot;&quot;</span>
+        <span class="n">contrast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">plotwidget</span><span class="o">.</span><span class="n">manager</span><span class="o">.</span><span class="n">get_contrast_panel</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">contrast</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">contrast</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">range</span><span class="o">.</span><span class="n">set_range</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">dosignal</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">contrast</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_update_object_contrast_state</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">update_panel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update object and current panel state for a contrast change.&quot;&quot;&quot;</span>
+        <span class="n">obj</span><span class="o">.</span><span class="n">zscalemin</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">zscalemax</span> <span class="o">=</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">update_panel</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_update_contrast_panel_range</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+
+<div class="viewcode-block" id="ImagePanel.apply_shared_contrast">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.image.ImagePanel.apply_shared_contrast">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">apply_shared_contrast</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a contrast change coming from another view.&quot;&quot;&quot;</span>
+        <span class="k">del</span> <span class="n">source</span>  <span class="c1"># unused: kept for API symmetry with _notify_contrast_editors</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_update_object_contrast_state</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">update_panel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">item</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">))</span>
+        <span class="k">if</span> <span class="n">item</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span> <span class="o">==</span> <span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">):</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">item</span><span class="o">.</span><span class="n">set_lut_range</span><span class="p">((</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">))</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">plot</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">update_colormap_axis</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">notify_colormap_changed</span><span class="p">()</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">False</span></div>
+
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_notify_contrast_editors</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span>
+        <span class="n">source</span><span class="p">:</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Propagate a contrast change to all ROI editors of an image.&quot;&quot;&quot;</span>
+        <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">editors</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_editors</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">obj_uuid</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">editors</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="n">alive_editors</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">ReferenceType</span><span class="p">[</span><span class="n">roieditor</span><span class="o">.</span><span class="n">ImageROIEditor</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">editor_ref</span> <span class="ow">in</span> <span class="n">editors</span><span class="p">:</span>
+            <span class="n">editor</span> <span class="o">=</span> <span class="n">editor_ref</span><span class="p">()</span>
+            <span class="k">if</span> <span class="n">editor</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="k">continue</span>
+            <span class="n">alive_editors</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">editor_ref</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">editor</span> <span class="ow">is</span> <span class="ow">not</span> <span class="n">source</span><span class="p">:</span>
+                <span class="n">editor</span><span class="o">.</span><span class="n">apply_shared_contrast</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">alive_editors</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_editors</span><span class="p">[</span><span class="n">obj_uuid</span><span class="p">]</span> <span class="o">=</span> <span class="n">alive_editors</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_editors</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="n">obj_uuid</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">_get_lut_changed_objects</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">BasePlot</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return image objects affected by a LUT change on the plot.&quot;&quot;&quot;</span>
+        <span class="n">changed_objects</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">tuple</span><span class="p">[</span><span class="n">ImageObj</span><span class="p">,</span> <span class="nb">float</span><span class="p">,</span> <span class="nb">float</span><span class="p">]]</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">items</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">get_selected_items</span><span class="p">(</span><span class="n">item_type</span><span class="o">=</span><span class="n">IVoiImageItemType</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">active_item</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">get_last_active_item</span><span class="p">(</span><span class="n">IVoiImageItemType</span><span class="p">)</span>
+            <span class="n">items</span> <span class="o">=</span> <span class="p">[]</span> <span class="k">if</span> <span class="n">active_item</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="p">[</span><span class="n">active_item</span><span class="p">]</span>
+        <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">items</span><span class="p">:</span>
+            <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">get_obj_from_item</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
+                <span class="k">continue</span>
+            <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="o">=</span> <span class="n">item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span>
+            <span class="n">changed_objects</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">changed_objects</span>
 
     <span class="c1"># ------Refreshing GUI--------------------------------------------------------------</span>
 <div class="viewcode-block" id="ImagePanel.plot_lut_changed">
@@ -556,11 +671,10 @@
 <span class="sd">        Args:</span>
 <span class="sd">            plot: Plot object</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="o">=</span> <span class="n">plot</span><span class="o">.</span><span class="n">get_axis_limits</span><span class="p">(</span><span class="n">plot</span><span class="o">.</span><span class="n">colormap_axis</span><span class="p">)</span>
-        <span class="k">for</span> <span class="n">obj</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_sel_objects</span><span class="p">():</span>
-            <span class="n">obj</span><span class="o">.</span><span class="n">zscalemin</span><span class="p">,</span> <span class="n">obj</span><span class="o">.</span><span class="n">zscalemax</span> <span class="o">=</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span>
-            <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">():</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">objprop</span><span class="o">.</span><span class="n">update_properties_from</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span></div>
+        <span class="k">for</span> <span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_get_lut_changed_objects</span><span class="p">(</span><span class="n">plot</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_update_object_contrast_state</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">update_panel</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_notify_contrast_editors</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span></div>
 
 
     <span class="c1"># ------Creating, adding, removing objects------------------------------------------</span>

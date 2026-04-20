@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=8878045cc6db502f8baf" />
 <link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=8878045cc6db502f8baf" />
 
-    <script src="../../../_static/documentation_options.js?v=58fbf978"></script>
+    <script src="../../../_static/documentation_options.js?v=6efca38a"></script>
     <script src="../../../_static/doctools.js?v=9bcbadda"></script>
     <script src="../../../_static/sphinx_highlight.js?v=dc90522c"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -141,7 +141,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.1.1</p>
+    <p class="title logo__title">v1.2.0</p>
   
 </a></div>
     
@@ -460,6 +460,7 @@
 <li class="toctree-l2"><a class="reference internal" href="main.html">Main window</a></li>
 <li class="toctree-l2 current active"><a class="current reference internal" href="#">Panel</a></li>
 <li class="toctree-l2"><a class="reference internal" href="actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="objectmodel.html">Object model</a></li>
 <li class="toctree-l2"><a class="reference internal" href="objectview.html">Object view</a></li>
 <li class="toctree-l2"><a class="reference internal" href="plothandler.html">Plot handler</a></li>
 <li class="toctree-l2"><a class="reference internal" href="roieditor.html">ROI editor</a></li>
@@ -1255,6 +1256,24 @@ the object is added to the current group.</p></li>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.panel.base.BaseDataPanel.set_object">
+<span class="sig-name descname"><span class="pre">set_object</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">TypeObj</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/base.html#BaseDataPanel.set_object"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.base.BaseDataPanel.set_object" title="Link to this definition">#</a></dt>
+<dd><p>Update an existing object in-place with data from <code class="docutils literal notranslate"><span class="pre">obj</span></code>.</p>
+<p>The existing object is identified by UUID (carried by <code class="docutils literal notranslate"><span class="pre">obj</span></code> from a
+previous <code class="xref py py-meth docutils literal notranslate"><span class="pre">get_object()</span></code> call). All data attributes are copied from
+<code class="docutils literal notranslate"><span class="pre">obj</span></code> to the existing object while preserving internal metadata
+(number, group membership).</p>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters<span class="colon">:</span></dt>
+<dd class="field-odd"><p><strong>obj</strong> – SignalObj or ImageObj with the same UUID as an existing object.</p>
+</dd>
+<dt class="field-even">Raises<span class="colon">:</span></dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/exceptions.html#KeyError" title="(in Python v3.14)"><strong>KeyError</strong></a> – if no object with matching UUID is found</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.panel.base.BaseDataPanel.remove_all_objects">
 <span class="sig-name descname"><span class="pre">remove_all_objects</span></span><span class="sig-paren">(</span><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/base.html#BaseDataPanel.remove_all_objects"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.base.BaseDataPanel.remove_all_objects" title="Link to this definition">#</a></dt>
 <dd><p>Remove all objects</p>
@@ -1319,7 +1338,7 @@ objects that do not have an item yet.</p></li>
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.panel.base.BaseDataPanel.add_group">
-<span class="sig-name descname"><span class="pre">add_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">ObjectGroup</span></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/base.html#BaseDataPanel.add_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.base.BaseDataPanel.add_group" title="Link to this definition">#</a></dt>
+<span class="sig-name descname"><span class="pre">add_group</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">title</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">select</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#bool" title="(in Python v3.14)"><span class="pre">bool</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">False</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference internal" href="objectmodel.html#datalab.objectmodel.ObjectGroup" title="datalab.objectmodel.ObjectGroup"><span class="pre">ObjectGroup</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/base.html#BaseDataPanel.add_group"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.base.BaseDataPanel.add_group" title="Link to this definition">#</a></dt>
 <dd><p>Add group</p>
 <dl class="field-list simple">
 <dt class="field-odd">Parameters<span class="colon">:</span></dt>
@@ -2548,6 +2567,18 @@ specialized for Image objects</p>
 </dd></dl>
 
 <dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.panel.image.ImagePanel.register_contrast_editor">
+<span class="sig-name descname"><span class="pre">register_contrast_editor</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ImageObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">editor</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="roieditor.html#datalab.gui.roieditor.ImageROIEditor" title="datalab.gui.roieditor.ImageROIEditor"><span class="pre">ImageROIEditor</span></a></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/image.html#ImagePanel.register_contrast_editor"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.image.ImagePanel.register_contrast_editor" title="Link to this definition">#</a></dt>
+<dd><p>Register an image ROI editor for contrast synchronization.</p>
+</dd></dl>
+
+<dl class="py method">
+<dt class="sig sig-object py" id="datalab.gui.panel.image.ImagePanel.apply_shared_contrast">
+<span class="sig-name descname"><span class="pre">apply_shared_contrast</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">obj</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">ImageObj</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmin</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">zmax</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/functions.html#float" title="(in Python v3.14)"><span class="pre">float</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">source</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference internal" href="roieditor.html#datalab.gui.roieditor.ImageROIEditor" title="datalab.gui.roieditor.ImageROIEditor"><span class="pre">ImageROIEditor</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/image.html#ImagePanel.apply_shared_contrast"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.image.ImagePanel.apply_shared_contrast" title="Link to this definition">#</a></dt>
+<dd><p>Apply a contrast change coming from another view.</p>
+</dd></dl>
+
+<dl class="py method">
 <dt class="sig sig-object py" id="datalab.gui.panel.image.ImagePanel.plot_lut_changed">
 <span class="sig-name descname"><span class="pre">plot_lut_changed</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">plot</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">BasePlot</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(in Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../../_modules/datalab/gui/panel/image.html#ImagePanel.plot_lut_changed"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.gui.panel.image.ImagePanel.plot_lut_changed" title="Link to this definition">#</a></dt>
 <dd><p>The LUT of the plot has changed: updating image objects accordingly</p>
@@ -3105,6 +3136,7 @@ Defaults to None.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.deserialize_from_hdf5"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.deserialize_from_hdf5()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.create_object"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.create_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.add_object"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.add_object()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.set_object"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.set_object()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.remove_all_objects"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.remove_all_objects()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.setup_panel"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.setup_panel()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.base.BaseDataPanel.refresh_plot"><code class="docutils literal notranslate"><span class="pre">BaseDataPanel.refresh_plot()</span></code></a></li>
@@ -3235,6 +3267,8 @@ Defaults to None.</p>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.IO_REGISTRY"><code class="docutils literal notranslate"><span class="pre">ImagePanel.IO_REGISTRY</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.get_roi_class"><code class="docutils literal notranslate"><span class="pre">ImagePanel.get_roi_class()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.get_roieditor_class"><code class="docutils literal notranslate"><span class="pre">ImagePanel.get_roieditor_class()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.register_contrast_editor"><code class="docutils literal notranslate"><span class="pre">ImagePanel.register_contrast_editor()</span></code></a></li>
+<li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.apply_shared_contrast"><code class="docutils literal notranslate"><span class="pre">ImagePanel.apply_shared_contrast()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.plot_lut_changed"><code class="docutils literal notranslate"><span class="pre">ImagePanel.plot_lut_changed()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.get_newparam_from_current"><code class="docutils literal notranslate"><span class="pre">ImagePanel.get_newparam_from_current()</span></code></a></li>
 <li class="toc-h4 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab.gui.panel.image.ImagePanel.new_object"><code class="docutils literal notranslate"><span class="pre">ImagePanel.new_object()</span></code></a></li>
