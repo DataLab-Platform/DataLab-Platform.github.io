@@ -519,6 +519,12 @@
 the same scientific core has grown into a small family of complementary tools — the
 <strong>DataLab Platform</strong>. This page clarifies the terminology and helps you choose the edition
 that best fits your needs.</p>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The story behind this evolution — the extraction of the Sigima computation engine and
+the browser-native edition — is documented in the project reports and Architecture
+Decision Records published on the <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/wiki">DataLab wiki</a>.</p>
+</div>
 <section id="a-note-on-terminology">
 <span id="ecosystem-naming"></span><h2>A note on terminology<a class="headerlink" href="#a-note-on-terminology" title="Link to this heading">#</a></h2>
 <p>The word <em>DataLab</em> is used both for the whole family and for its historical member, the
@@ -547,8 +553,9 @@ with no installation. Try it at <a class="reference external" href="https://data
 <a class="reference external" href="https://github.com/DataLab-Platform/web">project on GitHub</a>.</p></td>
 </tr>
 <tr class="row-odd"><td><p><strong>DataLab-Kernel</strong></p></td>
-<td><p>A <strong>Jupyter kernel</strong> exposing DataLab workspaces to notebooks.
-<a class="reference external" href="https://datalab-kernel.readthedocs.io/">Documentation</a>.</p></td>
+<td><p>A <strong>Jupyter kernel</strong> exposing DataLab workspaces to notebooks — either live-synchronized
+with a running desktop session, or fully standalone (including in JupyterLite, in the
+browser). <a class="reference external" href="https://datalab-kernel.readthedocs.io/">Documentation</a>.</p></td>
 </tr>
 <tr class="row-even"><td><p><strong>Sigima</strong></p></td>
 <td><p>The headless <strong>computation engine</strong> (signal and image processing) shared by all of
@@ -604,8 +611,9 @@ install, your data never leaves your machine. Try it at
 <div class="sd-card-body docutils">
 <div class="sd-card-title sd-font-weight-bold docutils">
 <svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-terminal sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 2.75C0 1.784.784 1 1.75 1h12.5c.966 0 1.75.784 1.75 1.75v10.5A1.75 1.75 0 0 1 14.25 15H1.75A1.75 1.75 0 0 1 0 13.25Zm1.75-.25a.25.25 0 0 0-.25.25v10.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25V2.75a.25.25 0 0 0-.25-.25ZM7.25 8a.749.749 0 0 1-.22.53l-2.25 2.25a.749.749 0 0 1-1.275-.326.749.749 0 0 1 .215-.734L5.44 8 3.72 6.28a.749.749 0 0 1 .326-1.275.749.749 0 0 1 .734.215l2.25 2.25c.141.14.22.331.22.53Zm1.5 1.5h3a.75.75 0 0 1 0 1.5h-3a.75.75 0 0 1 0-1.5Z"></path></svg>  DataLab-Kernel</div>
-<p class="sd-card-text">A Jupyter kernel for notebook-driven workflows, optionally synchronized with a
-running desktop session. See the
+<p class="sd-card-text">A Jupyter kernel for notebook-driven workflows: live-synchronized with a running
+desktop session, or fully standalone — notebooks run unchanged with or without
+DataLab, including in JupyterLite. See the
 <a class="reference external" href="https://datalab-kernel.readthedocs.io/">DataLab-Kernel documentation</a>.</p>
 </div>
 </div>
@@ -636,7 +644,9 @@ ability to handle very large datasets limited only by your system RAM.</p></li>
 shared or locked-down computer, on someone else’s machine, or simply to give DataLab a
 quick try. Everything runs locally in the browser tab; no server, no account, no upload.</p></li>
 <li><p><strong>Use DataLab-Kernel</strong> when your workflow is notebook-centric and you want DataLab’s
-processing catalog available from a Jupyter notebook.</p></li>
+processing catalog available from a Jupyter notebook — for example to write reproducible
+analysis reports that can be replayed with or without DataLab. You can <a class="reference external" href="https://notebook.link/github/DataLab-Platform/DataLab-Kernel/tree/main/notebooks/?path=/notebooks/datalab_kernel_quickstart.ipynb">try it online</a>
+in a live JupyterLite environment, without installing anything.</p></li>
 </ul>
 <p>A common pattern is to use the desktop application on your personal workstation and
 DataLab-Web everywhere else, sharing work back and forth through HDF5 workspace files.</p>
@@ -644,7 +654,8 @@ DataLab-Web everywhere else, sharing work back and forth through HDF5 workspace 
 <section id="datalab-vs-datalab-web">
 <h2>DataLab vs DataLab-Web<a class="headerlink" href="#datalab-vs-datalab-web" title="Link to this heading">#</a></h2>
 <p>DataLab-Web shares the <strong>computation engine</strong> (Sigima) and the <strong>processing catalog</strong> with
-the desktop application: results are identical for the same inputs. The differences are
+the desktop application: the very same Sigima code — not a port — runs on CPython (desktop)
+and on Pyodide (browser), so results are identical for the same inputs. The differences are
 about the <strong>runtime environment</strong>, not about the science.</p>
 <div class="pst-scrollable-table-container"><table class="table">
 <colgroup>
@@ -687,6 +698,16 @@ about the <strong>runtime environment</strong>, not about the science.</p>
 <td><p>Limited by system RAM (64-bit)</p></td>
 <td><p>~2 GB WebAssembly heap by default; an optional on-disk storage mode lifts this
 limit entirely, bounding the working set by available disk space instead of RAM</p></td>
+</tr>
+<tr class="row-odd"><td><p>Responsiveness</p></td>
+<td><p>Computations run in separate worker processes; the interface stays responsive and
+processings can be cancelled</p></td>
+<td><p>The Python runtime lives in a Web Worker, off the interface thread; the interface
+stays responsive and batch processings can be cancelled at object boundaries</p></td>
+</tr>
+<tr class="row-even"><td><p>Languages</p></td>
+<td><p>English and French</p></td>
+<td><p>English and French (browser language detected automatically)</p></td>
 </tr>
 <tr class="row-odd"><td><p>Remote control</p></td>
 <td><p>XML-RPC and FastAPI Web API</p></td>
