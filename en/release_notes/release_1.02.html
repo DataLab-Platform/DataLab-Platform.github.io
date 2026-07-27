@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../_static/documentation_options.js?v=ca842793"></script>
+    <script src="../_static/documentation_options.js?v=fd7cadf9"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -114,7 +114,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab will be presented at the <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> conference 🇵🇱 and has been presented at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 and at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
 </aside>
 
   
@@ -148,7 +148,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.1</p>
+    <p class="title logo__title">v1.2.2</p>
   
 </a></div>
     
@@ -511,10 +511,61 @@
                   
   <section id="version-1-2">
 <h1>Version 1.2<a class="headerlink" href="#version-1-2" title="Link to this heading">#</a></h1>
-<section id="datalab-version-1-2-1">
-<h2>DataLab Version 1.2.1<a class="headerlink" href="#datalab-version-1-2-1" title="Link to this heading">#</a></h2>
-<section id="bug-fixes">
-<h3>🛠️ Bug Fixes<a class="headerlink" href="#bug-fixes" title="Link to this heading">#</a></h3>
+<section id="datalab-version-1-2-2">
+<h2>DataLab Version 1.2.2<a class="headerlink" href="#datalab-version-1-2-2" title="Link to this heading">#</a></h2>
+<section id="bug-fixes-since-version-1-2-1">
+<h3>🛠️ Bug Fixes since version 1.2.1<a class="headerlink" href="#bug-fixes-since-version-1-2-1" title="Link to this heading">#</a></h3>
+<p><strong>Signal peak creation and fitting:</strong></p>
+<ul class="simple">
+<li><p>Gaussian, Lorentzian and Voigt creation and fit dialogs now express amplitude as signed peak height above the baseline, in the signal’s Y units. Objects carrying historical area-based peak parameters remain displayable and keep their original samples; editing or re-evaluating them now requires an explicit conversion confirmed by the user (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/350">Issue #350</a>)</p></li>
+<li><p>Interactive multi-Gaussian and multi-Lorentzian results now retain every detected peak position (<code class="docutils literal notranslate"><span class="pre">x0_i</span></code>) in canonical fit metadata, allowing complete theoretical models to be exported or re-evaluated on another X axis without adding center controls to the fit dialog (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/351">Issue #351</a>)</p></li>
+<li><p>The “Evaluate fit” feature is now available for every interactive fit, not just peak fits: linear, polynomial, exponential, sinusoidal, CDF, Planckian, two half-Gaussian and piecewise exponential fitting curves may now be re-evaluated on another X axis or exported as theoretical models (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/355">Issue #355</a>). Fitting curves computed by earlier versions carry parameters that were labelled in the interface language and cannot be re-evaluated: DataLab now reports this explicitly and such curves have to be recomputed.</p></li>
+<li><p>Scripts and remote clients may migrate historical fit metadata explicitly by retrieving an object with <code class="docutils literal notranslate"><span class="pre">get_object()</span></code>, converting a copy with Sigima’s <code class="docutils literal notranslate"><span class="pre">convert_legacy_peak_fit_params()</span></code>, and updating the existing object with <code class="docutils literal notranslate"><span class="pre">set_object()</span></code>; the conversion never regenerates the signal samples.</p></li>
+<li><p>Fixed interactive fit parameter sliders whose bounds excluded reachable solutions: the exponential <code class="docutils literal notranslate"><span class="pre">B</span></code> slider could not express a decay, the cumulative distribution function amplitude could not express a descending transition, and the piecewise exponential amplitude bounds were inverted for negative initial guesses (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/352">Issue #352</a>)</p></li>
+<li><p>Fixed the Planckian fit dialog labelling the <code class="docutils literal notranslate"><span class="pre">x0</span></code> parameter as the peak wavelength — the maximum of the model is located at approximately <code class="docutils literal notranslate"><span class="pre">1.007</span> <span class="pre">*</span> <span class="pre">x0</span> <span class="pre">/</span> <span class="pre">sigma</span></code>, so the two only coincide when <code class="docutils literal notranslate"><span class="pre">sigma</span></code> equals 1</p></li>
+</ul>
+<p><strong>HDF5 import:</strong></p>
+<ul class="simple">
+<li><p>Fixed a crash when running a computation on an object imported from an HDF5 file containing object or region reference attributes (e.g. <code class="docutils literal notranslate"><span class="pre">DIMENSION_LIST</span></code> / <code class="docutils literal notranslate"><span class="pre">REFERENCE_LIST</span></code> arrays produced by <code class="docutils literal notranslate"><span class="pre">h4toh5convert</span></code>) — such attributes cannot be serialized to worker processes and are now skipped instead of being copied to the object metadata (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/346">Issue #346</a>)</p></li>
+</ul>
+<p><strong>Text import wizard:</strong></p>
+<ul class="simple">
+<li><p>Fixed a sporadic application crash when closing the Text Import Wizard — the embedded plot preview is now released deterministically instead of being torn down later by the garbage collector (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/335">Issue #335</a>)</p></li>
+</ul>
+<p><strong>Working directory handling:</strong></p>
+<ul class="simple">
+<li><p>DataLab no longer changes its process working directory when a file is opened or saved. The last used folder is still remembered for file dialogs, but the directory itself is no longer locked for the lifetime of the application on Windows (it can be moved, renamed or deleted while DataLab is running), and macros or scripts started from DataLab no longer inherit an unexpected working directory</p></li>
+</ul>
+<p><strong>Packaging:</strong></p>
+<ul class="simple">
+<li><p>Fixed missing data files in the distributed package: all <code class="docutils literal notranslate"><span class="pre">.h5</span></code> test/demo files and <code class="docutils literal notranslate"><span class="pre">.template</span></code> files are now included in the wheel and source distribution</p></li>
+</ul>
+</section>
+<section id="documentation-since-version-1-2-1">
+<h3>📖 Documentation since version 1.2.1<a class="headerlink" href="#documentation-since-version-1-2-1" title="Link to this heading">#</a></h3>
+<ul class="simple">
+<li><p>Added a new “DataLab Platform ecosystem” page positioning DataLab (desktop), DataLab-Web (browser edition), DataLab-Kernel (Jupyter kernel) and Sigima (computation engine) with respect to each other; the browser edition is now surfaced on the home and getting started pages, plugin web compatibility is documented, and the roadmap was refreshed (web frontend and Jupyter kernel delivered)</p></li>
+<li><p>Added NixOS installation instructions: DataLab is packaged for NixOS and distributed through the NGI Forge, thanks to a contribution from the Nix&#64;NGI team as part of DataLab’s funding through the NGI0 Commons Fund</p></li>
+<li><p>Added a “Talks &amp; Events” section to the documentation, starting with the EuroSciPy 2026 presentation details</p></li>
+<li><p>Fixed the polynomial signal creation formula, which listed a <code class="docutils literal notranslate"><span class="pre">y0</span></code> term and an arbitrary number of coefficients whereas the parameters actually expose <code class="docutils literal notranslate"><span class="pre">a0</span></code> to <code class="docutils literal notranslate"><span class="pre">a5</span></code>, and documented the sigmoid fit, which was available but undocumented (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/353">Issue #353</a>)</p></li>
+<li><p>Aligned the documented signal model formulas with the new height-based parameterization of the Gaussian, Lorentzian and Voigt models</p></li>
+<li><p>Refreshed the signal and image “Edit” documentation examples, which still showed object titles produced by older versions (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/354">Issue #354</a>)</p></li>
+<li><p>Visiting the documentation site root now redirects to the French or English version depending on the browser language, instead of always serving the English pages</p></li>
+<li><p>Updated French translations across all new and modified documentation pages</p></li>
+</ul>
+</section>
+<section id="improvements-since-version-1-2-1">
+<h3>🔧 Improvements since version 1.2.1<a class="headerlink" href="#improvements-since-version-1-2-1" title="Link to this heading">#</a></h3>
+<p><strong>Compatibility:</strong></p>
+<ul class="simple">
+<li><p>Updated minimum Sigima requirement from 1.1.3 to 1.1.6 (computation fixes and versioned peak-height parameters introduced in 1.1.6)</p></li>
+</ul>
+</section>
+</section>
+<section id="datalab-version-1-2-1-2026-06-05">
+<h2>DataLab Version 1.2.1 (2026-06-05)<a class="headerlink" href="#datalab-version-1-2-1-2026-06-05" title="Link to this heading">#</a></h2>
+<section id="bug-fixes-since-version-1-2-0">
+<h3>🛠️ Bug Fixes since version 1.2.0<a class="headerlink" href="#bug-fixes-since-version-1-2-0" title="Link to this heading">#</a></h3>
 <p><strong>Signal panel menus:</strong></p>
 <ul class="simple">
 <li><p>Restored the “Linear calibration” entry in the “Processing &gt; Axis transformation” menu of the Signal panel — it had been inadvertently dropped during a menu reorganization and was no longer reachable from the menu bar, even though the underlying computation was still available (fixes <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/issues/312">Issue #312</a>)</p></li>
@@ -553,20 +604,20 @@
 <li><p>Exposed <code class="docutils literal notranslate"><span class="pre">get_current_object_uuid()</span></code> on the proxy API, making it available through XML-RPC and Web API</p></li>
 </ul>
 </section>
-<section id="improvements">
-<h3>🔧 Improvements<a class="headerlink" href="#improvements" title="Link to this heading">#</a></h3>
+<section id="improvements-since-version-1-2-0">
+<h3>🔧 Improvements since version 1.2.0<a class="headerlink" href="#improvements-since-version-1-2-0" title="Link to this heading">#</a></h3>
 <p><strong>Compatibility:</strong></p>
 <ul class="simple">
 <li><p>Updated minimum guidata requirement from 3.14.3 to 3.14.4 (high DPI and screen scaling issue, dataset input field fix, add secure build CLI cmd)</p></li>
 <li><p>Updated minimum PlotPy requirement from 2.8.2 to 2.10.0 (Z-axis log scale fix, toolbar overflow button visibility in dark theme, PythonQwt 0.16.0 optimization)</p></li>
-<li><p>Updated minimum Sigima requirement from 1.1.2 to 1.1.3 (ellipse/circle contour detection fix)</p></li>
+<li><p>Updated minimum Sigima requirement from 1.1.2 to 1.1.3 (ellipse and circle contour detection fix)</p></li>
 </ul>
 </section>
 </section>
 <section id="datalab-version-1-2-0-2026-04-20">
 <h2>DataLab Version 1.2.0 (2026-04-20)<a class="headerlink" href="#datalab-version-1-2-0-2026-04-20" title="Link to this heading">#</a></h2>
-<section id="new-features">
-<h3>✨ New Features<a class="headerlink" href="#new-features" title="Link to this heading">#</a></h3>
+<section id="new-features-since-version-1-1">
+<h3>✨ New Features since version 1.1<a class="headerlink" href="#new-features-since-version-1-1" title="Link to this heading">#</a></h3>
 <p><strong>Plugin configuration dialog:</strong></p>
 <p>DataLab now provides a dedicated <strong>plugin configuration dialog</strong> (accessible via “Plugins &gt; Configure plugins…”) that gives full control over third-party plugin management:</p>
 <ul class="simple">
@@ -604,8 +655,8 @@
 <li><p>The properties panel is automatically refreshed after <code class="docutils literal notranslate"><span class="pre">set_object</span></code>, so updated object properties (title, units, axes, uncertainties, etc.) are immediately visible in the GUI</p></li>
 </ul>
 </section>
-<section id="documentation">
-<h3>📖 Documentation<a class="headerlink" href="#documentation" title="Link to this heading">#</a></h3>
+<section id="documentation-since-version-1-1">
+<h3>📖 Documentation since version 1.1<a class="headerlink" href="#documentation-since-version-1-1" title="Link to this heading">#</a></h3>
 <ul class="simple">
 <li><p>Added API documentation for the <code class="docutils literal notranslate"><span class="pre">datalab.objectmodel</span></code> module</p></li>
 <li><p>Added screenshots for the “Paste metadata” dialog (signal and image panels)</p></li>
@@ -615,8 +666,8 @@
 <li><p>Updated French translations across all new and modified documentation pages</p></li>
 </ul>
 </section>
-<section id="id1">
-<h3>🔧 Improvements<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<section id="improvements-since-version-1-1">
+<h3>🔧 Improvements since version 1.1<a class="headerlink" href="#improvements-since-version-1-1" title="Link to this heading">#</a></h3>
 <p><strong>Compatibility:</strong></p>
 <ul class="simple">
 <li><p>Officially support pandas 3.0.x (updated dependency constraint from <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">3.0</span></code> to <code class="docutils literal notranslate"><span class="pre">&lt;</span> <span class="pre">3.1</span></code>)</p></li>
@@ -635,8 +686,8 @@
 <li><p>Fixed Coverage full VS Code task to properly use the <code class="docutils literal notranslate"><span class="pre">run_with_env.py</span></code> wrapper</p></li>
 </ul>
 </section>
-<section id="id2">
-<h3>🛠️ Bug Fixes<a class="headerlink" href="#id2" title="Link to this heading">#</a></h3>
+<section id="bug-fixes-since-version-1-1">
+<h3>🛠️ Bug Fixes since version 1.1<a class="headerlink" href="#bug-fixes-since-version-1-1" title="Link to this heading">#</a></h3>
 <p><strong>HDF5 workspace - Table serialization:</strong></p>
 <ul class="simple">
 <li><p>Fixed callable metadata not being stripped during HDF5 save/load of <code class="docutils literal notranslate"><span class="pre">TableResult</span></code> objects</p></li>
@@ -699,16 +750,22 @@
   </div>
   <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
     <ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-2-1">DataLab Version 1.2.1</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes">🛠️ Bug Fixes</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements">🔧 Improvements</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-2-2">DataLab Version 1.2.2</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-2-1">🛠️ Bug Fixes since version 1.2.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-since-version-1-2-1">📖 Documentation since version 1.2.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements-since-version-1-2-1">🔧 Improvements since version 1.2.1</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-2-1-2026-06-05">DataLab Version 1.2.1 (2026-06-05)</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-2-0">🛠️ Bug Fixes since version 1.2.0</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements-since-version-1-2-0">🔧 Improvements since version 1.2.0</a></li>
 </ul>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#datalab-version-1-2-0-2026-04-20">DataLab Version 1.2.0 (2026-04-20)</a><ul class="pst-show_toc_level nav section-nav flex-column">
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features">✨ New Features</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation">📖 Documentation</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">🔧 Improvements</a></li>
-<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id2">🛠️ Bug Fixes</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#new-features-since-version-1-1">✨ New Features since version 1.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#documentation-since-version-1-1">📖 Documentation since version 1.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#improvements-since-version-1-1">🔧 Improvements since version 1.1</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#bug-fixes-since-version-1-1">🛠️ Bug Fixes since version 1.1</a></li>
 </ul>
 </li>
 </ul>

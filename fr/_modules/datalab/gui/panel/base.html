@@ -52,7 +52,7 @@
   <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../../../_static/documentation_options.js?v=4208cb91"></script>
+    <script src="../../../../_static/documentation_options.js?v=75f041fb"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -112,7 +112,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab sera présenté à la conférence <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 et a été présenté à <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 et à <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
 </aside>
 
   
@@ -146,7 +146,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.1</p>
+    <p class="title logo__title">v1.2.2</p>
   
 </a></div>
     
@@ -533,6 +533,7 @@
 <span class="p">)</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">ROI_KEY</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sigima.params</span><span class="w"> </span><span class="kn">import</span> <span class="n">SaveToDirectoryParam</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.tools.signal.pulse</span><span class="w"> </span><span class="kn">import</span> <span class="n">LegacyPeakParameterizationError</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab</span><span class="w"> </span><span class="kn">import</span> <span class="n">objectmodel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_metadata</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
@@ -548,7 +549,9 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui</span><span class="w"> </span><span class="kn">import</span> <span class="n">actionhandler</span><span class="p">,</span> <span class="n">objectview</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.newobject</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">CREATION_PARAMETERS_OPTION</span><span class="p">,</span>
+    <span class="n">LEGACY_CREATION_PARAMETERS_OPTION</span><span class="p">,</span>
     <span class="n">NewSignalParam</span><span class="p">,</span>
+    <span class="n">convert_legacy_creation_parameters</span><span class="p">,</span>
     <span class="n">extract_creation_parameters</span><span class="p">,</span>
     <span class="n">insert_creation_parameters</span><span class="p">,</span>
 <span class="p">)</span>
@@ -597,6 +600,7 @@
     <span class="s2">&quot;__uuid&quot;</span><span class="p">,</span>  <span class="c1"># Each object must have a unique identifier</span>
     <span class="sa">f</span><span class="s2">&quot;__</span><span class="si">{</span><span class="n">PROCESSING_PARAMETERS_OPTION</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># Object-specific processing history</span>
     <span class="sa">f</span><span class="s2">&quot;__</span><span class="si">{</span><span class="n">CREATION_PARAMETERS_OPTION</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># Object-specific creation parameters</span>
+    <span class="sa">f</span><span class="s2">&quot;__</span><span class="si">{</span><span class="n">LEGACY_CREATION_PARAMETERS_OPTION</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>  <span class="c1"># Historical creation parameters</span>
 <span class="p">}</span>
 
 
@@ -789,6 +793,7 @@
 <span class="sd">            Processing history as text</span>
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="n">history_items</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="n">has_creation_problem</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">current_obj</span> <span class="o">=</span> <span class="n">obj</span>
         <span class="n">max_depth</span> <span class="o">=</span> <span class="mi">20</span>  <span class="c1"># Prevent infinite loops</span>
 
@@ -798,7 +803,16 @@
 
             <span class="k">if</span> <span class="n">proc_params</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="c1"># Check for creation parameters</span>
-                <span class="n">creation_params</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">creation_params</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">LegacyPeakParameterizationError</span><span class="p">:</span>
+                    <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Created: historical peak parameters&quot;</span><span class="p">))</span>
+                    <span class="n">has_creation_problem</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Created: invalid creation parameters&quot;</span><span class="p">))</span>
+                    <span class="n">has_creation_problem</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
                 <span class="k">if</span> <span class="n">creation_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Created&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">creation_params</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
@@ -812,7 +826,16 @@
                 <span class="c1"># For 1-to-0 operations, there&#39;s no processing history to show</span>
                 <span class="c1"># (they analyze but don&#39;t transform the object)</span>
                 <span class="c1"># Check if there&#39;s any earlier processing</span>
-                <span class="n">creation_params</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">creation_params</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">current_obj</span><span class="p">)</span>
+                <span class="k">except</span> <span class="n">LegacyPeakParameterizationError</span><span class="p">:</span>
+                    <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Created: historical peak parameters&quot;</span><span class="p">))</span>
+                    <span class="n">has_creation_problem</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
+                <span class="k">except</span> <span class="ne">ValueError</span><span class="p">:</span>
+                    <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Created: invalid creation parameters&quot;</span><span class="p">))</span>
+                    <span class="n">has_creation_problem</span> <span class="o">=</span> <span class="kc">True</span>
+                    <span class="k">break</span>
                 <span class="k">if</span> <span class="n">creation_params</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                     <span class="n">text</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">_</span><span class="p">(</span><span class="s1">&#39;Created&#39;</span><span class="p">)</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">creation_params</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span>
                     <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">text</span><span class="p">)</span>
@@ -838,7 +861,7 @@
                     <span class="n">history_items</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;(multiple sources)&quot;</span><span class="p">))</span>
                 <span class="k">break</span>
 
-        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">history_items</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">history_items</span><span class="p">)</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">has_creation_problem</span><span class="p">:</span>
             <span class="k">return</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># Shows the history tab only when there is some history</span>
 
         <span class="c1"># Reverse to show from oldest to newest, then add indentation</span>
@@ -1057,7 +1080,16 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            True if Creation tab was set up, False otherwise</span>
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">param</span> <span class="o">=</span> <span class="n">extract_creation_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">except</span> <span class="n">LegacyPeakParameterizationError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_legacy_creation_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">),</span> <span class="n">set_current</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">setup_invalid_creation_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">),</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">False</span>
 
@@ -1096,6 +1128,114 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">)</span>
 
         <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.setup_legacy_creation_tab">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.setup_legacy_creation_tab">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_legacy_creation_tab</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup actions for explicitly converting historical peak parameters.&quot;&quot;&quot;</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span>
+            <span class="n">_</span><span class="p">(</span>
+                <span class="s2">&quot;This object uses historical area-based peak parameters. &quot;</span>
+                <span class="s2">&quot;Convert them to signed peak height before editing.&quot;</span>
+            <span class="p">),</span>
+            <span class="n">widget</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+
+        <span class="n">buttons</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
+        <span class="n">convert_button</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Convert historical parameters&quot;</span><span class="p">),</span> <span class="n">widget</span><span class="p">)</span>
+        <span class="n">cancel_button</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QPushButton</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Cancel&quot;</span><span class="p">),</span> <span class="n">widget</span><span class="p">)</span>
+        <span class="n">buttons</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">convert_button</span><span class="p">)</span>
+        <span class="n">buttons</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">cancel_button</span><span class="p">)</span>
+        <span class="n">buttons</span><span class="o">.</span><span class="n">addStretch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addLayout</span><span class="p">(</span><span class="n">buttons</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addStretch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_param_editor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_creation_obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QScrollArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="o">.</span><span class="n">setWidgetResizable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">icon_name</span> <span class="o">=</span> <span class="s2">&quot;new_sig.svg&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;new_ima.svg&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">insertTab</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="n">icon_name</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creation&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="n">convert_button</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">convert_current_creation_parameters</span><span class="p">)</span>
+        <span class="n">cancel_button</span><span class="o">.</span><span class="n">clicked</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span>
+            <span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">properties</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">set_current</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.setup_invalid_creation_tab">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.setup_invalid_creation_tab">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">setup_invalid_creation_tab</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">error</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Show a read-only state for invalid creation metadata.&quot;&quot;&quot;</span>
+        <span class="n">widget</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+        <span class="n">layout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QVBoxLayout</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">message</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QLabel</span><span class="p">(</span>
+            <span class="n">_</span><span class="p">(</span>
+                <span class="s2">&quot;Creation parameters cannot be edited because their metadata is &quot;</span>
+                <span class="s2">&quot;invalid or was written by a newer DataLab version.&quot;</span>
+            <span class="p">),</span>
+            <span class="n">widget</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">setWordWrap</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="n">message</span><span class="o">.</span><span class="n">setToolTip</span><span class="p">(</span><span class="n">error</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="n">message</span><span class="p">)</span>
+        <span class="n">layout</span><span class="o">.</span><span class="n">addStretch</span><span class="p">(</span><span class="mi">1</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_param_editor</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">current_creation_obj</span> <span class="o">=</span> <span class="n">obj</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QScrollArea</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="o">.</span><span class="n">setWidgetResizable</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="o">.</span><span class="n">setWidget</span><span class="p">(</span><span class="n">widget</span><span class="p">)</span>
+        <span class="n">icon_name</span> <span class="o">=</span> <span class="s2">&quot;new_sig.svg&quot;</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="k">else</span> <span class="s2">&quot;new_ima.svg&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">insertTab</span><span class="p">(</span>
+            <span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">,</span> <span class="n">get_icon</span><span class="p">(</span><span class="n">icon_name</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Creation&quot;</span><span class="p">)</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">set_current</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">tabwidget</span><span class="o">.</span><span class="n">setCurrentWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">creation_scroll</span><span class="p">)</span>
+        <span class="k">return</span> <span class="kc">True</span></div>
+
+
+<div class="viewcode-block" id="ObjectProp.convert_current_creation_parameters">
+<a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.base.ObjectProp.convert_current_creation_parameters">[docs]</a>
+    <span class="k">def</span><span class="w"> </span><span class="nf">convert_current_creation_parameters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">&quot;&quot;&quot;Convert the current object&#39;s historical peak creation parameters.&quot;&quot;&quot;</span>
+        <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">current_creation_obj</span>
+        <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">return</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="n">convert_legacy_creation_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">except</span> <span class="ne">Exception</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>  <span class="c1"># pylint: disable=broad-exception-caught</span>
+            <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
+                <span class="k">raise</span>
+            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
+                <span class="bp">self</span><span class="p">,</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Error&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Failed to convert historical creation parameters:</span><span class="se">\n</span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="nb">str</span><span class="p">(</span><span class="n">exc</span><span class="p">),</span>
+            <span class="p">)</span>
+            <span class="k">return</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__update_properties_dataset</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setup_creation_tab</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">set_current</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="ObjectProp.apply_creation_parameters">

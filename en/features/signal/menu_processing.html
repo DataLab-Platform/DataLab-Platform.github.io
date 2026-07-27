@@ -53,7 +53,7 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
 
-    <script src="../../_static/documentation_options.js?v=ca842793"></script>
+    <script src="../../_static/documentation_options.js?v=fd7cadf9"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -116,7 +116,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab will be presented at the <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> conference 🇵🇱 and has been presented at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 and at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
 </aside>
 
   
@@ -150,7 +150,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.1</p>
+    <p class="title logo__title">v1.2.2</p>
   
 </a></div>
     
@@ -976,34 +976,34 @@ This can be done automatically or through an interactive curve fitting dialog.</
 <td><p><span class="math notranslate nohighlight">\(y = c_{0} + c_{1} \cdot x + c_{2} \cdot x^2 + ... + c_{n} \cdot x^n\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p>Gaussian</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \dfrac{A}{\sqrt{2 \pi} \sigma} \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0}}{\sigma}\right)^2\right)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + A \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0}}{\sigma}\right)^2\right)\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Lorentzian</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \dfrac{A}{\pi \sigma} \cdot \dfrac{1}{1+\left(\dfrac{x-x_{0}}{\sigma}\right)^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \dfrac{A}{1+\left(\dfrac{x-x_{0}}{\sigma}\right)^2}\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p>Voigt</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + A \cdot \dfrac{\Re\left(\exp(-z^2) \cdot \operatorname{erfc}(-j \cdot z)\right)}{\sqrt{2 \pi} \sigma}\)</span> with <span class="math notranslate nohighlight">\(z = \dfrac{x - x_{0} - j \cdot \sigma}{\sqrt{2} \sigma}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + A \cdot \dfrac{\Re\left(w(z)\right)}{\Re\left(w(j/\sqrt{2})\right)}\)</span> with <span class="math notranslate nohighlight">\(w(z) = \exp(-z^2) \operatorname{erfc}(-jz)\)</span> and <span class="math notranslate nohighlight">\(z = \dfrac{x - x_{0} + j \sigma}{\sqrt{2} \sigma}\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Multi-Gaussian</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \sum_{i=0}^{N}\dfrac{A_{i}}{\sqrt{2 \pi} \sigma_{i}} \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2\right)\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \sum_{i=1}^{N} A_{i} \exp\left(-\dfrac{1}{2} \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2\right)\)</span></p></td>
 </tr>
 <tr class="row-even"><td><p>Multi-Lorentzian</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \sum_{i=0}^{N}\dfrac{A_{i}}{\pi \sigma_{i}} \cdot \dfrac{1}{1 + \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \sum_{i=1}^{N} \dfrac{A_{i}}{1 + \left(\dfrac{x - x_{0,i}}{\sigma_{i}}\right)^2}\)</span></p></td>
 </tr>
 <tr class="row-odd"><td><p>Planck</p></td>
-<td><p><span class="math notranslate nohighlight">\(y = y_{0} + A\cdot \dfrac{2h \cdot c^2}{\lambda^5} \cdot \left(\exp\left(\dfrac{h \cdot c}{\lambda \cdot k \cdot T}\right)-1\right)^{-1}\)</span></p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + A \cdot \left(\dfrac{x}{x_{0}}\right)^{-5} \cdot \left(\exp\left(\dfrac{5 x_{0}}{\sigma \cdot x}\right)-1\right)^{-1}\)</span> where <span class="math notranslate nohighlight">\(x_{0}\)</span> and <span class="math notranslate nohighlight">\(\sigma\)</span> are scale and width factors (see the note below)</p></td>
 </tr>
 <tr class="row-even"><td><p>Two half Gaussians</p></td>
 <td><div class="line-block">
-<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A \cdot \dfrac{1}{\sqrt{2 \pi} \sigma_{0}} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{0}}{\sigma_{0}}\right)^2\right)\)</span> if <span class="math notranslate nohighlight">\(x &lt; x_{0}\)</span></div>
-<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A \cdot \dfrac{1}{\sqrt{2 \pi} \sigma_{1}} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{1}}{\sigma_{1}}\right)^2\right)\)</span> otherwise</div>
+<div class="line"><span class="math notranslate nohighlight">\(y = y_{L} + A_{L} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{0}}{\sigma_{L}}\right)^2\right)\)</span> if <span class="math notranslate nohighlight">\(x &lt; x_{0}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(y = y_{R} + A_{R} \cdot \exp\left(-\dfrac{1}{2}\left(\dfrac{x - x_{0}}{\sigma_{R}}\right)^2\right)\)</span> otherwise</div>
 </div>
 </td>
 </tr>
 <tr class="row-odd"><td><p>Two back-to-back exponentials</p></td>
 <td><div class="line-block">
-<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A_{1} \cdot \exp\left(-x/\tau_{1}\right)\)</span> if <span class="math notranslate nohighlight">\(x &lt; 0\)</span></div>
-<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A_{2} \cdot \exp(-x/\tau_{2})\)</span> otherwise</div>
+<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A_{L} \cdot \exp\left(B_{L} \cdot x\right)\)</span> if <span class="math notranslate nohighlight">\(x &lt; x_{c}\)</span></div>
+<div class="line"><span class="math notranslate nohighlight">\(y = y_{0} + A_{R} \cdot \exp\left(B_{R} \cdot x\right)\)</span> otherwise</div>
 </div>
 </td>
 </tr>
@@ -1016,9 +1016,45 @@ This can be done automatically or through an interactive curve fitting dialog.</
 <tr class="row-even"><td><p>Cumulative Distribution Function (CDF)</p></td>
 <td><p><span class="math notranslate nohighlight">\(y = y_{0} + A \erf\left(\dfrac{x - x_{0}}{\sqrt{2} \sigma}\right)\)</span></p></td>
 </tr>
+<tr class="row-odd"><td><p>Sigmoid</p></td>
+<td><p><span class="math notranslate nohighlight">\(y = y_{0} + \dfrac{A}{1 + \exp\left(-k \left(x - x_{0}\right)\right)}\)</span></p></td>
+</tr>
 </tbody>
 </table>
 </div>
+<p>For Gaussian, Lorentzian and Voigt models, <span class="math notranslate nohighlight">\(A\)</span> is the signed peak height
+above the baseline <span class="math notranslate nohighlight">\(y_0\)</span>, expressed in the signal’s Y unit.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>The Planck model is over-parameterized: it is invariant under
+<span class="math notranslate nohighlight">\(x_{0} \rightarrow k x_{0}\)</span>, <span class="math notranslate nohighlight">\(\sigma \rightarrow k \sigma\)</span>,
+<span class="math notranslate nohighlight">\(A \rightarrow A/k^5\)</span>. Only the ratio <span class="math notranslate nohighlight">\(x_{0}/\sigma\)</span> and the
+product <span class="math notranslate nohighlight">\(A \cdot x_{0}^5\)</span> are determined by the data, so the
+individual fitted values must not be interpreted on their own. In
+particular the emission peak is located at approximately
+<span class="math notranslate nohighlight">\(1.007 \, x_{0}/\sigma\)</span>, not at <span class="math notranslate nohighlight">\(x_{0}\)</span>.</p>
+</div>
+<section id="multi-peak-fit-parameters">
+<h3>Multi-peak fit parameters<a class="headerlink" href="#multi-peak-fit-parameters" title="Link to this heading">#</a></h3>
+<p>For Multi-Gaussian and Multi-Lorentzian fits, the peak-detection dialog first
+selects the center <span class="math notranslate nohighlight">\(x_{0,i}\)</span> of each component. These positions remain fixed:
+the interactive fit dialog only exposes controls for each <code class="docutils literal notranslate"><span class="pre">amplitude_i</span></code> and
+<code class="docutils literal notranslate"><span class="pre">sigma_i</span></code> parameter and for the common <code class="docutils literal notranslate"><span class="pre">y0</span></code> baseline.</p>
+<p>When the fit is accepted, the generated signal stores the complete model under
+<code class="docutils literal notranslate"><span class="pre">metadata[&quot;fit_params&quot;]</span></code>, including every fixed <code class="docutils literal notranslate"><span class="pre">x0_i</span></code> center. The metadata may
+be inspected with the <strong>Metadata</strong> button or exported to a JSON <code class="docutils literal notranslate"><span class="pre">.dlabmeta</span></code> file
+using the <a class="reference internal" href="menu_edit.html#sig-menu-edit"><span class="std std-ref">metadata import/export actions</span></a>.</p>
+<p>The exported parameters are sufficient to evaluate the theoretical model on any
+X axis outside DataLab:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.tools.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">fitting</span>
+
+<span class="n">fit_params</span> <span class="o">=</span> <span class="n">fitted_signal</span><span class="o">.</span><span class="n">metadata</span><span class="p">[</span><span class="s2">&quot;fit_params&quot;</span><span class="p">]</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="n">xmin</span><span class="p">,</span> <span class="n">xmax</span><span class="p">,</span> <span class="n">size</span><span class="p">)</span>
+<span class="n">y_theoretical</span> <span class="o">=</span> <span class="n">fitting</span><span class="o">.</span><span class="n">evaluate_fit</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="o">**</span><span class="n">fit_params</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
 <section id="evaluate-fit">
 <h3>Evaluate fit<a class="headerlink" href="#evaluate-fit" title="Link to this heading">#</a></h3>
 <p>Apply a previously computed fit to a signal. This feature uses the fit parameters
@@ -1330,6 +1366,7 @@ the selected signals).</p>
 </li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#frequency-filters">Frequency filters</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#fitting">Fitting</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multi-peak-fit-parameters">Multi-peak fit parameters</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#evaluate-fit">Evaluate fit</a></li>
 </ul>
 </li>
