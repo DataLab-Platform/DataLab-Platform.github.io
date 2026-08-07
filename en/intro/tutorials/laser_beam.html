@@ -7,8 +7,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Tutorial on how to measure the size of a laser beam using DataLab, the open-source scientific analysis and visualization platform" name="description" />
-<meta content="DataLab, tutorial, laser beam, size, FWHM, Gaussian fit, radial profile, line profile, thresholding, centroid, image statistics, linear calibration, HDF5, workspace" name="keywords" />
+<meta content="Measure laser beam size (FWHM) from camera images with DataLab, the open-source signal and image analysis platform: thresholding, line and radial intensity profiles, Gaussian fit, and batch analysis of a whole image stack to plot beam size along the propagation axis." name="description" />
+<meta content="laser beam profiling, beam size measurement, FWHM, beam waist, Gaussian fit, radial profile, camera image analysis, image stack, batch processing, photonics, DataLab, tutorial" name="keywords" />
+<meta property="og:title" content=" Laser beam profiling: measuring beam size along the propagation axis" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/intro/tutorials/laser_beam.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Laser beam profiling: measuring beam size along the propagation axis: This example shows how to measure the size of a laser beam along the propagation axis using DataLab: Load all the images in a f..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
@@ -21,7 +28,7 @@
 </script>
 
 
-    <title>Measuring Laser Beam Size &#8212; DataLab</title>
+    <title>Laser beam profiling: measuring beam size along the propagation axis &#8212; DataLab</title>
 
 
   
@@ -70,7 +77,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
     <link rel="next" title="Prototyping a custom processing pipeline" href="custom_func.html" />
-    <link rel="prev" title="Measuring Fabry-Perot fringes" href="fabry_perot.html" />
+    <link rel="prev" title="Analyzing Fabry-Perot interferograms: ring detection and circle fitting" href="fabry_perot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
   <meta name="docsearch:version" content="" />
@@ -169,6 +176,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Use cases
   </a>
 </li>
 
@@ -329,6 +343,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Use cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../features/index.html">
     Features
   </a>
@@ -448,10 +469,10 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Quick demo</a></li>
 <li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Add your own features</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Processing a spectrum</a></li>
-<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Detecting blobs on an image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Measuring Fabry-Perot fringes</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Measuring Laser Beam Size</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Spectrum analysis: denoising, baseline correction and peak fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Automated detection of defects and particles on images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyzing Fabry-Perot interferograms: ring detection and circle fitting</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Prototyping a custom processing pipeline</a></li>
 <li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab and Spyder: a perfect match</a></li>
 </ul>
@@ -502,7 +523,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Measuring Laser Beam Size</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis</span></li>
   </ul>
 </nav>
 </div>
@@ -519,8 +540,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-laser-beam-size">
-<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Measuring Laser Beam Size<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-laser-beam-size" title="Link to this heading">#</a></h1>
+  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-laser-beam-profiling-measuring-beam-size-along-the-propagation-axis">
+<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-laser-beam-profiling-measuring-beam-size-along-the-propagation-axis" title="Link to this heading">#</a></h1>
 <p>This example shows how to measure the size of a laser beam along the propagation
 axis using DataLab:</p>
 <ul class="simple">
@@ -653,7 +674,7 @@ To do this, select “Analysis &gt; Centroid” from the menu.</p>
 <p>Next, we can extract a line profile along the horizontal axis using
 “Analysis &gt; Intensity profiles &gt; Line profile”. Set the row position to the
 previously computed centroid position (i.e., 668) using the “Set Parameters” button.
-See <a class="reference internal" href="fabry_perot.html#tutorial-fabry-perot"><span class="std std-ref"> Measuring Fabry-Perot fringes</span></a> for more details on intensity profile extraction.</p>
+See <a class="reference internal" href="fabry_perot.html#tutorial-fabry-perot"><span class="std std-ref"> Analyzing Fabry-Perot interferograms: ring detection and circle fitting</span></a> for more details on intensity profile extraction.</p>
 <p>The intensity profile will be displayed in the “Signal panel”. We can then fit the profile
 to a Gaussian function using “Processing &gt; Fitting &gt; Gaussian fit”. Here we have
 selected both signals for comparison.</p>
@@ -801,7 +822,7 @@ only a selection of data sets from the workspace.</p>
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">previous</p>
-        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Measuring Fabry-Perot fringes</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyzing Fabry-Perot interferograms: ring detection and circle fitting</p>
       </div>
     </a>
     <a class="right-next"

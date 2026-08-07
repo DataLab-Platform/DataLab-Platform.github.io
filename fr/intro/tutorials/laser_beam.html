@@ -7,8 +7,15 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
-<meta content="Tutoriel: mesurer la taille d'un faisceau laser avec DataLab, la plateforme d'analyse et de visualisation scientifique open-source" name="description" translated="True" />
-<meta content="DataLab, tutoriel, faisceau laser, taille, FWHM, ajustement gaussien, profil radial, profil de ligne, seuillage, centre de gravité, statistiques de l'image, étalonnage linéaire, HDF5, espace de travail" name="keywords" translated="True" />
+<meta content="Mesurez la taille d'un faisceau laser (FWHM) à partir d'images caméra avec DataLab, la plateforme open-source d'analyse de signaux et d'images : seuillage, profils d'intensité rectilignes et radiaux, ajustement gaussien, et analyse par lots d'une pile d'images pour tracer la taille du faisceau le long de l'axe de propagation." name="description" translated="True" />
+<meta content="profilométrie de faisceau laser, mesure de taille de faisceau, FWHM, waist, ajustement gaussien, profil radial, analyse d'images caméra, pile d'images, traitement par lots, photonique, DataLab, tutoriel" name="keywords" translated="True" />
+<meta property="og:title" content=" Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/intro/tutorials/laser_beam.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation: Cet exemple montre comment mesurer la taille d’un faisceau laser le long de l’axe de propagation en ..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
 
 <!-- Google tag (gtag.js) -->
 <script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
@@ -21,7 +28,7 @@
 </script>
 
 
-    <title>Mesurer la taille d’un faisceau laser &#8212; DataLab</title>
+    <title>Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation &#8212; DataLab</title>
 
 
   
@@ -71,7 +78,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
     <link rel="next" title="Prototypage d’une chaîne de traitement personnalisée" href="custom_func.html" />
-    <link rel="prev" title="Mesure de franges de Fabry-Perot" href="fabry_perot.html" />
+    <link rel="prev" title="Analyse d’interférogrammes Fabry-Perot : détection d’anneaux et ajustement de cercles" href="fabry_perot.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
   <meta name="docsearch:version" content="" />
@@ -170,6 +177,13 @@
 <li class="nav-item current active">
   <a class="nav-link nav-internal" href="../index.html">
     Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
   </a>
 </li>
 
@@ -330,6 +344,13 @@
 
 
 <li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item ">
   <a class="nav-link nav-internal" href="../../features/index.html">
     Fonctionnalités
   </a>
@@ -449,10 +470,10 @@
 <li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutoriels</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
 <li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Démo rapide</a></li>
 <li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Ajouter vos propres fonctionnalités</a></li>
-<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Traitement d’un spectre</a></li>
-<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Détection de taches sur une image</a></li>
-<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesure de franges de Fabry-Perot</a></li>
-<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyse de spectre : débruitage, correction de ligne de base et ajustement de pics</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Détection automatisée de défauts et de particules sur des images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyse d’interférogrammes Fabry-Perot : détection d’anneaux et ajustement de cercles</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg>  Prototypage d’une chaîne de traitement personnalisée</a></li>
 <li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab et Spyder : un duo gagnant</a></li>
 </ul>
@@ -503,7 +524,7 @@
     
     <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutoriels</a></li>
     
-    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser</span></li>
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation</span></li>
   </ul>
 </nav>
 </div>
@@ -520,8 +541,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-laser-beam-size">
-<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesurer la taille d’un faisceau laser<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-measuring-laser-beam-size" title="Lien vers cette rubrique">#</a></h1>
+  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-laser-beam-profiling-measuring-beam-size-along-the-propagation-axis">
+<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Profilométrie de faisceau laser : mesurer la taille du faisceau le long de l’axe de propagation<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-laser-beam-profiling-measuring-beam-size-along-the-propagation-axis" title="Lien vers cette rubrique">#</a></h1>
 <p>Cet exemple montre comment mesurer la taille d’un faisceau laser le long de l’axe de propagation en utilisant DataLab :</p>
 <ul class="simple">
 <li><p>Ouvrir toutes les images d’un dossier</p></li>
@@ -616,7 +637,7 @@
 <p><span class="caption-text">La position du centroïde est affichée sur l’image.</span><a class="headerlink" href="#id8" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
-<p>Ensuite, nous pouvons extraire un profil de ligne le long de l’axe horizontal en utilisant « Opérations &gt; Profils d’intensité &gt; Profil rectiligne ». Définissez la position de la ligne sur la position du centroïde calculée précédemment (c’est-à-dire 668) en utilisant le bouton « Définir les paramètres ». Voir <a class="reference internal" href="fabry_perot.html#tutorial-fabry-perot"><span class="std std-ref"> Mesure de franges de Fabry-Perot</span></a> pour plus de détails sur l’extraction de profil d’intensité.</p>
+<p>Ensuite, nous pouvons extraire un profil de ligne le long de l’axe horizontal en utilisant « Opérations &gt; Profils d’intensité &gt; Profil rectiligne ». Définissez la position de la ligne sur la position du centroïde calculée précédemment (c’est-à-dire 668) en utilisant le bouton « Définir les paramètres ». Voir <a class="reference internal" href="fabry_perot.html#tutorial-fabry-perot"><span class="std std-ref"> Analyse d’interférogrammes Fabry-Perot : détection d’anneaux et ajustement de cercles</span></a> pour plus de détails sur l’extraction de profil d’intensité.</p>
 <p>Le profil d’intensité sera affiché dans le panneau « Signaux ». Nous pouvons ensuite ajuster le profil à une fonction gaussienne en utilisant « Traitement &gt; Ajustement &gt; Ajustement gaussien ». Ici, nous avons sélectionné les deux signaux pour comparaison.</p>
 <figure class="align-default" id="id9">
 <img alt="../../_images/082.png" src="../../_images/082.png" />
@@ -723,7 +744,7 @@
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">précédent</p>
-        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Mesure de franges de Fabry-Perot</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyse d’interférogrammes Fabry-Perot : détection d’anneaux et ajustement de cercles</p>
       </div>
     </a>
     <a class="right-next"
