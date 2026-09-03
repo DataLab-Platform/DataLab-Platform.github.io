@@ -48,20 +48,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -159,7 +159,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -460,6 +460,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">Panneau d’historique</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="nav bd-sidenav">
@@ -496,6 +497,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../advanced/plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ai_assistant.html">Assistant IA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/webapi.html">API Web</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../advanced/model.html">Modèle de données interne</a></li>
@@ -707,6 +709,48 @@
 <section id="clipping">
 <h3>Ecrêtage<a class="headerlink" href="#clipping" title="Lien vers cette rubrique">#</a></h3>
 <p>Applique un écrêtage sur chaque image sélectionnée.</p>
+</section>
+<section id="replace-special-values">
+<h3>Remplacer les valeurs spéciales<a class="headerlink" href="#replace-special-values" title="Lien vers cette rubrique">#</a></h3>
+<p>Crée une nouvelle image où les pixels <code class="docutils literal notranslate"><span class="pre">NaN</span></code>, <code class="docutils literal notranslate"><span class="pre">+Inf</span></code> et <code class="docutils literal notranslate"><span class="pre">-Inf</span></code> sont remplacés à l’aide d’une stratégie configurable pour chaque valeur cible.</p>
+<p>Chacune des trois cibles (<code class="docutils literal notranslate"><span class="pre">NaN</span></code>, <code class="docutils literal notranslate"><span class="pre">+Inf</span></code>, <code class="docutils literal notranslate"><span class="pre">-Inf</span></code>) est traitée indépendamment. Pour chaque cible, l’utilisateur sélectionne l’une des stratégies suivantes (ou <em>Ne rien faire</em> pour laisser la cible inchangée) :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Stratégie</p></th>
+<th class="head"><p>Description</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Ne rien faire</p></td>
+<td><p>Laisser les valeurs cibles inchangées.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Remplacer par zéro</p></td>
+<td><p>Remplacer par <code class="docutils literal notranslate"><span class="pre">0</span></code>.</p></td>
+</tr>
+<tr class="row-even"><td><p>Remplacer par une constante</p></td>
+<td><p>Remplacer par une valeur constante définie par l’utilisateur.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Remplacer par le minimum / maximum</p></td>
+<td><p>Remplacer par le minimum / maximum des pixels finis.</p></td>
+</tr>
+<tr class="row-even"><td><p>Remplacer par la moyenne / médiane</p></td>
+<td><p>Remplacer par la moyenne / médiane des pixels finis.</p></td>
+</tr>
+<tr class="row-odd"><td><p>Minimum / maximum / moyenne / médiane sur N voisins</p></td>
+<td><p>Remplacer par la statistique correspondante calculée sur le voisinage <code class="docutils literal notranslate"><span class="pre">(2N+1)</span> <span class="pre">×</span> <span class="pre">(2N+1)</span></code> autour de chaque pixel affecté.</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Avant d’ouvrir le formulaire de paramètres standard, la boîte de dialogue affiche le nombre de chaque cible trouvée dans l’image (par exemple <em>NaN : 124 (0,5 %)</em>). Lorsqu’une stratégie fondée sur les voisins est sélectionnée, un petit aperçu montre le noyau 2D qui sera utilisé.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Contrairement aux signaux, aucune stratégie d’interpolation n’est actuellement disponible pour les images.</p>
+</div>
 </section>
 <section id="offset-correction">
 <h3>Soustraction d’offset<a class="headerlink" href="#offset-correction" title="Lien vers cette rubrique">#</a></h3>
@@ -1304,6 +1348,7 @@
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#level-adjustment">Ajustement des niveaux</a><ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#normalize">Normalisation</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#clipping">Ecrêtage</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#replace-special-values">Remplacer les valeurs spéciales</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#offset-correction">Soustraction d’offset</a></li>
 </ul>
 </li>
@@ -1340,8 +1385,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1375,7 +1420,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

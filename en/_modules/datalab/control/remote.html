@@ -39,20 +39,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -484,7 +484,7 @@
   <h1>Source code for datalab.control.remote</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">DataLab remote control</span>
 <span class="sd">----------------------</span>
 
@@ -492,7 +492,7 @@
 <span class="sd">Spyder) or from a Jupyter notebook.</span>
 
 <span class="sd">The :class:`RemoteClient` class provides the main interface to DataLab XML-RPC server.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -515,7 +515,7 @@
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">datalab</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_plotpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">items_to_json</span><span class="p">,</span> <span class="n">json_to_items</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">initialize</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conf</span><span class="p">,</span> <span class="n">ensure_initialized</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.control.baseproxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">AbstractDLControl</span><span class="p">,</span> <span class="n">BaseProxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.env</span><span class="w"> </span><span class="kn">import</span> <span class="n">execenv</span>
 
@@ -527,12 +527,12 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">remote_call</span><span class="p">(</span><span class="n">func</span><span class="p">:</span> <span class="n">Callable</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">object</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Decorator for method calling DataLab main window remotely&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Decorator for method calling DataLab main window remotely"""</span>
 
     <span class="nd">@functools</span><span class="o">.</span><span class="n">wraps</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">method_wrapper</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Decorator wrapper function&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="p">:</span> <span class="n">RemoteServer</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># extracting &#39;self&#39; from method arguments</span>
+<span class="w">        </span><span class="sd">"""Decorator wrapper function"""</span>
+        <span class="bp">self</span><span class="p">:</span> <span class="n">RemoteServer</span> <span class="o">=</span> <span class="n">args</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># extracting 'self' from method arguments</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span> <span class="o">=</span> <span class="kc">False</span>
         <span class="n">output</span> <span class="o">=</span> <span class="n">func</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
         <span class="k">while</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span><span class="p">:</span>
@@ -545,7 +545,7 @@
             <span class="k">raise</span> <span class="n">exc</span>
         <span class="c1"># For methods that use signal/slot pattern (like call_method),</span>
         <span class="c1"># they return self.result which is set by the slot. The function</span>
-        <span class="c1"># itself returns this value, but it&#39;s set asynchronously, so we</span>
+        <span class="c1"># itself returns this value, but it's set asynchronously, so we</span>
         <span class="c1"># need to return the value AFTER waiting, not the initial return value.</span>
         <span class="c1"># Since we wait above, self.result should now be set by the slot.</span>
         <span class="c1"># If the function returned self.result, use the updated value.</span>
@@ -557,12 +557,12 @@
     <span class="k">return</span> <span class="n">method_wrapper</span>
 
 
-<span class="c1"># Note: RemoteServer can&#39;t inherit from AbstractDLControl because it is a QThread</span>
+<span class="c1"># Note: RemoteServer can't inherit from AbstractDLControl because it is a QThread</span>
 <span class="c1"># and most of the methods are not returning expected data types</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">RemoteServer</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">QThread</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;XML-RPC server QThread&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""XML-RPC server QThread"""</span>
 
     <span class="n">SIG_SERVER_PORT</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">(</span><span class="nb">int</span><span class="p">)</span>
     <span class="n">SIG_CLOSE_APP</span> <span class="o">=</span> <span class="n">QC</span><span class="o">.</span><span class="n">Signal</span><span class="p">()</span>
@@ -630,9 +630,11 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CALL_METHOD</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">win</span><span class="o">.</span><span class="n">call_method_slot</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">serve</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start server and serve forever&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Start server and serve forever"""</span>
         <span class="k">with</span> <span class="n">SimpleXMLRPCServer</span><span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="mi">0</span><span class="p">),</span> <span class="n">logRequests</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span>
+            <span class="p">(</span><span class="s2">"127.0.0.1"</span><span class="p">,</span> <span class="n">execenv</span><span class="o">.</span><span class="n">xmlrpcport</span> <span class="ow">or</span> <span class="mi">0</span><span class="p">),</span>
+            <span class="n">logRequests</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="p">)</span> <span class="k">as</span> <span class="n">server</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="n">server</span>
             <span class="n">server</span><span class="o">.</span><span class="n">register_introspection_functions</span><span class="p">()</span>
@@ -643,119 +645,119 @@
                 <span class="n">server</span><span class="o">.</span><span class="n">serve_forever</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">shutdown_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Shutdown server&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Shutdown server"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">server</span><span class="o">.</span><span class="n">shutdown</span><span class="p">()</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">server</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">notify_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Notify automatically attributed port.</span>
+<span class="w">        </span><span class="sd">"""Notify automatically attributed port.</span>
 
 <span class="sd">        This method is called after the server port has been automatically</span>
 <span class="sd">        attributed. It notifies the port number to the main window.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            port: Server port number</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SERVER_PORT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
 
     <span class="nd">@classmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">check_remote_functions</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Check if all AbstractDLControl methods are implemented in RemoteServer&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Check if all AbstractDLControl methods are implemented in RemoteServer"""</span>
         <span class="n">mlist</span> <span class="o">=</span> <span class="p">[]</span>
         <span class="k">for</span> <span class="n">method</span> <span class="ow">in</span> <span class="n">AbstractDLControl</span><span class="o">.</span><span class="n">get_public_methods</span><span class="p">():</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="nb">hasattr</span><span class="p">(</span><span class="bp">cls</span><span class="p">,</span> <span class="n">method</span><span class="p">):</span>
                 <span class="n">mlist</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">method</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">mlist</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2"> is missing some methods: </span><span class="si">{</span><span class="s1">&#39;,&#39;</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mlist</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">cls</span><span class="si">}</span><span class="s2"> is missing some methods: </span><span class="si">{</span><span class="s1">','</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">mlist</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">register_functions</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">server</span><span class="p">:</span> <span class="n">SimpleXMLRPCServer</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Register functions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Register functions"""</span>
         <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">AbstractDLControl</span><span class="o">.</span><span class="n">get_public_methods</span><span class="p">():</span>
             <span class="n">server</span><span class="o">.</span><span class="n">register_function</span><span class="p">(</span><span class="nb">getattr</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">run</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Thread execution method&quot;&quot;&quot;</span>
-        <span class="k">if</span> <span class="s2">&quot;coverage&quot;</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Thread execution method"""</span>
+        <span class="k">if</span> <span class="s2">"coverage"</span> <span class="ow">in</span> <span class="n">sys</span><span class="o">.</span><span class="n">modules</span><span class="p">:</span>
             <span class="c1"># The following is required to make coverage work with threading</span>
             <span class="c1"># pylint: disable=protected-access</span>
             <span class="n">sys</span><span class="o">.</span><span class="n">settrace</span><span class="p">(</span><span class="n">threading</span><span class="o">.</span><span class="n">_trace_hook</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serve</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">datalab_is_ready</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Called when DataLab is ready to process new requests&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Called when DataLab is ready to process new requests"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">is_ready</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_version</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return DataLab public version&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return DataLab public version"""</span>
         <span class="k">return</span> <span class="n">datalab</span><span class="o">.</span><span class="n">__version__</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">close_application</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close DataLab application&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Close DataLab application"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CLOSE_APP</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">raise_window</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise DataLab window&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Raise DataLab window"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RAISE_WINDOW</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_current_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current panel name.</span>
+<span class="w">        </span><span class="sd">"""Return current panel name.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Panel name (valid values: 'signal', 'image', 'macro')</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_current_panel</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_current_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch to panel.</span>
+<span class="w">        </span><span class="sd">"""Switch to panel.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel: Panel name (valid values: &#39;signal&#39;, &#39;image&#39;, &#39;macro&#39;)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            panel: Panel name (valid values: 'signal', 'image', 'macro')</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SWITCH_TO_PANEL</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle auto refresh state.</span>
+<span class="w">        </span><span class="sd">"""Toggle auto refresh state.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            state: True to enable auto refresh, False to disable it</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_AUTO_REFRESH</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_show_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle show titles state.</span>
+<span class="w">        </span><span class="sd">"""Toggle show titles state.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            state: True to enable show titles, False to disable it</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_TOGGLE_SHOW_TITLES</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_all</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset all application data&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reset all application data"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RESET_ALL</span><span class="o">.</span><span class="n">emit</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">force</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove current object from current panel.</span>
+<span class="w">        </span><span class="sd">"""Remove current object from current panel.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            force: if True, remove object without confirmation. Defaults to False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_REMOVE_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">force</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_to_h5_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save to a DataLab HDF5 file.</span>
+<span class="w">        </span><span class="sd">"""Save to a DataLab HDF5 file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: HDF5 file name (with extension .h5)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SAVE_TO_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -765,31 +767,31 @@
         <span class="n">import_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a DataLab HDF5 file or import from any other HDF5 file.</span>
+<span class="w">        </span><span class="sd">"""Open a DataLab HDF5 file or import from any other HDF5 file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            h5files: HDF5 file names. Defaults to None.</span>
 <span class="sd">            import_all: Import all objects from HDF5 file. Defaults to None.</span>
 <span class="sd">            reset_all: Reset all application data. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">import_all</span> <span class="o">=</span> <span class="kc">True</span> <span class="k">if</span> <span class="n">import_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">import_all</span>
         <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">reset_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reset_all</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_OPEN_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">import_all</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">import_h5_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open DataLab HDF5 browser to Import HDF5 file.</span>
+<span class="w">        </span><span class="sd">"""Open DataLab HDF5 browser to Import HDF5 file.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: HDF5 file name</span>
 <span class="sd">            reset_all: Reset all application data. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">reset_all</span> <span class="o">=</span> <span class="kc">False</span> <span class="k">if</span> <span class="n">reset_all</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">reset_all</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_H5</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_h5_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load native DataLab HDF5 workspace files without any GUI elements.</span>
+<span class="w">        </span><span class="sd">"""Load native DataLab HDF5 workspace files without any GUI elements.</span>
 
 <span class="sd">        This method can be safely called from scripts as it does not create</span>
 <span class="sd">        any Qt widgets, dialogs, or progress bars.</span>
@@ -800,12 +802,12 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: If a file is not a valid native DataLab HDF5 file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_H5_WORKSPACE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_h5_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save current workspace to a native DataLab HDF5 file without GUI elements.</span>
+<span class="w">        </span><span class="sd">"""Save current workspace to a native DataLab HDF5 file without GUI elements.</span>
 
 <span class="sd">        This method can be safely called from scripts as it does not create</span>
 <span class="sd">        any Qt widgets, dialogs, or progress bars.</span>
@@ -815,25 +817,25 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            IOError: If file cannot be saved</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SAVE_H5_WORKSPACE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_from_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from files in current panel (signals/images).</span>
+<span class="w">        </span><span class="sd">"""Open objects from files in current panel (signals/images).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filenames: list of file names</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_FILES</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">load_from_directory</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from directory in current panel (signals/images).</span>
+<span class="w">        </span><span class="sd">"""Open objects from directory in current panel (signals/images).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            path: directory path</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_LOAD_FROM_DIRECTORY</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">path</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -842,36 +844,36 @@
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">xbinary</span><span class="p">:</span> <span class="n">Binary</span><span class="p">,</span>
         <span class="n">ybinary</span><span class="p">:</span> <span class="n">Binary</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Signal title</span>
 <span class="sd">            xbinary: X data</span>
 <span class="sd">            ybinary: Y data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added signal as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">xdata</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">xbinary</span><span class="p">)</span>
         <span class="n">ydata</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">ybinary</span><span class="p">)</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">create_signal</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">)</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">xunit</span> <span class="o">=</span> <span class="n">xunit</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case xunit is None</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">yunit</span> <span class="o">=</span> <span class="n">yunit</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case yunit is None</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case xlabel is None</span>
-        <span class="n">signal</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case ylabel is None</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">xunit</span> <span class="o">=</span> <span class="n">xunit</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case xunit is None</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">yunit</span> <span class="o">=</span> <span class="n">yunit</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case yunit is None</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case xlabel is None</span>
+        <span class="n">signal</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case ylabel is None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">signal</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
@@ -880,64 +882,64 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">zbinary</span><span class="p">:</span> <span class="n">Binary</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Image title</span>
 <span class="sd">            zbinary: Z data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            zunit: Z unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            zlabel: Z label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            zunit: Z unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            zlabel: Z label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added image as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcbinary_to_array</span><span class="p">(</span><span class="n">zbinary</span><span class="p">)</span>
         <span class="n">image</span> <span class="o">=</span> <span class="n">create_image</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">xunit</span> <span class="o">=</span> <span class="n">xunit</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case xunit is None</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">yunit</span> <span class="o">=</span> <span class="n">yunit</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case yunit is None</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">zunit</span> <span class="o">=</span> <span class="n">zunit</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case zunit is None</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case xlabel is None</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case ylabel is None</span>
-        <span class="n">image</span><span class="o">.</span><span class="n">zlabel</span> <span class="o">=</span> <span class="n">zlabel</span> <span class="ow">or</span> <span class="s2">&quot;&quot;</span>  <span class="c1"># In case zlabel is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">xunit</span> <span class="o">=</span> <span class="n">xunit</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case xunit is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">yunit</span> <span class="o">=</span> <span class="n">yunit</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case yunit is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">zunit</span> <span class="o">=</span> <span class="n">zunit</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case zunit is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">xlabel</span> <span class="o">=</span> <span class="n">xlabel</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case xlabel is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">ylabel</span> <span class="o">=</span> <span class="n">ylabel</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case ylabel is None</span>
+        <span class="n">image</span><span class="o">.</span><span class="n">zlabel</span> <span class="o">=</span> <span class="n">zlabel</span> <span class="ow">or</span> <span class="s2">""</span>  <span class="c1"># In case zlabel is None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_object</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span> <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj_data: Object data</span>
-<span class="sd">            group_id: Group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            group_id: Group id in which to add the object. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added object as current</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcjson_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object data in DataLab.</span>
+<span class="w">        </span><span class="sd">"""Set object data in DataLab.</span>
 
 <span class="sd">        Update an existing object in DataLab with new data from ``obj_data``.</span>
 <span class="sd">        The object is identified by its UUID.</span>
@@ -950,43 +952,43 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if no object with matching UUID is found</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">rpcjson_to_dataset</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SET_OBJECT</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="kc">True</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_sel_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">include_groups</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return selected objects uuids.</span>
+<span class="w">        </span><span class="sd">"""Return selected objects uuids.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            include_groups: If True, also return objects from selected groups.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of selected objects uuids.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_sel_object_uuids</span><span class="p">(</span><span class="n">include_groups</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_current_object_uuid</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current object uuid in current panel.</span>
+<span class="w">        </span><span class="sd">"""Return current object uuid in current panel.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            UUID of the current object, or None if no object is current.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_current_object_uuid</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_group</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">select</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add group to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add group to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Group title</span>
-<span class="sd">            panel: Panel name (valid values: &quot;signal&quot;, &quot;image&quot;). Defaults to None.</span>
+<span class="sd">            panel: Panel name (valid values: "signal", "image"). Defaults to None.</span>
 <span class="sd">            select: Select the group after creation. Defaults to False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_ADD_GROUP</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">panel</span><span class="p">,</span> <span class="n">select</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -995,27 +997,27 @@
         <span class="n">selection</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">],</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select objects in current panel.</span>
+<span class="w">        </span><span class="sd">"""Select objects in current panel.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            selection: List of object numbers (1 to N) or uuids to select</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_OBJECTS</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">selection</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">select_groups</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">selection</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Select groups in current panel.</span>
+<span class="w">        </span><span class="sd">"""Select groups in current panel.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            selection: List of group numbers (1 to N), or list of group uuids,</span>
 <span class="sd">             or None to select all groups. Defaults to None.</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used. Defaults to None.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">selection</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">SIG_SELECT_ALL_GROUPS</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1025,22 +1027,22 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">delete_metadata</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">keep_roi</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Delete metadata of selected objects</span>
+<span class="w">        </span><span class="sd">"""Delete metadata of selected objects</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            refresh_plot: Refresh plot. Defaults to True.</span>
 <span class="sd">            keep_roi: Keep ROI. Defaults to False.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_DELETE_METADATA</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">refresh_plot</span><span class="p">,</span> <span class="n">keep_roi</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param_data</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call computation feature ``name``</span>
+<span class="w">        </span><span class="sd">"""Call computation feature ``name``</span>
 
 <span class="sd">        .. note::</span>
 
-<span class="sd">            This calls either the processor&#39;s ``compute_&lt;name&gt;`` method (if it exists),</span>
-<span class="sd">            or the processor&#39;s ``&lt;name&gt;`` computation feature (if it is registered,</span>
+<span class="sd">            This calls either the processor's ``compute_&lt;name&gt;`` method (if it exists),</span>
+<span class="sd">            or the processor's ``&lt;name&gt;`` computation feature (if it is registered,</span>
 <span class="sd">            using the ``run_feature`` method).</span>
 <span class="sd">            It looks for the function in all panels, starting with the current one.</span>
 
@@ -1050,7 +1052,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if successful, False otherwise</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">param_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">param</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
@@ -1062,25 +1064,25 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_group_titles_with_object_info</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]],</span> <span class="nb">list</span><span class="p">[</span><span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]]]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return groups titles and lists of inner objects uuids and titles.</span>
+<span class="w">        </span><span class="sd">"""Return groups titles and lists of inner objects uuids and titles.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Groups titles, lists of inner objects uuids and titles</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_group_titles_with_object_info</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) list for current panel.</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) list for current panel.</span>
 <span class="sd">        Objects are sorted by group number and object index in group.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;, &quot;macro&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image", "macro").</span>
 <span class="sd">             If None, current data panel is used (i.e. signal or image panel).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of object titles</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_titles</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -1089,7 +1091,7 @@
         <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) from index.</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) from index.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -1101,7 +1103,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if object not found</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -1111,18 +1113,18 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object_uuids</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) uuid list for current panel.</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) uuid list for current panel.</span>
 <span class="sd">        Objects are sorted by group number and object index in group.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used.</span>
 <span class="sd">            group: Group number, or group id, or group title.</span>
 <span class="sd">             Defaults to None (all groups).</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            Object uuids</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_uuids</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -1131,7 +1133,7 @@
         <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get plot item shapes associated to object (signal/image).</span>
+<span class="w">        </span><span class="sd">"""Get plot item shapes associated to object (signal/image).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -1140,7 +1142,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of plot item shapes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">items</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_object_shapes</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
 
@@ -1148,14 +1150,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_annotations_from_items</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items_json</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
+<span class="w">        </span><span class="sd">"""Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            items_json: JSON string of annotation items</span>
 <span class="sd">            refresh_plot: refresh plot. Defaults to True.</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">items</span> <span class="o">=</span> <span class="n">json_to_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
@@ -1164,43 +1166,43 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_label_with_title</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add a label with object title on the associated plot</span>
+<span class="w">        </span><span class="sd">"""Add a label with object title on the associated plot</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Label title. Defaults to None.</span>
 <span class="sd">             If None, the title is the object title.</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">add_label_with_title</span><span class="p">(</span><span class="n">title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">run_macro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_or_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Run macro.</span>
+<span class="w">        </span><span class="sd">"""Run macro.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            number: Number of the macro (starting at 1). Defaults to None (run</span>
 <span class="sd">             current macro, or does nothing if there is no macro).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_RUN_MACRO</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">number_or_title</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_macro</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">number_or_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop macro.</span>
+<span class="w">        </span><span class="sd">"""Stop macro.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            number: Number of the macro (starting at 1). Defaults to None (stop</span>
 <span class="sd">             current macro, or does nothing if there is no macro).</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_STOP_MACRO</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">number_or_title</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">import_macro_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import macro from file</span>
+<span class="w">        </span><span class="sd">"""Import macro from file</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: Filename.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_IMPORT_MACRO_FROM_FILE</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
@@ -1209,7 +1211,7 @@
         <span class="n">method_name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">call_params</span><span class="p">:</span> <span class="nb">dict</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call a public method on a panel or main window.</span>
+<span class="w">        </span><span class="sd">"""Call a public method on a panel or main window.</span>
 
 <span class="sd">        Method resolution order when panel is None:</span>
 <span class="sd">        1. Try main window (DLMainWindow)</span>
@@ -1217,8 +1219,8 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            method_name: Name of the method to call</span>
-<span class="sd">            call_params: Dictionary with keys &#39;args&#39; (list), &#39;panel&#39; (str|None),</span>
-<span class="sd">             &#39;kwargs&#39; (dict). Defaults to empty for missing keys.</span>
+<span class="sd">            call_params: Dictionary with keys 'args' (list), 'panel' (str|None),</span>
+<span class="sd">             'kwargs' (dict). Defaults to empty for missing keys.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            The return value of the called method</span>
@@ -1227,10 +1229,10 @@
 <span class="sd">            AttributeError: If the method does not exist or is not public</span>
 <span class="sd">            ValueError: If the panel name is invalid</span>
 
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">args</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;args&quot;</span><span class="p">,</span> <span class="p">[])</span>
-        <span class="n">panel</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;panel&quot;</span><span class="p">)</span>
-        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;kwargs&quot;</span><span class="p">,</span> <span class="p">{})</span>
+<span class="sd">        """</span>
+        <span class="n">args</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"args"</span><span class="p">,</span> <span class="p">[])</span>
+        <span class="n">panel</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"panel"</span><span class="p">)</span>
+        <span class="n">kwargs</span> <span class="o">=</span> <span class="n">call_params</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"kwargs"</span><span class="p">,</span> <span class="p">{})</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">result</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># Initialize result</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">SIG_CALL_METHOD</span><span class="o">.</span><span class="n">emit</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">args</span><span class="p">,</span> <span class="n">panel</span><span class="p">,</span> <span class="n">kwargs</span><span class="p">)</span>
         <span class="c1"># The decorator waits for is_ready, then this returns self.result</span>
@@ -1247,36 +1249,36 @@
         <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the Web API server.</span>
+<span class="w">        </span><span class="sd">"""Start the Web API server.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            host: Host address to bind to. Defaults to &quot;127.0.0.1&quot;.</span>
+<span class="sd">            host: Host address to bind to. Defaults to "127.0.0.1".</span>
 <span class="sd">            port: Port number. Defaults to auto-detect available port.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dictionary with &quot;url&quot; and &quot;token&quot; keys.</span>
+<span class="sd">            Dictionary with "url" and "token" keys.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            RuntimeError: If Web API dependencies not installed or server</span>
 <span class="sd">             already running.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Delegate to main window method which is @remote_controlled</span>
         <span class="c1"># This ensures SIG_READY is emitted for the @remote_call decorator</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_webapi_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the Web API server.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Stop the Web API server."""</span>
         <span class="c1"># Delegate to main window method which is @remote_controlled</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span>
 
     <span class="nd">@remote_call</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webapi_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get Web API server status.</span>
+<span class="w">        </span><span class="sd">"""Get Web API server status.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dictionary with &quot;running&quot;, &quot;url&quot;, and &quot;token&quot; keys.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Dictionary with "running", "url", and "token" keys.</span>
+<span class="sd">        """</span>
         <span class="c1"># Delegate to main window method which is @remote_controlled</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">win</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span>
 
@@ -1293,38 +1295,38 @@
 <span class="c1"># from xmlrpclib import ServerProxy, Binary</span>
 <span class="c1"># import numpy as np</span>
 <span class="c1"># def array_to_binary(data):</span>
-<span class="c1">#     &quot;&quot;&quot;Convert NumPy array to XML-RPC Binary object, with shape and dtype&quot;&quot;&quot;</span>
+<span class="c1">#     """Convert NumPy array to XML-RPC Binary object, with shape and dtype"""</span>
 <span class="c1">#     dbytes = io.BytesIO()</span>
 <span class="c1">#     np.save(dbytes, data, allow_pickle=False)</span>
 <span class="c1">#     return Binary(dbytes.getvalue())</span>
-<span class="c1"># s = ServerProxy(&quot;http://127.0.0.1:8000&quot;)</span>
+<span class="c1"># s = ServerProxy("http://127.0.0.1:8000")</span>
 <span class="c1"># data = np.array([[3, 4, 5], [7, 8, 0]], dtype=np.uint16)</span>
-<span class="c1"># s.add_image(&quot;toto&quot;, array_to_binary(data))</span>
+<span class="c1"># s.add_image("toto", array_to_binary(data))</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_datalab_xmlrpc_port</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return DataLab current XML-RPC port</span>
+<span class="w">    </span><span class="sd">"""Return DataLab current XML-RPC port</span>
 
 <span class="sd">    Returns:</span>
 <span class="sd">        XML-RPC port</span>
 
 <span class="sd">    Raises:</span>
 <span class="sd">        ConnectionRefusedError: DataLab has not yet been executed</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
     <span class="c1">#  The following is valid only when using Python 3.9+ with DataLab</span>
     <span class="c1">#  installed on the client side. In any other situation, please use the</span>
     <span class="c1">#  ``get_datalab_xmlrpc_port`` function from doc/remotecontrol_py27.py.</span>
-    <span class="n">initialize</span><span class="p">()</span>
+    <span class="n">ensure_initialized</span><span class="p">(</span><span class="n">load_user_config</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">Conf</span><span class="o">.</span><span class="n">main</span><span class="o">.</span><span class="n">rpc_server_port</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">return</span> <span class="n">Conf</span><span class="o">.</span><span class="n">rpc_server_port</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
     <span class="k">except</span> <span class="ne">RuntimeError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-        <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">&quot;DataLab has not yet been executed&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+        <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">"DataLab has not yet been executed"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
 
 
 <div class="viewcode-block" id="RemoteClient">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RemoteClient</span><span class="p">(</span><span class="n">BaseProxy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing a proxy/client to DataLab XML-RPC server.</span>
+<span class="w">    </span><span class="sd">"""Object representing a proxy/client to DataLab XML-RPC server.</span>
 <span class="sd">    This object is used to call DataLab functions from a Python script.</span>
 
 <span class="sd">    Examples:</span>
@@ -1336,18 +1338,18 @@
 <span class="sd">        &gt;&gt;&gt; proxy.connect()</span>
 <span class="sd">        Connecting to DataLab XML-RPC server...OK (port: 28867)</span>
 <span class="sd">        &gt;&gt;&gt; proxy.get_version()</span>
-<span class="sd">        &#39;1.0.0&#39;</span>
-<span class="sd">        &gt;&gt;&gt; proxy.add_signal(&quot;toto&quot;, np.array([1., 2., 3.]), np.array([4., 5., -1.]))</span>
+<span class="sd">        '1.0.0'</span>
+<span class="sd">        &gt;&gt;&gt; proxy.add_signal("toto", np.array([1., 2., 3.]), np.array([4., 5., -1.]))</span>
 <span class="sd">        True</span>
 <span class="sd">        &gt;&gt;&gt; proxy.get_object_titles()</span>
-<span class="sd">        [&#39;toto&#39;]</span>
-<span class="sd">        &gt;&gt;&gt; proxy[&quot;toto&quot;]</span>
+<span class="sd">        ['toto']</span>
+<span class="sd">        &gt;&gt;&gt; proxy["toto"]</span>
 <span class="sd">        &lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
 <span class="sd">        &gt;&gt;&gt; proxy[1]</span>
 <span class="sd">        &lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
 <span class="sd">        &gt;&gt;&gt; proxy[1].data</span>
 <span class="sd">        array([1., 2., 3.])</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -1357,50 +1359,50 @@
 <div class="viewcode-block" id="RemoteClient.set_port">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.set_port">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_port</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set XML-RPC port to connect to.</span>
+<span class="w">        </span><span class="sd">"""Set XML-RPC port to connect to.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            port: XML-RPC port to connect to. If None, the port is automatically</span>
 <span class="sd">             retrieved from DataLab configuration.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Setting XML-RPC port... [input:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
-        <span class="n">port_str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Setting XML-RPC port... [input:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
+        <span class="n">port_str</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">port</span> <span class="o">=</span> <span class="n">execenv</span><span class="o">.</span><span class="n">xmlrpcport</span>
-            <span class="n">port_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;→[execenv.xmlrpcport:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] &quot;</span>
+            <span class="n">port_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"→[execenv.xmlrpcport:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] "</span>
             <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="n">port</span> <span class="o">=</span> <span class="n">get_datalab_xmlrpc_port</span><span class="p">()</span>
-                <span class="n">port_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&quot;→[Conf.main.rpc_server_port:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] &quot;</span>
-        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">port_str</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+                <span class="n">port_str</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">"→[Conf.rpc_server_port:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] "</span>
+        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="n">port_str</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
         <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;KO&quot;</span><span class="p">)</span>
-            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">&quot;DataLab XML-RPC port is not set&quot;</span><span class="p">)</span>
-        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;OK&quot;</span><span class="p">)</span></div>
+            <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">"KO"</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">"DataLab XML-RPC port is not set"</span><span class="p">)</span>
+        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">"OK"</span><span class="p">)</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__connect_to_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to DataLab XML-RPC server.</span>
+<span class="w">        </span><span class="sd">"""Connect to DataLab XML-RPC server.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            port: XML-RPC port to connect to.</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ConnectionRefusedError: DataLab is currently not running</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span> <span class="o">=</span> <span class="n">ServerProxy</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;http://127.0.0.1:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="sd">        """</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span> <span class="o">=</span> <span class="n">ServerProxy</span><span class="p">(</span><span class="sa">f</span><span class="s2">"http://127.0.0.1:</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">version</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">ConnectionRefusedError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">&quot;DataLab is currently not running&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">"DataLab is currently not running"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="c1"># If DataLab version is not compatible with this client, show a warning</span>
         <span class="n">server_ver</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">version</span><span class="p">)</span>
         <span class="n">client_ver</span> <span class="o">=</span> <span class="n">Version</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">__version__</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">server_ver</span> <span class="o">&lt;</span> <span class="n">client_ver</span><span class="p">:</span>
             <span class="n">warnings</span><span class="o">.</span><span class="n">warn</span><span class="p">(</span>
-                <span class="sa">f</span><span class="s2">&quot;DataLab server version (</span><span class="si">{</span><span class="n">server_ver</span><span class="si">}</span><span class="s2">) may not be fully compatible &quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;with this DataLab client version (</span><span class="si">{</span><span class="n">client_ver</span><span class="si">}</span><span class="s2">).</span><span class="se">\n</span><span class="s2">&quot;</span>
-                <span class="sa">f</span><span class="s2">&quot;Please upgrade the server to </span><span class="si">{</span><span class="n">client_ver</span><span class="si">}</span><span class="s2"> or higher.&quot;</span>
+                <span class="sa">f</span><span class="s2">"DataLab server version (</span><span class="si">{</span><span class="n">server_ver</span><span class="si">}</span><span class="s2">) may not be fully compatible "</span>
+                <span class="sa">f</span><span class="s2">"with this DataLab client version (</span><span class="si">{</span><span class="n">client_ver</span><span class="si">}</span><span class="s2">).</span><span class="se">\n</span><span class="s2">"</span>
+                <span class="sa">f</span><span class="s2">"Please upgrade the server to </span><span class="si">{</span><span class="n">client_ver</span><span class="si">}</span><span class="s2"> or higher."</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="RemoteClient.connect">
@@ -1411,7 +1413,7 @@
         <span class="n">timeout</span><span class="p">:</span> <span class="nb">float</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">retries</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Try to connect to DataLab XML-RPC server.</span>
+<span class="w">        </span><span class="sd">"""Try to connect to DataLab XML-RPC server.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            port: XML-RPC port to connect to. If not specified,</span>
@@ -1425,15 +1427,15 @@
 <span class="sd">            ConnectionRefusedError: Unable to connect to DataLab</span>
 <span class="sd">            ValueError: Invalid timeout (must be &gt;= 0.0)</span>
 <span class="sd">            ValueError: Invalid number of retries (must be &gt;= 1)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">timeout</span> <span class="o">=</span> <span class="mf">5.0</span> <span class="k">if</span> <span class="n">timeout</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">timeout</span>
         <span class="n">retries</span> <span class="o">=</span> <span class="mi">10</span> <span class="k">if</span> <span class="n">retries</span> <span class="ow">is</span> <span class="kc">None</span> <span class="k">else</span> <span class="n">retries</span>  <span class="c1"># Kept for backward compatibility</span>
         <span class="k">if</span> <span class="n">timeout</span> <span class="o">&lt;</span> <span class="mf">0.0</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;timeout must be &gt;= 0.0&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"timeout must be &gt;= 0.0"</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">retries</span> <span class="o">&lt;</span> <span class="mi">1</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;retries must be &gt;= 1&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">"retries must be &gt;= 1"</span><span class="p">)</span>
 
-        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Connecting to DataLab XML-RPC server... [port:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] &quot;</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">)</span>
+        <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Connecting to DataLab XML-RPC server... [port:</span><span class="si">{</span><span class="n">port</span><span class="si">}</span><span class="s2">] "</span><span class="p">,</span> <span class="n">end</span><span class="o">=</span><span class="s2">""</span><span class="p">)</span>
 
         <span class="c1"># Use exponential backoff for more efficient retrying</span>
         <span class="n">start_time</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span>
@@ -1442,20 +1444,20 @@
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
-                <span class="c1"># Try to set the port - this may fail if DataLab hasn&#39;t written its</span>
+                <span class="c1"># Try to set the port - this may fail if DataLab hasn't written its</span>
                 <span class="c1"># config file yet, so we retry it in the loop</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">set_port</span><span class="p">(</span><span class="n">port</span><span class="p">)</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">__connect_to_server</span><span class="p">()</span>
                 <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
-                <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;OK (port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">, connected in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s)&quot;</span><span class="p">)</span>
+                <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"OK (port: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">port</span><span class="si">}</span><span class="s2">, connected in </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s)"</span><span class="p">)</span>
                 <span class="k">return</span>
             <span class="k">except</span> <span class="p">(</span><span class="ne">ConnectionRefusedError</span><span class="p">,</span> <span class="ne">OSError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
                 <span class="c1"># Catch both ConnectionRefusedError and OSError (includes socket errors)</span>
                 <span class="n">elapsed</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">-</span> <span class="n">start_time</span>
                 <span class="k">if</span> <span class="n">elapsed</span> <span class="o">&gt;=</span> <span class="n">timeout</span><span class="p">:</span>
-                    <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">&quot;KO&quot;</span><span class="p">)</span>
+                    <span class="n">execenv</span><span class="o">.</span><span class="n">print</span><span class="p">(</span><span class="s2">"KO"</span><span class="p">)</span>
                     <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span>
-                        <span class="sa">f</span><span class="s2">&quot;Unable to connect to DataLab after </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s&quot;</span>
+                        <span class="sa">f</span><span class="s2">"Unable to connect to DataLab after </span><span class="si">{</span><span class="n">elapsed</span><span class="si">:</span><span class="s2">.1f</span><span class="si">}</span><span class="s2">s"</span>
                     <span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
                 <span class="c1"># Wait before next retry with exponential backoff</span>
                 <span class="n">time</span><span class="o">.</span><span class="n">sleep</span><span class="p">(</span><span class="n">poll_interval</span><span class="p">)</span>
@@ -1465,7 +1467,7 @@
 <div class="viewcode-block" id="RemoteClient.disconnect">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.disconnect">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">disconnect</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Disconnect from DataLab XML-RPC server.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Disconnect from DataLab XML-RPC server."""</span>
         <span class="c1"># This is not mandatory with XML-RPC, but if we change protocol in the</span>
         <span class="c1"># future, it may be useful to have a disconnect method.</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span> <span class="o">=</span> <span class="kc">None</span></div>
@@ -1474,7 +1476,7 @@
 <div class="viewcode-block" id="RemoteClient.is_connected">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.is_connected">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">is_connected</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return True if connected to DataLab XML-RPC server.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return True if connected to DataLab XML-RPC server."""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
                 <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
@@ -1487,7 +1489,7 @@
 <div class="viewcode-block" id="RemoteClient.get_method_list">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.get_method_list">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_method_list</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return list of available methods.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return list of available methods."""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">system</span><span class="o">.</span><span class="n">listMethods</span><span class="p">()</span></div>
 
 
@@ -1500,24 +1502,24 @@
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">xdata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">ydata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Signal title</span>
 <span class="sd">            xdata: X data</span>
 <span class="sd">            ydata: Y data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added signal as current</span>
 
 <span class="sd">        Returns:</span>
@@ -1526,7 +1528,7 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid xdata dtype</span>
 <span class="sd">            ValueError: Invalid ydata dtype</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">SignalObj</span><span class="p">()</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">set_xydata</span><span class="p">(</span><span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">)</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">check_data</span><span class="p">()</span>
@@ -1543,27 +1545,27 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Image title</span>
 <span class="sd">            data: Image data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            zunit: Z unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            zlabel: Z label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            zunit: Z unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            zlabel: Z label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added image as current</span>
 
 <span class="sd">        Returns:</span>
@@ -1571,7 +1573,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid data dtype</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">ImageObj</span><span class="p">()</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span>
         <span class="n">obj</span><span class="o">.</span><span class="n">check_data</span><span class="p">()</span>
@@ -1595,16 +1597,16 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_object</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Signal or image object</span>
-<span class="sd">            group_id: group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            group_id: group id in which to add the object. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added object as current</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj_data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">dataset_to_rpcjson</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span></div>
 
@@ -1612,7 +1614,7 @@
 <div class="viewcode-block" id="RemoteClient.set_object">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.set_object">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">set_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set object data in DataLab.</span>
+<span class="w">        </span><span class="sd">"""Set object data in DataLab.</span>
 
 <span class="sd">        Update an existing object in DataLab with new data from ``obj``.</span>
 <span class="sd">        The object is identified by its UUID (which is carried by ``obj``</span>
@@ -1624,7 +1626,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if no object with matching UUID is found</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">obj_data</span> <span class="o">=</span> <span class="n">utils</span><span class="o">.</span><span class="n">dataset_to_rpcjson</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">set_object</span><span class="p">(</span><span class="n">obj_data</span><span class="p">)</span></div>
 
@@ -1632,12 +1634,12 @@
 <div class="viewcode-block" id="RemoteClient.calc">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.calc">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call computation feature ``name``</span>
+<span class="w">        </span><span class="sd">"""Call computation feature ``name``</span>
 
 <span class="sd">        .. note::</span>
 
-<span class="sd">            This calls either the processor&#39;s ``compute_&lt;name&gt;`` method (if it exists),</span>
-<span class="sd">            or the processor&#39;s ``&lt;name&gt;`` computation feature (if it is registered,</span>
+<span class="sd">            This calls either the processor's ``compute_&lt;name&gt;`` method (if it exists),</span>
+<span class="sd">            or the processor's ``&lt;name&gt;`` computation feature (if it is registered,</span>
 <span class="sd">            using the ``run_feature`` method).</span>
 <span class="sd">            It looks for the function in all panels, starting with the current one.</span>
 
@@ -1647,7 +1649,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: unknown function</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="n">param</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">name</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">utils</span><span class="o">.</span><span class="n">dataset_to_rpcjson</span><span class="p">(</span><span class="n">param</span><span class="p">))</span></div>
@@ -1660,7 +1662,7 @@
         <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) from index.</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) from index.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -1672,7 +1674,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if object not found</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">param_data</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">param_data</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
@@ -1686,7 +1688,7 @@
         <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get plot item shapes associated to object (signal/image).</span>
+<span class="w">        </span><span class="sd">"""Get plot item shapes associated to object (signal/image).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -1695,7 +1697,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of plot item shapes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">items_json</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_object_shapes</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">json_to_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">)</span></div>
 
@@ -1705,14 +1707,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_annotations_from_items</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
+<span class="w">        </span><span class="sd">"""Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            items: annotation plot items</span>
 <span class="sd">            refresh_plot: refresh plot. Defaults to True.</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">items_json</span> <span class="o">=</span> <span class="n">items_to_json</span><span class="p">(</span><span class="n">items</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">items_json</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items_json</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
@@ -1727,7 +1729,7 @@
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="o">**</span><span class="n">kwargs</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call a public method on a panel or main window.</span>
+<span class="w">        </span><span class="sd">"""Call a public method on a panel or main window.</span>
 
 <span class="sd">        Method resolution order when panel is None:</span>
 <span class="sd">        1. Try main window (DLMainWindow)</span>
@@ -1736,7 +1738,7 @@
 <span class="sd">        Args:</span>
 <span class="sd">            method_name: Name of the method to call</span>
 <span class="sd">            *args: Positional arguments to pass to the method</span>
-<span class="sd">            panel: Panel name (&quot;signal&quot;, &quot;image&quot;, or None for auto-detection).</span>
+<span class="sd">            panel: Panel name ("signal", "image", or None for auto-detection).</span>
 <span class="sd">             Defaults to None.</span>
 <span class="sd">            **kwargs: Keyword arguments to pass to the method</span>
 
@@ -1746,13 +1748,13 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            AttributeError: If the method does not exist or is not public</span>
 <span class="sd">            ValueError: If the panel name is invalid</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="c1"># Convert args/kwargs to single dict for XML-RPC serialization</span>
         <span class="c1"># This avoids XML-RPC signature mismatch issues with default parameters</span>
         <span class="n">call_params</span> <span class="o">=</span> <span class="p">{</span>
-            <span class="s2">&quot;args&quot;</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="p">[],</span>
-            <span class="s2">&quot;panel&quot;</span><span class="p">:</span> <span class="n">panel</span><span class="p">,</span>
-            <span class="s2">&quot;kwargs&quot;</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">{},</span>
+            <span class="s2">"args"</span><span class="p">:</span> <span class="nb">list</span><span class="p">(</span><span class="n">args</span><span class="p">)</span> <span class="k">if</span> <span class="n">args</span> <span class="k">else</span> <span class="p">[],</span>
+            <span class="s2">"panel"</span><span class="p">:</span> <span class="n">panel</span><span class="p">,</span>
+            <span class="s2">"kwargs"</span><span class="p">:</span> <span class="nb">dict</span><span class="p">(</span><span class="n">kwargs</span><span class="p">)</span> <span class="k">if</span> <span class="n">kwargs</span> <span class="k">else</span> <span class="p">{},</span>
         <span class="p">}</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">call_method</span><span class="p">(</span><span class="n">method_name</span><span class="p">,</span> <span class="n">call_params</span><span class="p">)</span></div>
 
@@ -1762,39 +1764,39 @@
 <div class="viewcode-block" id="RemoteClient.start_webapi_server">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.start_webapi_server">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">start_webapi_server</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;127.0.0.1&quot;</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8080</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">host</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">"127.0.0.1"</span><span class="p">,</span> <span class="n">port</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">8080</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Start the WebAPI server.</span>
+<span class="w">        </span><span class="sd">"""Start the WebAPI server.</span>
 
 <span class="sd">        Args:</span>
-<span class="sd">            host: Host address to bind to. Defaults to &quot;127.0.0.1&quot;.</span>
+<span class="sd">            host: Host address to bind to. Defaults to "127.0.0.1".</span>
 <span class="sd">            port: Port number. Defaults to 8080.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dictionary with server info including &#39;url&#39; and &#39;token&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Dictionary with server info including 'url' and 'token'.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">(</span><span class="n">host</span><span class="p">,</span> <span class="n">port</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="RemoteClient.stop_webapi_server">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.stop_webapi_server">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">stop_webapi_server</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Stop the WebAPI server.</span>
+<span class="w">        </span><span class="sd">"""Stop the WebAPI server.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            True if server was stopped, False if it wasn&#39;t running.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            True if server was stopped, False if it wasn't running.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span></div>
 
 
 <div class="viewcode-block" id="RemoteClient.get_webapi_status">
 <a class="viewcode-back" href="../../../features/advanced/remote.html#datalab.control.remote.RemoteClient.get_webapi_status">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_webapi_status</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">str</span> <span class="o">|</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get the current status of the WebAPI server.</span>
+<span class="w">        </span><span class="sd">"""Get the current status of the WebAPI server.</span>
 
 <span class="sd">        Returns:</span>
-<span class="sd">            Dictionary with status info including &#39;running&#39;, &#39;url&#39;, and &#39;port&#39;.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">            Dictionary with status info including 'running', 'url', and 'port'.</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span></div>
 </div>
 
@@ -1827,8 +1829,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1862,7 +1864,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

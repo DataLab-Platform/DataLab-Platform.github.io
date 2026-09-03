@@ -1,0 +1,903 @@
+
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Panneau d'historique de DataLab, la plateforme open-source d'analyse et de visualisation de données scientifiques" name="description" translated="True" />
+<meta content="DataLab, historique, enregistrement, rejeu, session, scientifique, données, analyse, visualisation, plateforme" name="keywords" translated="True" />
+<meta property="og:title" content="Panneau d’historique" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/common/historypanel.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Vue d’ensemble: Le « panneau d’historique » enregistre la séquence des actions effectuées par l’utilisateur sur les signaux et les images, organisée en sessions. Chaque session est une liste chrono..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Panneau d’historique &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=97a505d1"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/common/historypanel';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/common/historypanel.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Ouvrir et enregistrer des signaux" href="../signal/menu_file.html" />
+    <link rel="prev" title="Explorateur HDF5" href="h5browser.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 et à <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.3.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>Paramètres système</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Clair</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>Paramètres système</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Clair</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Réduire barre latérale</span>
+  <span class="pst-expand-sidebar-label">Développer barre latérale</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1 current active"><a class="current reference internal" href="#">Panneau d’historique</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ai_assistant.html">Assistant IA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Panneau d’historique</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="history-panel">
+<span id="historypanel"></span><h1>Panneau d’historique<a class="headerlink" href="#history-panel" title="Lien vers cette rubrique">#</a></h1>
+<section id="overview">
+<h2>Vue d’ensemble<a class="headerlink" href="#overview" title="Lien vers cette rubrique">#</a></h2>
+<p>Le « panneau d’historique » enregistre la séquence des actions effectuées par l’utilisateur sur les signaux et les images, organisée en <strong>sessions</strong>. Chaque session est une liste chronologique constituée soit :</p>
+<ul class="simple">
+<li><p>d”<strong>actions de l’interface</strong> (création d’un nouveau signal, suppression des objets sélectionnés, enregistrement de l’espace de travail au format HDF5, …), soit</p></li>
+<li><p>de <strong>calculs</strong> (FFT, moyenne, ajustement gaussien, …) dont l’exécution est confiée à Sigima par les processeurs de DataLab, soit</p></li>
+<li><p>de <strong>mutations</strong> (modifications en place d’objets existants, telles que l’édition de régions d’intérêt). Voir <a class="reference internal" href="#history-object-mutations"><span class="std std-ref">Mutations d’objets</span></a>.</p></li>
+</ul>
+<p>Une session enregistrée peut être :</p>
+<ul class="simple">
+<li><p><strong>rejouée</strong> silencieusement ou <strong>pas à pas</strong>. Le rejeu recalcule en place chaque action de calcul avec ses paramètres enregistrés : les objets de sortie existants sont mis à jour, et les sorties supprimées dont l’action fait toujours partie de l’historique sont recréées sous leurs identifiants d’origine, ce qui préserve la validité de la chaîne de traitement en aval. En mode pas à pas, les paramètres peuvent être examinés et modifiés avant le recalcul de chaque étape. Les actions de l’interface enregistrées sont invoquées par leurs propres méthodes et peuvent reproduire leurs effets, notamment créer, importer ou dupliquer des objets ;</p></li>
+<li><p><strong>dupliquée</strong> sous forme de chaînes de traitement indépendantes dans de nouvelles sessions d’historique, les objets signal/image nécessaires étant clonés au cours de l’opération ;</p></li>
+<li><p><strong>sauvegardée dans un fichier d’historique autonome</strong> (<code class="docutils literal notranslate"><span class="pre">.dlhist</span></code>) ou <strong>intégrée à l’espace de travail</strong> lors de l’enregistrement au format HDF5, de sorte que toute la chaîne de traitement accompagne les données.</p></li>
+</ul>
+<figure class="align-center" id="id1">
+<img alt="Panneau d'historique" src="../../_images/history_panel.fr.png" />
+<figcaption>
+<p><span class="caption-text">Le panneau d’historique après l’enregistrement d’une session représentative : création de trois signaux (Voigt, lorentzien, lorentzien), suppression de l’un d’eux, création d’un signal gaussien, calcul de la moyenne, ajout d’un bruit gaussien au résultat et ajustement par une gaussienne.</span><a class="headerlink" href="#id1" title="Lien vers cette image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="object-mutations">
+<span id="history-object-mutations"></span><h2>Mutations d’objets<a class="headerlink" href="#object-mutations" title="Lien vers cette rubrique">#</a></h2>
+<p>Outre les actions de l’interface et les calculs, le panneau enregistre des <strong>mutations</strong> : des modifications en place d’objets existants qui ne créent pas de nouveaux objets. Les mutations couvrent actuellement les régions d’intérêt (ROI) : la définition ou l’édition de ROI de manière graphique ou numérique, la suppression d’une ou de toutes les ROI et le collage de ROI enregistrent chacun une entrée de mutation générique unique contenant les objets concernés et l’état de ROI résultant.</p>
+<p>Le rejeu d’une mutation réapplique l’état de ROI enregistré à ses objets cibles (un état vide supprime les ROI). En mode pas à pas, les paramètres des ROI peuvent être examinés et modifiés dans une boîte de dialogue avant d’être réappliqués ; leur modification déclenche un recalcul des calculs dépendants en aval.</p>
+<p>Lorsqu’une action recalculée recrée ou met à jour un objet, les mutations enregistrées sur cet objet sont réappliquées dans l’ordre, et les analyses dépendant de l’objet muté sont recalculées. Les ROI définies par l’utilisateur sur un objet de sortie sont préservées par les recalculs en place, sauf si le recalcul produit lui-même une ROI.</p>
+<p>Les entrées de mutation sont sauvegardées avec les sessions (fichiers <code class="docutils literal notranslate"><span class="pre">.dlhist</span></code> autonomes et espaces de travail HDF5) comme toute autre action ; les fichiers d’historique créés avec des versions antérieures de DataLab se chargent sans modification.</p>
+</section>
+<section id="recording-and-session-lifecycle">
+<h2>Enregistrement et cycle de vie des sessions<a class="headerlink" href="#recording-and-session-lifecycle" title="Lien vers cette rubrique">#</a></h2>
+<p>Les actions ne sont enregistrées que lorsque le <strong>Mode d’enregistrement</strong> est activé. Sa désactivation conserve les sessions existantes, mais n’ajoute aucune nouvelle entrée.</p>
+<p>There is a single active recording session, shared by the Signals and Images
+panels. New actions from both panels are chained into that session (one is
+created on first use), so mixed signal/image pipelines are recorded together
+and recording resumes in the user-selected session. Each session remains
+associated with the Signals or Images panel for display purposes, through the
+actions it contains.</p>
+<p>Lorsqu’un nouvel objet est créé ou qu’un fichier est chargé dans une session active non vide, une politique configurable détermine si DataLab demande quoi faire, démarre une nouvelle session ou continue dans la session courante. Des politiques distinctes s’appliquent aux objets créés par des plugins. Une portée explicite de chargement multiple par un plugin fournit une politique de session unique et durable pour l’ensemble du lot. Avec le comportement <strong>Demander</strong> ordinaire, un mécanisme anti-rebond évite les demandes répétées pour les ajouts synchrones au même panneau pendant le tour courant de la boucle d’événements Qt.</p>
+<p>Ces options sont disponibles sous <code class="docutils literal notranslate"><span class="pre">Fichier</span> <span class="pre">&gt;</span> <span class="pre">Préférences</span> <span class="pre">&gt;</span> <span class="pre">Traitement</span> <span class="pre">&gt;</span> <span class="pre">Sessions</span> <span class="pre">d'historique</span></code>. Voir <a class="reference internal" href="settings.html#history-session-settings"><span class="std std-ref">Sessions d’historique</span></a> pour la liste complète des libellés et des valeurs par défaut.</p>
+</section>
+<section id="toolbar">
+<h2>Barre d’outils<a class="headerlink" href="#toolbar" title="Lien vers cette rubrique">#</a></h2>
+<p>La barre d’outils en haut du panneau expose les actions suivantes :</p>
+<ul class="simple">
+<li><p><img alt="record" class="dark-light no-scaled-link" src="../../_images/record.svg" style="width: 24px; height: 24px;" /> <strong>Mode d’enregistrement</strong> : active ou désactive l’enregistrement des nouvelles actions. Lorsqu’il est désactivé, aucune nouvelle entrée n’est ajoutée à l’historique (les sessions existantes sont conservées).</p></li>
+<li><p><img alt="new_session" class="dark-light no-scaled-link" src="../../_images/libre-gui-add.svg" style="width: 24px; height: 24px;" /> <strong>New session</strong>: start a new history session and make it the
+active recording session.</p></li>
+<li><p><img alt="open_history" class="dark-light no-scaled-link" src="../../_images/fileopen_h5.svg" style="width: 24px; height: 24px;" /> <strong>Ouvrir un fichier d’historique</strong> : charge des sessions enregistrées depuis un fichier <code class="docutils literal notranslate"><span class="pre">.dlhist</span></code> autonome.</p></li>
+<li><p><img alt="save_history" class="dark-light no-scaled-link" src="../../_images/filesave_h5.svg" style="width: 24px; height: 24px;" /> <strong>Enregistrer un fichier d’historique</strong> : enregistre les sessions actuellement enregistrées dans un fichier <code class="docutils literal notranslate"><span class="pre">.dlhist</span></code> autonome.</p></li>
+<li><p><img alt="step_prev" class="dark-light no-scaled-link" src="../../_images/libre-gui-arrow-left.svg" style="width: 24px; height: 24px;" /> <strong>Étape précédente</strong> : sélectionne l’action précédente dans la session courante (raccourci clavier : <kbd class="kbd docutils literal notranslate">Ctrl</kbd>+<kbd class="kbd docutils literal notranslate">Gauche</kbd>).</p></li>
+<li><p><img alt="step_next" class="dark-light no-scaled-link" src="../../_images/libre-gui-arrow-right.svg" style="width: 24px; height: 24px;" /> <strong>Étape suivante</strong> : sélectionne l’action suivante dans la session courante (raccourci clavier : <kbd class="kbd docutils literal notranslate">Ctrl</kbd>+<kbd class="kbd docutils literal notranslate">Droite</kbd>).</p></li>
+<li><p><img alt="replay" class="dark-light no-scaled-link" src="../../_images/replay.svg" style="width: 24px; height: 24px;" /> <strong>Replay</strong>: recompute the selection in place, silently (no
+parameter dialogs). Selecting an action replays that action; selecting a
+session replays all of its actions. A selection spanning several actions or
+sessions is merged, deduplicated and executed in session order. Each
+computation action re-runs with its recorded parameters and updates its
+existing output object(s), keeping the same identifiers so that downstream
+steps remain valid. Outputs that were deleted from the data panel are
+re-created under their original identifiers (a typical workflow: delete a
+bad result, edit its parameters, then replay to regenerate it). Actions
+whose source objects no longer exist are skipped with a warning, and a
+failed action blocks its downstream branch. Actions whose parameters were
+changed (in step-by-step mode or from the <strong>Processing</strong> tab) are marked as
+outdated; replaying recomputes them and, when parameters were edited, their
+downstream dependent actions as well. Analysis actions replay by
+recomputing their results on the source objects: each analysis records
+which results it stored on the object (its <em>effects</em>), so replaying
+updates exactly those results — previous values are replaced, and if the
+recompute fails the previous results are restored. Analyses recorded with
+earlier versions of DataLab replay using their saved state. UI actions
+are replayed by invoking their recorded method and may reproduce side
+effects, including creating, importing, or duplicating objects; load
+actions reload their objects even if these were deleted after being
+recorded. Recorded destructive actions (e.g. object removals) are skipped
+with a warning whenever replaying them would be unsafe: when their
+captured state no longer matches the current workspace, when their targets
+were re-created earlier in the same replay, or when their targets belong
+to another session. As a consequence, a replayed session may intentionally
+not reproduce a recorded end state that included such deletions.</p></li>
+<li><p><img alt="step_by_step" class="dark-light no-scaled-link" src="../../_images/edit_mode.svg" style="width: 24px; height: 24px;" /> <strong>Pas à pas</strong> : rejoue la même sélection étape par étape, en ouvrant la boîte de dialogue des paramètres pour chaque action prise en charge (création d’objet, calcul, extraction de ROI) avant de la recalculer. Les modifications acceptées se propagent aux actions dépendantes en aval, qui sont également recalculées. L’annulation d’une boîte de dialogue interrompt le rejeu, restaure les modifications de paramètres effectuées durant cette exécution et recalcule silencieusement les actions restées obsolètes afin que la chaîne reste à jour.</p></li>
+<li><p><img alt="duplicate" class="dark-light no-scaled-link" src="../../_images/duplicate.svg" style="width: 24px; height: 24px;" /> <strong>Duplicate</strong>: duplicate the processing chain containing each
+selected action, or the processing chains in each selected session. DataLab
+clones the required objects and creates independent history sessions. The
+duplicate is a standalone deep copy of the chain — as if the recorded
+operations had been redone by hand on the cloned objects — so replaying
+either the original or the duplicated session only affects its own objects.</p></li>
+<li><p><img alt="remove_incompatible" class="dark-light no-scaled-link" src="../../_images/delete_all.svg" style="width: 24px; height: 24px;" /> <strong>Supprimer les actions incompatibles</strong> : supprime toutes les actions dont l’état de l’espace de travail n’est plus compatible avec l’espace de travail actuel. Une boîte de dialogue de confirmation indique combien d’actions seront supprimées.</p></li>
+<li><p><img alt="delete" class="dark-light no-scaled-link" src="../../_images/delete.svg" style="width: 24px; height: 24px;" /> <strong>Delete</strong>: remove the selected actions or sessions from the
+history (keyboard shortcut: <kbd class="kbd docutils literal notranslate">Del</kbd>, active only while the history tree
+has focus, so it never deletes signal or image objects instead). Removing
+an intermediate action splices it out and preserves its downstream steps
+as an independent chain.</p></li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Un double-clic sur un élément de l’arborescence déclenche <strong>Rejouer</strong> pour la sélection courante, avec la même sémantique de recalcul en place que celle documentée ci-dessus.</p>
+</div>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>While a replay or recompute is in progress, History Panel commands are
+unavailable: the toolbar actions are disabled, and tree interactions
+(context menu, double-click, <kbd class="kbd docutils literal notranslate">Del</kbd> key) are ignored until the run
+completes.</p>
+</div>
+</section>
+<section id="tree-view">
+<h2>Arborescence<a class="headerlink" href="#tree-view" title="Lien vers cette rubrique">#</a></h2>
+<p>L’arborescence organise les actions enregistrées dans des sessions dépliables :</p>
+<ul class="simple">
+<li><p>Each top-level row is a <strong>session</strong>; the panel(s) it relates to are
+determined by the actions it contains. Sessions may be started when
+recording is enabled, with <strong>New session</strong>, or according to the configured
+session policy.</p></li>
+<li><p>Chaque ligne enfant est une <strong>action</strong>, accompagnée de son titre, de sa date et de son heure, ainsi que d’une description résumant ses paramètres ou l’appel résolu lorsqu’ils sont disponibles. Une action de l’interface dont l’appel ne peut pas être résolu peut avoir une description vide.</p></li>
+</ul>
+<p>La sélection d’une ou de plusieurs lignes détermine les entrées ciblées par les commandes de la barre d’outils et du menu contextuel. Le menu contextuel propose les mêmes commandes que la barre d’outils.</p>
+<p>Lorsqu’une ligne d’action est sélectionnée, son objet résultat est sélectionné dans le panneau de données correspondant s’il est disponible ; sinon, ses objets d’entrée existants sont sélectionnés. DataLab bascule ensuite vers ce panneau de données.</p>
+<p>While Record mode is enabled, selecting a session row (or one of its actions)
+makes that session the active recording session.</p>
+<p>Actions that are not compatible with the current workspace state (for example
+because a referenced object identifier no longer exists, or because its data
+array shape changed) are shown with a disabled foreground and an explanatory
+tooltip.
+Attempting to replay them opens the broken chain resolution dialog described
+below.</p>
+<p>Actions left <strong>outdated</strong> by a failed or interrupted recompute, or by
+parameter edits whose propagation to downstream steps is still pending, are
+highlighted with an amber background and carry an explanatory tooltip.
+Replaying them refreshes their result and clears the marker.</p>
+</section>
+<section id="broken-chain-resolution">
+<h2>Broken chain resolution<a class="headerlink" href="#broken-chain-resolution" title="Lien vers cette rubrique">#</a></h2>
+<p>Starting <strong>Replay</strong> or <strong>Step-by-step</strong> (or double-clicking a tree item) on a
+selection containing actions that are incompatible with the current workspace
+— typically because the objects they rely on were deleted — opens a
+resolution dialog. Two choices are offered:</p>
+<ul class="simple">
+<li><p><strong>Repair and continue</strong>: the broken actions and all their downstream
+descendants are removed from the history, then the remaining valid actions
+of the selection are replayed.</p></li>
+<li><p><strong>Cancel</strong>: nothing is modified, neither the history nor the workspace. The
+dialog is shown again on the next replay attempt until the chain is
+repaired.</p></li>
+</ul>
+</section>
+<section id="workspace-state-display">
+<h2>Affichage de l’état de l’espace de travail<a class="headerlink" href="#workspace-state-display" title="Lien vers cette rubrique">#</a></h2>
+<p>Sous l’arborescence des actions, un widget en vue divisée affiche l”<strong>état de l’espace de travail</strong> tel qu’il était au moment de l’action sélectionnée :</p>
+<ul class="simple">
+<li><p><strong>Tableau de gauche</strong> : liste les signaux qui étaient sélectionnés, avec la forme de leur tableau.</p></li>
+<li><p><strong>Tableau de droite</strong> : liste les images qui étaient sélectionnées, avec leurs dimensions.</p></li>
+</ul>
+<p>Ces informations aident l’utilisateur à comprendre le contexte dans lequel chaque action a été exécutée à l’origine et à diagnostiquer les problèmes de compatibilité lors du rejeu de la sélection actuelle.</p>
+</section>
+<section id="persistence">
+<h2>Persistance<a class="headerlink" href="#persistence" title="Lien vers cette rubrique">#</a></h2>
+<p>L’historique peut être enregistré de deux manières complémentaires :</p>
+<ul class="simple">
+<li><p><strong>Intégré à l’espace de travail</strong> : lorsque l’espace de travail est enregistré au format HDF5 (<code class="docutils literal notranslate"><span class="pre">Fichier</span> <span class="pre">&gt;</span> <span class="pre">Enregistrer</span> <span class="pre">dans</span> <span class="pre">un</span> <span class="pre">fichier</span> <span class="pre">HDF5</span></code>), le contenu du panneau d’historique est automatiquement sauvegardé aux côtés des signaux et des images. Le rechargement de l’espace de travail restaure les sessions enregistrées.</p></li>
+<li><p><strong>Fichier d’historique autonome</strong> (<code class="docutils literal notranslate"><span class="pre">.dlhist</span></code>) : le fichier embarque à la fois les sessions enregistrées <strong>et</strong> tous les objets actuellement présents dans les panneaux Signaux et Images, qu’une action y fasse référence ou non. Le fichier est ainsi entièrement autonome :</p>
+<ul>
+<li><p>L’ouverture d’un fichier <code class="docutils literal notranslate"><span class="pre">.dlhist</span></code> dans un <strong>espace de travail vierge</strong> (sans objet de données ni session d’historique existante) restaure directement les objets et les sessions enregistrés.</p></li>
+<li><p>Si l’espace de travail est <strong>déjà utilisé</strong> (il contient un objet de données ou une session d’historique), DataLab importe les objets dans de nouveaux groupes signal/image, réaffecte leurs identifiants afin d’éviter les collisions et ajoute les sessions d’historique importées qui référencent ces nouveaux identifiants.</p></li>
+</ul>
+</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>A history entry whose saved parameters can no longer be decoded (for
+example a ROI payload written by an incompatible version of DataLab) does
+not prevent the rest of the file from loading: the affected action is
+loaded as incompatible — shown as a disabled row with an explanatory
+tooltip, and never replayed — while all other sessions and actions load
+normally. Such entries can be cleaned up with <strong>Remove incompatible</strong>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Le rejeu d’une session qui dépend de fichiers externes (par exemple l’ouverture d’un jeu de données depuis le disque) ne réussira que si ces fichiers sont toujours disponibles aux mêmes emplacements qu’au moment de l’enregistrement de la session.</p>
+</div>
+</section>
+<section id="chain-reconnection-on-deletion">
+<h2>Reconnexion de la chaîne lors d’une suppression<a class="headerlink" href="#chain-reconnection-on-deletion" title="Lien vers cette rubrique">#</a></h2>
+<p>Lorsqu’un objet résultat est supprimé depuis le <strong>panneau signal ou image</strong> (et non depuis l’arborescence du panneau d’historique), et que cet objet a été produit par une étape de traitement enregistrée, le panneau d’historique reconnecte automatiquement la chaîne de traitement :</p>
+<ul class="simple">
+<li><p>Toutes les étapes aval qui consommaient l’objet supprimé sont recâblées pour utiliser la source de l’étape supprimée comme nouvelle entrée.</p></li>
+<li><p>Pour les opérations <code class="docutils literal notranslate"><span class="pre">2_to_1</span></code> (par exemple <em>différence</em>), la première source est utilisée pour la reconnexion.</p></li>
+<li><p>Si aucune source valide ne peut être déterminée (par exemple la source elle-même a déjà été supprimée), un avertissement est affiché listant les opérations non reconnectables, mais la suppression est néanmoins autorisée.</p></li>
+</ul>
+<p>Ce comportement reproduit la suppression d’un maillon d’une chaîne : les maillons adjacents se reconnectent pour préserver le flux de traitement.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La reconnexion n’est déclenchée que par les suppressions effectuées depuis les panneaux Signaux ou Images. La suppression d’une action directement depuis l’arborescence du panneau d’historique suit un autre comportement : l’action sélectionnée est retirée de la chaîne au lieu de tronquer la session. Si des étapes en aval en dépendent, DataLab les conserve sous forme de chaîne indépendante en clonant l’objet intermédiaire nécessaire et en reconnectant ces étapes au clone. La suppression d’une session supprime cette session dans son intégralité.</p>
+</div>
+</section>
+<section id="auto-recompute">
+<h2>Recalcul automatique<a class="headerlink" href="#auto-recompute" title="Lien vers cette rubrique">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Lorsqu’un objet résultat est sélectionné dans le panneau signal/image et qu’il possède des paramètres de traitement (c’est-à-dire qu’il a été produit par un calcul 1-à-1), un onglet <strong>Traitement</strong> apparaît dans le panneau Propriétés. Cocher <strong>Recalcul automatique lors de l’édition</strong> dans cet onglet relancera automatiquement le calcul 300 ms après toute modification d’un paramètre.</p>
+</div>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="h5browser.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Explorateur HDF5</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../signal/menu_file.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Ouvrir et enregistrer des signaux</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Vue d’ensemble</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#object-mutations">Mutations d’objets</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recording-and-session-lifecycle">Enregistrement et cycle de vie des sessions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#toolbar">Barre d’outils</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#tree-view">Arborescence</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#broken-chain-resolution">Broken chain resolution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#workspace-state-display">Affichage de l’état de l’espace de travail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#persistence">Persistance</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#chain-reconnection-on-deletion">Reconnexion de la chaîne lors d’une suppression</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#auto-recompute">Recalcul automatique</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

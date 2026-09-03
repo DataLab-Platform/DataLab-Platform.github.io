@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -75,7 +75,7 @@
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
-    <link rel="next" title="API Web" href="webapi.html" />
+    <link rel="next" title="Assistant IA" href="ai_assistant.html" />
     <link rel="prev" title="Migration de DataLab v0.20 vers v1.0" href="migration_v020_to_v100.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
@@ -158,7 +158,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -459,6 +459,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">Panneau d’historique</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="nav bd-sidenav">
@@ -495,6 +496,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">Assistant IA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webapi.html">API Web</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
@@ -601,9 +603,11 @@
 <h2>Fonctionnalités principales<a class="headerlink" href="#main-features" title="Lien vers cette rubrique">#</a></h2>
 <p>Le Gestionnaire de Macros est une interface simple pour :</p>
 <ul class="simple">
-<li><p>Créer de nouvelles macros, en utilisant le bouton « Nouvelle macro » <img alt="libre-gui-add" class="dark-light no-scaled-link" src="../../_images/libre-gui-add.svg" style="width: 24px; height: 24px;" />.</p></li>
-<li><p>Renommer des macros existantes, en utilisant le bouton « Renommer macro » <img alt="libre-gui-pencil" class="dark-light no-scaled-link" src="../../_images/libre-gui-pencil.svg" style="width: 24px; height: 24px;" />.</p></li>
+<li><p>Créer de nouvelles macros, en utilisant le bouton « Nouvelle macro » <img alt="libre-gui-add" class="dark-light no-scaled-link" src="../../_images/libre-gui-add.svg" style="width: 24px; height: 24px;" />. Le bouton expose également un menu déroulant proposant une macro vierge et les <em>modèles</em> fournis (voir <a class="reference internal" href="#macro-templates"><span class="std std-ref">Modèles</span></a>).</p></li>
+<li><p>Renommer des macros existantes, en utilisant le bouton « Renommer macro » <img alt="libre-gui-pencil" class="dark-light no-scaled-link" src="../../_images/libre-gui-pencil.svg" style="width: 24px; height: 24px;" /> (ou en double-cliquant sur un onglet).</p></li>
+<li><p>Dupliquer la macro courante, en utilisant le bouton « Dupliquer macro » <img alt="duplicate" class="dark-light no-scaled-link" src="../../_images/duplicate.svg" style="width: 24px; height: 24px;" />.</p></li>
 <li><p>Importer/exporter des macros depuis/vers des fichiers, en utilisant les boutons « Importer macro » <img alt="fileopen_py" class="dark-light no-scaled-link" src="../../_images/fileopen_py.svg" style="width: 24px; height: 24px;" /> et « Exporter macro » <img alt="filesave_py" class="dark-light no-scaled-link" src="../../_images/filesave_py.svg" style="width: 24px; height: 24px;" />.</p></li>
+<li><p>Rouvrir une macro d’une session précédente, en utilisant le bouton « Macros récentes… » <img alt="history" class="dark-light no-scaled-link" src="../../_images/history.svg" style="width: 24px; height: 24px;" /> (la liste des macros récentes est conservée d’une session à l’autre).</p></li>
 <li><p>Exécuter des macros, en utilisant le bouton « Exécuter macro » <img alt="libre-camera-flash-on" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-on.svg" style="width: 24px; height: 24px;" />.</p></li>
 <li><p>Arrêter l’exécution d’une macro, en utilisant le bouton « Arrêter macro » <img alt="libre-camera-flash-off" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-off.svg" style="width: 24px; height: 24px;" />.</p></li>
 </ul>
@@ -612,6 +616,29 @@
 <p class="admonition-title">Note</p>
 <p>Les macros sont exécutées dans un processus séparé, elles ne bloqueront donc pas l’application principale de DataLab. Cela signifie que vous pouvez continuer à travailler avec DataLab pendant qu’une macro est en cours d’exécution et que <em>vous pouvez arrêter une macro à tout moment</em> en utilisant le bouton <img alt="libre-camera-flash-off" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-off.svg" style="width: 24px; height: 24px;" />.</p>
 </div>
+</section>
+<section id="editor-features">
+<h2>Fonctionnalités de l’éditeur<a class="headerlink" href="#editor-features" title="Lien vers cette rubrique">#</a></h2>
+<p>L’éditeur de macros offre quelques fonctionnalités qui facilitent l’écriture de scripts :</p>
+<ul class="simple">
+<li><p><strong>Sauvegarde automatique</strong> : chaque frappe est temporisée et persistée dans l’espace de travail courant, afin que les modifications non sauvegardées survivent à un arrêt inattendu. Une invite de récupération est proposée au démarrage lorsqu’une version sauvegardée automatiquement est détectée.</p></li>
+<li><p><strong>Persistance des onglets</strong> : l’ensemble des macros ouvertes et l’onglet actif sont restaurés au démarrage suivant de DataLab, vous permettant de reprendre exactement là où vous vous étiez arrêté.</p></li>
+<li><p><strong>Rechercher / Remplacer</strong> (<code class="docutils literal notranslate"><span class="pre">Ctrl+F</span></code> / <code class="docutils literal notranslate"><span class="pre">Ctrl+H</span></code>) : une barre intégrée en bas de l’éditeur prend en charge la recherche sensible à la casse, la correspondance de mots entiers, les expressions régulières et le remplacement (ou le remplacement total) dans la macro active.</p></li>
+<li><p><strong>L’autocomplétion Python</strong> est activée par défaut (<code class="docutils literal notranslate"><span class="pre">Ctrl+Espace</span></code> pour la déclencher manuellement), fournie par l’éditeur de code intégré.</p></li>
+</ul>
+</section>
+<section id="console">
+<h2>Console<a class="headerlink" href="#console" title="Lien vers cette rubrique">#</a></h2>
+<p>Le panneau <em>Console</em> en bas capture les flux de sortie standard et d’erreur standard produits par la macro en cours d’exécution. Un clic droit dans la console expose :</p>
+<ul class="simple">
+<li><p><strong>Effacer la console</strong> — efface le contenu actuel.</p></li>
+<li><p><strong>Enregistrer le journal de l’historique…</strong> — exporte l’historique de la console vers un fichier texte.</p></li>
+</ul>
+<p>Le nombre maximum de lignes conservées par la console peut être ajusté via le paramètre <code class="docutils literal notranslate"><span class="pre">Conf.macro.console_max_lines</span></code> (par défaut <code class="docutils literal notranslate"><span class="pre">5000</span></code>).</p>
+</section>
+<section id="templates">
+<span id="macro-templates"></span><h2>Modèles<a class="headerlink" href="#templates" title="Lien vers cette rubrique">#</a></h2>
+<p>Le menu déroulant « Nouvelle macro » liste un ensemble de <em>modèles</em> prêts à l’emploi couvrant des cas courants (création de signal, traitement d’image, boucles de traitement par lots, etc.). Vous pouvez fournir vos propres modèles en plaçant des fichiers <code class="docutils literal notranslate"><span class="pre">*.py</span></code> dans le répertoire des modèles utilisateur — par défaut <code class="docutils literal notranslate"><span class="pre">~/.DataLab/macro_templates/</span></code>, configurable via <code class="docutils literal notranslate"><span class="pre">Conf.macro.templates_path</span></code>. La première ligne non vide de la docstring de chaque modèle est utilisée comme titre de l’entrée du menu. Les modèles fournis avec DataLab ont priorité sur les modèles utilisateur en cas de conflit de noms.</p>
 </section>
 <section id="example">
 <h2>Exemple<a class="headerlink" href="#example" title="Lien vers cette rubrique">#</a></h2>
@@ -639,11 +666,11 @@
       </div>
     </a>
     <a class="right-next"
-       href="webapi.html"
+       href="ai_assistant.html"
        title="page suivante">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">suivant</p>
-        <p class="prev-next-title">API Web</p>
+        <p class="prev-next-title">Assistant IA</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -668,6 +695,9 @@
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Généralités</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-features">Fonctionnalités principales</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#editor-features">Fonctionnalités de l’éditeur</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#console">Console</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Modèles</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Exemple</a></li>
 </ul>
   </nav></div>
@@ -685,8 +715,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -720,7 +750,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

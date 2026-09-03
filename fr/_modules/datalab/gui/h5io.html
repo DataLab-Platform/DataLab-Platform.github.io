@@ -39,20 +39,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -485,7 +485,7 @@
   <h1>Code source de datalab.gui.h5io</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">HDF5 I/O</span>
 <span class="sd">========</span>
 
@@ -493,7 +493,7 @@
 <span class="sd">DataLab data model/main window.</span>
 
 <span class="sd">.. autoclass:: H5InputOutput</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -503,27 +503,28 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">guidata.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">exec_dialog</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalObj</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigimax.widgets.h5browser</span><span class="w"> </span><span class="kn">import</span> <span class="n">H5BrowserDialog</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">_</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.env</span><span class="w"> </span><span class="kn">import</span> <span class="n">execenv</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.h5</span><span class="w"> </span><span class="kn">import</span> <span class="n">H5Importer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.h5.native</span><span class="w"> </span><span class="kn">import</span> <span class="n">NativeH5Reader</span><span class="p">,</span> <span class="n">NativeH5Writer</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_progress_bar</span><span class="p">,</span> <span class="n">qt_try_loadsave_file</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.widgets.h5browser</span><span class="w"> </span><span class="kn">import</span> <span class="n">H5BrowserDialog</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">sigimax.h5.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseNode</span>
+
     <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">DLMainWindow</span>
-    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.h5.common</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseNode</span>
 
 
 <div class="viewcode-block" id="H5InputOutput">
 <a class="viewcode-back" href="../../../features/advanced/api/h5io.html#datalab.gui.h5io.H5InputOutput">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">H5InputOutput</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling HDF5 file open/save into/from DataLab data model/main window</span>
+<span class="w">    </span><span class="sd">"""Object handling HDF5 file open/save into/from DataLab data model/main window</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        mainwindow: Main window</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">mainwindow</span><span class="p">:</span> <span class="n">DLMainWindow</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span> <span class="o">=</span> <span class="n">mainwindow</span>
@@ -531,13 +532,13 @@
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">__progbartitle</span><span class="p">(</span><span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return progress bar title&quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Loading data from </span><span class="si">%s</span><span class="s2">...&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="n">osp</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Return progress bar title"""</span>
+        <span class="k">return</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Loading data from </span><span class="si">%s</span><span class="s2">..."</span><span class="p">)</span> <span class="o">%</span> <span class="n">osp</span><span class="o">.</span><span class="n">basename</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
 <div class="viewcode-block" id="H5InputOutput.save_file">
 <a class="viewcode-back" href="../../../features/advanced/api/h5io.html#datalab.gui.h5io.H5InputOutput.save_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save all signals and images from DataLab model into a HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Save all signals and images from DataLab model into a HDF5 file"""</span>
         <span class="n">writer</span> <span class="o">=</span> <span class="n">NativeH5Writer</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">panel</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">panels</span><span class="p">:</span>
             <span class="n">panel</span><span class="o">.</span><span class="n">serialize_to_hdf5</span><span class="p">(</span><span class="n">writer</span><span class="p">)</span>
@@ -547,7 +548,7 @@
 <div class="viewcode-block" id="H5InputOutput.open_file_headless">
 <a class="viewcode-back" href="../../../features/advanced/api/h5io.html#datalab.gui.h5io.H5InputOutput.open_file_headless">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">open_file_headless</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open native DataLab HDF5 file without any GUI elements.</span>
+<span class="w">        </span><span class="sd">"""Open native DataLab HDF5 file without any GUI elements.</span>
 
 <span class="sd">        This method can be safely called from any thread (e.g., the console thread)</span>
 <span class="sd">        as it does not create any Qt widgets or dialogs.</span>
@@ -559,7 +560,7 @@
 <span class="sd">        Returns:</span>
 <span class="sd">            True if file was successfully opened as a native DataLab file,</span>
 <span class="sd">            False if the file format is not compatible (KeyError was raised)</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">NativeH5Reader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
             <span class="k">if</span> <span class="n">reset_all</span><span class="p">:</span>
@@ -575,7 +576,7 @@
 <div class="viewcode-block" id="H5InputOutput.open_file">
 <a class="viewcode-back" href="../../../features/advanced/api/h5io.html#datalab.gui.h5io.H5InputOutput.open_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">open_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">import_all</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Open HDF5 file"""</span>
         <span class="n">progress</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">reader</span> <span class="o">=</span> <span class="n">NativeH5Reader</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -600,7 +601,7 @@
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__add_object_from_node</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">node</span><span class="p">:</span> <span class="n">BaseNode</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add DataLab object from h5 node&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add DataLab object from h5 node"""</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">node</span><span class="o">.</span><span class="n">get_native_object</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -611,10 +612,10 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__eventually_show_warnings</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Eventually show warnings after everything is imported&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Eventually show warnings after everything is imported"""</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">uint32_wng</span><span class="p">:</span>
             <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Warning&quot;</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Clipping uint32 data to int32.&quot;</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Warning"</span><span class="p">),</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Clipping uint32 data to int32."</span><span class="p">)</span>
             <span class="p">)</span>
 
 <div class="viewcode-block" id="H5InputOutput.import_files">
@@ -622,18 +623,18 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">import_files</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">],</span> <span class="n">import_all</span><span class="p">:</span> <span class="nb">bool</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import HDF5 files&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Import HDF5 files"""</span>
         <span class="n">h5browser</span> <span class="o">=</span> <span class="n">H5BrowserDialog</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">filename</span> <span class="ow">in</span> <span class="n">filenames</span><span class="p">:</span>
-            <span class="k">with</span> <span class="n">qt_try_loadsave_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;load&quot;</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">qt_try_loadsave_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="s2">"load"</span><span class="p">):</span>
                 <span class="n">h5browser</span><span class="o">.</span><span class="n">open_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">h5browser</span><span class="o">.</span><span class="n">is_empty</span><span class="p">():</span>
             <span class="n">h5browser</span><span class="o">.</span><span class="n">cleanup</span><span class="p">()</span>
             <span class="k">if</span> <span class="ow">not</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
                 <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">warning</span><span class="p">(</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span>
-                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Warning&quot;</span><span class="p">),</span>
-                    <span class="n">_</span><span class="p">(</span><span class="s2">&quot;No supported data available in HDF5 file(s).&quot;</span><span class="p">),</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">"Warning"</span><span class="p">),</span>
+                    <span class="n">_</span><span class="p">(</span><span class="s2">"No supported data available in HDF5 file(s)."</span><span class="p">),</span>
                 <span class="p">)</span>
             <span class="k">return</span>
         <span class="k">if</span> <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span><span class="p">:</span>
@@ -647,8 +648,8 @@
             <span class="k">if</span> <span class="n">nodes</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
                 <span class="k">if</span> <span class="n">reset_all</span><span class="p">:</span>
                     <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">reset_all</span><span class="p">()</span>
-                <span class="k">with</span> <span class="n">qt_try_loadsave_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="s2">&quot;*.h5&quot;</span><span class="p">,</span> <span class="s2">&quot;load&quot;</span><span class="p">):</span>
-                    <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span> <span class="k">as</span> <span class="n">prog</span><span class="p">:</span>
+                <span class="k">with</span> <span class="n">qt_try_loadsave_file</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="s2">"*.h5"</span><span class="p">,</span> <span class="s2">"load"</span><span class="p">):</span>
+                    <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="p">,</span> <span class="s2">""</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">nodes</span><span class="p">))</span> <span class="k">as</span> <span class="n">prog</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">uint32_wng</span> <span class="o">=</span> <span class="kc">False</span>
                         <span class="k">for</span> <span class="n">idx</span><span class="p">,</span> <span class="n">node</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">nodes</span><span class="p">):</span>
                             <span class="n">prog</span><span class="o">.</span><span class="n">setLabelText</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__progbartitle</span><span class="p">(</span><span class="n">node</span><span class="o">.</span><span class="n">h5file</span><span class="o">.</span><span class="n">filename</span><span class="p">))</span>
@@ -664,7 +665,7 @@
 <div class="viewcode-block" id="H5InputOutput.import_dataset_from_file">
 <a class="viewcode-back" href="../../../features/advanced/api/h5io.html#datalab.gui.h5io.H5InputOutput.import_dataset_from_file">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">import_dataset_from_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">dsetname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Import dataset from HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Import dataset from HDF5 file"""</span>
         <span class="n">h5importer</span> <span class="o">=</span> <span class="n">H5Importer</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="n">node</span> <span class="o">=</span> <span class="n">h5importer</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">dsetname</span><span class="p">)</span>
@@ -672,7 +673,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">__add_object_from_node</span><span class="p">(</span><span class="n">node</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__eventually_show_warnings</span><span class="p">()</span>
         <span class="k">except</span> <span class="ne">KeyError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset not found: </span><span class="si">{</span><span class="n">dsetname</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+            <span class="k">raise</span> <span class="ne">KeyError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Dataset not found: </span><span class="si">{</span><span class="n">dsetname</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
         <span class="n">h5importer</span><span class="o">.</span><span class="n">close</span><span class="p">()</span></div>
 </div>
 
@@ -705,8 +706,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -740,7 +741,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

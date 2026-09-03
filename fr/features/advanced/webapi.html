@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -76,7 +76,7 @@
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Recherche" href="../../search.html" />
     <link rel="next" title="Contrôle à distance (XML-RPC)" href="remote.html" />
-    <link rel="prev" title="Macros" href="macros.html" />
+    <link rel="prev" title="Assistant IA" href="ai_assistant.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="fr"/>
   <meta name="docsearch:version" content="" />
@@ -158,7 +158,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -459,6 +459,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">Panneau d’historique</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="nav bd-sidenav">
@@ -495,6 +496,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">Assistant IA</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">API Web</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
@@ -677,10 +679,10 @@
 <span class="n">workspace</span><span class="o">.</span><span class="n">list</span><span class="p">()</span>
 
 <span class="c1"># Retrieve an object</span>
-<span class="n">signal</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;my_signal&quot;</span><span class="p">)</span>
+<span class="n">signal</span> <span class="o">=</span> <span class="n">workspace</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"my_signal"</span><span class="p">)</span>
 
 <span class="c1"># Add a processed result back to DataLab</span>
-<span class="n">workspace</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">&quot;processed&quot;</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
+<span class="n">workspace</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="s2">"processed"</span><span class="p">,</span> <span class="n">result</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -912,12 +914,12 @@
 
 <span class="c1"># Start the Web API server</span>
 <span class="n">info</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">start_webapi_server</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;URL: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;url&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Token: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;token&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"URL: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'url'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Token: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">'token'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Check status</span>
 <span class="n">status</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">get_webapi_status</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Running: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">&#39;running&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Running: </span><span class="si">{</span><span class="n">status</span><span class="p">[</span><span class="s1">'running'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Stop the server</span>
 <span class="n">proxy</span><span class="o">.</span><span class="n">stop_webapi_server</span><span class="p">()</span>
@@ -944,12 +946,12 @@
                   
 <div class="prev-next-area">
     <a class="left-prev"
-       href="macros.html"
+       href="ai_assistant.html"
        title="page précédente">
       <i class="fa-solid fa-angle-left"></i>
       <div class="prev-next-info">
         <p class="prev-next-subtitle">précédent</p>
-        <p class="prev-next-title">Macros</p>
+        <p class="prev-next-title">Assistant IA</p>
       </div>
     </a>
     <a class="right-next"
@@ -1027,8 +1029,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1062,7 +1064,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

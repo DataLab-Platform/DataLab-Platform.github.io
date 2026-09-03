@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -74,7 +74,7 @@
     <link rel="icon" href="../../_static/favicon.ico"/>
     <link rel="index" title="Index" href="../../genindex.html" />
     <link rel="search" title="Search" href="../../search.html" />
-    <link rel="next" title="Web API" href="webapi.html" />
+    <link rel="next" title="AI Assistant" href="ai_assistant.html" />
     <link rel="prev" title="Migrating from DataLab v0.20 to v1.0" href="migration_v020_to_v100.html" />
   <meta name="viewport" content="width=device-width, initial-scale=1"/>
   <meta name="docsearch:language" content="en"/>
@@ -157,7 +157,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -458,6 +458,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">HDF5 Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">History Panel</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
 <ul class="nav bd-sidenav">
@@ -494,6 +495,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">AI Assistant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webapi.html">Web API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Remote controlling (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Internal data model</a></li>
@@ -610,10 +612,16 @@ remote control system is documented in the <a class="reference internal" href="r
 <h2>Main features<a class="headerlink" href="#main-features" title="Link to this heading">#</a></h2>
 <p>The Macro Panel is a simple interface to:</p>
 <ul class="simple">
-<li><p>Create new macros, using the “New macro” <img alt="libre-gui-add" class="dark-light no-scaled-link" src="../../_images/libre-gui-add.svg" style="width: 24px; height: 24px;" /> button.</p></li>
-<li><p>Rename existing macros, using the “Rename macro” <img alt="libre-gui-pencil" class="dark-light no-scaled-link" src="../../_images/libre-gui-pencil.svg" style="width: 24px; height: 24px;" /> button.</p></li>
+<li><p>Create new macros, using the “New macro” <img alt="libre-gui-add" class="dark-light no-scaled-link" src="../../_images/libre-gui-add.svg" style="width: 24px; height: 24px;" /> button. The button
+also exposes a dropdown menu offering a blank macro and the bundled
+<em>templates</em> (see <a class="reference internal" href="#macro-templates"><span class="std std-ref">Templates</span></a>).</p></li>
+<li><p>Rename existing macros, using the “Rename macro” <img alt="libre-gui-pencil" class="dark-light no-scaled-link" src="../../_images/libre-gui-pencil.svg" style="width: 24px; height: 24px;" /> button
+(or by double-clicking on a tab).</p></li>
+<li><p>Duplicate the current macro, using the “Duplicate macro” <img alt="duplicate" class="dark-light no-scaled-link" src="../../_images/duplicate.svg" style="width: 24px; height: 24px;" /> button.</p></li>
 <li><p>Import/export macros from/to files, using the “Import macro” <img alt="fileopen_py" class="dark-light no-scaled-link" src="../../_images/fileopen_py.svg" style="width: 24px; height: 24px;" />
 and “Export macro” <img alt="filesave_py" class="dark-light no-scaled-link" src="../../_images/filesave_py.svg" style="width: 24px; height: 24px;" /> buttons.</p></li>
+<li><p>Reopen a macro from previous sessions, using the “Recent macros…”
+<img alt="history" class="dark-light no-scaled-link" src="../../_images/history.svg" style="width: 24px; height: 24px;" /> button (the recent list is persisted across DataLab sessions).</p></li>
 <li><p>Execute macros, using the “Run macro” <img alt="libre-camera-flash-on" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-on.svg" style="width: 24px; height: 24px;" /> button.</p></li>
 <li><p>Stop the execution of a macro, using the “Stop macro” <img alt="libre-camera-flash-off" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-off.svg" style="width: 24px; height: 24px;" /> button.</p></li>
 </ul>
@@ -628,6 +636,45 @@ application. This means that you can continue working with DataLab while a macro
 is running and that <em>you can stop a macro at any time</em> using the
 <img alt="libre-camera-flash-off" class="dark-light no-scaled-link" src="../../_images/libre-camera-flash-off.svg" style="width: 24px; height: 24px;" /> button.</p>
 </div>
+</section>
+<section id="editor-features">
+<h2>Editor features<a class="headerlink" href="#editor-features" title="Link to this heading">#</a></h2>
+<p>The macro editor offers a few features that make script writing more
+comfortable:</p>
+<ul class="simple">
+<li><p><strong>Autosave</strong>: every keystroke is debounced and persisted into the current
+workspace, so unsaved edits survive an unexpected shutdown. A recovery
+prompt is offered at startup when an autosaved revision is detected.</p></li>
+<li><p><strong>Tab persistence</strong>: the set of open macros and the active tab are restored
+the next time DataLab starts, so you pick up exactly where you left off.</p></li>
+<li><p><strong>Find / Replace</strong> (<code class="docutils literal notranslate"><span class="pre">Ctrl+F</span></code> / <code class="docutils literal notranslate"><span class="pre">Ctrl+H</span></code>): an inline bar at the bottom
+of the editor supports case-sensitive search, whole-word matching, regular
+expressions, and replace (or replace-all) inside the active macro.</p></li>
+<li><p><strong>Python autocompletion</strong> is enabled out of the box (<code class="docutils literal notranslate"><span class="pre">Ctrl+Space</span></code> to
+trigger it manually), backed by the embedded code editor.</p></li>
+</ul>
+</section>
+<section id="console">
+<h2>Console<a class="headerlink" href="#console" title="Link to this heading">#</a></h2>
+<p>The bottom <em>Console</em> panel captures the standard output and standard error
+streams produced by the running macro. Right-clicking inside the console
+exposes:</p>
+<ul class="simple">
+<li><p><strong>Clear console</strong> — wipe the current contents.</p></li>
+<li><p><strong>Save history log…</strong> — export the console history to a text file.</p></li>
+</ul>
+<p>The maximum number of lines retained by the console can be tuned via the
+<code class="docutils literal notranslate"><span class="pre">Conf.macro.console_max_lines</span></code> setting (defaults to <code class="docutils literal notranslate"><span class="pre">5000</span></code>).</p>
+</section>
+<section id="templates">
+<span id="macro-templates"></span><h2>Templates<a class="headerlink" href="#templates" title="Link to this heading">#</a></h2>
+<p>The “New macro” dropdown lists a set of ready-to-use <em>templates</em> covering
+common patterns (signal creation, image processing, batch loops, etc.).
+You can ship your own templates by dropping <code class="docutils literal notranslate"><span class="pre">*.py</span></code> files into the user
+templates directory — by default <code class="docutils literal notranslate"><span class="pre">~/.DataLab/macro_templates/</span></code>, configurable
+via <code class="docutils literal notranslate"><span class="pre">Conf.macro.templates_path</span></code>. The first non-empty docstring line of each
+template is used as its menu entry title. Bundled templates take precedence
+over user templates when names collide.</p>
 </section>
 <section id="example">
 <h2>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h2>
@@ -656,11 +703,11 @@ tutorial.</p>
       </div>
     </a>
     <a class="right-next"
-       href="webapi.html"
+       href="ai_assistant.html"
        title="next page">
       <div class="prev-next-info">
         <p class="prev-next-subtitle">next</p>
-        <p class="prev-next-title">Web API</p>
+        <p class="prev-next-title">AI Assistant</p>
       </div>
       <i class="fa-solid fa-angle-right"></i>
     </a>
@@ -685,6 +732,9 @@ tutorial.</p>
     <ul class="pst-show_toc_level nav section-nav flex-column">
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#overview">Overview</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#main-features">Main features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#editor-features">Editor features</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#console">Console</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#templates">Templates</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
 </ul>
   </nav></div>
@@ -702,8 +752,8 @@ tutorial.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -737,7 +787,7 @@ tutorial.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -157,7 +157,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -458,6 +458,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">HDF5 Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">History Panel</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
 <ul class="nav bd-sidenav">
@@ -494,6 +495,7 @@
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">AI Assistant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webapi.html">Web API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Remote controlling (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Internal data model</a></li>
@@ -606,15 +608,35 @@ Special plugins that support HDF5 files with domain-specific tree structures. Th
 <section id="where-to-put-a-plugin">
 <h2>Where to put a plugin?<a class="headerlink" href="#where-to-put-a-plugin" title="Link to this heading">#</a></h2>
 <p>Plugins are automatically discovered at startup from multiple locations:</p>
-<ul class="simple">
+<ul>
 <li><p>The user plugin directory:
-Typically <cite>~/.DataLab/plugins</cite> on Linux/macOS or <cite>C:/Users/YourName/.DataLab/plugins</cite> on Windows.</p></li>
-<li><p>A custom plugin directory:
-Configurable in DataLab’s preferences.</p></li>
+Typically <cite>~/.DataLab_v1/plugins</cite> on Linux/macOS or
+<cite>C:/Users/YourName/.DataLab_v1/plugins</cite> on Windows.</p></li>
+<li><p>Additional plugin directories:
+Any number of extra directories may be declared from
+<strong>Plugins &gt; Configure plugins…</strong>, in the <strong>Plugin settings</strong> tab (see
+<a class="reference internal" href="#plugin-search-paths"><span class="std std-ref">Plugin settings</span></a>). They are saved in the DataLab configuration and
+scanned at every startup.</p></li>
 <li><p>The standalone distribution directory:
 If using a frozen (standalone) build, the <cite>plugins</cite> folder located next to the executable is scanned.</p></li>
 <li><p>The internal <cite>datalab/plugins</cite> folder (not recommended for user plugins):
 This location is reserved for built-in or bundled plugins and should not be modified manually.</p></li>
+<li><p>Additional directories listed in the <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS</span></code> environment variable:
+One or more directories may be specified, separated by the OS path separator
+(<code class="docutils literal notranslate"><span class="pre">;</span></code> on Windows, <code class="docutils literal notranslate"><span class="pre">:</span></code> on Linux/macOS), following the same convention as
+<code class="docutils literal notranslate"><span class="pre">PYTHONPATH</span></code>. All listed directories are appended to the plugin search path
+at startup; non-existent paths are silently skipped (a warning is written to
+the log file). Examples:</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span><span class="c1"># Linux/macOS</span>
+<span class="nb">export</span><span class="w"> </span><span class="nv">DATALAB_PLUGINS</span><span class="o">=</span><span class="s2">"/opt/my_plugins:/home/alice/datalab_plugins"</span>
+</pre></div>
+</div>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Windows</span>
+<span class="k">set</span> <span class="nv">DATALAB_PLUGINS</span><span class="p">=</span>C:\my_plugins;D:\shared\datalab_plugins
+</pre></div>
+</div>
+<p>Changes to this variable are only taken into account at DataLab startup.</p>
+</li>
 </ul>
 </section>
 <section id="managing-plugins-in-datalab">
@@ -622,11 +644,41 @@ This location is reserved for built-in or bundled plugins and should not be modi
 <p>The <strong>Plugins</strong> menu provides two dedicated actions:</p>
 <ul class="simple">
 <li><p><strong>Configure plugins…</strong>
-Opens the plugin configuration dialog where you can enable or disable plugins individually.
-After saving changes, DataLab can reload plugins immediately without restarting the application.</p></li>
+Opens the plugin configuration dialog, organized in two tabs:
+<strong>Enable/disable plugins</strong> and <strong>Plugin settings</strong>.</p></li>
 <li><p><strong>Reload plugins</strong>
 Reloads plugin modules from disk without restarting DataLab.</p></li>
 </ul>
+<section id="enable-disable-plugins">
+<h3>Enable/disable plugins<a class="headerlink" href="#enable-disable-plugins" title="Link to this heading">#</a></h3>
+<p>This tab lists all discovered plugins with their name, version, description and
+file path, as well as the plugins that failed to import. For each entry:</p>
+<ul class="simple">
+<li><p>an individual checkbox enables or disables the plugin,</p></li>
+<li><p><strong>Open file</strong> opens the plugin source in your editor,</p></li>
+<li><p><strong>Show in folder</strong> reveals the plugin file in the system file manager.</p></li>
+</ul>
+<p>An <strong>Enable all plugins</strong> checkbox and a <strong>Filter</strong> combo box (<em>All plugins</em>,
+<em>Enabled plugins</em>, <em>Disabled plugins</em>, <em>Plugins with errors</em>) help navigating a
+large plugin collection. A <strong>Last loaded: …</strong> indicator shows when plugins
+were last loaded during the current session, and the <strong>Apply and reload
+plugins</strong> button applies the changes without leaving the dialog.</p>
+</section>
+<section id="plugin-settings">
+<span id="plugin-search-paths"></span><h3>Plugin settings<a class="headerlink" href="#plugin-settings" title="Link to this heading">#</a></h3>
+<p>This tab lists every directory scanned at startup, in two groups:</p>
+<ul class="simple">
+<li><p><strong>Default plugin directories</strong> (read-only): the user plugin directory, the
+bundled <cite>datalab/plugins</cite> folder, the standalone distribution folder when
+applicable, and the directories declared through the <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS</span></code>
+environment variable (identified by a <em>(from DATALAB_PLUGINS)</em> suffix).</p></li>
+<li><p><strong>Additional plugin directories</strong>: your own directories, added with the
+<strong>Add</strong> button and managed with the <em>Edit directory</em> and <em>Remove directory</em>
+buttons. Unlike the environment variable, these directories are saved in the
+DataLab configuration and therefore persist across sessions.</p></li>
+</ul>
+<p>The tab also holds a <strong>Compatibility warnings</strong> option to hide warnings for
+incompatible DataLab v0.20 plugins.</p>
 <p>When reloading plugins, DataLab performs the following steps:</p>
 <ol class="arabic simple">
 <li><p>Unregister currently active plugins,</p></li>
@@ -640,6 +692,7 @@ Reloads plugin modules from disk without restarting DataLab.</p></li>
 <p class="admonition-title">Note</p>
 <p>Plugin enable/disable state is persisted in DataLab settings. Disabled plugins remain listed in the configuration dialog and can be re-enabled later. The global third-party plugins setting in Preferences is also applied immediately: disabling it removes plugin actions and greys out the Plugins menu and status indicator, while enabling it reloads plugins automatically.</p>
 </div>
+</section>
 <section id="hot-reload-workflow-for-plugin-development">
 <h3>Hot-reload workflow for plugin development<a class="headerlink" href="#hot-reload-workflow-for-plugin-development" title="Link to this heading">#</a></h3>
 <p>The hot-reload feature is designed to accelerate the plugin development cycle.
@@ -647,15 +700,14 @@ Here is the recommended workflow:</p>
 <ol class="arabic simple">
 <li><p>Start DataLab normally.</p></li>
 <li><p>Create or edit your plugin file (e.g. <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>) in one of the
-plugin directories (e.g. <code class="docutils literal notranslate"><span class="pre">~/.DataLab/plugins</span></code>).</p></li>
+plugin directories (e.g. <code class="docutils literal notranslate"><span class="pre">~/.DataLab_v1/plugins</span></code>).</p></li>
 <li><p>In DataLab, use <strong>Plugins &gt; Reload plugins</strong> to pick up your changes instantly.</p></li>
 <li><p>Test your plugin actions directly in the running application.</p></li>
 <li><p>Iterate: edit the file, reload, test — without restarting DataLab.</p></li>
 </ol>
 <p>To selectively enable or disable specific plugins during development, use
-<strong>Plugins &gt; Configure plugins…</strong>. The dialog lists all discovered plugins
-with their name, version, description, and file path. Toggling a plugin
-takes effect immediately after closing the dialog.</p>
+<strong>Plugins &gt; Configure plugins…</strong> and its <strong>Apply and reload plugins</strong> button,
+so that changes take effect without leaving the dialog.</p>
 </section>
 </section>
 <section id="plugin-api-helpers">
@@ -704,13 +756,13 @@ takes effect immediately after closing the dialog.</p>
 <p>Here is a minimal example of a plugin that prints a message when activated:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Test Data Plugin for DataLab</span>
 <span class="sd">----------------------------</span>
 
 <span class="sd">This plugin is an example of DataLab plugin. It provides test data samples</span>
 <span class="sd">and some actions to test DataLab functionalities.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
@@ -730,44 +782,50 @@ takes effect immediately after closing the dialog.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Test Data Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Testing DataLab functionalities"</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">load_test_objs</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">registry_class</span><span class="p">:</span> <span class="nb">type</span><span class="p">[</span><span class="n">SignalIORegistry</span> <span class="o">|</span> <span class="n">ImageIORegistry</span><span class="p">],</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test objects from a given registry class</span>
+<span class="w">        </span><span class="sd">"""Load all test objects from a given registry class</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            registry_class: Registry class (SignalIORegistry or ImageIORegistry)</span>
 <span class="sd">            title: Progress bar title</span>
-
-<span class="sd">        Returns:</span>
-<span class="sd">            List of (filename, object) tuples</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">registry_class</span><span class="p">,</span> <span class="n">SignalIORegistry</span><span class="p">):</span>
+            <span class="n">panel_str</span> <span class="o">=</span> <span class="s2">"signal"</span>
+            <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span>
+        <span class="k">elif</span> <span class="nb">issubclass</span><span class="p">(</span><span class="n">registry_class</span><span class="p">,</span> <span class="n">ImageIORegistry</span><span class="p">):</span>
+            <span class="n">panel_str</span> <span class="o">=</span> <span class="s2">"image"</span>
+            <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported I/O registry class: </span><span class="si">{</span><span class="n">registry_class</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
         <span class="n">test_objs</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">helpers</span><span class="o">.</span><span class="n">read_test_objects</span><span class="p">(</span><span class="n">registry_class</span><span class="p">))</span>
-        <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">test_objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">prog</span><span class="p">:</span>
-            <span class="k">for</span> <span class="n">i_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">_fname</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_objs</span><span class="p">):</span>
-                <span class="n">prog</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_obj</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
-                <span class="k">if</span> <span class="n">prog</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
-                    <span class="k">break</span>
-                <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
+        <span class="k">with</span> <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">multiload_session</span><span class="p">(</span><span class="n">panel_str</span><span class="p">):</span>
+            <span class="k">with</span> <span class="n">create_progress_bar</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">title</span><span class="p">,</span> <span class="n">max_</span><span class="o">=</span><span class="nb">len</span><span class="p">(</span><span class="n">test_objs</span><span class="p">))</span> <span class="k">as</span> <span class="n">prog</span><span class="p">:</span>
+                <span class="k">for</span> <span class="n">i_obj</span><span class="p">,</span> <span class="p">(</span><span class="n">_fname</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">test_objs</span><span class="p">):</span>
+                    <span class="n">prog</span><span class="o">.</span><span class="n">setValue</span><span class="p">(</span><span class="n">i_obj</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span>
+                    <span class="k">if</span> <span class="n">prog</span><span class="o">.</span><span class="n">wasCanceled</span><span class="p">():</span>
+                        <span class="k">break</span>
+                    <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="c1"># Signal processing features ------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_paracetamol_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create paracetamol signal&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create paracetamol signal"""</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_paracetamol_signal</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="c1"># Image processing features ------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_peak_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D peak image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D peak image"""</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">new_object</span><span class="p">(</span><span class="n">add_to_panel</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">obj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">PeakDataParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">size</span><span class="o">=</span><span class="nb">max</span><span class="p">(</span><span class="n">obj</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">))</span>
@@ -777,127 +835,127 @@ takes effect immediately after closing the dialog.</p>
                 <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_sincos_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D sin cos image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D sin cos image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_sincos_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_noisy_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D noisy gauss image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">,</span> <span class="n">add_annotations</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_multigaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D multi gauss image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D multi gauss image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_multigaussian_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_2dstep_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D step image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D step image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span><span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_2dstep_image</span><span class="p">(</span><span class="n">newparam</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_ring_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D ring image&quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">RingParam</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Ring&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""Create 2D ring image"""</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">RingParam</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Ring"</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">):</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_ring_image</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_annotated_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create annotated image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create annotated image"""</span>
         <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_annotated_image</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_grid_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create image with a grid of gaussian spots&quot;&quot;&quot;</span>
-        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">GridOfGaussianImages</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Grid of Gaussian Images&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""Create image with a grid of gaussian spots"""</span>
+        <span class="n">param</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">GridOfGaussianImages</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Grid of Gaussian Images"</span><span class="p">))</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">):</span>
             <span class="n">obj</span> <span class="o">=</span> <span class="n">test_data</span><span class="o">.</span><span class="n">create_grid_of_gaussian_images</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_all_test_signals</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test signals.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">SignalIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""Load all test signals."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">SignalIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test signals"</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_load_all_test_images</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load all test images.&quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">ImageIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">))</span>
+<span class="w">        </span><span class="sd">"""Load all test images."""</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_test_objs</span><span class="p">(</span><span class="n">ImageIORegistry</span><span class="p">,</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test images"</span><span class="p">))</span>
 
     <span class="c1"># Plugin menu entries ------------------------------------------------------</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="c1"># Signal Panel ----------------------------------------------------------</span>
         <span class="n">sah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">signalpanel</span><span class="o">.</span><span class="n">acthandler</span>
-        <span class="k">with</span> <span class="n">sah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+        <span class="k">with</span> <span class="n">sah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">)):</span>
             <span class="n">sah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load spectrum of paracetamol&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Load spectrum of paracetamol"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_paracetamol_signal</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">)</span>
+            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test signals"</span><span class="p">)</span>
             <span class="n">sah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test signals&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test signals"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_all_test_signals</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
                 <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
         <span class="c1"># Image Panel -----------------------------------------------------------</span>
         <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
-        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">)):</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create image with peaks&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create image with peaks"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_peak_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
                 <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D sin cos image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D sin cos image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_sincos_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D noisy gaussian image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D multi gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D multi gaussian image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_multigaussian_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create annotated image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create annotated image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_annotated_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D step image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D step image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_2dstep_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create ring image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create ring image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_ring_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create image with a grid of gaussian spots&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create image with a grid of gaussian spots"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_grid_gaussian_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
-            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">)</span>
+            <span class="n">_title</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test images"</span><span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Load all test images&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Load all test images"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">_load_all_test_images</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
                 <span class="n">separator</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="p">)</span>
 </pre></div>
@@ -908,13 +966,13 @@ takes effect immediately after closing the dialog.</p>
 <p>Here is a simple example of a plugin that adds new file formats to DataLab.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Image file formats Plugin for DataLab</span>
 <span class="sd">-------------------------------------</span>
 
 <span class="sd">This plugin is an example of DataLab plugin.</span>
 <span class="sd">It provides image file formats from cameras, scanners, and other acquisition devices.</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
 
@@ -928,14 +986,14 @@ takes effect immediately after closing the dialog.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">FXDFile</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Class implementing Thales Pixium FXD Image file reading feature</span>
+<span class="w">    </span><span class="sd">"""Class implementing Thales Pixium FXD Image file reading feature</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        fname (str): path to FXD file</span>
 <span class="sd">        debug (bool): debug mode</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">HEADER</span> <span class="o">=</span> <span class="s2">&quot;&lt;llllllffl&quot;</span>
+    <span class="n">HEADER</span> <span class="o">=</span> <span class="s2">"&lt;llllllffl"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span> <span class="o">=</span> <span class="n">debug</span>
@@ -954,33 +1012,33 @@ takes effect immediately after closing the dialog.</p>
             <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return a string representation of the object&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return a string representation of the object"""</span>
         <span class="n">info</span> <span class="o">=</span> <span class="p">(</span>
-            <span class="p">(</span><span class="s2">&quot;Image width&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Image Height&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Frame number&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;File format&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Pixel type&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Quantlevels&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Min. level&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Max. level&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
-            <span class="p">(</span><span class="s2">&quot;Comment length&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Image width"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Image Height"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Frame number"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"File format"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Pixel type"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Quantlevels"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Min. level"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Max. level"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Comment length"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">desc_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">info</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">3</span>
-        <span class="n">res</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
         <span class="k">for</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
-            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">&quot;{:&quot;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;}</span><span class="si">{}</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">description</span> <span class="o">+</span> <span class="s2">&quot;: &quot;</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">"{:"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"}</span><span class="si">{}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">description</span> <span class="o">+</span> <span class="s2">": "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
 
-        <span class="n">res</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="n">res</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">res</span>
         <span class="k">return</span> <span class="n">res</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load header and image pixel data</span>
+<span class="w">        </span><span class="sd">"""Load header and image pixel data</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            fname (str): path to FXD file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
             <span class="n">header_s</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HEADER</span><span class="p">)</span>
             <span class="n">record</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
             <span class="n">unpacked_rec</span> <span class="o">=</span> <span class="n">header_s</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
@@ -1006,32 +1064,32 @@ takes effect immediately after closing the dialog.</p>
             <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
                 <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
             <span class="k">else</span><span class="p">:</span>
-                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported pixel type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported pixel type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
             <span class="n">block</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span> <span class="o">*</span> <span class="n">size</span><span class="p">)</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">FXDImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing Thales Pixium (FXD) image file type&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Object representing Thales Pixium (FXD) image file type"""</span>
 
     <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Thales Pixium&quot;</span><span class="p">,</span>
-        <span class="n">extensions</span><span class="o">=</span><span class="s2">&quot;*.fxd&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Thales Pixium"</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">"*.fxd"</span><span class="p">,</span>
         <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">writeable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read data and return it</span>
+<span class="w">        </span><span class="sd">"""Read data and return it</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename (str): path to FXD file</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: image data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">fxd_file</span> <span class="o">=</span> <span class="n">FXDFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">fxd_file</span><span class="o">.</span><span class="n">data</span>
 
@@ -1042,26 +1100,26 @@ takes effect immediately after closing the dialog.</p>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">XYZImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing Dürr NDT XYZ image file type&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Object representing Dürr NDT XYZ image file type"""</span>
 
     <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Dürr NDT&quot;</span><span class="p">,</span>
-        <span class="n">extensions</span><span class="o">=</span><span class="s2">&quot;*.xyz&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Dürr NDT"</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">"*.xyz"</span><span class="p">,</span>
         <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
         <span class="n">writeable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Read data and return it</span>
+<span class="w">        </span><span class="sd">"""Read data and return it</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename (str): path to XYZ file</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            np.ndarray: image data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
             <span class="n">cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
             <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">cols</span> <span class="o">*</span> <span class="n">rows</span><span class="p">)</span>
@@ -1070,14 +1128,14 @@ takes effect immediately after closing the dialog.</p>
 
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">write_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Write data to file</span>
+<span class="w">        </span><span class="sd">"""Write data to file</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: File name</span>
 <span class="sd">            data: Image array data</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
-        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">&quot;wb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
             <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
             <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
             <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
@@ -1096,7 +1154,7 @@ takes effect immediately after closing the dialog.</p>
 <li><p>plugins with long descriptions.</p></li>
 </ul>
 <p>The corresponding feature tests are located in
-<code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/test_plugins.py</span></code> and cover plugin lifecycle,
+<code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/plugins_app_test.py</span></code> and cover plugin lifecycle,
 hot-reload behavior, error handling, duplicate names, and configuration filtering.</p>
 </section>
 <section id="other-examples">
@@ -1506,6 +1564,8 @@ internal console once it is ready.</p>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-plugin">What is a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#where-to-put-a-plugin">Where to put a plugin?</a></li>
 <li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#managing-plugins-in-datalab">Managing plugins in DataLab</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#enable-disable-plugins">Enable/disable plugins</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-settings">Plugin settings</a></li>
 <li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hot-reload-workflow-for-plugin-development">Hot-reload workflow for plugin development</a></li>
 </ul>
 </li>
@@ -1578,8 +1638,8 @@ internal console once it is ready.</p>
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1613,7 +1673,7 @@ internal console once it is ready.</p>
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

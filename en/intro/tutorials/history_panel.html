@@ -1,0 +1,865 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Tutorial on how to record, replay and share a processing chain with the History Panel of DataLab, the open-source scientific data analysis and visualization platform" name="description" />
+<meta content="DataLab, tutorial, history, record, replay, session, reproducibility, processing chain, dlhist, HDF5" name="keywords" />
+<meta property="og:title" content=" Recording and replaying a processing chain" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/intro/tutorials/history_panel.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Recording and replaying a processing chain: This tutorial shows how to use the History Panel to make a processing workflow reproducible: Record a complete processing chain on a test signal, Inspect..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Recording and replaying a processing chain &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
+
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'intro/tutorials/history_panel';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/intro/tutorials/history_panel.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Search" href="../../search.html" />
+    <link rel="next" title="Prototyping a custom processing pipeline" href="custom_func.html" />
+    <link rel="prev" title="Laser beam profiling: measuring beam size along the propagation axis" href="laser_beam.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 and at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.3.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Use cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../features/index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Use cases
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../features/index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg fa-fw" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg fa-fw" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg fa-fw" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg fa-fw me-1"></i>System Settings</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg fa-fw me-1"></i>Light</button></li>
+    <li><button class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg fa-fw me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Contents:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../installation.html">Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../installation_offline.html">Offline Installation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../introduction.html">Use cases, main features and key strengths</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ecosystem.html">The DataLab Platform</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../keyfeatures.html">Key features</a></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="index.html">Tutorials</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="videos/p1_quick_demo.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Quick demo</a></li>
+<li class="toctree-l2"><a class="reference internal" href="videos/p2_extensibility.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-video sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 3.75C0 2.784.784 2 1.75 2h12.5c.966 0 1.75.784 1.75 1.75v8.5A1.75 1.75 0 0 1 14.25 14H1.75A1.75 1.75 0 0 1 0 12.25Zm1.75-.25a.25.25 0 0 0-.25.25v8.5c0 .138.112.25.25.25h12.5a.25.25 0 0 0 .25-.25v-8.5a.25.25 0 0 0-.25-.25Z"></path><path d="M6 10.559V5.442a.25.25 0 0 1 .379-.215l4.264 2.559a.25.25 0 0 1 0 .428l-4.264 2.559A.25.25 0 0 1 6 10.559Z"></path></svg> Add your own features</a></li>
+<li class="toctree-l2"><a class="reference internal" href="spectrum.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Spectrum analysis: denoising, baseline correction and peak fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="blobs.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Automated detection of defects and particles on images</a></li>
+<li class="toctree-l2"><a class="reference internal" href="fabry_perot.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Analyzing Fabry-Perot interferograms: ring detection and circle fitting</a></li>
+<li class="toctree-l2"><a class="reference internal" href="laser_beam.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Recording and replaying a processing chain</a></li>
+<li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Prototyping a custom processing pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab and Spyder: a perfect match</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-home"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Getting started</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="index.html" class="nav-link">Tutorials</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Recording and replaying a processing chain</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-recording-and-replaying-a-processing-chain">
+<span id="tutorial-history-panel"></span><h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Recording and replaying a processing chain<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-recording-and-replaying-a-processing-chain" title="Link to this heading">#</a></h1>
+<p>This tutorial shows how to use the <strong>History Panel</strong> to make a processing
+workflow reproducible:</p>
+<ul class="simple">
+<li><p>Record a complete processing chain on a test signal</p></li>
+<li><p>Inspect the recorded actions and their workspace state</p></li>
+<li><p>Replay the chain, and replay it step-by-step with modified parameters</p></li>
+<li><p>Duplicate a session to compare two processing variants</p></li>
+</ul>
+<div class="admonition seealso">
+<p class="admonition-title">See also</p>
+<p>The reference documentation of the panel (toolbar, tree view, persistence
+rules, chain reconnection) is available in the <a class="reference internal" href="../../features/common/historypanel.html#historypanel"><span class="std std-ref">History Panel</span></a> section.</p>
+</div>
+<section id="showing-the-history-panel">
+<h2>Showing the History Panel<a class="headerlink" href="#showing-the-history-panel" title="Link to this heading">#</a></h2>
+<p>The History Panel is visible by default, but could be hidden in your
+configuration. In this case, to display it, check the “History Panel” entry in
+the “View” menu.</p>
+<figure class="align-default" id="id1">
+<img alt="../../_images/013.png" src="../../_images/013.png" />
+<figcaption>
+<p><span class="caption-text">The “View &gt; History Panel” menu entry, which toggles the visibility of the
+panel.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The panel is empty when it is first displayed. It is made of three parts:
+a toolbar at the top, the tree of recorded sessions and actions in the middle
+(with the “Title”, “Date and time” and “Description” columns), and the
+workspace state tables at the bottom (“Signal” / “Shape” on the left,
+“Image” / “Dimensions” on the right).</p>
+<figure class="align-default" id="id2">
+<img alt="../../_images/023.png" src="../../_images/023.png" />
+<figcaption>
+<p><span class="caption-text">The empty History Panel: toolbar, action tree and workspace state tables.</span><a class="headerlink" href="#id2" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Like the other panels of DataLab, the History Panel is dockable: it can be
+moved to any side of the main window, or detached as a floating window. Here,
+it is docked on the left side, next to the Signal Panel, so that the recorded
+actions remain visible while working on the data. We use this configuration in
+the rest of the tutorial, but you can choose any layout that suits your
+workflow.</p>
+<figure class="align-default" id="id3">
+<img alt="../../_images/033.png" src="../../_images/033.png" />
+<figcaption>
+<p><span class="caption-text">The History Panel docked on the left side of the main window.</span><a class="headerlink" href="#id3" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="recording-a-processing-chain">
+<h2>Recording a processing chain<a class="headerlink" href="#recording-a-processing-chain" title="Link to this heading">#</a></h2>
+<p>Recording is disabled by default: the History Panel only starts collecting
+actions once the <img alt="record" class="dark-light no-scaled-link" src="../../_images/record.svg" style="width: 24px; height: 24px;" /> <strong>Record mode</strong> button is enabled in its toolbar.</p>
+<p>The first object created after enabling the recording opens a new <strong>session</strong>,
+which acts as a container for the whole processing chain. From then on, every
+action producing or modifying an object – creating a signal, running a
+computation, removing an object – is appended to that session.</p>
+<p>When a new object is created afterwards, DataLab asks whether the current
+session should be closed and a new one started. Since we want to record a
+single, continuous processing chain, we answer <strong>No</strong> to keep appending to the
+session already in progress.</p>
+<p>To illustrate the recording of a processing chain, let’s create a test using the
+“Create &gt; Gaussian” menu entry and then add to it some noise using “Processing
+&gt; Noise Addition &gt; Gaussian Noise”.</p>
+<figure class="align-default" id="id4">
+<img alt="../../_images/043.png" src="../../_images/043.png" />
+<figcaption>
+<p><span class="caption-text">The History Panel after creating a Gaussian signal and adding noise to it.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>The tree now contains a <strong>Processing</strong> session with the two recorded actions:
+the creation of the Gaussian signal and the addition of Gaussian noise. The
+selected noise action exposes its parameters in the description column. The
+Signal Panel shows both the original and resulting signals, while the
+Processing Parameters panel displays the seed, mean and standard deviation
+used for the selected action.</p>
+<p>To create a longer chain, we can apply a few more processing steps, for example
+a fitting. Once done, the action is recorded in the History Panel, and the
+resulting signal is displayed in the Signal Panel.</p>
+<figure class="align-default" id="id5">
+<img alt="../../_images/052.png" src="../../_images/052.png" />
+<figcaption>
+<p><span class="caption-text">The History Panel after fitting the noisy signal.</span><a class="headerlink" href="#id5" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="familiarizing-with-the-history-panel-commands">
+<h2>Familiarizing with the history panel commands<a class="headerlink" href="#familiarizing-with-the-history-panel-commands" title="Link to this heading">#</a></h2>
+<p>Now we have a very simple processing chain, which is enough to illustrate the
+main features of the History Panel.
+The toolbar provides the following commands:</p>
+<ul class="simple">
+<li><p><strong>Record mode</strong> toggles the recording of subsequent actions.</p></li>
+<li><p><strong>New session</strong> starts a separate history session.</p></li>
+<li><p><strong>Open history file</strong> and <strong>Save history file</strong> load or save a standalone
+<code class="docutils literal notranslate"><span class="pre">.dlhist</span></code> history file.</p></li>
+<li><p><strong>Previous step</strong> and <strong>Next step</strong> select the adjacent action in the
+current session.</p></li>
+<li><p><strong>Replay</strong> applies the selected session or action without showing parameter
+dialogs, whereas <strong>Step-by-step</strong> replays it while allowing parameters to be
+edited at each step.</p></li>
+<li><p><strong>Duplicate</strong> copies the selected session, or the complete session
+containing the selected action, to compare a processing variant.</p></li>
+<li><p><strong>Remove incompatible</strong> removes actions that cannot be directly applied in
+the current workspace (i.e. because a signal has been deleted), and
+<strong>Delete</strong> removes the selected history entry.</p></li>
+</ul>
+<p>When an action is selected in the tree, the corresponding resulting signal is
+displayed in the Signal Panel.</p>
+<p>Now select the fitting signal in the Signal Panel, and delete it using the
+“Delete” button in the toolbar or pressing the “Delete” key. The fitting action
+is still available in the History Panel, as it can be replayed using the
+<strong>Replay</strong> button. In addition, the delete action has been recorded in the
+history, but it is grayed: the reason is that the fitting signal has been
+deleted, so the action cannot be directly applied in the current workspace.</p>
+<figure class="align-default" id="id6">
+<img alt="../../_images/063.png" src="../../_images/063.png" />
+<figcaption>
+<p><span class="caption-text">The deleted fitted signal is no longer listed in the Signal Panel. The
+recorded deletion is grayed in the History Panel because it cannot be
+replayed in the current workspace.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>We can now replay the fitting action: the resulting signal is recreated in the
+Signal Panel and the “delete” action is no longer grayed, as it can now be
+applied to the newly created signal.</p>
+<figure class="align-default" id="id7">
+<img alt="../../_images/073.png" src="../../_images/073.png" />
+<figcaption>
+<p><span class="caption-text">Replaying the fit recreates the fitting signal. All recorded actions are
+again compatible with the current workspace.</span><a class="headerlink" href="#id7" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+<section id="duplicating-the-chain-to-compare-variants">
+<h2>Duplicating the chain to compare variants<a class="headerlink" href="#duplicating-the-chain-to-compare-variants" title="Link to this heading">#</a></h2>
+<p>We can now duplicate the chain to compare two processing variants. First of all,
+select the “Remove selected objects” entry in the History Panel and press the
+Delete key. Then select the <strong>Processing</strong> session and click <strong>Duplicate</strong>.
+DataLab creates a new <strong>Processing Copy</strong> session and a <code class="docutils literal notranslate"><span class="pre">Copy</span> <span class="pre">-</span> <span class="pre">Processing</span></code>
+group in the Signal Panel. This group contains independent copies of the
+signals used and produced by the original chain.</p>
+<figure class="align-default" id="id8">
+<img alt="../../_images/082.png" src="../../_images/082.png" />
+<figcaption>
+<p><span class="caption-text">The <strong>Processing Copy</strong> session contains the duplicated actions. The
+<code class="docutils literal notranslate"><span class="pre">Copy</span> <span class="pre">-</span> <span class="pre">Processing</span></code> group contains the independent signal copies.</span><a class="headerlink" href="#id8" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>To create a variant, select the <strong>Processing Copy</strong> session and click
+<strong>Step-by-step</strong>. DataLab displays a parameter dialog for each action. In the
+<strong>Add Gaussian noise</strong> dialog, change the noise level, for example set
+<code class="docutils literal notranslate"><span class="pre">sigma</span></code> to <code class="docutils literal notranslate"><span class="pre">0.05</span></code>, then accept the remaining dialogs. The copied signal
+chain is recomputed in place: its noisy signal and fit now use the new noise
+level, while the original <strong>Processing</strong> session remains unchanged.</p>
+<figure class="align-default" id="id9">
+<img alt="../../_images/092.png" src="../../_images/092.png" />
+<figcaption>
+<p><span class="caption-text">The selected noise action in <strong>Processing Copy</strong> uses <code class="docutils literal notranslate"><span class="pre">sigma</span> <span class="pre">=</span> <span class="pre">0.05</span></code>.
+The original chain and the modified copy remain available side by side.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This can be useful to compare the effect of the noise level on the fitting
+result, or to explore other processing variants. In this example, selecting both
+the original and copied fitting signals in the Signal Panel shows a difference
+between them, but it is quite slight.</p>
+</section>
+<section id="recording-an-image-to-signal-workflow">
+<h2>Recording an image-to-signal workflow<a class="headerlink" href="#recording-an-image-to-signal-workflow" title="Link to this heading">#</a></h2>
+<p>The History Panel records workflows across both data panels in the same session.
+Unlike the Signal Panel and Image Panel, it is not divided by data type: its
+chronological tree shows image operations and any signals that they produce
+together.</p>
+<p>To illustrate this behavior, we will start from a clean workspace.
+Alternatively, click <strong>New session</strong> in the History Panel to record it in a new
+session of your current workspace.</p>
+<p>In both cases, activate the history recording and switch to the <strong>Image Panel</strong>.</p>
+<p>Create or open a test image and apply a first noise-reduction operation, for
+example <strong>Processing &gt; Noise reduction &gt; Moving Average</strong>. As you can see, for
+images the history is recorded in the same way that it is for signals.</p>
+<figure class="align-default" id="id10">
+<img alt="../../_images/103.png" src="../../_images/103.png" />
+<figcaption>
+<p><span class="caption-text">The new image and its moving-average result are recorded in the same
+History Panel session.</span><a class="headerlink" href="#id10" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>Select the filtered image and choose <strong>Analysis &gt; Intensity profiles &gt; Line
+profile…</strong>. Set the horizontal line in the profile dialog, then
+confirm it. DataLab adds the extracted profile to the Signal Panel, while the
+History Panel appends the <strong>Line profile</strong> action to the same session after the
+image-processing actions.</p>
+<figure class="align-default" id="id11">
+<img alt="../../_images/113.png" src="../../_images/113.png" />
+<figcaption>
+<p><span class="caption-text">Choose the horizontal line used to extract the profile from the filtered
+image.</span><a class="headerlink" href="#id11" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+<p>This single history session therefore captures the full workflow: image
+creation, noise reduction, and conversion of image data into a signal. Selecting
+the image actions in the History Panel activates the Image Panel; selecting the
+profile action activates the Signal Panel and selects the resulting signal.</p>
+<figure class="align-default" id="id12">
+<img alt="../../_images/122.png" src="../../_images/122.png" />
+<figcaption>
+<p><span class="caption-text">The History Panel records the image operations and the resulting signal in
+one chronological session.</span><a class="headerlink" href="#id12" title="Link to this image">#</a></p>
+</figcaption>
+</figure>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="laser_beam.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="custom_func.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Prototyping a custom processing pipeline</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#showing-the-history-panel">Showing the History Panel</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recording-a-processing-chain">Recording a processing chain</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#familiarizing-with-the-history-panel-commands">Familiarizing with the history panel commands</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#duplicating-the-chain-to-compare-variants">Duplicating the chain to compare variants</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#recording-an-image-to-signal-workflow">Recording an image-to-signal workflow</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+    <br/>
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

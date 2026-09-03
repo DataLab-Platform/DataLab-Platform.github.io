@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -157,7 +157,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -458,6 +458,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Overview</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Settings</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">HDF5 Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">History Panel</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
 <ul class="nav bd-sidenav">
@@ -494,6 +495,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Migrating from DataLab v0.20 to v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">AI Assistant</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webapi.html">Web API</a></li>
 <li class="toctree-l1"><a class="reference internal" href="remote.html">Remote controlling (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Internal data model</a></li>
@@ -717,7 +719,7 @@
 <span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">get_uuid</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
 <span class="c1"># Alternative in v1.0 - Access metadata directly</span>
-<span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">&quot;uuid&quot;</span><span class="p">)</span>
+<span class="n">obj_uuid</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">get_metadata_option</span><span class="p">(</span><span class="s2">"uuid"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>This change applies to both <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> and <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> objects. The UUID is now stored in the object’s metadata rather than as a direct attribute.</p>
@@ -963,7 +965,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom denoising filter to an image.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Apply a custom denoising filter to an image."""</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">filter_func</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="n">central_pixel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
         <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">central_pixel</span><span class="p">)</span>
@@ -973,20 +975,20 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomFilters</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Custom Filters Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Custom Filters Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My custom filters&quot;</span><span class="p">,</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"My custom filters"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"This is an example plugin"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
         <span class="n">proc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span>
         <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;Weighted average denoise&quot;</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"Weighted average denoise"</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
                 <span class="c1"># Wrap function to handle ImageObj objects</span>
                 <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">cpi</span><span class="o">.</span><span class="n">Wrap11Func</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
                 <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
@@ -1003,7 +1005,7 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Apply a custom denoising filter to an image.&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Apply a custom denoising filter to an image."""</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">filter_func</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
         <span class="n">central_pixel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
         <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">central_pixel</span><span class="p">)</span>
@@ -1013,20 +1015,20 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">CustomFilters</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Custom Filters Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Custom Filters Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;My custom filters&quot;</span><span class="p">,</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"My custom filters"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"This is an example plugin"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
         <span class="n">proc</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span>
         <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;Weighted average denoise&quot;</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
+            <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">func</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">"Weighted average denoise"</span><span class="p">,</span> <span class="n">weighted_average_denoise</span><span class="p">),):</span>
                 <span class="c1"># Wrap function to handle ImageObj objects</span>
                 <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">Wrap1to1Func</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
                 <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
@@ -1052,23 +1054,23 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ExtractBlobs</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Example Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Example Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Extract blobs (example)&quot;</span><span class="p">,</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Extract blobs (example)"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"This is an example plugin"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Preprocess image"""</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BinningParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
         <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
         <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_moving_median</span><span class="p">(</span><span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">))</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">detect_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect circular blobs&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Detect circular blobs"""</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">cdl</span><span class="o">.</span><span class="n">param</span><span class="o">.</span><span class="n">BlobOpenCVParam</span><span class="p">()</span>
         <span class="n">param</span><span class="o">.</span><span class="n">filter_by_color</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1080,11 +1082,11 @@
         <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_blob_opencv</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
         <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Preprocess image&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
-            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Detect circular blobs&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">"Preprocess image"</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">"Detect circular blobs"</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>DataLab v1.0:</strong></p>
@@ -1095,25 +1097,25 @@
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ExtractBlobs</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Example Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Example Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="s2">&quot;Extract blobs (example)&quot;</span><span class="p">,</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="s2">&quot;This is an example plugin&quot;</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Extract blobs (example)"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"This is an example plugin"</span><span class="p">,</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">preprocess</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Preprocess image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Preprocess image"""</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">BinningParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sx</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sy</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"binning"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
         <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span>
-            <span class="s2">&quot;moving_median&quot;</span><span class="p">,</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+            <span class="s2">"moving_median"</span><span class="p">,</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">MovingMedianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">n</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">detect_blobs</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Detect circular blobs&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Detect circular blobs"""</span>
         <span class="n">panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">BlobOpenCVParam</span><span class="p">()</span>
         <span class="n">param</span><span class="o">.</span><span class="n">filter_by_color</span> <span class="o">=</span> <span class="kc">False</span>
@@ -1122,14 +1124,14 @@
         <span class="n">param</span><span class="o">.</span><span class="n">filter_by_circularity</span> <span class="o">=</span> <span class="kc">True</span>
         <span class="n">param</span><span class="o">.</span><span class="n">min_circularity</span> <span class="o">=</span> <span class="mf">0.8</span>
         <span class="n">param</span><span class="o">.</span><span class="n">max_circularity</span> <span class="o">=</span> <span class="mf">1.0</span>
-        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;blob_opencv&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+        <span class="n">panel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"blob_opencv"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
         <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
-            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Preprocess image&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
-            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">&quot;Detect circular blobs&quot;</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">"Preprocess image"</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">preprocess</span><span class="p">)</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="s2">"Detect circular blobs"</span><span class="p">,</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">detect_blobs</span><span class="p">)</span>
 </pre></div>
 </div>
 <p><strong>Key changes:</strong></p>
@@ -1153,31 +1155,31 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="n">src</span><span class="p">:</span> <span class="n">dlo</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">dlo</span><span class="o">.</span><span class="n">NormalRandomParam</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">dlo</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add gaussian noise to image&quot;&quot;&quot;</span>
-    <span class="n">dst</span> <span class="o">=</span> <span class="n">cpima</span><span class="o">.</span><span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;add_gaussian_noise&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Add gaussian noise to image"""</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">cpima</span><span class="o">.</span><span class="n">dst_11</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">"add_gaussian_noise"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">test_data</span><span class="o">.</span><span class="n">add_gaussian_noise_to_image</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dst</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Test Data Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Testing DataLab functionalities"</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add noise to image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add noise to image"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_11</span><span class="p">(</span>
             <span class="n">add_noise_to_image</span><span class="p">,</span>
             <span class="n">paramclass</span><span class="o">=</span><span class="n">dlo</span><span class="o">.</span><span class="n">NormalRandomParam</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise&quot;</span><span class="p">),</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Add noise"</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_noisygauss_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D noisy gauss image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span>
             <span class="n">hide_image_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_image_type</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
@@ -1186,14 +1188,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
-        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
-            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise to image&quot;</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">)):</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Add noise to image"</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gauss image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D noisy gauss image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisygauss_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
 </pre></div>
 </div>
@@ -1209,31 +1211,31 @@
 <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span>
     <span class="n">src</span><span class="p">:</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">,</span> <span class="n">p</span><span class="p">:</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NormalDistribution2DParam</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">ImageObj</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Add gaussian noise to image&quot;&quot;&quot;</span>
-    <span class="n">dst</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">dst_1to1</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">&quot;add_gaussian_noise&quot;</span><span class="p">,</span> <span class="sa">f</span><span class="s2">&quot;mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Add gaussian noise to image"""</span>
+    <span class="n">dst</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">dst_1to1</span><span class="p">(</span><span class="n">src</span><span class="p">,</span> <span class="s2">"add_gaussian_noise"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"mu=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">mu</span><span class="si">}</span><span class="s2">,sigma=</span><span class="si">{</span><span class="n">p</span><span class="o">.</span><span class="n">sigma</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
     <span class="n">test_data</span><span class="o">.</span><span class="n">add_gaussian_noise_to_image</span><span class="p">(</span><span class="n">dst</span><span class="p">,</span> <span class="n">p</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">dst</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">PluginTestData</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Test Data Plugin&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Test Data Plugin"""</span>
 
     <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
-        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">),</span>
-        <span class="n">version</span><span class="o">=</span><span class="s2">&quot;1.0.0&quot;</span><span class="p">,</span>
-        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Testing DataLab functionalities&quot;</span><span class="p">),</span>
+        <span class="n">name</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">),</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Testing DataLab functionalities"</span><span class="p">),</span>
     <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_noise_to_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add noise to image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add noise to image"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">compute_1_to_1</span><span class="p">(</span>
             <span class="n">add_noise_to_image</span><span class="p">,</span>
             <span class="n">paramclass</span><span class="o">=</span><span class="n">sigima</span><span class="o">.</span><span class="n">objects</span><span class="o">.</span><span class="n">NormalDistribution2DParam</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise&quot;</span><span class="p">),</span>
+            <span class="n">title</span><span class="o">=</span><span class="n">_</span><span class="p">(</span><span class="s2">"Add noise"</span><span class="p">),</span>
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_noisy_gaussian_image</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create 2D noisy gauss image&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create 2D noisy gauss image"""</span>
         <span class="n">newparam</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">edit_new_image_parameters</span><span class="p">(</span>
             <span class="n">hide_height</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">hide_type</span><span class="o">=</span><span class="kc">True</span>
         <span class="p">)</span>
@@ -1242,14 +1244,14 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">proxy</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">iah</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
-        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Test data&quot;</span><span class="p">)):</span>
-            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">&quot;Add noise to image&quot;</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
+        <span class="k">with</span> <span class="n">iah</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Test data"</span><span class="p">)):</span>
+            <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span><span class="n">_</span><span class="p">(</span><span class="s2">"Add noise to image"</span><span class="p">),</span> <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">add_noise_to_image</span><span class="p">)</span>
             <span class="n">iah</span><span class="o">.</span><span class="n">new_action</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Create 2D noisy gaussian image&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Create 2D noisy gaussian image"</span><span class="p">),</span>
                 <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">create_noisy_gaussian_image</span><span class="p">,</span>
-                <span class="n">select_condition</span><span class="o">=</span><span class="s2">&quot;always&quot;</span><span class="p">,</span>
+                <span class="n">select_condition</span><span class="o">=</span><span class="s2">"always"</span><span class="p">,</span>
             <span class="p">)</span>
 </pre></div>
 </div>
@@ -1304,14 +1306,14 @@
 <span class="n">table</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">signal</span><span class="o">.</span><span class="n">dynamic_parameters</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
 <span class="c1"># Access specific values from the table</span>
-<span class="n">enob</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;enob&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Effective Number of Bits</span>
-<span class="n">sinad</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;sinad&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Signal-to-Noise and Distortion Ratio</span>
-<span class="n">thd</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">&quot;thd&quot;</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Total Harmonic Distortion</span>
+<span class="n">enob</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">"enob"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Effective Number of Bits</span>
+<span class="n">sinad</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">"sinad"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Signal-to-Noise and Distortion Ratio</span>
+<span class="n">thd</span> <span class="o">=</span> <span class="n">table</span><span class="p">[</span><span class="s2">"thd"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>  <span class="c1"># Total Harmonic Distortion</span>
 
 <span class="c1"># Convert to dictionary for easy access</span>
 <span class="n">result_dict</span> <span class="o">=</span> <span class="n">table</span><span class="o">.</span><span class="n">as_dict</span><span class="p">()</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;ENOB: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">&#39;enob&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;SINAD: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">&#39;sinad&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"ENOB: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">'enob'</span><span class="p">]</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"SINAD: </span><span class="si">{</span><span class="n">result_dict</span><span class="p">[</span><span class="s1">'sinad'</span><span class="p">]</span><span class="si">}</span><span class="s2"> dB"</span><span class="p">)</span>
 
 <span class="c1"># Store result in object metadata using adapter</span>
 <span class="n">adapter</span> <span class="o">=</span> <span class="n">TableAdapter</span><span class="p">(</span><span class="n">table</span><span class="p">)</span>
@@ -1345,11 +1347,11 @@
 <span class="c1"># Access geometry data</span>
 <span class="n">coords</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">coords</span>  <span class="c1"># numpy array of shape (n_peaks, 2)</span>
 <span class="n">n_peaks</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">coords</span><span class="p">)</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Detected </span><span class="si">{</span><span class="n">n_peaks</span><span class="si">}</span><span class="s2"> peaks&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Detected </span><span class="si">{</span><span class="n">n_peaks</span><span class="si">}</span><span class="s2"> peaks"</span><span class="p">)</span>
 
 <span class="c1"># Iterate over detected peaks</span>
 <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">coords</span><span class="p">):</span>
-    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Peak </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Peak </span><span class="si">{</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="si">}</span><span class="s2">: x=</span><span class="si">{</span><span class="n">x</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">, y=</span><span class="si">{</span><span class="n">y</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Check geometry kind</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">KindShape</span>
@@ -1374,11 +1376,11 @@
 
 <span class="c1"># Access segment coordinates [x0, y0, x1, y1]</span>
 <span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">x1</span><span class="p">,</span> <span class="n">y1</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">coords</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bandwidth segment: (</span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y0</span><span class="si">}</span><span class="s2">) to (</span><span class="si">{</span><span class="n">x1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y1</span><span class="si">}</span><span class="s2">)&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bandwidth segment: (</span><span class="si">{</span><span class="n">x0</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y0</span><span class="si">}</span><span class="s2">) to (</span><span class="si">{</span><span class="n">x1</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">y1</span><span class="si">}</span><span class="s2">)"</span><span class="p">)</span>
 
 <span class="c1"># Calculate bandwidth length</span>
 <span class="n">bandwidth</span> <span class="o">=</span> <span class="n">geometry</span><span class="o">.</span><span class="n">segments_lengths</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
-<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Bandwidth@-3dB: </span><span class="si">{</span><span class="n">bandwidth</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Bandwidth@-3dB: </span><span class="si">{</span><span class="n">bandwidth</span><span class="si">:</span><span class="s2">.2f</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
 
 <span class="c1"># Store in metadata</span>
 <span class="n">adapter</span> <span class="o">=</span> <span class="n">GeometryAdapter</span><span class="p">(</span><span class="n">geometry</span><span class="p">)</span>
@@ -1418,12 +1420,12 @@
 <span class="n">proc</span> <span class="o">=</span> <span class="n">panel</span><span class="o">.</span><span class="n">processor</span>
 
 <span class="c1"># Simple features (no parameters)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;normalize&quot;</span><span class="p">)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;fft&quot;</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"normalize"</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"fft"</span><span class="p">)</span>
 
 <span class="c1"># Features with parameters</span>
 <span class="n">param</span> <span class="o">=</span> <span class="n">sigima</span><span class="o">.</span><span class="n">params</span><span class="o">.</span><span class="n">GaussianParam</span><span class="o">.</span><span class="n">create</span><span class="p">(</span><span class="n">sigma</span><span class="o">=</span><span class="mf">2.0</span><span class="p">)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;gaussian_filter&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"gaussian_filter"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 
 <span class="c1"># Features with direct function reference</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sipi</span>
@@ -1475,17 +1477,25 @@
 <span class="n">proc</span><span class="o">.</span><span class="n">compute_gaussian_filter</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
 <span class="c1"># v1.0</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;moving_median&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;blob_opencv&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;gaussian_filter&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"binning"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"moving_median"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"blob_opencv"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"gaussian_filter"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Some complex features still have dedicated methods:</p>
 <div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="c1"># These still use dedicated methods in v1.0</span>
 <span class="n">proc</span><span class="o">.</span><span class="n">compute_roi_extraction</span><span class="p">(</span><span class="n">roi</span><span class="p">)</span>
 <span class="n">proc</span><span class="o">.</span><span class="n">compute_multigaussianfit</span><span class="p">()</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">compute_peak_detection</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
+
+<span class="c1"># Peak detection (signal): ``compute_peak_detection`` still exists and</span>
+<span class="c1"># opens the interactive threshold dialog as before, but it now stores</span>
+<span class="c1"># the result as an XY-markers table (no sticks signal is created</span>
+<span class="c1"># automatically). To rebuild the legacy sticks signal, chain with</span>
+<span class="c1"># ``compute_markers_to_signal`` (or call ``run_feature("extract_peak_positions",</span>
+<span class="c1"># param)`` directly when no interactive dialog is needed):</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_peak_detection</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>        <span class="c1"># interactive, XY-markers result</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">compute_markers_to_signal</span><span class="p">()</span>          <span class="c1"># optional: rebuild sticks signal</span>
 </pre></div>
 </div>
 </section>
@@ -1517,7 +1527,7 @@
 <span class="n">proc</span><span class="o">.</span><span class="n">compute_binning</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
 
 <span class="c1"># Correct (v1.0 style)</span>
-<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">&quot;binning&quot;</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
+<span class="n">proc</span><span class="o">.</span><span class="n">run_feature</span><span class="p">(</span><span class="s2">"binning"</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span>
 </pre></div>
 </div>
 </section>
@@ -1671,8 +1681,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1706,7 +1716,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

@@ -39,20 +39,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
     <img src="../../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -484,9 +484,9 @@
   <h1>Source code for datalab.gui.panel.signal</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">.. Signal panel (see parent package :mod:`datalab.gui.panel`)</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
 
@@ -516,6 +516,7 @@
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.panel.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseDataPanel</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.plothandler</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalPlotHandler</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.processor.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">SignalProcessor</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.objectmodel</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_uuid</span>
 
 <span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
     <span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
@@ -526,15 +527,15 @@
 <div class="viewcode-block" id="SignalPanel">
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.signal.SignalPanel">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SignalPanel</span><span class="p">(</span><span class="n">BaseDataPanel</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">SignalROI</span><span class="p">,</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">SignalROIEditor</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object handling the item list, the selected item properties and plot,</span>
-<span class="sd">    specialized for Signal objects&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Object handling the item list, the selected item properties and plot,</span>
+<span class="sd">    specialized for Signal objects"""</span>
 
-    <span class="n">PANEL_STR</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Signal Panel&quot;</span><span class="p">)</span>
-    <span class="n">PANEL_STR_ID</span> <span class="o">=</span> <span class="s2">&quot;signal&quot;</span>
+    <span class="n">PANEL_STR</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Signal Panel"</span><span class="p">)</span>
+    <span class="n">PANEL_STR_ID</span> <span class="o">=</span> <span class="s2">"signal"</span>
     <span class="n">PARAMCLASS</span> <span class="o">=</span> <span class="n">SignalObj</span>
 
     <span class="c1"># The following tools are used to create annotations on signals. The annotation</span>
-    <span class="c1"># items are created using PlotPy&#39;s default settings. Those appearance settings</span>
+    <span class="c1"># items are created using PlotPy's default settings. Those appearance settings</span>
     <span class="c1"># may be modified in the configuration (see `datalab.config`).</span>
     <span class="n">ANNOTATION_TOOLS</span> <span class="o">=</span> <span class="p">(</span>
         <span class="n">LabelTool</span><span class="p">,</span>
@@ -547,7 +548,7 @@
     <span class="p">)</span>
 
     <span class="n">IO_REGISTRY</span> <span class="o">=</span> <span class="n">SignalIORegistry</span>
-    <span class="n">H5_PREFIX</span> <span class="o">=</span> <span class="s2">&quot;DataLab_Sig&quot;</span>
+    <span class="n">H5_PREFIX</span> <span class="o">=</span> <span class="s2">"DataLab_Sig"</span>
 
     <span class="c1"># pylint: disable=duplicate-code</span>
 
@@ -555,7 +556,7 @@
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.signal.SignalPanel.get_roi_class">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_roi_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">SignalROI</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI class&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return ROI class"""</span>
         <span class="k">return</span> <span class="n">SignalROI</span></div>
 
 
@@ -563,7 +564,7 @@
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.signal.SignalPanel.get_roieditor_class">[docs]</a>
     <span class="nd">@staticmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_roieditor_class</span><span class="p">()</span> <span class="o">-&gt;</span> <span class="n">Type</span><span class="p">[</span><span class="n">roieditor</span><span class="o">.</span><span class="n">SignalROIEditor</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return ROI editor class&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return ROI editor class"""</span>
         <span class="k">return</span> <span class="n">roieditor</span><span class="o">.</span><span class="n">SignalROIEditor</span></div>
 
 
@@ -585,7 +586,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_newparam_from_current</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">newparam</span><span class="p">:</span> <span class="n">NewSignalParam</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">NewSignalParam</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get new object parameters from the current object.</span>
+<span class="w">        </span><span class="sd">"""Get new object parameters from the current object.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            newparam (guidata.dataset.DataSet): new object parameters.</span>
@@ -595,13 +596,13 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            New object parameters</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="n">curobj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">objview</span><span class="o">.</span><span class="n">get_current_object</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">newparam</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">newparam</span> <span class="o">=</span> <span class="n">NewSignalParam</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">title</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">newparam</span><span class="o">.</span><span class="n">title</span> <span class="o">=</span> <span class="n">title</span>
-        <span class="k">if</span> <span class="n">curobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">use_signal_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">curobj</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">Conf</span><span class="o">.</span><span class="n">use_signal_bounds</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="kc">False</span><span class="p">):</span>
             <span class="c1"># Use current signal bounds for new signal:</span>
             <span class="n">newparam</span><span class="o">.</span><span class="n">size</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="n">curobj</span><span class="o">.</span><span class="n">data</span><span class="p">)</span>
             <span class="c1"># try to set xmin/xmax from current signal data range</span>
@@ -625,7 +626,7 @@
         <span class="n">edit</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span>
         <span class="n">add_to_panel</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new object (signal).</span>
+<span class="w">        </span><span class="sd">"""Create a new object (signal).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            param (guidata.dataset.DataSet): new object parameters</span>
@@ -636,15 +637,27 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            New object</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">confirm_memory_state</span><span class="p">():</span>
             <span class="k">return</span> <span class="kc">None</span>
         <span class="n">param</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_newparam_from_current</span><span class="p">(</span><span class="n">param</span><span class="p">)</span>
         <span class="n">signal</span> <span class="o">=</span> <span class="n">create_signal_gui</span><span class="p">(</span><span class="n">param</span><span class="p">,</span> <span class="n">edit</span><span class="o">=</span><span class="n">edit</span><span class="p">,</span> <span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">parentWidget</span><span class="p">())</span>
         <span class="k">if</span> <span class="n">signal</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span> <span class="kc">None</span>
+        <span class="n">action</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">historypanel</span><span class="o">.</span><span class="n">add_ui_entry</span><span class="p">(</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"New signal"</span><span class="p">),</span>
+            <span class="n">target</span><span class="o">=</span><span class="s2">"signalpanel"</span><span class="p">,</span>
+            <span class="n">method_name</span><span class="o">=</span><span class="s2">"new_object"</span><span class="p">,</span>
+            <span class="n">save_state</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+            <span class="n">param</span><span class="o">=</span><span class="n">param</span><span class="p">,</span>
+            <span class="n">add_to_panel</span><span class="o">=</span><span class="n">add_to_panel</span><span class="p">,</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">add_to_panel</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">signal</span><span class="p">)</span>
+            <span class="k">if</span> <span class="n">action</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">mainwindow</span><span class="o">.</span><span class="n">historypanel</span><span class="o">.</span><span class="n">register_action_outputs</span><span class="p">(</span>
+                    <span class="n">action</span><span class="p">,</span> <span class="p">[</span><span class="n">get_uuid</span><span class="p">(</span><span class="n">signal</span><span class="p">)]</span>
+                <span class="p">)</span>
         <span class="k">return</span> <span class="n">signal</span></div>
 
 
@@ -652,18 +665,18 @@
 <div class="viewcode-block" id="SignalPanel.toggle_anti_aliasing">
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.signal.SignalPanel.toggle_anti_aliasing">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_anti_aliasing</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle anti-aliasing on/off</span>
+<span class="w">        </span><span class="sd">"""Toggle anti-aliasing on/off</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            state: state of the anti-aliasing</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">plothandler</span><span class="o">.</span><span class="n">toggle_anti_aliasing</span><span class="p">(</span><span class="n">state</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SignalPanel.reset_curve_styles">
 <a class="viewcode-back" href="../../../../features/advanced/api/panel.html#datalab.gui.panel.signal.SignalPanel.reset_curve_styles">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_curve_styles</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset curve styles&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reset curve styles"""</span>
         <span class="n">CURVESTYLES</span><span class="o">.</span><span class="n">reset_styles</span><span class="p">()</span></div>
 </div>
 
@@ -696,8 +709,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -731,7 +744,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>

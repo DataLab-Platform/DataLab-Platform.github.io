@@ -49,20 +49,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -158,7 +158,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -459,6 +459,7 @@
 <li class="toctree-l1"><a class="reference internal" href="../common/overview.html">Vue d’ensemble</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/settings.html">Préférences</a></li>
 <li class="toctree-l1"><a class="reference internal" href="../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../common/historypanel.html">Panneau d’historique</a></li>
 </ul>
 <p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
 <ul class="nav bd-sidenav">
@@ -495,6 +496,7 @@
 <li class="toctree-l1"><a class="reference internal" href="plugins.html">Plugins</a></li>
 <li class="toctree-l1"><a class="reference internal" href="migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
 <li class="toctree-l1"><a class="reference internal" href="macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="ai_assistant.html">Assistant IA</a></li>
 <li class="toctree-l1"><a class="reference internal" href="webapi.html">API Web</a></li>
 <li class="toctree-l1 current active"><a class="current reference internal" href="#">Contrôle à distance (XML-RPC)</a></li>
 <li class="toctree-l1"><a class="reference internal" href="model.html">Modèle de données interne</a></li>
@@ -586,7 +588,8 @@
 <p>DataLab peut être contrôlé à distance en utilisant le protocole <a class="reference external" href="https://docs.python.org/3/library/xmlrpc.html">XML-RPC</a> qui est nativement supporté par Python (et beaucoup d’autres langages). Le contrôle à distance permet d’accéder aux principales fonctionnalités de DataLab à partir d’un processus séparé.</p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
-<p>Si vous recherchez une solution alternative légère pour contrôler DataLab à distance (c’est-à-dire sans avoir à installer l’ensemble du package DataLab et ses dépendances sur votre environnement), vous pouvez utiliser le package <a class="reference external" href="https://github.com/DataLab-Platform/Sigima">Sigima</a> qui fournit un simple client distant pour DataLab. Pour l’installer, il suffit d’exécuter : <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sigima</span></code>.</p>
+<p>Si vous recherchez une alternative légère pour contrôler DataLab à distance (c’est-à-dire sans installer l’ensemble du package DataLab et ses dépendances dans votre environnement), utilisez la classe <code class="xref py py-class docutils literal notranslate"><span class="pre">sigima.client.SimpleRemoteProxy</span></code> fournie par le package <a class="reference external" href="https://github.com/DataLab-Platform/Sigima">Sigima</a> (<code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">sigima</span></code>). Elle expose les mêmes points d’entrée XML-RPC que la classe <code class="docutils literal notranslate"><span class="pre">RemoteProxy</span></code> décrite ci-dessous, avec un ensemble minimal de dépendances.</p>
+<p>Cette classe remplace <code class="docutils literal notranslate"><span class="pre">cdlclient.SimpleRemoteProxy</span></code> : le package <code class="docutils literal notranslate"><span class="pre">cdlclient</span></code> est obsolète et archivé depuis DataLab 1.3. Sa boîte de dialogue de connexion est désormais fournie par SigimaX (voir <a class="reference internal" href="#connection-dialog">Boîte de dialogue de connexion</a> ci-dessous).</p>
 </div>
 <section id="from-an-ide">
 <h2>Depuis un IDE<a class="headerlink" href="#from-an-ide" title="Lien vers cette rubrique">#</a></h2>
@@ -636,14 +639,14 @@
 <h2>Exemples<a class="headerlink" href="#examples" title="Lien vers cette rubrique">#</a></h2>
 <p>Lorsque vous utilisez Python 3, vous pouvez utiliser directement la classe <cite>RemoteProxy</cite> comme dans les exemples cités ci-dessus ou ci-dessous.</p>
 <p>Voici un exemple en Python 3 d’un script qui se connecte à une instance de DataLab en cours d’exécution, ajoute un signal et une image, puis exécute des calculs (la structure de cellule du script le rend pratique à utiliser dans l’IDE <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>):</p>
-<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">&quot;&quot;&quot;</span>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="sd">"""</span>
 <span class="sd">Example of remote control of DataLab current session,</span>
 <span class="sd">from a Python script running outside DataLab (e.g. in Spyder)</span>
 
 <span class="sd">Created on Fri May 12 12:28:56 2023</span>
 
 <span class="sd">@author: p.raybaut</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># %% Importing necessary modules</span>
 
@@ -660,39 +663,39 @@
 <span class="c1"># %% Executing commands in DataLab (...)</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">20</span><span class="p">,</span> <span class="mi">20</span><span class="p">)</span>
-<span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;toto&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">"toto"</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 
 <span class="c1"># %% Executing commands in DataLab (...)</span>
 
 <span class="n">proxy</span><span class="o">.</span><span class="n">toggle_auto_refresh</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>  <span class="c1"># Turning off auto-refresh</span>
 <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">])</span>
 <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">5.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.0</span><span class="p">])</span>
-<span class="n">proxy</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span><span class="s2">&quot;toto&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span><span class="s2">"toto"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
 
 <span class="c1"># %% Executing commands in DataLab (...)</span>
 
-<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;derivative&quot;</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"derivative"</span><span class="p">)</span>
 <span class="n">proxy</span><span class="o">.</span><span class="n">toggle_auto_refresh</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>  <span class="c1"># Turning on auto-refresh</span>
 
 <span class="c1"># %% Executing commands in DataLab (...)</span>
 
-<span class="n">proxy</span><span class="o">.</span><span class="n">set_current_panel</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">set_current_panel</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
 
 <span class="c1"># %% Executing a lot of commands without refreshing DataLab</span>
 
 <span class="n">z</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">400</span><span class="p">,</span> <span class="mi">400</span><span class="p">)</span>
-<span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;foobar&quot;</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">"foobar"</span><span class="p">,</span> <span class="n">z</span><span class="p">)</span>
 <span class="k">with</span> <span class="n">proxy</span><span class="o">.</span><span class="n">context_no_refresh</span><span class="p">():</span>
     <span class="k">for</span> <span class="n">_idx</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">100</span><span class="p">):</span>
-        <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;fft&quot;</span><span class="p">)</span>
+        <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"fft"</span><span class="p">)</span>
 </pre></div>
 </div>
 <p>Voici une réimplémentation de cette classe en Python 2.7 :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">DataLab remote controlling class for Python 2.7</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">io</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">os</span>
@@ -707,90 +710,90 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">array_to_rpcbinary</span><span class="p">(</span><span class="n">data</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Convert NumPy array to XML-RPC Binary object, with shape and dtype&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Convert NumPy array to XML-RPC Binary object, with shape and dtype"""</span>
     <span class="n">dbytes</span> <span class="o">=</span> <span class="n">io</span><span class="o">.</span><span class="n">BytesIO</span><span class="p">()</span>
     <span class="n">np</span><span class="o">.</span><span class="n">save</span><span class="p">(</span><span class="n">dbytes</span><span class="p">,</span> <span class="n">data</span><span class="p">,</span> <span class="n">allow_pickle</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">Binary</span><span class="p">(</span><span class="n">dbytes</span><span class="o">.</span><span class="n">getvalue</span><span class="p">())</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">get_datalab_xmlrpc_port</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return DataLab current XML-RPC port&quot;&quot;&quot;</span>
-    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">&quot;win32&quot;</span> <span class="ow">and</span> <span class="s2">&quot;HOME&quot;</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
-        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">&quot;HOME&quot;</span><span class="p">)</span>  <span class="c1"># Avoid getting old WinPython settings dir</span>
-    <span class="n">fname</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_config_dir</span><span class="p">(),</span> <span class="s2">&quot;.DataLab&quot;</span><span class="p">,</span> <span class="s2">&quot;DataLab.ini&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Return DataLab current XML-RPC port"""</span>
+    <span class="k">if</span> <span class="n">sys</span><span class="o">.</span><span class="n">platform</span> <span class="o">==</span> <span class="s2">"win32"</span> <span class="ow">and</span> <span class="s2">"HOME"</span> <span class="ow">in</span> <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">:</span>
+        <span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="s2">"HOME"</span><span class="p">)</span>  <span class="c1"># Avoid getting old WinPython settings dir</span>
+    <span class="n">fname</span> <span class="o">=</span> <span class="n">osp</span><span class="o">.</span><span class="n">join</span><span class="p">(</span><span class="n">get_config_dir</span><span class="p">(),</span> <span class="s2">".DataLab"</span><span class="p">,</span> <span class="s2">"DataLab.ini"</span><span class="p">)</span>
     <span class="n">ini</span> <span class="o">=</span> <span class="n">cp</span><span class="o">.</span><span class="n">ConfigParser</span><span class="p">()</span>
     <span class="n">ini</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
     <span class="k">try</span><span class="p">:</span>
-        <span class="k">return</span> <span class="n">ini</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;main&quot;</span><span class="p">,</span> <span class="s2">&quot;rpc_server_port&quot;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">ini</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">"main"</span><span class="p">,</span> <span class="s2">"rpc_server_port"</span><span class="p">)</span>
     <span class="k">except</span> <span class="p">(</span><span class="n">cp</span><span class="o">.</span><span class="n">NoSectionError</span><span class="p">,</span> <span class="n">cp</span><span class="o">.</span><span class="n">NoOptionError</span><span class="p">):</span>
-        <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">&quot;DataLab has not yet been executed&quot;</span><span class="p">)</span>
+        <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">"DataLab has not yet been executed"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">RemoteClient</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Object representing a proxy/client to DataLab XML-RPC server&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Object representing a proxy/client to DataLab XML-RPC server"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span> <span class="o">=</span> <span class="kc">None</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">connect</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">port</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Connect to DataLab XML-RPC server&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Connect to DataLab XML-RPC server"""</span>
         <span class="k">if</span> <span class="n">port</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">port</span> <span class="o">=</span> <span class="n">get_datalab_xmlrpc_port</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">port</span> <span class="o">=</span> <span class="n">port</span>
-        <span class="n">url</span> <span class="o">=</span> <span class="s2">&quot;http://127.0.0.1:&quot;</span> <span class="o">+</span> <span class="n">port</span>
+        <span class="n">url</span> <span class="o">=</span> <span class="s2">"http://127.0.0.1:"</span> <span class="o">+</span> <span class="n">port</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span> <span class="o">=</span> <span class="n">ServerProxy</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="n">allow_none</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
         <span class="k">try</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
         <span class="k">except</span> <span class="n">socket</span><span class="o">.</span><span class="n">error</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">&quot;DataLab is currently not running&quot;</span><span class="p">)</span>
+            <span class="k">raise</span> <span class="ne">ConnectionRefusedError</span><span class="p">(</span><span class="s2">"DataLab is currently not running"</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_version</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return DataLab public version&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return DataLab public version"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">close_application</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Close DataLab application&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Close DataLab application"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">close_application</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">raise_window</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Raise DataLab window&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Raise DataLab window"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">raise_window</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_current_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return current panel&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return current panel"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">get_current_panel</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">set_current_panel</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Switch to panel&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Switch to panel"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">set_current_panel</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">reset_all</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Reset all application data&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Reset all application data"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">reset_all</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_auto_refresh</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle auto refresh state&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Toggle auto refresh state"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">toggle_auto_refresh</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">toggle_show_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">state</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Toggle show titles state&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Toggle show titles state"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">toggle_show_titles</span><span class="p">(</span><span class="n">state</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">save_to_h5_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save to a DataLab HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Save to a DataLab HDF5 file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">save_to_h5_file</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">open_h5_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">h5files</span><span class="p">,</span> <span class="n">import_all</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open a DataLab HDF5 file or import from any other HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Open a DataLab HDF5 file or import from any other HDF5 file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">open_h5_files</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">import_all</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">import_h5_file</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open DataLab HDF5 browser to Import HDF5 file&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Open DataLab HDF5 browser to Import HDF5 file"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">import_h5_file</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">load_from_files</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filenames</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Open objects from files in current panel (signals/images)&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Open objects from files in current panel (signals/images)"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">load_from_files</span><span class="p">(</span><span class="n">filenames</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_signal</span><span class="p">(</span>
@@ -802,10 +805,10 @@
         <span class="n">yunit</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add signal data to DataLab"""</span>
         <span class="n">xbinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">xdata</span><span class="p">)</span>
         <span class="n">ybinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">ydata</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span>
@@ -823,10 +826,10 @@
         <span class="n">xlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">ylabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
         <span class="n">zlabel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="o">=</span><span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="o">=</span><span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
     <span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add image data to DataLab"""</span>
         <span class="n">zbinary</span> <span class="o">=</span> <span class="n">array_to_rpcbinary</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
         <span class="n">p</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span>
         <span class="k">return</span> <span class="n">p</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
@@ -843,68 +846,74 @@
         <span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object_titles</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) list for current panel&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) list for current panel"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">get_object_titles</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">nb_id_title</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">panel</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) by number, id or title&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) by number, id or title"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object_uuids</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span> <span class="n">group</span><span class="o">=</span><span class="kc">None</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) list for current panel&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) list for current panel"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">serverproxy</span><span class="o">.</span><span class="n">get_object_uuids</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">group</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">test_remote_client</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab Remote Client test&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""DataLab Remote Client test"""</span>
     <span class="n">datalab</span> <span class="o">=</span> <span class="n">RemoteClient</span><span class="p">()</span>
     <span class="n">datalab</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
     <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">],</span> <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">0</span><span class="p">]],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span>
-    <span class="n">datalab</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;toto&quot;</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
+    <span class="n">datalab</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">"toto"</span><span class="p">,</span> <span class="n">data</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">test_remote_client</span><span class="p">()</span>
 </pre></div>
 </div>
 </section>
 <section id="connection-dialog">
 <h2>Boîte de dialogue de connexion<a class="headerlink" href="#connection-dialog" title="Lien vers cette rubrique">#</a></h2>
-<p>Le package DataLab fournit également une boîte de dialogue de connexion qui peut être utilisée pour se connecter à une instance de DataLab en cours d’exécution. Elle est exposée par la classe <code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.widgets.connection.ConnectionDialog</span></code>.</p>
+<p>Une boîte de dialogue de connexion peut être utilisée pour se connecter à une instance de DataLab en cours d’exécution. Elle est exposée par la classe <a class="reference external" href="https://sigimax.readthedocs.io/en/latest/api/widgets.html#sigimax.widgets.connection.ConnectionDialog" title="(dans SigimaX)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sigimax.widgets.connection.ConnectionDialog</span></code></a>, et accepte les arguments optionnels <code class="docutils literal notranslate"><span class="pre">icon</span></code> et <code class="docutils literal notranslate"><span class="pre">banner</span></code> pour porter l’identité visuelle de l’application cliente. Elle fonctionne avec tout proxy exposant une méthode bloquante <code class="docutils literal notranslate"><span class="pre">connect()</span></code>, c’est-à-dire à la fois <code class="docutils literal notranslate"><span class="pre">RemoteProxy</span></code> et <code class="xref py py-class docutils literal notranslate"><span class="pre">sigima.client.SimpleRemoteProxy</span></code>.</p>
 <figure class="align-default" id="id2">
 <img alt="../../_images/connect_dialog.png" src="../../_images/connect_dialog.png" />
 <figcaption>
-<p><span class="caption-text">Capture d’écran de la boîte de dialogue de connexion (<code class="docutils literal notranslate"><span class="pre">datalab.widgets.connection.ConnectionDialog</span></code>)</span><a class="headerlink" href="#id2" title="Lien vers cette image">#</a></p>
+<p><span class="caption-text">Capture d’écran de la boîte de dialogue de connexion (<code class="docutils literal notranslate"><span class="pre">sigimax.widgets.connection.ConnectionDialog</span></code>)</span><a class="headerlink" href="#id2" title="Lien vers cette image">#</a></p>
 </figcaption>
 </figure>
 <p>Exemple d’utilisation :</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">DataLab Remote client connection dialog example</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># guitest: show,skip</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">guidata.configtools</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_icon</span><span class="p">,</span> <span class="n">get_image_file_path</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">guidata.qthelpers</span><span class="w"> </span><span class="kn">import</span> <span class="n">qt_app_context</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtGui</span> <span class="k">as</span> <span class="n">QG</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">qtpy</span><span class="w"> </span><span class="kn">import</span> <span class="n">QtWidgets</span> <span class="k">as</span> <span class="n">QW</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigimax.widgets.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConnectionDialog</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.control.proxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">RemoteProxy</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.widgets.connection</span><span class="w"> </span><span class="kn">import</span> <span class="n">ConnectionDialog</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">test_dialog</span><span class="p">():</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Test connection dialog&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Test connection dialog"""</span>
     <span class="n">proxy</span> <span class="o">=</span> <span class="n">RemoteProxy</span><span class="p">(</span><span class="n">autoconnect</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
     <span class="k">with</span> <span class="n">qt_app_context</span><span class="p">():</span>
-        <span class="n">dlg</span> <span class="o">=</span> <span class="n">ConnectionDialog</span><span class="p">(</span><span class="n">proxy</span><span class="o">.</span><span class="n">connect</span><span class="p">)</span>
+        <span class="n">dlg</span> <span class="o">=</span> <span class="n">ConnectionDialog</span><span class="p">(</span>
+            <span class="n">proxy</span><span class="o">.</span><span class="n">connect</span><span class="p">,</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">"DataLab.svg"</span><span class="p">),</span>
+            <span class="n">banner</span><span class="o">=</span><span class="n">QG</span><span class="o">.</span><span class="n">QPixmap</span><span class="p">(</span><span class="n">get_image_file_path</span><span class="p">(</span><span class="s2">"DataLab-Banner-200.png"</span><span class="p">)),</span>
+        <span class="p">)</span>
         <span class="k">if</span> <span class="n">dlg</span><span class="o">.</span><span class="n">exec</span><span class="p">():</span>
-            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">,</span> <span class="s2">&quot;Successfully connected&quot;</span><span class="p">)</span>
+            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">information</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"Connection"</span><span class="p">,</span> <span class="s2">"Successfully connected"</span><span class="p">)</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">&quot;Connection&quot;</span><span class="p">,</span> <span class="s2">&quot;Connection failed&quot;</span><span class="p">)</span>
+            <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">critical</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="s2">"Connection"</span><span class="p">,</span> <span class="s2">"Connection failed"</span><span class="p">)</span>
 
 
-<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">&quot;__main__&quot;</span><span class="p">:</span>
+<span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s2">"__main__"</span><span class="p">:</span>
     <span class="n">test_dialog</span><span class="p">()</span>
 </pre></div>
 </div>
@@ -922,12 +931,12 @@
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="o">.</span><span class="n">connect</span><span class="p">()</span>
 <span class="go">Connecting to DataLab XML-RPC server...OK (port: 28867)</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="o">.</span><span class="n">get_version</span><span class="p">()</span>
-<span class="go">&#39;1.0.0&#39;</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span><span class="s2">&quot;toto&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]))</span>
+<span class="go">'1.0.0'</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span><span class="s2">"toto"</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span> <span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">]),</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">4.</span><span class="p">,</span> <span class="mf">5.</span><span class="p">,</span> <span class="o">-</span><span class="mf">1.</span><span class="p">]))</span>
 <span class="go">True</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="o">.</span><span class="n">get_object_titles</span><span class="p">()</span>
-<span class="go">[&#39;toto&#39;]</span>
-<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="p">[</span><span class="s2">&quot;toto&quot;</span><span class="p">]</span>
+<span class="go">['toto']</span>
+<span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="p">[</span><span class="s2">"toto"</span><span class="p">]</span>
 <span class="go">&lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
 <span class="gp">&gt;&gt;&gt; </span><span class="n">proxy</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
 <span class="go">&lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
@@ -1076,7 +1085,7 @@
 
 <dl class="py method">
 <dt class="sig sig-object py" id="datalab.control.remote.RemoteClient.calc">
-<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://guidata.readthedocs.io/en/latest/reference/dataset/datatypes.html#guidata.dataset.DataSet" title="(dans guidata v3.14)"><span class="pre">DataSet</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.calc" title="Lien vers cette définition">#</a></dt>
+<span class="sig-name descname"><span class="pre">calc</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">name</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(dans Python v3.14)"><span class="pre">str</span></a></span></em>, <em class="sig-param"><span class="n"><span class="pre">param</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><a class="reference external" href="https://guidata.readthedocs.io/en/latest/reference/dataset/datatypes.html#guidata.dataset.DataSet" title="(dans guidata v3.15)"><span class="pre">DataSet</span></a><span class="w"> </span><span class="p"><span class="pre">|</span></span><span class="w"> </span><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(dans Python v3.14)"><span class="pre">None</span></a></span><span class="w"> </span><span class="o"><span class="pre">=</span></span><span class="w"> </span><span class="default_value"><span class="pre">None</span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><a class="reference external" href="https://docs.python.org/3/library/constants.html#None" title="(dans Python v3.14)"><span class="pre">None</span></a></span></span><a class="reference internal" href="../../_modules/datalab/control/remote.html#RemoteClient.calc"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#datalab.control.remote.RemoteClient.calc" title="Lien vers cette définition">#</a></dt>
 <dd><p>Appeler la fonctionnalité de calcul <code class="docutils literal notranslate"><span class="pre">name</span></code></p>
 <div class="admonition note">
 <p class="admonition-title">Note</p>
@@ -1258,10 +1267,10 @@
 </dl>
 <p class="rubric">Exemple</p>
 <div class="doctest highlight-default notranslate"><div class="highlight"><pre><span></span><span class="gp">&gt;&gt;&gt; </span><span class="k">with</span> <span class="n">proxy</span><span class="o">.</span><span class="n">context_no_refresh</span><span class="p">():</span>
-<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">&quot;image1&quot;</span><span class="p">,</span> <span class="n">data1</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;fft&quot;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;wiener&quot;</span><span class="p">)</span>
-<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">&quot;ifft&quot;</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span><span class="s2">"image1"</span><span class="p">,</span> <span class="n">data1</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"fft"</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"wiener"</span><span class="p">)</span>
+<span class="gp">... </span>    <span class="n">proxy</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="s2">"ifft"</span><span class="p">)</span>
 <span class="gp">... </span>    <span class="c1"># Auto refresh is disabled during the above operations</span>
 </pre></div>
 </div>
@@ -1742,8 +1751,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1777,7 +1786,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

@@ -39,20 +39,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../../_static/documentation_options.js?v=75f041fb"></script>
+    <script src="../../../_static/documentation_options.js?v=97a505d1"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -146,7 +146,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -485,7 +485,7 @@
   <h1>Code source de datalab.control.proxy</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">Proxy objects (:mod:`datalab.control.proxy`)</span>
 <span class="sd">--------------------------------------------</span>
 
@@ -521,11 +521,11 @@
 
 <span class="sd">.. code-block:: python</span>
 
-<span class="sd">        with proxy_context(&quot;local&quot;) as proxy:</span>
+<span class="sd">        with proxy_context("local") as proxy:</span>
 <span class="sd">            proxy.add_signal(...)</span>
 
-<span class="sd">The proxy type can be &quot;local&quot; or &quot;remote&quot;. For remote proxy, the port can be</span>
-<span class="sd">specified as &quot;remote:port&quot;.</span>
+<span class="sd">The proxy type can be "local" or "remote". For remote proxy, the port can be</span>
+<span class="sd">specified as "remote:port".</span>
 
 <span class="sd">.. note:: The proxy context manager allows to use the proxy in various contexts</span>
 <span class="sd">    (Python script, Jupyter notebook, etc.). It also allows to switch seamlessly</span>
@@ -548,32 +548,56 @@
 <span class="sd">.. code-block:: python</span>
 
 <span class="sd">    # Call a method without parameter</span>
-<span class="sd">    proxy.calc(&quot;average&quot;)</span>
+<span class="sd">    proxy.calc("average")</span>
 
 <span class="sd">    # Call a method with parameters</span>
 <span class="sd">    p = sigima.params.MovingAverageParam.create(n=30)</span>
-<span class="sd">    proxy.calc(&quot;moving_average&quot;, p)</span>
+<span class="sd">    proxy.calc("moving_average", p)</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">__future__</span><span class="w"> </span><span class="kn">import</span> <span class="n">annotations</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">collections.abc</span><span class="w"> </span><span class="kn">import</span> <span class="n">Generator</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">contextlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">contextmanager</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">dataclasses</span><span class="w"> </span><span class="kn">import</span> <span class="n">dataclass</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">typing</span><span class="w"> </span><span class="kn">import</span> <span class="n">TYPE_CHECKING</span><span class="p">,</span> <span class="n">Literal</span>
 
 <span class="kn">import</span><span class="w"> </span><span class="nn">guidata.dataset</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gds</span>
 <span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">sigima</span><span class="w"> </span><span class="kn">import</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">SignalObj</span>
 
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.config</span><span class="w"> </span><span class="kn">import</span> <span class="n">Conf</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.control.baseproxy</span><span class="w"> </span><span class="kn">import</span> <span class="n">BaseProxy</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.control.remote</span><span class="w"> </span><span class="kn">import</span> <span class="n">RemoteClient</span>
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">qthelpers</span> <span class="k">as</span> <span class="n">qth</span>
+
+<span class="k">if</span> <span class="n">TYPE_CHECKING</span><span class="p">:</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.historysession_ops</span><span class="w"> </span><span class="kn">import</span> <span class="n">SessionBehavior</span>
+    <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">DLMainWindow</span>
+
+
+<span class="nd">@dataclass</span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MultiLoadState</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Track a local proxy multi-object load."""</span>
+
+    <span class="n">panel</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">]</span>
+    <span class="n">behavior</span><span class="p">:</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span>
+    <span class="n">decision_applied</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">behavior_for</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return the session behavior for an object added to ``panel``."""</span>
+        <span class="k">if</span> <span class="n">panel</span> <span class="o">!=</span> <span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+                <span class="sa">f</span><span class="s2">"Cannot add a </span><span class="si">{</span><span class="n">panel</span><span class="si">}</span><span class="s2"> object during a </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">panel</span><span class="si">}</span><span class="s2"> multiload session"</span>
+            <span class="p">)</span>
+        <span class="k">return</span> <span class="s2">"no"</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">decision_applied</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">behavior</span>
 
 
 <div class="viewcode-block" id="RemoteProxy">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.RemoteProxy">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">RemoteProxy</span><span class="p">(</span><span class="n">RemoteClient</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab remote proxy class.</span>
+<span class="w">    </span><span class="sd">"""DataLab remote proxy class.</span>
 
 <span class="sd">    This class provides access to DataLab features from a proxy class. This is the</span>
 <span class="sd">    remote version of proxy, which is used when DataLab is started from a different</span>
@@ -595,19 +619,19 @@
 <span class="sd">        &gt;&gt;&gt; proxy = RemoteProxy()</span>
 <span class="sd">        Connecting to DataLab XML-RPC server...OK (port: 28867)</span>
 <span class="sd">        &gt;&gt;&gt; proxy.get_version()</span>
-<span class="sd">        &#39;1.0.0&#39;</span>
-<span class="sd">        &gt;&gt;&gt; proxy.add_signal(&quot;toto&quot;, np.array([1., 2., 3.]), np.array([4., 5., -1.]))</span>
+<span class="sd">        '1.0.0'</span>
+<span class="sd">        &gt;&gt;&gt; proxy.add_signal("toto", np.array([1., 2., 3.]), np.array([4., 5., -1.]))</span>
 <span class="sd">        True</span>
 <span class="sd">        &gt;&gt;&gt; proxy.get_object_titles()</span>
-<span class="sd">        [&#39;toto&#39;]</span>
-<span class="sd">        &gt;&gt;&gt; proxy[&quot;toto&quot;]  # from title</span>
+<span class="sd">        ['toto']</span>
+<span class="sd">        &gt;&gt;&gt; proxy["toto"]  # from title</span>
 <span class="sd">        &lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
 <span class="sd">        &gt;&gt;&gt; proxy[1]  # from number</span>
 <span class="sd">        &lt;sigima.objects.signal.SignalObj at 0x7f7f1c0b4a90&gt;</span>
 <span class="sd">        &gt;&gt;&gt; proxy[1].data</span>
 <span class="sd">        array([1., 2., 3.])</span>
-<span class="sd">        &gt;&gt;&gt; proxy.set_current_panel(&quot;image&quot;)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        &gt;&gt;&gt; proxy.set_current_panel("image")</span>
+<span class="sd">    """</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">autoconnect</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">()</span>
@@ -619,7 +643,7 @@
 <div class="viewcode-block" id="LocalProxy">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">LocalProxy</span><span class="p">(</span><span class="n">BaseProxy</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;DataLab local proxy class.</span>
+<span class="w">    </span><span class="sd">"""DataLab local proxy class.</span>
 
 <span class="sd">    This class provides access to DataLab features from a proxy class. This is the</span>
 <span class="sd">    local version of proxy, which is used when DataLab is started from the same</span>
@@ -627,7 +651,19 @@
 
 <span class="sd">    Args:</span>
 <span class="sd">        datalab (DLMainWindow): DLMainWindow instance.</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">        input_source: Source of objects added through this proxy.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">datalab</span><span class="p">:</span> <span class="n">DLMainWindow</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+        <span class="n">input_source</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"local"</span><span class="p">,</span> <span class="s2">"plugin"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"local"</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">input_source</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"local"</span><span class="p">,</span> <span class="s2">"plugin"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid local proxy input source: </span><span class="si">{</span><span class="n">input_source</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">datalab</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">input_source</span> <span class="o">=</span> <span class="n">input_source</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span><span class="p">:</span> <span class="n">MultiLoadState</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
 
 <div class="viewcode-block" id="LocalProxy.add_signal">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.add_signal">[docs]</a>
@@ -636,25 +672,27 @@
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">xdata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
         <span class="n">ydata</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">new_session_behavior</span><span class="p">:</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add signal data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add signal data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Signal title</span>
 <span class="sd">            xdata: X data</span>
 <span class="sd">            ydata: Y data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the signal. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the signal. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added signal as current</span>
+<span class="sd">            new_session_behavior: Optional history session creation policy</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if signal was added successfully, False otherwise</span>
@@ -662,10 +700,29 @@
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid xdata dtype</span>
 <span class="sd">            ValueError: Invalid ydata dtype</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span>
-            <span class="n">title</span><span class="p">,</span> <span class="n">xdata</span><span class="p">,</span> <span class="n">ydata</span><span class="p">,</span> <span class="n">xunit</span><span class="p">,</span> <span class="n">yunit</span><span class="p">,</span> <span class="n">xlabel</span><span class="p">,</span> <span class="n">ylabel</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span>
-        <span class="p">)</span></div>
+<span class="sd">        """</span>
+        <span class="n">multiload_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span>
+        <span class="k">if</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">new_session_behavior</span>
+            <span class="k">if</span> <span class="n">behavior</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_source</span> <span class="o">==</span> <span class="s2">"plugin"</span><span class="p">:</span>
+                <span class="n">behavior</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">history_plugin_new_session_behavior</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">multiload_state</span><span class="o">.</span><span class="n">behavior_for</span><span class="p">(</span><span class="s2">"signal"</span><span class="p">)</span>
+        <span class="n">added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_signal</span><span class="p">(</span>
+            <span class="n">title</span><span class="p">,</span>
+            <span class="n">xdata</span><span class="p">,</span>
+            <span class="n">ydata</span><span class="p">,</span>
+            <span class="n">xunit</span><span class="p">,</span>
+            <span class="n">yunit</span><span class="p">,</span>
+            <span class="n">xlabel</span><span class="p">,</span>
+            <span class="n">ylabel</span><span class="p">,</span>
+            <span class="n">group_id</span><span class="p">,</span>
+            <span class="n">set_current</span><span class="p">,</span>
+            <span class="n">new_session_behavior</span><span class="o">=</span><span class="n">behavior</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">added</span> <span class="ow">and</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">multiload_state</span><span class="o">.</span><span class="n">decision_applied</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">added</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.add_image">
@@ -674,36 +731,45 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span>
         <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">,</span>
-        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
-        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span>
+        <span class="n">xunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">yunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zunit</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">xlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">ylabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">zlabel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
         <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">new_session_behavior</span><span class="p">:</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>  <span class="c1"># pylint: disable=too-many-arguments</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add image data to DataLab.</span>
+<span class="w">        </span><span class="sd">"""Add image data to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            title: Image title</span>
 <span class="sd">            data: Image data</span>
-<span class="sd">            xunit: X unit. Defaults to &quot;&quot;</span>
-<span class="sd">            yunit: Y unit. Defaults to &quot;&quot;</span>
-<span class="sd">            zunit: Z unit. Defaults to &quot;&quot;</span>
-<span class="sd">            xlabel: X label. Defaults to &quot;&quot;</span>
-<span class="sd">            ylabel: Y label. Defaults to &quot;&quot;</span>
-<span class="sd">            zlabel: Z label. Defaults to &quot;&quot;</span>
-<span class="sd">            group_id: group id in which to add the image. Defaults to &quot;&quot;</span>
+<span class="sd">            xunit: X unit. Defaults to ""</span>
+<span class="sd">            yunit: Y unit. Defaults to ""</span>
+<span class="sd">            zunit: Z unit. Defaults to ""</span>
+<span class="sd">            xlabel: X label. Defaults to ""</span>
+<span class="sd">            ylabel: Y label. Defaults to ""</span>
+<span class="sd">            zlabel: Z label. Defaults to ""</span>
+<span class="sd">            group_id: group id in which to add the image. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added image as current</span>
+<span class="sd">            new_session_behavior: Optional history session creation policy</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if image was added successfully, False otherwise</span>
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: Invalid data dtype</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
+<span class="sd">        """</span>
+        <span class="n">multiload_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span>
+        <span class="k">if</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">new_session_behavior</span>
+            <span class="k">if</span> <span class="n">behavior</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_source</span> <span class="o">==</span> <span class="s2">"plugin"</span><span class="p">:</span>
+                <span class="n">behavior</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">history_plugin_new_session_behavior</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">multiload_state</span><span class="o">.</span><span class="n">behavior_for</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
+        <span class="n">added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_image</span><span class="p">(</span>
             <span class="n">title</span><span class="p">,</span>
             <span class="n">data</span><span class="p">,</span>
             <span class="n">xunit</span><span class="p">,</span>
@@ -714,33 +780,98 @@
             <span class="n">zlabel</span><span class="p">,</span>
             <span class="n">group_id</span><span class="p">,</span>
             <span class="n">set_current</span><span class="p">,</span>
-        <span class="p">)</span></div>
+            <span class="n">new_session_behavior</span><span class="o">=</span><span class="n">behavior</span><span class="p">,</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">added</span> <span class="ow">and</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">multiload_state</span><span class="o">.</span><span class="n">decision_applied</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">added</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.add_object">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.add_object">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_object</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;&quot;</span><span class="p">,</span> <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span>
-    <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object to DataLab.</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
+        <span class="n">group_id</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">""</span><span class="p">,</span>
+        <span class="n">set_current</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+        <span class="n">new_session_behavior</span><span class="p">:</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Add object to DataLab.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            obj: Signal or image object</span>
-<span class="sd">            group_id: group id in which to add the object. Defaults to &quot;&quot;</span>
+<span class="sd">            group_id: group id in which to add the object. Defaults to ""</span>
 <span class="sd">            set_current: if True, set the added object as current</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">)</span></div>
+<span class="sd">            new_session_behavior: Optional history session creation policy</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            True if the object was added successfully, False otherwise</span>
+<span class="sd">        """</span>
+        <span class="n">multiload_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span>
+        <span class="k">if</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">new_session_behavior</span>
+            <span class="k">if</span> <span class="n">behavior</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_source</span> <span class="o">==</span> <span class="s2">"plugin"</span><span class="p">:</span>
+                <span class="n">behavior</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">history_plugin_new_session_behavior</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">SignalObj</span><span class="p">):</span>
+                <span class="n">panel</span> <span class="o">=</span> <span class="s2">"signal"</span>
+            <span class="k">elif</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
+                <span class="n">panel</span> <span class="o">=</span> <span class="s2">"image"</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">TypeError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported object type </span><span class="si">{</span><span class="nb">type</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">multiload_state</span><span class="o">.</span><span class="n">behavior_for</span><span class="p">(</span><span class="n">panel</span><span class="p">)</span>
+        <span class="n">added</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_object</span><span class="p">(</span>
+            <span class="n">obj</span><span class="p">,</span> <span class="n">group_id</span><span class="p">,</span> <span class="n">set_current</span><span class="p">,</span> <span class="n">new_session_behavior</span><span class="o">=</span><span class="n">behavior</span>
+        <span class="p">)</span>
+        <span class="k">if</span> <span class="n">added</span> <span class="ow">and</span> <span class="n">multiload_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="n">multiload_state</span><span class="o">.</span><span class="n">decision_applied</span> <span class="o">=</span> <span class="kc">True</span>
+        <span class="k">return</span> <span class="n">added</span></div>
+
+
+<div class="viewcode-block" id="LocalProxy.multiload_session">
+<a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.multiload_session">[docs]</a>
+    <span class="nd">@contextmanager</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">multiload_session</span><span class="p">(</span>
+        <span class="bp">self</span><span class="p">,</span>
+        <span class="n">panel</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">],</span>
+        <span class="n">new_session_behavior</span><span class="p">:</span> <span class="n">SessionBehavior</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
+<span class="w">        </span><span class="sd">"""Apply one lazy session decision to a multi-object load.</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            panel: Target data panel ("signal" or "image")</span>
+<span class="sd">            new_session_behavior: Optional history session creation policy</span>
+
+<span class="sd">        Raises:</span>
+<span class="sd">            ValueError: If the panel or session behavior is invalid</span>
+<span class="sd">            RuntimeError: If another multiload session is already active</span>
+<span class="sd">        """</span>
+        <span class="k">if</span> <span class="n">panel</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"image"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid data panel: </span><span class="si">{</span><span class="n">panel</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="n">behavior</span> <span class="o">=</span> <span class="n">new_session_behavior</span>
+        <span class="k">if</span> <span class="n">behavior</span> <span class="ow">is</span> <span class="kc">None</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">input_source</span> <span class="o">==</span> <span class="s2">"plugin"</span><span class="p">:</span>
+            <span class="n">behavior</span> <span class="o">=</span> <span class="n">Conf</span><span class="o">.</span><span class="n">history_plugin_multiload_behavior</span><span class="o">.</span><span class="n">get</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">behavior</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">behavior</span> <span class="ow">not</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"ask"</span><span class="p">,</span> <span class="s2">"yes"</span><span class="p">,</span> <span class="s2">"no"</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Invalid session behavior: </span><span class="si">{</span><span class="n">behavior</span><span class="si">!r}</span><span class="s2">"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">RuntimeError</span><span class="p">(</span><span class="s2">"Nested multiload sessions are not supported"</span><span class="p">)</span>
+        <span class="n">previous_state</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span> <span class="o">=</span> <span class="n">MultiLoadState</span><span class="p">(</span><span class="n">panel</span><span class="p">,</span> <span class="n">behavior</span><span class="p">)</span>
+        <span class="k">try</span><span class="p">:</span>
+            <span class="k">yield</span>
+        <span class="k">finally</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">multiload_state</span> <span class="o">=</span> <span class="n">previous_state</span></div>
 
 
 <div class="viewcode-block" id="LocalProxy.calc">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.calc">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">calc</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">name</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">param</span><span class="p">:</span> <span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Call computation feature ``name``</span>
+<span class="w">        </span><span class="sd">"""Call computation feature ``name``</span>
 
 <span class="sd">        .. note::</span>
 
-<span class="sd">            This calls either the processor&#39;s ``compute_&lt;name&gt;`` method (if it exists),</span>
-<span class="sd">            or the processor&#39;s ``&lt;name&gt;`` computation feature (if it is registered,</span>
+<span class="sd">            This calls either the processor's ``compute_&lt;name&gt;`` method (if it exists),</span>
+<span class="sd">            or the processor's ``&lt;name&gt;`` computation feature (if it is registered,</span>
 <span class="sd">            using the ``run_feature`` method).</span>
 <span class="sd">            It looks for the function in all panels, starting with the current one.</span>
 
@@ -750,7 +881,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: unknown function</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">calc</span><span class="p">(</span><span class="n">name</span><span class="p">,</span> <span class="n">param</span><span class="p">)</span></div>
 
 
@@ -759,7 +890,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">get_object</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object (signal/image) from index.</span>
+<span class="w">        </span><span class="sd">"""Get object (signal/image) from index.</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -771,7 +902,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            KeyError: if object not found</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_object</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
 
 
@@ -782,7 +913,7 @@
         <span class="n">nb_id_title</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get plot item shapes associated to object (signal/image).</span>
+<span class="w">        </span><span class="sd">"""Get plot item shapes associated to object (signal/image).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            nb_id_title: Object number, or object id, or object title.</span>
@@ -791,7 +922,7 @@
 
 <span class="sd">        Returns:</span>
 <span class="sd">            List of plot item shapes</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">get_object_shapes</span><span class="p">(</span><span class="n">nb_id_title</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
 
 
@@ -800,14 +931,14 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">add_annotations_from_items</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">items</span><span class="p">:</span> <span class="nb">list</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">panel</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add object annotations (annotation plot items).</span>
+<span class="w">        </span><span class="sd">"""Add object annotations (annotation plot items).</span>
 
 <span class="sd">        Args:</span>
 <span class="sd">            itemsTrue: annotation plot items</span>
 <span class="sd">            refresh_plotTrue: refresh plot. Defaults to True</span>
-<span class="sd">            panel: panel name (valid values: &quot;signal&quot;, &quot;image&quot;).</span>
+<span class="sd">            panel: panel name (valid values: "signal", "image").</span>
 <span class="sd">             If None, current panel is used</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">add_annotations_from_items</span><span class="p">(</span><span class="n">items</span><span class="p">,</span> <span class="n">refresh_plot</span><span class="p">,</span> <span class="n">panel</span><span class="p">)</span></div>
 
 
@@ -816,7 +947,7 @@
     <span class="k">def</span><span class="w"> </span><span class="nf">load_h5_workspace</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">h5files</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]</span> <span class="o">|</span> <span class="nb">str</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Load HDF5 workspace files without showing file dialog.</span>
+<span class="w">        </span><span class="sd">"""Load HDF5 workspace files without showing file dialog.</span>
 
 <span class="sd">        This method loads one or more DataLab native HDF5 files directly, bypassing</span>
 <span class="sd">        the file dialog. It is safe to call from the internal console or any context</span>
@@ -829,7 +960,7 @@
 
 <span class="sd">        Raises:</span>
 <span class="sd">            ValueError: if file is not a DataLab native HDF5 file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="nb">str</span><span class="p">):</span>
             <span class="n">h5files</span> <span class="o">=</span> <span class="p">[</span><span class="n">h5files</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">load_h5_workspace</span><span class="p">(</span><span class="n">h5files</span><span class="p">,</span> <span class="n">reset_all</span><span class="p">)</span></div>
@@ -838,7 +969,7 @@
 <div class="viewcode-block" id="LocalProxy.save_h5_workspace">
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.LocalProxy.save_h5_workspace">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">save_h5_workspace</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Save workspace to HDF5 file without showing file dialog.</span>
+<span class="w">        </span><span class="sd">"""Save workspace to HDF5 file without showing file dialog.</span>
 
 <span class="sd">        This method saves the current workspace to a DataLab native HDF5 file</span>
 <span class="sd">        directly, bypassing the file dialog. It is safe to call from the internal</span>
@@ -846,7 +977,7 @@
 
 <span class="sd">        Args:</span>
 <span class="sd">            filename: Path to the output HDF5 file</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_datalab</span><span class="o">.</span><span class="n">save_h5_workspace</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span></div>
 </div>
 
@@ -856,26 +987,26 @@
 <a class="viewcode-back" href="../../../features/advanced/proxy.html#datalab.control.proxy.proxy_context">[docs]</a>
 <span class="nd">@contextmanager</span>
 <span class="k">def</span><span class="w"> </span><span class="nf">proxy_context</span><span class="p">(</span><span class="n">what</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Generator</span><span class="p">[</span><span class="n">LocalProxy</span> <span class="o">|</span> <span class="n">RemoteProxy</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">]:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Context manager handling DL proxy creation and destruction.</span>
+<span class="w">    </span><span class="sd">"""Context manager handling DL proxy creation and destruction.</span>
 
 <span class="sd">    Args:</span>
-<span class="sd">        what: proxy type (&quot;local&quot; or &quot;remote&quot;)</span>
-<span class="sd">         For remote proxy, the port can be specified as &quot;remote:port&quot;</span>
+<span class="sd">        what: proxy type ("local" or "remote")</span>
+<span class="sd">         For remote proxy, the port can be specified as "remote:port"</span>
 
 <span class="sd">    Yields:</span>
 <span class="sd">        proxy</span>
-<span class="sd">            LocalProxy if what == &quot;local&quot;</span>
-<span class="sd">            RemoteProxy if what == &quot;remote&quot; or &quot;remote:port&quot;</span>
+<span class="sd">            LocalProxy if what == "local"</span>
+<span class="sd">            RemoteProxy if what == "remote" or "remote:port"</span>
 
 <span class="sd">    Example:</span>
-<span class="sd">        with proxy_context(&quot;local&quot;) as proxy:</span>
+<span class="sd">        with proxy_context("local") as proxy:</span>
 <span class="sd">            proxy.add_signal(...)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
-    <span class="k">assert</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span> <span class="ow">or</span> <span class="n">what</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">&quot;remote&quot;</span><span class="p">),</span> <span class="s2">&quot;Invalid proxy type&quot;</span>
+<span class="sd">    """</span>
+    <span class="k">assert</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">"local"</span> <span class="ow">or</span> <span class="n">what</span><span class="o">.</span><span class="n">startswith</span><span class="p">(</span><span class="s2">"remote"</span><span class="p">),</span> <span class="s2">"Invalid proxy type"</span>
     <span class="n">port</span> <span class="o">=</span> <span class="kc">None</span>
-    <span class="k">if</span> <span class="s2">&quot;:&quot;</span> <span class="ow">in</span> <span class="n">what</span><span class="p">:</span>
-        <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">what</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;:&quot;</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
-    <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">&quot;local&quot;</span><span class="p">:</span>
+    <span class="k">if</span> <span class="s2">":"</span> <span class="ow">in</span> <span class="n">what</span><span class="p">:</span>
+        <span class="n">port</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">what</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">":"</span><span class="p">)[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">strip</span><span class="p">())</span>
+    <span class="k">if</span> <span class="n">what</span> <span class="o">==</span> <span class="s2">"local"</span><span class="p">:</span>
         <span class="c1"># pylint: disable=import-outside-toplevel, cyclic-import</span>
         <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.main</span><span class="w"> </span><span class="kn">import</span> <span class="n">DLMainWindow</span>
 
@@ -924,8 +1055,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -959,7 +1090,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.20.0.
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.21.0.
 </p></div>
       
     </div>

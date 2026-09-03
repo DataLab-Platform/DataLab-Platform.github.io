@@ -39,20 +39,20 @@
   </noscript>
   
   <!-- Loaded before other Sphinx assets -->
-  <link href="../../../_static/styles/theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
-<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=90905a2f556bf617f1a9" rel="stylesheet" />
+  <link href="../../../_static/styles/theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=cb8930eaaf36d9849b67" rel="stylesheet" />
 
     <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
     <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=95c83b7e" />
   
   <!-- So that users can add custom icons -->
-  <script defer src="../../../_static/scripts/fontawesome.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=cb8930eaaf36d9849b67"></script>
   <!-- Pre-loaded scripts that we'll load fully later -->
-  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9" />
-<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9" />
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67" />
 
-    <script src="../../../_static/documentation_options.js?v=fd7cadf9"></script>
+    <script src="../../../_static/documentation_options.js?v=1f29e9d3"></script>
     <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
@@ -145,7 +145,7 @@
     <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.2.2</p>
+    <p class="title logo__title">v1.3.0</p>
   
 </a></div>
     
@@ -484,7 +484,7 @@
   <h1>Source code for datalab.gui.roieditor</h1><div class="highlight"><pre>
 <span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
 
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 <span class="sd">ROI editor</span>
 <span class="sd">==========</span>
 
@@ -502,7 +502,7 @@
 
 <span class="sd">.. autoclass:: ImageROIEditor</span>
 <span class="sd">    :members:</span>
-<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">"""</span>
 
 <span class="c1"># pylint: disable=invalid-name  # Allows short reference names like x, y, ...</span>
 
@@ -540,7 +540,8 @@
     <span class="n">TypeObj</span><span class="p">,</span>
     <span class="n">TypeROI</span><span class="p">,</span>
 <span class="p">)</span>
-<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_generic_roi_title</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">GENERIC_ROI_TITLE_REGEXP</span><span class="p">,</span> <span class="n">get_generic_roi_title</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigimax.adapters_plotpy.roi.signal</span><span class="w"> </span><span class="kn">import</span> <span class="n">roi_color_for_index</span>
 
 <span class="kn">from</span><span class="w"> </span><span class="nn">datalab.adapters_plotpy</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
     <span class="n">TypePlotItem</span><span class="p">,</span>
@@ -560,15 +561,25 @@
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">configure_roi_item_in_tool</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Configure ROI item in tool&quot;&quot;&quot;</span>
-    <span class="n">fmt</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">get_obj_option</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">)</span>
+<span class="w">    </span><span class="sd">"""Configure ROI item in tool"""</span>
+    <span class="n">fmt</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">get_obj_option</span><span class="p">(</span><span class="s2">"format"</span><span class="p">)</span>
     <span class="n">configure_roi_item</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="n">lbl</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">editable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">option</span><span class="o">=</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="p">)</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">tool_deselect_items</span><span class="p">(</span><span class="n">tool</span><span class="p">:</span> <span class="n">InteractiveTool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Deselect all items in plot associated with the tool&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Deselect all items in plot associated with the tool"""</span>
     <span class="n">plot</span> <span class="o">=</span> <span class="n">tool</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">()</span>
     <span class="n">plot</span><span class="o">.</span><span class="n">select_some_items</span><span class="p">([])</span>  <span class="c1"># Deselect all items</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">_roi_index_from_title</span><span class="p">(</span><span class="n">shape</span><span class="p">:</span> <span class="n">TypeROIItem</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Extract the trailing numeric index from a ``ROI&lt;n&gt;`` shape title.</span>
+
+<span class="sd">    Returns 0 if the title does not match the generic ROI title pattern</span>
+<span class="sd">    (which should not happen after :func:`tool_setup_shape` has run).</span>
+<span class="sd">    """</span>
+    <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">GENERIC_ROI_TITLE_REGEXP</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
+    <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">))</span> <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span>
 
 
 <span class="k">def</span><span class="w"> </span><span class="nf">tool_setup_shape</span><span class="p">(</span>
@@ -576,22 +587,21 @@
     <span class="n">shape</span><span class="p">:</span> <span class="n">TypeROIItem</span><span class="p">,</span>
     <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
 <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Tool setup shape&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Tool setup shape"""</span>
     <span class="n">configure_roi_item_in_tool</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="n">obj</span><span class="p">)</span>
     <span class="n">max_index</span> <span class="o">=</span> <span class="o">-</span><span class="mi">1</span>
     <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">plot</span><span class="o">.</span><span class="n">get_items</span><span class="p">():</span>
-        <span class="n">name</span> <span class="o">=</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">())</span>
-        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;ROI(\d+)&quot;</span><span class="p">,</span> <span class="n">name</span><span class="p">)</span>
+        <span class="n">match</span> <span class="o">=</span> <span class="n">re</span><span class="o">.</span><span class="n">match</span><span class="p">(</span><span class="n">GENERIC_ROI_TITLE_REGEXP</span><span class="p">,</span> <span class="nb">str</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">()))</span>
         <span class="k">if</span> <span class="n">match</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">max_index</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="n">max_index</span><span class="p">,</span> <span class="nb">int</span><span class="p">(</span><span class="n">match</span><span class="o">.</span><span class="n">group</span><span class="p">(</span><span class="mi">1</span><span class="p">)))</span>
     <span class="n">shape</span><span class="o">.</span><span class="n">setTitle</span><span class="p">(</span><span class="n">get_generic_roi_title</span><span class="p">(</span><span class="n">max_index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">))</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ROISegmentTool</span><span class="p">(</span><span class="n">HRangeTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI segment tool&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""ROI segment tool"""</span>
 
-    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Range ROI&quot;</span><span class="p">)</span>
-    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">&quot;roi_sig.svg&quot;</span>
+    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Range ROI"</span><span class="p">)</span>
+    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">"roi_sig.svg"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">:</span> <span class="n">PlotManager</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">switch_to_default_tool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toolbar_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -599,22 +609,27 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activate tool&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Activate tool"""</span>
         <span class="n">tool_deselect_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">AnnotatedXRange</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create shape"""</span>
+        <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">()</span>
         <span class="n">shape</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
-        <span class="n">tool_setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">(),</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+        <span class="n">tool_setup_shape</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+        <span class="c1"># Apply the cycling fill color based on the title index assigned by</span>
+        <span class="c1"># ``tool_setup_shape`` (so the color matches the persisted ROI</span>
+        <span class="c1"># numbering and stays stable across deletions).</span>
+        <span class="n">shape</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span><span class="n">roi_color_for_index</span><span class="p">(</span><span class="n">_roi_index_from_title</span><span class="p">(</span><span class="n">shape</span><span class="p">)))</span>
         <span class="k">return</span> <span class="n">shape</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ROIRectangleTool</span><span class="p">(</span><span class="n">RectangleTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI rectangle tool&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""ROI rectangle tool"""</span>
 
-    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rectangular ROI&quot;</span><span class="p">)</span>
-    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">&quot;roi_new_rectangle.svg&quot;</span>
+    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Rectangular ROI"</span><span class="p">)</span>
+    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">"roi_new_rectangle.svg"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">:</span> <span class="n">PlotManager</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">switch_to_default_tool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toolbar_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -622,26 +637,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activate tool&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Activate tool"""</span>
         <span class="n">tool_deselect_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">AnnotatedRectangle</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create shape"""</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">item</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span>
 
     <span class="c1"># Reimplement `RectangularShapeTool` method</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">AnnotatedRectangle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup shape"""</span>
         <span class="n">tool_setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">(),</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ROICircleTool</span><span class="p">(</span><span class="n">CircleTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI circle tool&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""ROI circle tool"""</span>
 
-    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Circular ROI&quot;</span><span class="p">)</span>
-    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">&quot;roi_new_circle.svg&quot;</span>
+    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Circular ROI"</span><span class="p">)</span>
+    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">"roi_new_circle.svg"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">:</span> <span class="n">PlotManager</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">switch_to_default_tool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toolbar_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -649,26 +664,26 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activate tool&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Activate tool"""</span>
         <span class="n">tool_deselect_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">AnnotatedCircle</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create shape"""</span>
         <span class="n">item</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
         <span class="k">return</span> <span class="n">item</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">1</span>
 
     <span class="c1"># Reimplement `RectangularShapeTool` method</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">AnnotatedCircle</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup shape"""</span>
         <span class="n">tool_setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">(),</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">ROIPolygonTool</span><span class="p">(</span><span class="n">PolygonTool</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI polygon tool&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""ROI polygon tool"""</span>
 
-    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Polygonal ROI&quot;</span><span class="p">)</span>
-    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">&quot;roi_new_polygon.svg&quot;</span>
+    <span class="n">TITLE</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Polygonal ROI"</span><span class="p">)</span>
+    <span class="n">ICON</span> <span class="o">=</span> <span class="s2">"roi_new_polygon.svg"</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">manager</span><span class="p">:</span> <span class="n">PlotManager</span><span class="p">,</span> <span class="n">obj</span><span class="p">:</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">manager</span><span class="p">,</span> <span class="n">switch_to_default_tool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">toolbar_id</span><span class="o">=</span><span class="kc">None</span><span class="p">)</span>
@@ -676,25 +691,25 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span> <span class="o">=</span> <span class="n">obj</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">activate</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Activate tool&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Activate tool"""</span>
         <span class="n">tool_deselect_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">activate</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">AnnotatedPolygon</span><span class="p">,</span> <span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create shape"""</span>
         <span class="k">return</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi</span><span class="p">)</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
 
     <span class="c1"># Reimplement `RectangularShapeTool` method</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">shape</span><span class="p">:</span> <span class="n">AnnotatedPolygon</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup shape&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup shape"""</span>
         <span class="n">tool_setup_shape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">get_active_plot</span><span class="p">(),</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
 
 
-<span class="n">TypeROIEditor</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">&quot;TypeROIEditor&quot;</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">&quot;BaseROIEditor&quot;</span><span class="p">)</span>
+<span class="n">TypeROIEditor</span> <span class="o">=</span> <span class="n">TypeVar</span><span class="p">(</span><span class="s2">"TypeROIEditor"</span><span class="p">,</span> <span class="n">bound</span><span class="o">=</span><span class="s2">"BaseROIEditor"</span><span class="p">)</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseROIEditorMeta</span><span class="p">(</span><span class="nb">type</span><span class="p">(</span><span class="n">PlotDialog</span><span class="p">),</span> <span class="n">abc</span><span class="o">.</span><span class="n">ABCMeta</span><span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Mixed metaclass to avoid conflicts&quot;&quot;&quot;</span>
+<span class="w">    </span><span class="sd">"""Mixed metaclass to avoid conflicts"""</span>
 
 
 <span class="k">class</span><span class="w"> </span><span class="nc">BaseROIEditor</span><span class="p">(</span>
@@ -702,18 +717,18 @@
     <span class="n">Generic</span><span class="p">[</span><span class="n">TypeObj</span><span class="p">,</span> <span class="n">TypeROI</span><span class="p">,</span> <span class="n">TypePlotItem</span><span class="p">,</span> <span class="n">TypeROIItem</span><span class="p">],</span>  <span class="c1"># type: ignore</span>
     <span class="n">metaclass</span><span class="o">=</span><span class="n">BaseROIEditorMeta</span><span class="p">,</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;ROI Editor</span>
+<span class="w">    </span><span class="sd">"""ROI Editor</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        parent: Parent plot dialog</span>
 <span class="sd">        obj: Object to edit (:class:`sigima.objects.SignalObj` or</span>
 <span class="sd">         :class:`sigima.objects.ImageObj`)</span>
-<span class="sd">        mode: Mode of operation, either &quot;apply&quot; (define ROI, then apply it to</span>
-<span class="sd">         selected objects), &quot;extract&quot; (define ROI, then extract data from it),</span>
-<span class="sd">         or &quot;define&quot; (define ROI without applying or extracting).</span>
+<span class="sd">        mode: Mode of operation, either "apply" (define ROI, then apply it to</span>
+<span class="sd">         selected objects), "extract" (define ROI, then extract data from it),</span>
+<span class="sd">         or "define" (define ROI without applying or extracting).</span>
 <span class="sd">        item: Optional plot item to add to the plot (if None, a new item is created</span>
 <span class="sd">         from the object)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
     <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="kc">None</span>
     <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="kc">None</span>
@@ -724,14 +739,14 @@
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"apply"</span><span class="p">,</span> <span class="s2">"extract"</span><span class="p">,</span> <span class="s2">"define"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"apply"</span><span class="p">,</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">size</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-        <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">),</span> <span class="p">(</span>
-            <span class="sa">f</span><span class="s2">&quot;Invalid mode: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">. Must be either &#39;apply&#39;, &#39;extract&#39; or &#39;define&#39;.&quot;</span>
+        <span class="k">assert</span> <span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"apply"</span><span class="p">,</span> <span class="s2">"extract"</span><span class="p">,</span> <span class="s2">"define"</span><span class="p">),</span> <span class="p">(</span>
+            <span class="sa">f</span><span class="s2">"Invalid mode: </span><span class="si">{</span><span class="n">mode</span><span class="si">}</span><span class="s2">. Must be either 'apply', 'extract' or 'define'."</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QHBoxLayout</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_action</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span>
@@ -746,12 +761,12 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">_tools</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">InteractiveTool</span><span class="p">]</span> <span class="o">=</span> <span class="p">[]</span>
 
         <span class="c1"># Create ROI associated with the object</span>
-        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;define&quot;</span><span class="p">:</span>
-            <span class="c1"># In &quot;define&quot; mode, we do not want to show the object&#39;s ROI to avoid any</span>
+        <span class="k">if</span> <span class="n">mode</span> <span class="o">==</span> <span class="s2">"define"</span><span class="p">:</span>
+            <span class="c1"># In "define" mode, we do not want to show the object's ROI to avoid any</span>
             <span class="c1"># confusion with the ROI being defined</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="kc">None</span>
         <span class="k">else</span><span class="p">:</span>
-            <span class="c1"># In &quot;apply&quot; or &quot;extract&quot; mode, we want to show the object&#39;s ROI</span>
+            <span class="c1"># In "apply" or "extract" mode, we want to show the object's ROI</span>
             <span class="c1"># if it exists, otherwise create a new empty ROI</span>
             <span class="n">roi</span> <span class="o">=</span> <span class="n">obj</span><span class="o">.</span><span class="n">roi</span>
         <span class="k">if</span> <span class="n">roi</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
@@ -763,21 +778,21 @@
         <span class="k">else</span><span class="p">:</span>
             <span class="n">options</span> <span class="o">=</span> <span class="n">options</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">ADDITIONAL_OPTIONS</span><span class="p">)</span>
 
-        <span class="n">roi_s</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Regions of interest&quot;</span><span class="p">)</span>
+        <span class="n">roi_s</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"Regions of interest"</span><span class="p">)</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span>
             <span class="n">parent</span><span class="o">=</span><span class="n">parent</span><span class="p">,</span>
-            <span class="n">toolbar</span><span class="o">=</span><span class="n">mode</span> <span class="o">!=</span> <span class="s2">&quot;define&quot;</span><span class="p">,</span>
+            <span class="n">toolbar</span><span class="o">=</span><span class="n">mode</span> <span class="o">!=</span> <span class="s2">"define"</span><span class="p">,</span>
             <span class="n">options</span><span class="o">=</span><span class="n">options</span><span class="p">,</span>
-            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">roi_s</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">,</span>
-            <span class="n">icon</span><span class="o">=</span><span class="s2">&quot;DataLab.svg&quot;</span><span class="p">,</span>
+            <span class="n">title</span><span class="o">=</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">roi_s</span><span class="si">}</span><span class="s2"> - </span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">title</span><span class="si">}</span><span class="s2">"</span><span class="p">,</span>
+            <span class="n">icon</span><span class="o">=</span><span class="s2">"DataLab.svg"</span><span class="p">,</span>
             <span class="n">edit</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
             <span class="n">size</span><span class="o">=</span><span class="n">size</span><span class="p">,</span>
         <span class="p">)</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_roi_editor&quot;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">setObjectName</span><span class="p">(</span><span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="n">obj</span><span class="o">.</span><span class="n">PREFIX</span><span class="si">}</span><span class="s2">_roi_editor"</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">accepted</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">dialog_accepted</span><span class="p">)</span>
 
         <span class="c1"># Create the ROI items</span>
-        <span class="n">fmt</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">get_obj_option</span><span class="p">(</span><span class="s2">&quot;format&quot;</span><span class="p">)</span>
+        <span class="n">fmt</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">get_obj_option</span><span class="p">(</span><span class="s2">"format"</span><span class="p">)</span>
         <span class="n">roi_adapter</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">TypeROIItem</span><span class="p">]</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span>
             <span class="n">roi_adapter</span><span class="o">.</span><span class="n">iterate_roi_items</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="n">fmt</span><span class="p">,</span> <span class="kc">True</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>
@@ -799,23 +814,23 @@
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">SIG_ANNOTATION_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="k">lambda</span> <span class="n">_plt</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">item_moved</span><span class="p">())</span>
 
-        <span class="c1">#  In &quot;extract mode&quot;, the dialog box OK button should always been enabled</span>
+        <span class="c1">#  In "extract mode", the dialog box OK button should always been enabled</span>
         <span class="c1">#  when at least one ROI is defined,</span>
         <span class="c1">#  whereas in non-extract mode (when editing ROIs) the OK button is by default</span>
         <span class="c1">#  disabled (until ROI data is modified)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;extract&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">"extract"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="k">else</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">False</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>  <span class="c1"># Reimplement PlotDialog method</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Populate the plot layout&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Populate the plot layout"""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_layout</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QHBoxLayout</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">button_layout</span><span class="o">.</span><span class="n">insertLayout</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_editor_layout</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup editor layout&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup editor layout"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">setToolButtonStyle</span><span class="p">(</span><span class="n">QC</span><span class="o">.</span><span class="n">Qt</span><span class="o">.</span><span class="n">ToolButtonTextUnderIcon</span><span class="p">)</span>
         <span class="n">add_actions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">create_actions</span><span class="p">())</span>
         <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">actions</span><span class="p">():</span>
@@ -823,17 +838,17 @@
                 <span class="n">widget</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="o">.</span><span class="n">widgetForAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
                 <span class="n">widget</span><span class="o">.</span><span class="n">setPopupMode</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QToolButton</span><span class="o">.</span><span class="n">ToolButtonPopupMode</span><span class="o">.</span><span class="n">InstantPopup</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">)</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;extract&quot;</span><span class="p">:</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">"extract"</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QCheckBox</span><span class="p">(</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Extract all ROIs</span><span class="se">\n</span><span class="s2">into a single </span><span class="si">%s</span><span class="s2">&quot;</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJ_NAME</span><span class="p">,</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Extract all ROIs</span><span class="se">\n</span><span class="s2">into a single </span><span class="si">%s</span><span class="s2">"</span><span class="p">)</span> <span class="o">%</span> <span class="bp">self</span><span class="o">.</span><span class="n">OBJ_NAME</span><span class="p">,</span>
                 <span class="bp">self</span><span class="p">,</span>
             <span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span><span class="o">.</span><span class="n">addWidget</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">setChecked</span><span class="p">(</span><span class="n">Conf</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">get</span><span class="p">())</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">editor_layout</span><span class="o">.</span><span class="n">addStretch</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup items&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup items"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">set_selectable</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">set_readonly</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
         <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
@@ -846,55 +861,55 @@
 
     <span class="nd">@abc</span><span class="o">.</span><span class="n">abstractmethod</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obj_roi_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object ROI class&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object ROI class"""</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">add_tools_to_plot_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add tools to plot dialog&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add tools to plot dialog"""</span>
         <span class="n">mgr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span>
         <span class="n">select_tool</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">get_tool</span><span class="p">(</span><span class="n">SelectTool</span><span class="p">)</span>
         <span class="n">add_actions</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">toolbar</span><span class="p">,</span> <span class="p">[</span><span class="n">select_tool</span><span class="o">.</span><span class="n">action</span><span class="p">])</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Return dialog modified state&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Return dialog modified state"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__modified</span>
 
     <span class="nd">@modified</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span><span class="w"> </span><span class="nf">modified</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Set dialog modified state&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Set dialog modified state"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__modified</span> <span class="o">=</span> <span class="n">value</span>
-        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">):</span>
-            <span class="c1"># In &quot;extract&quot; mode or in &quot;define&quot; mode, OK button is enabled</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"extract"</span><span class="p">,</span> <span class="s2">"define"</span><span class="p">):</span>
+            <span class="c1"># In "extract" mode or in "define" mode, OK button is enabled</span>
             <span class="c1"># when at least one ROI is defined</span>
             <span class="n">value</span> <span class="o">=</span> <span class="n">value</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">button_box</span><span class="o">.</span><span class="n">button</span><span class="p">(</span><span class="n">QW</span><span class="o">.</span><span class="n">QDialogButtonBox</span><span class="o">.</span><span class="n">Ok</span><span class="p">)</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="n">value</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">dialog_accepted</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Parent dialog was accepted: updating ROI Editor data&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Parent dialog was accepted: updating ROI Editor data"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="o">.</span><span class="n">empty</span><span class="p">()</span>
         <span class="k">for</span> <span class="n">roi_item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">:</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="o">.</span><span class="n">add_roi</span><span class="p">(</span><span class="n">plotitem_to_singleroi</span><span class="p">(</span><span class="n">roi_item</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">))</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
-            <span class="n">Conf</span><span class="o">.</span><span class="n">proc</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">isChecked</span><span class="p">())</span>
+            <span class="n">Conf</span><span class="o">.</span><span class="n">extract_roi_singleobj</span><span class="o">.</span><span class="n">set</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">singleobj_btn</span><span class="o">.</span><span class="n">isChecked</span><span class="p">())</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_roieditor_results</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">tuple</span><span class="p">[</span><span class="n">TypeROI</span><span class="p">,</span> <span class="nb">bool</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get ROI editor results</span>
+<span class="w">        </span><span class="sd">"""Get ROI editor results</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            A tuple containing the ROI data parameters and ROI modified state.</span>
 <span class="sd">            ROI modified state is True if the ROI data has been modified within</span>
 <span class="sd">            the dialog box.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">__roi</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">modified</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_coordinate_based_roi_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create coordinate-based ROI actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create coordinate-based ROI actions"""</span>
         <span class="k">return</span> <span class="p">[]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">__new_action_menu</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span> <span class="n">title</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">icon</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">actions</span><span class="p">:</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create a new action menu&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create a new action menu"""</span>
         <span class="n">menu</span> <span class="o">=</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMenu</span><span class="p">(</span><span class="n">title</span><span class="p">)</span>
         <span class="k">for</span> <span class="n">action</span> <span class="ow">in</span> <span class="n">actions</span><span class="p">:</span>
             <span class="n">menu</span><span class="o">.</span><span class="n">addAction</span><span class="p">(</span><span class="n">action</span><span class="p">)</span>
@@ -903,44 +918,44 @@
         <span class="k">return</span> <span class="n">action</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
         <span class="n">g_menu_act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_action_menu</span><span class="p">(</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Graphical ROI&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;roi_graphical.svg&quot;</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Graphical ROI"</span><span class="p">),</span>
+            <span class="s2">"roi_graphical.svg"</span><span class="p">,</span>
             <span class="p">[</span><span class="n">tool</span><span class="o">.</span><span class="n">action</span> <span class="k">for</span> <span class="n">tool</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">_tools</span><span class="p">],</span>
         <span class="p">)</span>
         <span class="n">c_menu_act</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">__new_action_menu</span><span class="p">(</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Coordinate-based ROI&quot;</span><span class="p">),</span>
-            <span class="s2">&quot;roi_coordinate.svg&quot;</span><span class="p">,</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Coordinate-based ROI"</span><span class="p">),</span>
+            <span class="s2">"roi_coordinate.svg"</span><span class="p">,</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">create_coordinate_based_roi_actions</span><span class="p">(),</span>
         <span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_action</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Remove all&quot;</span><span class="p">),</span>
-            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;roi_delete.svg&quot;</span><span class="p">),</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Remove all"</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">"roi_delete.svg"</span><span class="p">),</span>
             <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">remove_all_rois</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">g_menu_act</span><span class="p">,</span> <span class="n">c_menu_act</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_action</span><span class="p">]</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">remove_all_rois</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Remove all ROIs&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Remove all ROIs"""</span>
         <span class="k">if</span> <span class="p">(</span>
             <span class="n">execenv</span><span class="o">.</span><span class="n">unattended</span>
             <span class="ow">or</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">question</span><span class="p">(</span>
                 <span class="bp">self</span><span class="p">,</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Remove all ROIs&quot;</span><span class="p">),</span>
-                <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Are you sure you want to remove all ROIs?&quot;</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Remove all ROIs"</span><span class="p">),</span>
+                <span class="n">_</span><span class="p">(</span><span class="s2">"Are you sure you want to remove all ROIs?"</span><span class="p">),</span>
             <span class="p">)</span>
             <span class="o">==</span> <span class="n">QW</span><span class="o">.</span><span class="n">QMessageBox</span><span class="o">.</span><span class="n">Yes</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">del_items</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">get_roi_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">TypeROIItem</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get ROI items&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get ROI items"""</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">update_roi_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI items&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update ROI items"""</span>
         <span class="n">old_nb_items</span> <span class="o">=</span> <span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span> <span class="o">=</span> <span class="p">[</span>
             <span class="n">item</span>
@@ -952,47 +967,47 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">items_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">_plot</span><span class="p">:</span> <span class="n">BasePlot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Items have changed&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Items have changed"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_items</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">remove_all_action</span><span class="o">.</span><span class="n">setEnabled</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">item_removed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">item</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Item was removed. Since all items are read-only except ROIs...</span>
-<span class="sd">        this must be an ROI.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Item was removed. Since all items are read-only except ROIs...</span>
+<span class="sd">        this must be an ROI."""</span>
         <span class="k">assert</span> <span class="n">item</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">roi_items</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">update_roi_items</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">item_moved</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;ROI plot item has just been moved&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""ROI plot item has just been moved"""</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">modified</span> <span class="o">=</span> <span class="kc">True</span>
 
 
 <div class="viewcode-block" id="SignalROIEditor">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.SignalROIEditor">[docs]</a>
 <span class="k">class</span><span class="w"> </span><span class="nc">SignalROIEditor</span><span class="p">(</span><span class="n">BaseROIEditor</span><span class="p">[</span><span class="n">SignalObj</span><span class="p">,</span> <span class="n">SignalROI</span><span class="p">,</span> <span class="n">CurveItem</span><span class="p">,</span> <span class="n">AnnotatedXRange</span><span class="p">]):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Signal ROI Editor</span>
+<span class="w">    </span><span class="sd">"""Signal ROI Editor</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        parent: Parent plot dialog</span>
 <span class="sd">        obj: Object to edit (:class:`sigima.objects.SignalObj` or</span>
 <span class="sd">         :class:`sigima.objects.ImageObj`)</span>
-<span class="sd">        mode: Mode of operation, either &quot;apply&quot; (define ROI, then apply it to</span>
-<span class="sd">         selected objects), &quot;extract&quot; (define ROI, then extract data from it),</span>
-<span class="sd">         or &quot;define&quot; (define ROI without applying or extracting).</span>
+<span class="sd">        mode: Mode of operation, either "apply" (define ROI, then apply it to</span>
+<span class="sd">         selected objects), "extract" (define ROI, then extract data from it),</span>
+<span class="sd">         or "define" (define ROI without applying or extracting).</span>
 <span class="sd">        item: Optional plot item to add to the plot (if None, a new item is created</span>
 <span class="sd">         from the object)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">&quot;roi_sig.svg&quot;</span>
-    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;signal&quot;</span><span class="p">)</span>
+    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">"roi_sig.svg"</span>
+    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"signal"</span><span class="p">)</span>
     <span class="n">ROI_ITEM_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnnotatedXRange</span><span class="p">,)</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"apply"</span><span class="p">,</span> <span class="s2">"extract"</span><span class="p">,</span> <span class="s2">"define"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"apply"</span><span class="p">,</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1011,14 +1026,14 @@
 <div class="viewcode-block" id="SignalROIEditor.get_obj_roi_class">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.SignalROIEditor.get_obj_roi_class">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obj_roi_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">SignalROI</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object ROI class&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object ROI class"""</span>
         <span class="k">return</span> <span class="n">SignalROI</span></div>
 
 
 <div class="viewcode-block" id="SignalROIEditor.add_tools_to_plot_dialog">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.SignalROIEditor.add_tools_to_plot_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_tools_to_plot_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add tools to plot dialog&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add tools to plot dialog"""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_tools_to_plot_dialog</span><span class="p">()</span>
         <span class="n">mgr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span>
         <span class="n">segm_tool</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_tool</span><span class="p">(</span><span class="n">ROISegmentTool</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
@@ -1029,24 +1044,33 @@
 <div class="viewcode-block" id="SignalROIEditor.manually_add_roi">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.SignalROIEditor.manually_add_roi">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">manually_add_roi</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Manually add segment ROI&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Manually add segment ROI"""</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">ROI1DParam</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
             <span class="n">segment_roi</span> <span class="o">=</span> <span class="n">param</span><span class="o">.</span><span class="n">to_single_roi</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">plot</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span>
             <span class="n">shape</span> <span class="o">=</span> <span class="n">create_adapter_from_object</span><span class="p">(</span><span class="n">segment_roi</span><span class="p">)</span><span class="o">.</span><span class="n">to_plot_item</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
             <span class="n">configure_roi_item_in_tool</span><span class="p">(</span><span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span></div>
+            <span class="c1"># If the user did not provide a title, assign a unique ``ROI&lt;n&gt;``</span>
+            <span class="c1"># title via the standard tool setup so color cycling stays</span>
+            <span class="c1"># consistent with other ROIs.</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">str</span><span class="p">(</span><span class="n">shape</span><span class="o">.</span><span class="n">title</span><span class="p">()</span><span class="o">.</span><span class="n">text</span><span class="p">())</span><span class="o">.</span><span class="n">strip</span><span class="p">():</span>
+                <span class="n">tool_setup_shape</span><span class="p">(</span><span class="n">plot</span><span class="p">,</span> <span class="n">shape</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
+            <span class="n">shape</span><span class="o">.</span><span class="n">shape</span><span class="o">.</span><span class="n">set_fill_color</span><span class="p">(</span>
+                <span class="n">roi_color_for_index</span><span class="p">(</span><span class="n">_roi_index_from_title</span><span class="p">(</span><span class="n">shape</span><span class="p">))</span>
+            <span class="p">)</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">add_item</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span>
+            <span class="n">plot</span><span class="o">.</span><span class="n">set_active_item</span><span class="p">(</span><span class="n">shape</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="SignalROIEditor.create_coordinate_based_roi_actions">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.SignalROIEditor.create_coordinate_based_roi_actions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_coordinate_based_roi_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create coordinate-based ROI actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create coordinate-based ROI actions"""</span>
         <span class="n">segcoord_act</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Range ROI&quot;</span><span class="p">),</span>
-            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;roi_sig.svg&quot;</span><span class="p">),</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Range ROI"</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">"roi_sig.svg"</span><span class="p">),</span>
             <span class="n">triggered</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">manually_add_roi</span><span class="p">,</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">segcoord_act</span><span class="p">]</span></div>
@@ -1065,29 +1089,29 @@
         <span class="n">Union</span><span class="p">[</span><span class="n">AnnotatedPolygon</span><span class="p">,</span> <span class="n">AnnotatedRectangle</span><span class="p">,</span> <span class="n">AnnotatedCircle</span><span class="p">],</span>
     <span class="p">]</span>
 <span class="p">):</span>
-<span class="w">    </span><span class="sd">&quot;&quot;&quot;Image ROI Editor</span>
+<span class="w">    </span><span class="sd">"""Image ROI Editor</span>
 
 <span class="sd">    Args:</span>
 <span class="sd">        parent: Parent plot dialog</span>
 <span class="sd">        obj: Object to edit (:class:`sigima.objects.SignalObj` or</span>
 <span class="sd">         :class:`sigima.objects.ImageObj`)</span>
-<span class="sd">        mode: Mode of operation, either &quot;apply&quot; (define ROI, then apply it to</span>
-<span class="sd">         selected objects), &quot;extract&quot; (define ROI, then extract data from it),</span>
-<span class="sd">         or &quot;define&quot; (define ROI without applying or extracting).</span>
+<span class="sd">        mode: Mode of operation, either "apply" (define ROI, then apply it to</span>
+<span class="sd">         selected objects), "extract" (define ROI, then extract data from it),</span>
+<span class="sd">         or "define" (define ROI without applying or extracting).</span>
 <span class="sd">        item: Optional plot item to add to the plot (if None, a new item is created</span>
 <span class="sd">         from the object)</span>
-<span class="sd">    &quot;&quot;&quot;</span>
+<span class="sd">    """</span>
 
-    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">&quot;roi_ima.svg&quot;</span>
-    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">&quot;image&quot;</span><span class="p">)</span>
+    <span class="n">ICON_NAME</span> <span class="o">=</span> <span class="s2">"roi_ima.svg"</span>
+    <span class="n">OBJ_NAME</span> <span class="o">=</span> <span class="n">_</span><span class="p">(</span><span class="s2">"image"</span><span class="p">)</span>
     <span class="n">ROI_ITEM_TYPES</span> <span class="o">=</span> <span class="p">(</span><span class="n">AnnotatedRectangle</span><span class="p">,</span> <span class="n">AnnotatedCircle</span><span class="p">,</span> <span class="n">AnnotatedPolygon</span><span class="p">)</span>
-    <span class="n">ADDITIONAL_OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;show_itemlist&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">&quot;show_contrast&quot;</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
+    <span class="n">ADDITIONAL_OPTIONS</span> <span class="o">=</span> <span class="p">{</span><span class="s2">"show_itemlist"</span><span class="p">:</span> <span class="kc">True</span><span class="p">,</span> <span class="s2">"show_contrast"</span><span class="p">:</span> <span class="kc">True</span><span class="p">}</span>
 
     <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">parent</span><span class="p">:</span> <span class="n">QW</span><span class="o">.</span><span class="n">QWidget</span> <span class="o">|</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">obj</span><span class="p">:</span> <span class="n">SignalObj</span> <span class="o">|</span> <span class="n">ImageObj</span><span class="p">,</span>
-        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;apply&quot;</span><span class="p">,</span> <span class="s2">&quot;extract&quot;</span><span class="p">,</span> <span class="s2">&quot;define&quot;</span><span class="p">]</span> <span class="o">=</span> <span class="s2">&quot;apply&quot;</span><span class="p">,</span>
+        <span class="n">mode</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"apply"</span><span class="p">,</span> <span class="s2">"extract"</span><span class="p">,</span> <span class="s2">"define"</span><span class="p">]</span> <span class="o">=</span> <span class="s2">"apply"</span><span class="p">,</span>
         <span class="n">item</span><span class="p">:</span> <span class="n">TypePlotItem</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">options</span><span class="p">:</span> <span class="n">PlotOptions</span> <span class="o">|</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="n">Any</span><span class="p">]</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
         <span class="n">source_panel</span><span class="p">:</span> <span class="n">BaseDataPanel</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
@@ -1105,19 +1129,19 @@
         <span class="p">)</span>
         <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">)</span> <span class="ow">and</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
             <span class="n">image_panel</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span>
-            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_panel</span><span class="p">,</span> <span class="s2">&quot;register_contrast_editor&quot;</span><span class="p">):</span>
+            <span class="k">if</span> <span class="nb">hasattr</span><span class="p">(</span><span class="n">image_panel</span><span class="p">,</span> <span class="s2">"register_contrast_editor"</span><span class="p">):</span>
                 <span class="n">image_panel</span><span class="o">.</span><span class="n">register_contrast_editor</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">get_plot</span><span class="p">()</span><span class="o">.</span><span class="n">SIG_LUT_CHANGED</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">plot_lut_changed</span><span class="p">)</span>
 
 <div class="viewcode-block" id="ImageROIEditor.get_obj_roi_class">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.get_obj_roi_class">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">get_obj_roi_class</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">type</span><span class="p">[</span><span class="n">ImageROI</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Get object ROI class&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Get object ROI class"""</span>
         <span class="k">return</span> <span class="n">ImageROI</span></div>
 
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_update_contrast_panel_range</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI editor contrast panel range without re-emitting LUT signals.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Update ROI editor contrast panel range without re-emitting LUT signals."""</span>
         <span class="n">contrast</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span><span class="o">.</span><span class="n">get_contrast_panel</span><span class="p">()</span>
         <span class="k">if</span> <span class="n">contrast</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
             <span class="k">return</span>
@@ -1125,11 +1149,11 @@
         <span class="n">contrast</span><span class="o">.</span><span class="n">histogram</span><span class="o">.</span><span class="n">replot</span><span class="p">()</span>
 
     <span class="k">def</span><span class="w"> </span><span class="nf">_set_editor_contrast_state</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">bool</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Update ROI editor contrast state.</span>
+<span class="w">        </span><span class="sd">"""Update ROI editor contrast state.</span>
 
 <span class="sd">        Returns:</span>
 <span class="sd">            True if the LUT range differs from the current main item range.</span>
-<span class="sd">        &quot;&quot;&quot;</span>
+<span class="sd">        """</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">zscalemin</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="o">.</span><span class="n">zscalemax</span> <span class="o">=</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_update_contrast_panel_range</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span> <span class="o">!=</span> <span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
@@ -1137,7 +1161,7 @@
 <div class="viewcode-block" id="ImageROIEditor.apply_shared_contrast">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.apply_shared_contrast">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">apply_shared_contrast</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">zmin</span><span class="p">:</span> <span class="nb">float</span><span class="p">,</span> <span class="n">zmax</span><span class="p">:</span> <span class="nb">float</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Apply a contrast change coming from the image panel.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Apply a contrast change coming from the image panel."""</span>
         <span class="k">if</span> <span class="ow">not</span> <span class="bp">self</span><span class="o">.</span><span class="n">_set_editor_contrast_state</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">):</span>
             <span class="k">return</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="o">=</span> <span class="kc">True</span>
@@ -1153,14 +1177,14 @@
 <div class="viewcode-block" id="ImageROIEditor.plot_lut_changed">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.plot_lut_changed">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">plot_lut_changed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">plot</span><span class="p">:</span> <span class="n">BasePlot</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Synchronize ROI editor contrast changes with the source image panel.&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Synchronize ROI editor contrast changes with the source image panel."""</span>
         <span class="k">del</span> <span class="n">plot</span>  <span class="c1"># unused: required by SIG_LUT_CHANGED slot signature</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_contrast_sync_in_progress</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">ImageObj</span><span class="p">):</span>
             <span class="k">return</span>
         <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">get_lut_range</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_set_editor_contrast_state</span><span class="p">(</span><span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">)</span>
         <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">hasattr</span><span class="p">(</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span><span class="p">,</span> <span class="s2">&quot;apply_shared_contrast&quot;</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span><span class="p">,</span> <span class="s2">"apply_shared_contrast"</span>
         <span class="p">):</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">source_panel</span><span class="o">.</span><span class="n">apply_shared_contrast</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">,</span> <span class="n">zmin</span><span class="p">,</span> <span class="n">zmax</span><span class="p">,</span> <span class="n">source</span><span class="o">=</span><span class="bp">self</span><span class="p">)</span></div>
 
@@ -1168,7 +1192,7 @@
 <div class="viewcode-block" id="ImageROIEditor.add_tools_to_plot_dialog">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.add_tools_to_plot_dialog">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">add_tools_to_plot_dialog</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Add tools to plot dialog&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Add tools to plot dialog"""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">add_tools_to_plot_dialog</span><span class="p">()</span>
         <span class="n">mgr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_manager</span><span class="p">()</span>
         <span class="n">rect_tool</span> <span class="o">=</span> <span class="n">mgr</span><span class="o">.</span><span class="n">add_tool</span><span class="p">(</span><span class="n">ROIRectangleTool</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">obj</span><span class="p">)</span>
@@ -1181,12 +1205,12 @@
 <div class="viewcode-block" id="ImageROIEditor.manually_add_roi">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.manually_add_roi">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">manually_add_roi</span><span class="p">(</span>
-        <span class="bp">self</span><span class="p">,</span> <span class="n">roi_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">&quot;rectangle&quot;</span><span class="p">,</span> <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;polygon&quot;</span><span class="p">]</span>
+        <span class="bp">self</span><span class="p">,</span> <span class="n">roi_type</span><span class="p">:</span> <span class="n">Literal</span><span class="p">[</span><span class="s2">"rectangle"</span><span class="p">,</span> <span class="s2">"circle"</span><span class="p">,</span> <span class="s2">"polygon"</span><span class="p">]</span>
     <span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Manually add image ROI&quot;&quot;&quot;</span>
-        <span class="k">assert</span> <span class="n">roi_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;rectangle&quot;</span><span class="p">,</span> <span class="s2">&quot;circle&quot;</span><span class="p">,</span> <span class="s2">&quot;polygon&quot;</span><span class="p">)</span>
-        <span class="k">if</span> <span class="n">roi_type</span> <span class="o">==</span> <span class="s2">&quot;polygon&quot;</span><span class="p">:</span>
-            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">&quot;Manual polygonal ROI creation is not supported&quot;</span><span class="p">)</span>
+<span class="w">        </span><span class="sd">"""Manually add image ROI"""</span>
+        <span class="k">assert</span> <span class="n">roi_type</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">"rectangle"</span><span class="p">,</span> <span class="s2">"circle"</span><span class="p">,</span> <span class="s2">"polygon"</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">roi_type</span> <span class="o">==</span> <span class="s2">"polygon"</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="s2">"Manual polygonal ROI creation is not supported"</span><span class="p">)</span>
         <span class="n">param</span> <span class="o">=</span> <span class="n">ROI2DParam</span><span class="p">()</span>
         <span class="n">param</span><span class="o">.</span><span class="n">geometry</span> <span class="o">=</span> <span class="n">roi_type</span>
         <span class="k">if</span> <span class="n">param</span><span class="o">.</span><span class="n">edit</span><span class="p">(</span><span class="n">parent</span><span class="o">=</span><span class="bp">self</span><span class="p">):</span>
@@ -1200,18 +1224,18 @@
 <div class="viewcode-block" id="ImageROIEditor.create_coordinate_based_roi_actions">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.create_coordinate_based_roi_actions">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">create_coordinate_based_roi_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">QW</span><span class="o">.</span><span class="n">QAction</span><span class="p">]:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Create coordinate-based ROI actions&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Create coordinate-based ROI actions"""</span>
         <span class="n">rectcoord_act</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Rectangular ROI&quot;</span><span class="p">),</span>
-            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;roi_new_rectangle.svg&quot;</span><span class="p">),</span>
-            <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manually_add_roi</span><span class="p">(</span><span class="s2">&quot;rectangle&quot;</span><span class="p">),</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Rectangular ROI"</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">"roi_new_rectangle.svg"</span><span class="p">),</span>
+            <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manually_add_roi</span><span class="p">(</span><span class="s2">"rectangle"</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="n">circcoord_act</span> <span class="o">=</span> <span class="n">create_action</span><span class="p">(</span>
             <span class="bp">self</span><span class="p">,</span>
-            <span class="n">_</span><span class="p">(</span><span class="s2">&quot;Circular ROI&quot;</span><span class="p">),</span>
-            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">&quot;roi_new_circle.svg&quot;</span><span class="p">),</span>
-            <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manually_add_roi</span><span class="p">(</span><span class="s2">&quot;circle&quot;</span><span class="p">),</span>
+            <span class="n">_</span><span class="p">(</span><span class="s2">"Circular ROI"</span><span class="p">),</span>
+            <span class="n">icon</span><span class="o">=</span><span class="n">get_icon</span><span class="p">(</span><span class="s2">"roi_new_circle.svg"</span><span class="p">),</span>
+            <span class="n">triggered</span><span class="o">=</span><span class="k">lambda</span><span class="p">:</span> <span class="bp">self</span><span class="o">.</span><span class="n">manually_add_roi</span><span class="p">(</span><span class="s2">"circle"</span><span class="p">),</span>
         <span class="p">)</span>
         <span class="k">return</span> <span class="p">[</span><span class="n">rectcoord_act</span><span class="p">,</span> <span class="n">circcoord_act</span><span class="p">]</span></div>
 
@@ -1219,14 +1243,14 @@
 <div class="viewcode-block" id="ImageROIEditor.setup_items">
 <a class="viewcode-back" href="../../../features/advanced/api/roieditor.html#datalab.gui.roieditor.ImageROIEditor.setup_items">[docs]</a>
     <span class="k">def</span><span class="w"> </span><span class="nf">setup_items</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
-<span class="w">        </span><span class="sd">&quot;&quot;&quot;Setup items&quot;&quot;&quot;</span>
+<span class="w">        </span><span class="sd">"""Setup items"""</span>
         <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="n">setup_items</span><span class="p">()</span>
-        <span class="c1"># In &quot;define&quot; mode, we want to show the mask that is associated with the</span>
-        <span class="c1"># image&#39;s ROI, if it exists, because the ROI that is being defined has nothing</span>
-        <span class="c1"># to do with the image&#39;s ROI: it is just a temporary ROI that will for example</span>
+        <span class="c1"># In "define" mode, we want to show the mask that is associated with the</span>
+        <span class="c1"># image's ROI, if it exists, because the ROI that is being defined has nothing</span>
+        <span class="c1"># to do with the image's ROI: it is just a temporary ROI that will for example</span>
         <span class="c1"># be used in a processing function, so the user need to visualize the mask that</span>
         <span class="c1"># corresponds to the data on which the processing function will be applied.</span>
-        <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">set_mask_visible</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">&quot;define&quot;</span><span class="p">)</span></div>
+        <span class="bp">self</span><span class="o">.</span><span class="n">main_item</span><span class="o">.</span><span class="n">set_mask_visible</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">mode</span> <span class="o">==</span> <span class="s2">"define"</span><span class="p">)</span></div>
 </div>
 
 </pre></div>
@@ -1258,8 +1282,8 @@
   </div>
   
   <!-- Scripts loaded after <body> so the DOM is not blocked -->
-  <script defer src="../../../_static/scripts/bootstrap.js?digest=90905a2f556bf617f1a9"></script>
-<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=90905a2f556bf617f1a9"></script>
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=cb8930eaaf36d9849b67"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=cb8930eaaf36d9849b67"></script>
 
   <footer class="bd-footer">
 <div class="bd-footer__inner bd-page-width">
@@ -1293,7 +1317,7 @@
         <div class="footer-item">
 <p class="theme-version">
   <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
-  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.20.0.
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.21.0.
 </p></div>
       
     </div>
