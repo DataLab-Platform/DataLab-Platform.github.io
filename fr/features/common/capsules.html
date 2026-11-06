@@ -1,0 +1,805 @@
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Capsules d'espace de travail dans DataLab : exporter un espace de travail avec la provenance de ses traitements, inspecter une capsule, rejouer ses activités, comparer des révisions, rédiger des revues et les échanger via un registre" name="description" translated="True" />
+<meta content="DataLab, capsule, provenance, reproductibilité, révision, revue, registre, RO-Crate, DataLab-Web" name="keywords" translated="True" />
+<meta property="og:title" content="Capsules d’espace de travail" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/common/capsules.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Une capsule(fichier.dlcapsule) contient un espace de travail et une description de la provenance de ses traitements (voir Provenance des résultats), afin qu’une autre personne puisse les vérifier e..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Capsules d’espace de travail &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../../_static/documentation_options.js?v=19fef41f"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/common/capsules';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/common/capsules.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Ouvrir et enregistrer des signaux" href="../signal/menu_file.html" />
+    <link rel="prev" title="Provenance des résultats" href="provenance.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 et à <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.4.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Réduire barre latérale</span>
+  <span class="pst-expand-sidebar-label">Développer barre latérale</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="historypanel.html">Panneau d’historique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="provenance.html">Provenance des résultats</a></li>
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Capsules d’espace de travail</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ai_assistant.html">Assistant IA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/proxy.html">Objets proxy (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Capsules d’espace de travail</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="workspace-capsules">
+<span id="capsules"></span><h1>Capsules d’espace de travail<a class="headerlink" href="#workspace-capsules" title="Lien vers cette rubrique">#</a></h1>
+<p>Une <strong>capsule</strong> (fichier <code class="docutils literal notranslate"><span class="pre">.dlcapsule</span></code>) contient un espace de travail et une description de la provenance de ses traitements (voir <a class="reference internal" href="provenance.html#provenance"><span class="std std-ref">Provenance des résultats</span></a>), afin qu’une autre personne puisse les vérifier et les rejouer, avec DataLab ou avec DataLab-Web. Les capsules sont créées, lues et vérifiées par <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule">DataLab-Capsule</a> : ouvrir ou inspecter une capsule n’exécute jamais rien de ce qu’elle contient.</p>
+<p>Les capsules sont gérées depuis <strong>Fichier &gt; Capsule d’espace de travail…</strong>, une boîte de dialogue comportant les mêmes onglets que dans DataLab-Web. Trois résultats sont toujours présentés séparément :</p>
+<ul class="simple">
+<li><p>l”<strong>intégrité</strong> d’une capsule, calculée à partir de ses fichiers (rien n’est recalculé) ;</p></li>
+<li><p>les <strong>documents fournis</strong> (rapports de vérification et revues) : ils sont vérifiés par rapport à la capsule, mais leurs verdicts sont ceux qu’affirment leurs auteurs ;</p></li>
+<li><p>le <strong>rejeu local</strong> d’une activité de l’espace de travail ouvert, recalculée par DataLab et comparée à son résultat enregistré.</p></li>
+</ul>
+<section id="export">
+<h2>Exporter<a class="headerlink" href="#export" title="Lien vers cette rubrique">#</a></h2>
+<p>Exporte l’espace de travail actuel sous forme de capsule :</p>
+<ul class="simple">
+<li><p><strong>Nom</strong> et <strong>Description</strong> de la capsule ;</p></li>
+<li><p><strong>Révision de …</strong> : affiché lorsque l’espace de travail a été ouvert depuis une capsule, y compris après avoir été enregistré dans un fichier d’espace de travail puis rouvert. Lorsque cette case est cochée, la nouvelle capsule désigne cette capsule comme sa révision parente. Les pièces jointes de la révision parente ne sont pas copiées : la boîte de dialogue les énumère, afin de pouvoir les sélectionner à nouveau si elles s’appliquent toujours ;</p></li>
+<li><p><strong>Référencer l’espace de travail au lieu de l’inclure</strong> : la capsule contient alors l’adresse (IRI absolue) où l’espace de travail sera publié, avec sa taille et son SHA-256, et l’espace de travail est enregistré dans un fichier HDF5 distinct, à publier à cette adresse ;</p></li>
+<li><p><strong>Pièces jointes</strong> : fichiers légers (protocole, notes, petits tableaux, 16 Mio au plus chacun) déclarés dans la capsule avec leur taille et leur empreinte. Ils ne sont jamais ouverts ni exécutés.</p></li>
+</ul>
+<p><strong>Exporter la capsule…</strong> demande où enregistrer la capsule (et, pour un espace de travail référencé, le fichier de l’espace de travail).</p>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Examinez les données, métadonnées, titres, essais, dates et pièces jointes avant de partager. Rien n’est anonymisé ni expurgé automatiquement. Supprimer un objet ne garantit pas que ses traces disparaissent du registre de provenance.</p>
+</div>
+<p>L’export transporte l’espace de travail actuel, son registre et les pièces jointes choisies, pas toutes les ressources externes utilisées en amont. Il ne sélectionne pas automatiquement l’analyse minimale nécessaire à un résultat : des essais et objets intermédiaires peuvent voyager avec lui. Copier uniquement un résultat dans un autre espace de travail ne fait pas de celui-ci une analyse complète vérifiable. Préparez un échange réduit en conservant ou reconstruisant volontairement les entrées utiles et en vérifiant ce qui reste vérifiable, pas en modifiant manuellement le registre.</p>
+<p>La licence du logiciel ne détermine pas celle des données. Le manifeste contient une déclaration de licence de l’espace de travail ; lorsqu’aucune n’est fournie, il utilise la formulation neutre « No licence was specified for this workspace. » (aucune licence n’a été spécifiée pour cet espace de travail).</p>
+</section>
+<section id="inspect">
+<h2>Inspecter<a class="headerlink" href="#inspect" title="Lien vers cette rubrique">#</a></h2>
+<p><strong>Choisir une capsule…</strong> vérifie une capsule sans l’ouvrir et affiche :</p>
+<ul class="simple">
+<li><p>son résumé : nom, description, empreinte, révision parente, espace de travail inclus ou référencé, licence, et ses activités (celles qui peuvent être rejouées) ;</p></li>
+<li><p>ses <strong>Pièces jointes</strong>, vérifiées par rapport au manifeste et enregistrées seulement lorsque vous cliquez sur <strong>Enregistrer…</strong> ;</p></li>
+<li><p>son <strong>Intégrité</strong> : archive, manifeste, espace de travail et états enregistrés. Pour un espace de travail référencé, <strong>Sélectionner l’espace de travail référencé…</strong> fournit le fichier, qui doit correspondre à la taille et au SHA-256 déclarés dans la capsule ;</p></li>
+<li><p>les <strong>Documents fournis</strong> ajoutés avec <strong>Ajouter un rapport de vérification…</strong> et <strong>Ajouter une revue…</strong>, chacun vérifié par rapport à la capsule.</p></li>
+</ul>
+<p><strong>Rédiger une revue</strong> crée une revue de cette révision : un fichier JSON distinct (relecteur, déclaration, verdict facultatif <em>approuvé</em>, <em>contesté</em> ou <em>commentaire</em>, rapports de vérification cités). La capsule elle-même n’est pas modifiée.</p>
+<p><strong>Ouvrir comme espace de travail</strong> remplace l’espace de travail actuel par celui de la capsule (après confirmation si l’espace de travail n’est pas vide). Cette action n’est disponible que pour une capsule intacte. Une capsule exportée ensuite depuis cet espace de travail est proposée comme une révision de celle-ci. L’ouverture d’une capsule est enregistrée dans le panneau Historique.</p>
+<p>Pour une capsule référencée, obtenez le fichier HDF5 séparément : son adresse n’est pas téléchargée automatiquement, et sa taille et son empreinte doivent correspondre. Un registre ne fournit pas cet espace de travail à votre place.</p>
+</section>
+<section id="local-replay">
+<h2>Rejeu local<a class="headerlink" href="#local-replay" title="Lien vers cette rubrique">#</a></h2>
+<p>Énumère les activités enregistrées de l’espace de travail ouvert. <strong>Rejouer</strong> recalcule une activité séparément et compare chaque résultat au résultat enregistré : <em>Exact</em>, <em>Dans la tolérance</em>, <em>Différent</em> ou <em>Non vérifié</em> (avec la raison). L’espace de travail n’est pas modifié. <strong>Enregistrer le rapport…</strong> enregistre le rapport de vérification dans un fichier JSON, à fournir avec la capsule ou à citer dans une revue.</p>
+</section>
+<section id="revisions">
+<h2>Révisions<a class="headerlink" href="#revisions" title="Lien vers cette rubrique">#</a></h2>
+<p>Énumère les révisions exportées, inspectées ou récupérées depuis un registre sur cet ordinateur (avec leur révision parente), et compare deux d’entre elles : changements scientifiques, de présentation, de stockage et d’intégrité, d’environnement et de pièces jointes, avec une conclusion scientifique qui n’affirme jamais une égalité au-delà de ce qu’enregistrent les capsules. La liste est conservée dans le dossier de configuration de DataLab (100 révisions au plus) ; c’est une commodité, jamais une source de vérité : ce sont les fichiers des capsules qui le sont.</p>
+<p>Une capsule est immuable et désigne au plus un parent direct. Si vous ouvrez A puis exportez B, l’export suivant propose toujours A comme parent, pas B ; la sauvegarde et la réouverture de l’espace de travail conservent cette origine. Inspecter un autre fichier ne la change pas. Ajouter un espace de travail conserve le registre et le parent actuels sans fusionner les provenances (voir <a class="reference internal" href="provenance.html#provenance-append"><span class="std std-ref">Ajouter un espace de travail</span></a>).</p>
+<p>Deux exports peuvent avoir des empreintes différentes sans nouveau calcul : le stockage HDF5, les dates ou la présentation peuvent changer. <code class="docutils literal notranslate"><span class="pre">none_detected</span></code> signifie qu’aucun changement scientifique n’a été détecté dans les activités et états enregistrés, pas que tout ce qui est hors registre est égal. La modification d’un protocole joint est listée parmi les pièces jointes ; le lecteur, pas la comparaison, juge son importance scientifique. Il n’existe pas de fusion automatique de travaux concurrents, d’édition collaborative ou de résolution de conflits.</p>
+</section>
+<section id="registry">
+<h2>Registre<a class="headerlink" href="#registry" title="Lien vers cette rubrique">#</a></h2>
+<p>Un registre (facultatif, servi par DataLab-Capsule) publie les manifestes des capsules, leurs pièces jointes et leurs revues, jamais les espaces de travail. Tout ce qu’il renvoie est vérifié par DataLab.</p>
+<ul class="simple">
+<li><p><strong>Adresse du registre</strong> et <strong>Jeton de publication</strong> : l’adresse est enregistrée dans la configuration ; le jeton n’est conservé que pour la session en cours ;</p></li>
+<li><p><strong>Lister les révisions</strong> énumère les révisions publiées ; <strong>Récupérer</strong> vérifie une révision et ses revues, l’ajoute à l’onglet <strong>Révisions</strong> et propose ses pièces jointes stockées, vérifiées par rapport au manifeste ;</p></li>
+<li><p>une fois un registre défini, l’onglet <strong>Inspecter</strong> propose <strong>Publier dans le registre</strong> (manifeste, pièces jointes et revues fournies valides) et <strong>Publier la revue</strong>.</p></li>
+</ul>
+<p>Le registre de référence n’offre pas de comptes, d’identité forte des auteurs, de quotas, de limitation de débit, d’API de suppression ni d’autorisations fines. Son jeton de publication ne prouve pas l’identité de l’auteur scientifique. Consultez les <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/security.md">recommandations de déploiement et de confiance</a> existantes. Les revues et rapports ciblent une révision ; une assertion d’auteur contrôlée ne remplace pas un rejeu local et ne constitue pas un circuit complet d’approbation.</p>
+</section>
+<section id="from-scripts">
+<h2>Depuis des scripts<a class="headerlink" href="#from-scripts" title="Lien vers cette rubrique">#</a></h2>
+<p>Les capsules peuvent être exportées et ouvertes depuis des scripts et des macros (voir <a class="reference internal" href="../advanced/remote.html#ref-to-remote-control"><span class="std std-ref">Contrôle à distance (XML-RPC)</span></a>), avec <a class="reference internal" href="../advanced/proxy.html#datalab.control.proxy.RemoteProxy.export_capsule" title="datalab.control.proxy.RemoteProxy.export_capsule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">export_capsule()</span></code></a> et <a class="reference internal" href="../advanced/proxy.html#datalab.control.proxy.RemoteProxy.open_capsule" title="datalab.control.proxy.RemoteProxy.open_capsule"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open_capsule()</span></code></a> :</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fingerprint</span> <span class="o">=</span> <span class="n">proxy</span><span class="o">.</span><span class="n">export_capsule</span><span class="p">(</span>
+    <span class="s2">"chain.dlcapsule"</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">"chain"</span><span class="p">,</span> <span class="n">attachments</span><span class="o">=</span><span class="p">[</span><span class="s2">"protocol.txt"</span><span class="p">]</span>
+<span class="p">)</span>
+<span class="n">proxy</span><span class="o">.</span><span class="n">open_capsule</span><span class="p">(</span><span class="s2">"chain.dlcapsule"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>La ligne de commande <code class="docutils literal notranslate"><span class="pre">workspace-capsule</span></code> de DataLab-Capsule permet aussi de valider, inspecter, comparer, vérifier et publier des capsules.</p>
+<p>Sa commande <code class="docutils literal notranslate"><span class="pre">verify</span></code> n’effectue aucun calcul Sigima. Sans h5py, le contrôle de l’espace de travail se limite à la taille et au SHA-256 (<code class="docutils literal notranslate"><span class="pre">integrity_only</span></code>), pas aux états HDF5 individuels. Un espace de travail référencé non fourni réduit encore les contrôles possibles.</p>
+</section>
+<section id="limits">
+<h2>Limites<a class="headerlink" href="#limits" title="Lien vers cette rubrique">#</a></h2>
+<p>DataLab vérifie la taille d’une capsule, et de l’espace de travail qu’elle référence, avant de la lire, et n’écrit jamais une capsule qu’il refuserait d’ouvrir. Ces limites sont celles de DataLab-Capsule (un espace de travail de 4 Gio au plus) : ce sont des tailles acceptées, pas une capacité testée.</p>
+<p>Ce qui a été mesuré, sur un ordinateur portable de 2026 (32 Gio de mémoire vive) :</p>
+<ul class="simple">
+<li><p>inspecter ou ouvrir une capsule de 32 Mio depuis la boîte de dialogue prend de 0,2 à 0,5 s, pendant lesquelles DataLab ne répond pas (curseur d’attente) ; l’exporter prend 0,25 s. Les capsules plus grandes prennent plus de temps, à peu près proportionnellement ; la bibliothèque vérifie une capsule de 234 Mio en moins d’une seconde ;</p></li>
+<li><p>ouvrir une capsule demande environ sa taille en mémoire, en plus de l’espace de travail qu’elle remplace ;</p></li>
+<li><p>enregistrer la provenance d’un traitement coûte les empreintes de ses entrées et de ses résultats : rien de mesurable pour un petit signal, +29 ms pour une image de 2048×2048 filtrée en 450 ms ;</p></li>
+<li><p>consulter la provenance d’un résultat prend moins d’une milliseconde, même avec 1000 étapes enregistrées ; lister 1000 étapes dans <strong>Rejeu local</strong> prend environ une demi-seconde.</p></li>
+</ul>
+<p>Chaque traitement est un peu plus lent à mesure qu’un panneau contient plus d’objets, avec ou sans provenance (environ 0,1 s dans un panneau vide, 0,3 s avec 1000 objets). DataLab-Web limite les capsules à 256 Mio.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id1">
+<caption><span class="caption-text">Politiques de fichiers acceptés, pas capacités garanties</span><a class="headerlink" href="#id1" title="Lien vers ce tableau">#</a></caption>
+<thead>
+<tr class="row-odd"><th class="head"><p>Lecteur</p></th>
+<th class="head"><p>Espace de travail / manifeste</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Desktop et bibliothèque</p></td>
+<td><p>4 Gio / 64 Mio ; l’archive a une limite de taille totale distincte</p></td>
+</tr>
+<tr class="row-odd"><td><p>Web</p></td>
+<td><p>256 Mio / 16 Mio ; archive également limitée à 256 Mio</p></td>
+</tr>
+<tr class="row-even"><td><p>Registre de référence</p></td>
+<td><p>Pas d’espace de travail ; manifeste 8 Mio, revue 1 Mio</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Chaque capsule accepte au plus 8 pièces jointes de 16 Mio chacune. La mémoire peut contenir plusieurs représentations de l’archive et du HDF5 pendant l’export ; un fichier valide peut dépasser la politique d’une autre édition. Le registre a aussi des bornes de volume JSON et de structure, même sans limite fixe du nombre d’activités. La troncature de la vue ne supprime pas les enregistrements. Consultez les <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/performance.md">limites techniques et capacités mesurées</a>.</p>
+<p>Le rejeu local vérifie une activité sur des copies ; il ne reconstruit pas une chaîne entière, ne restaure pas tous les états manquants et ne fournit pas de workflow pour de nouveaux jeux de données. Les versions de l’environnement sont décrites, pas réinstallées : une capsule n’est pas un système d’exploitation avec toutes ses dépendances, et une comparaison réussie ne garantit pas une reproductibilité universelle entre machines.</p>
+<p>Les empreintes détectent les changements mais n’authentifient pas les auteurs ; les capsules et revues ne sont pas signées et leurs empreintes peuvent être recalculées après modification. L’import n’exécute jamais les macros, notebooks, pièces jointes ou noms Python reçus ; le rejeu explicite utilise des opérations locales enregistrées et qualifiées. Le profil prescrit accepte les espaces de travail natifs pris en charge, pas des fichiers ZIP/HDF5 arbitraires : les entrées ZIP ne sont pas compressées (indépendamment de la compression interne HDF5), et les liens et archives chiffrées sont refusés. Les contrôles de format ne remplacent pas un bac à sable : le décodage HDF5 et les dépendances restent du code de confiance sur le Desktop.</p>
+<p>Le profil 0.1 est expérimental et les versions inconnues sont refusées. Les métadonnées RO-Crate/PROV ne garantissent pas que tout lecteur tiers puisse restaurer ou rejouer DataLab. Consultez les <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/rules.md">règles communes</a> et l”<a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/security.md">analyse de sécurité</a>. Le Desktop et la CLI peuvent travailler hors réseau une fois installés ; le Web télécharge son runtime au démarrage et certaines dépendances optionnelles au premier usage. Les calculs restent locaux ; ni un registre ni les pièces jointes ne certifient l’acquisition physique.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="provenance.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Provenance des résultats</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="../signal/menu_file.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Ouvrir et enregistrer des signaux</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#export">Exporter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#inspect">Inspecter</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-replay">Rejeu local</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#revisions">Révisions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#registry">Registre</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#from-scripts">Depuis des scripts</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#limits">Limites</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

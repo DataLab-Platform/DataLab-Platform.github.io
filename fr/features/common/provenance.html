@@ -1,0 +1,819 @@
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Provenance des résultats dans DataLab : consultation, contrôle des données, vérification par recalcul, nouvelle application d'un traitement, lien avec le panneau Historique" name="description" translated="True" />
+<meta content="DataLab, provenance, reproductibilité, traitement, vérification, espace de travail, HDF5, historique" name="keywords" translated="True" />
+<meta property="og:title" content="Provenance des résultats" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/common/provenance.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Pour les parcours de traitement pris en charge, DataLab enregistre comment un résultat a été obtenu : le traitement ou l’analyse appliqué, ses paramètres, les objets utilisés avec leur contenu exac..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Provenance des résultats &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../../_static/documentation_options.js?v=19fef41f"></script>
+    <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../_static/translations.js?v=e6b791cb"></script>
+    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/common/provenance';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/common/provenance.html" />
+    <link rel="icon" href="../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../search.html" />
+    <link rel="next" title="Capsules d’espace de travail" href="capsules.html" />
+    <link rel="prev" title="Panneau d’historique" href="historypanel.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../_static/searchtools.js"></script>
+    <script src="../../_static/language_data.js"></script>
+    <script src="../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">DataLab a été présenté à <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 et à <a href='https://www.youtube.com/watch?v=0D4ffBJIc5Q&list=PLJjbbmRgu6RoVze2tajiPe3zJB5muBcuC'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/fr/outreach/index.html'>En savoir plus</a></div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.4.0</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Réduire barre latérale</span>
+  <span class="pst-expand-sidebar-label">Développer barre latérale</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="historypanel.html">Panneau d’historique</a></li>
+<li class="toctree-l1 current active"><a aria-current="page" class="current reference internal" href="#">Provenance des résultats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="capsules.html">Capsules d’espace de travail</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../advanced/plugins.html">Plugins</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/ai_assistant.html">Assistant IA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../advanced/command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../advanced/api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/proxy.html">Objets proxy (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../advanced/api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Provenance des résultats</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="provenance-of-results">
+<span id="provenance"></span><h1>Provenance des résultats<a class="headerlink" href="#provenance-of-results" title="Lien vers cette rubrique">#</a></h1>
+<p>Pour les parcours de traitement pris en charge, DataLab enregistre comment un résultat a été obtenu : le traitement ou l’analyse appliqué, ses paramètres, les objets utilisés avec leur contenu exact et les versions des logiciels. Cet enregistrement est sauvegardé avec l’espace de travail HDF5 et relu à sa réouverture, par DataLab ou par DataLab-Web.</p>
+<p>Cette page décrit comment consulter cet enregistrement pour un objet, comment le contrôler et le vérifier, comment appliquer à nouveau un traitement enregistré, et quel est son lien avec le panneau Historique. Pour échanger un espace de travail avec la provenance de ses traitements, voir <a class="reference internal" href="capsules.html#capsules"><span class="std std-ref">Capsules d’espace de travail</span></a>.</p>
+<section id="consulting-the-provenance-of-an-object">
+<h2>Consulter la provenance d’un objet<a class="headerlink" href="#consulting-the-provenance-of-an-object" title="Lien vers cette rubrique">#</a></h2>
+<p>Sélectionnez un objet et ouvrez l’onglet <strong>Provenance</strong> du panneau des propriétés. Lorsque l’espace de travail contient un enregistrement de provenance pour cet objet, l’onglet affiche sa provenance :</p>
+<ul class="simple">
+<li><p>un résumé : l’exécution enregistrée qui a produit le contenu actuel, si les données restent à contrôler, et toute limite (par exemple des données altérées dans le fichier, ou un état observé sans production enregistrée) ;</p></li>
+<li><p>la <strong>Production</strong> de l’objet, ses <strong>Analyses enregistrées</strong>, ses <strong>États enregistrés antérieurs</strong> et, pour les espaces de travail enregistrés par d’anciennes versions, les <strong>Enregistrements d’un ancien espace de travail</strong> et l”<strong>Historique des métadonnées (non vérifié)</strong>.</p></li>
+</ul>
+<p>Chaque étape enregistrée est présentée sous forme de fiche : l’opération, comment, quand et par quel logiciel (DataLab Desktop ou DataLab Web) elle a été enregistrée, ses paramètres, ses entrées et ses résultats avec leur statut, et des liens qui agissent sur ce qu’ils accompagnent. Les liens marqués d’un triangle (▸) affichent une partie masquée de la vue et deviennent ▾ pour la masquer à nouveau ; une étape antérieure est affichée encadrée dans la fiche de l’étape qui l’a utilisée :</p>
+<ul class="simple">
+<li><p><strong>Afficher l’étape enregistrée</strong> (sous une entrée) montre comment cette entrée a elle-même été produite, étape par étape, sans rien calculer. L’état réellement utilisé est affiché, même si l’objet d’entrée a été modifié ou retraité depuis : par exemple, si <code class="docutils literal notranslate"><span class="pre">S2</span></code> a été calculé à partir de <code class="docutils literal notranslate"><span class="pre">S1</span></code> filtré avec sigma = 2, puis <code class="docutils literal notranslate"><span class="pre">S1</span></code> filtré à nouveau avec sigma = 5, l’étape enregistrée de l’entrée de <code class="docutils literal notranslate"><span class="pre">S2</span></code> montre sigma = 2. <strong>Masquer l’étape enregistrée</strong> la masque à nouveau ;</p></li>
+<li><p><strong>Aller à l’objet</strong> (sous une entrée ou un résultat) sélectionne, dans le panneau des signaux ou des images, l’objet qui la porte aujourd’hui (il a pu changer depuis le calcul) ;</p></li>
+<li><p><strong>Vérifier cette étape</strong> recalcule l’étape séparément et compare chaque résultat au résultat enregistré : <em>Exact</em>, <em>Dans la tolérance</em>, <em>Différent</em> ou <em>Non vérifié</em> (avec la raison, par exemple une entrée d’origine absente). L’espace de travail n’est pas modifié ;</p></li>
+<li><p><strong>Action de l’historique</strong> sélectionne l’action de l’historique dont la dernière exécution a enregistré l’étape, lorsqu’elle existe ;</p></li>
+<li><p><strong>Afficher les détails</strong> affiche le contexte de l’étape (options, alignement en X, métadonnées lues) et les versions des logiciels.</p></li>
+</ul>
+<p>La consultation lit uniquement l’enregistrement de provenance : elle ne calcule jamais, ne modifie jamais l’espace de travail et n’ajoute jamais d’action à l’historique. La vue est bornée et les valeurs longues sont abrégées : une vue tronquée ne signifie pas que des enregistrements ont été supprimés.</p>
+<p>Les boutons situés sous les fiches agissent sur l’objet :</p>
+<ul class="simple">
+<li><p><strong>Contrôler les données</strong> compare l’objet, les entrées directes et les résultats de sa production et les étapes antérieures affichées à leurs états enregistrés, sans calculer. Les étapes affichées et les détails ouverts le restent. Une entrée ou un résultat supprimé est signalé absent immédiatement, sans contrôle (rien n’a besoin d’être lu pour le savoir) ;</p></li>
+<li><p><strong>Vérifier le calcul</strong> vérifie la production de l’objet, comme <strong>Vérifier cette étape</strong>.</p></li>
+</ul>
+<section id="states-and-messages">
+<h3>États et messages<a class="headerlink" href="#states-and-messages" title="Lien vers cette rubrique">#</a></h3>
+<p>La provenance n’invente jamais ce qui est inconnu. Les principaux messages sont :</p>
+<div class="pst-scrollable-table-container"><table class="table">
+<colgroup>
+<col style="width: 35.0%" />
+<col style="width: 65.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Message</p></th>
+<th class="head"><p>Signification</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Données à contrôler</p></td>
+<td><p>Rien n’a encore été comparé : utilisez <strong>Contrôler les données</strong></p></td>
+</tr>
+<tr class="row-odd"><td><p>Cette entrée a changé depuis le calcul</p></td>
+<td><p>L’objet d’entrée ne contient plus l’état utilisé par le calcul ; l’état enregistré reste décrit</p></td>
+</tr>
+<tr class="row-even"><td><p>Entrée d’origine absente</p></td>
+<td><p>L’objet d’entrée a été supprimé (ou son identifiant est désormais porté par un autre objet, voir <a class="reference internal" href="#provenance-append"><span class="std std-ref">Ajouter un espace de travail</span></a>)</p></td>
+</tr>
+<tr class="row-odd"><td><p>Le résultat a été modifié depuis le calcul</p></td>
+<td><p>Le résultat a été modifié après son calcul : il est signalé comme altéré plutôt que considéré comme fiable</p></td>
+</tr>
+<tr class="row-even"><td><p>Les données de l’objet ne sont pas disponibles</p></td>
+<td><p>Les données ne peuvent pas être lues pour être comparées (elles ne sont pas contrôlées)</p></td>
+</tr>
+<tr class="row-odd"><td><p>L’état ne peut pas être contrôlé (pas d’empreinte)</p></td>
+<td><p>L’enregistrement ne permet pas de comparaison</p></td>
+</tr>
+<tr class="row-even"><td><p>État observé, sans production enregistrée</p></td>
+<td><p>L’objet figure dans l’enregistrement, mais la manière dont il a été produit est inconnue (par exemple des données chargées depuis un fichier)</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="applying-a-processing-again">
+<h2>Appliquer à nouveau un traitement<a class="headerlink" href="#applying-a-processing-again" title="Lien vers cette rubrique">#</a></h2>
+<p>Lorsque le dernier état enregistré d’un objet a été produit par un traitement de DataLab, l’onglet <strong>Traitement</strong> du panneau des propriétés restaure cet appel : son opération, ses paramètres et chacune de ses entrées, dans l’ordre et avec son rôle (source, opérande, ou chacun des objets agrégés). Cela s’applique aux traitements combinant plusieurs objets (par exemple la différence de deux signaux, la moyenne de plusieurs images) comme aux traitements 1 vers 1, et aux espaces de travail rouverts depuis un fichier, enregistrés par DataLab ou par DataLab-Web.</p>
+<ul class="simple">
+<li><p>Avec des paramètres, modifiez-les puis cliquez sur <strong>Appliquer</strong> ;</p></li>
+<li><p>Sans paramètres, cliquez sur <strong>Réappliquer</strong>.</p></li>
+</ul>
+<p>Le résultat est mis à jour sur place avec les entrées enregistrées, jamais avec la sélection courante, et la nouvelle exécution est enregistrée. Lorsque le traitement ne peut pas être appliqué à nouveau, l’onglet en indique la raison (par exemple un objet d’entrée n’existe plus, les paramètres enregistrés ne peuvent pas être utilisés, ou l’opération n’est pas disponible dans cette version de DataLab).</p>
+<p>Lorsqu’aucune provenance n’est enregistrée pour un objet, les métadonnées de traitement stockées avec lui sont utilisées comme auparavant.</p>
+</section>
+<section id="link-with-the-history-panel">
+<h2>Lien avec le panneau Historique<a class="headerlink" href="#link-with-the-history-panel" title="Lien vers cette rubrique">#</a></h2>
+<p>Lorsque le panneau Historique enregistre une session, chaque action conserve les identifiants des activités de provenance enregistrées par sa dernière exécution réussie. Sélectionnez une action et utilisez <strong>Afficher la provenance de l’exécution</strong> (menu ou barre d’outils du panneau Historique) pour les afficher, avec un onglet par résultat (ou par objet analysé). Si les paramètres de l’action ont été modifiés sans qu’elle soit exécutée à nouveau, la boîte de dialogue indique que la provenance décrit la dernière exécution réussie.</p>
+<p>L’action de l’historique est la recette, la provenance enregistre chaque exécution :</p>
+<ul class="simple">
+<li><p>appliquer à nouveau un traitement depuis l’onglet <strong>Traitement</strong>, ou une analyse depuis l’onglet <strong>Analyse</strong>, est enregistré dans la provenance du résultat ;</p></li>
+<li><p>en mode d’édition du panneau Historique, les paramètres modifiés deviennent aussi ceux de l’action de l’historique, qui est liée à cette nouvelle exécution. Pour une commande produisant plusieurs résultats (par exemple plusieurs filtres appliqués en une fois), seuls les paramètres du résultat modifié changent dans l’action, et rejouer l’action les applique à ce résultat pour chaque objet traité ;</p></li>
+<li><p>hors du mode d’édition, l’action de l’historique reste inchangée : la rejouer applique à nouveau ses propres paramètres.</p></li>
+</ul>
+<p>La capture automatique de provenance ne dépend pas du mode <strong>Enregistrer</strong> du panneau Historique. Enregistrer une recette et enregistrer une exécution scientifique sont deux opérations différentes.</p>
+<p>Ces identifiants sont stockés dans le champ optionnel <code class="docutils literal notranslate"><span class="pre">provenance_activity_ids</span></code> des actions de l’historique (version 3 du schéma des actions de l’historique). Ils ne sont jamais copiés avec une action, et les actions enregistrées par des versions antérieures n’en ont simplement pas. La suppression d’une session de l’historique ne modifie pas l’enregistrement de provenance.</p>
+</section>
+<section id="appending-a-workspace">
+<span id="provenance-append"></span><h2>Ajouter un espace de travail<a class="headerlink" href="#appending-a-workspace" title="Lien vers cette rubrique">#</a></h2>
+<p>Lorsqu’un fichier d’espace de travail est ouvert sans vider l’espace de travail actuel, ses données sont ajoutées mais <strong>sa provenance antérieure n’est pas importée</strong> : l’enregistrement de provenance de l’espace de travail actuel reste inchangé, et les traitements ultérieurs des objets ajoutés sont enregistrés normalement. Un objet ajouté n’hérite jamais de la provenance d’un autre objet, même lorsqu’il porte l’identifiant d’un objet supprimé de l’espace de travail actuel : un tel objet n’est ni affiché ni utilisé comme entrée ou résultat d’origine d’une étape enregistrée, y compris lors de sa vérification.</p>
+<p>DataLab signale cette limite avant toute modification :</p>
+<ul class="simple">
+<li><p>lorsque DataLab demande s’il faut vider l’espace de travail actuel, les fichiers sont choisis d’abord et, si l’un d’eux contient une provenance, la question le précise ;</p></li>
+<li><p>sinon, un avertissement unique propose d”<strong>Ajouter sans la provenance</strong> ou d”<strong>Annuler</strong>.</p></li>
+</ul>
+<p>Pour conserver la provenance d’un fichier, ouvrez-le en remplaçant l’espace de travail actuel. Lorsque des espaces de travail sont chargés depuis un script avec <a class="reference internal" href="../advanced/proxy.html#datalab.control.proxy.LocalProxy.load_h5_workspace" title="datalab.control.proxy.LocalProxy.load_h5_workspace"><code class="xref py py-meth docutils literal notranslate"><span class="pre">load_h5_workspace()</span></code></a>, aucune question n’est posée et l’avis est journalisé.</p>
+</section>
+<section id="what-the-provenance-does-not-do">
+<h2>Ce que la provenance ne fait pas<a class="headerlink" href="#what-the-provenance-does-not-do" title="Lien vers cette rubrique">#</a></h2>
+<ul class="simple">
+<li><p><strong>Elle ne conserve pas tous les tableaux antérieurs.</strong> Les états antérieurs sont décrits par leurs empreintes ; leurs données ne restent disponibles que tant qu’un objet les contient. Supprimer ou remplacer les données numériques d’une entrée peut empêcher le rejeu, même après sauvegarde et réouverture. Par exemple, sauvegarder un signal filtré après avoir supprimé sa source conserve la description de la source, pas ses tableaux. Conservez les entrées nécessaires et les résultats enregistrés avant de sauvegarder.</p></li>
+<li><p><strong>Les modifications des seules ROI constituent une exception limitée.</strong> Si les données numériques d’une entrée sont inchangées, ses ROI enregistrées peuvent être rétablies sur une copie pour la vérification, y compris lorsqu’une détection a ajouté des ROI. Cela ne reconstruit pas des valeurs disparues. Une sortie absente ou altérée reste une référence de comparaison invalide : rétablir les ROI d’une entrée ne répare pas la référence.</p></li>
+<li><p><strong>Les valeurs d’analyse ne sont pas toutes archivées.</strong> Une analyse ultérieure peut remplacer un résultat sous la même clé de métadonnées. L’artefact antérieur reste décrit comme <code class="docutils literal notranslate"><span class="pre">replaced</span></code>, sans nécessairement conserver son ancienne valeur.</p></li>
+<li><p><strong>Elle ne nettoie pas l’espace de travail.</strong> Les essais et les objets intermédiaires restent jusqu’à leur suppression. Leurs étapes enregistrées restent dans le registre de provenance : supprimer un objet ne purge jamais ses activités ni les informations sensibles.</p></li>
+<li><p><strong>Elle ne rend pas tout vérifiable.</strong> Les modifications faites en dehors des traitements enregistrés peuvent être observées ultérieurement sans production connue. Une opération sans contrat peut être enregistrée comme opaque, mais n’est jamais rejouée. Les anciens enregistrements de métadonnées ont des états d’entrée inconnus et parfois des paramètres ou environnements incomplets ; ils ne sont ni qualifiés rétroactivement ni exécutés à partir de leurs noms Python.</p></li>
+<li><p><strong>Elle ne prouve pas la validité scientifique.</strong> <em>Exact</em> ou <em>Dans la tolérance</em> indique que le calcul enregistré est reproduit selon la règle déclarée pour cette opération, pas que le traitement était le bon.</p></li>
+<li><p><strong>Elle n’identifie pas l’auteur.</strong> Les empreintes montrent que le contenu n’a pas été altéré ; elles n’authentifient pas qui l’a produit, et les capsules ne sont pas signées.</p></li>
+</ul>
+</section>
+<section id="capture-scope-and-verification-conditions">
+<h2>Périmètre de capture et conditions de vérification<a class="headerlink" href="#capture-scope-and-verification-conditions" title="Lien vers cette rubrique">#</a></h2>
+<p>Les traitements ordinaires et groupés, les analyses, les conversions signal/image et l’extraction de ROI utilisent les parcours de capture pris en charge. <strong>Traitement</strong>, <strong>Recalculer</strong> et le rejeu d’un calcul pris en charge depuis le panneau Historique enregistrent une nouvelle exécution ; la vérification elle-même travaille sur des copies et n’enregistre aucune nouvelle exécution. Un aperçu accepté peut devenir un résultat validé, mais un aperçu abandonné, un calcul en erreur ou une annulation ne sont pas des exécutions réussies. Une détection réussie qui ne trouve rien est un résultat normal enregistré.</p>
+<p>Importer ou créer un objet n’enregistre pas comment son acquisition physique ou ses conversions antérieures ont été réalisées. Éditer directement les données, les ROI ou les métadonnées n’enregistre pas en soi un appel scientifique. Les ajustements interactifs Desktop et la création d’un signal à partir d’une table de marqueurs ne sont actuellement pas des appels scientifiques enregistrés, même lorsqu’une action d’historique éditable existe.</p>
+<p>Les plugins, macros, scripts et clients de l’API distante sont enregistrés lorsqu’ils utilisent les processeurs pris en charge. Du code qui crée ou modifie directement des objets peut les contourner. La capture ne bloque pas le traitement : si elle échoue, un résultat peut exister sans activité ; l’échec est journalisé et compté, pas réparé silencieusement.</p>
+<p>Un rejeu nécessite un contrat d’opération local qualifié pour la version enregistrée, des paramètres décodables, un contexte applicable, des données d’entrée disponibles et des références de sortie valides. Les spectres de phase signal et image sont identifiés mais non qualifiés. Une opération, une version, un codec ou une politique inconnus produisent un refus explicite : le lecteur ne télécharge jamais de code pour en deviner le sens.</p>
+<p>Sigima augmente la version d’un contrat d’opération dès qu’une modification du calcul change son résultat, quelle que soit la version de DataLab. Les activités enregistrées avec une version antérieure du contrat sont alors refusées explicitement (<em>contrat non pris en charge</em>) au lieu d’être rejouées avec un résultat différent, et leur traitement ne peut pas être réappliqué tel qu’enregistré : recalculez le résultat pour l’enregistrer avec la version actuelle. Il en va de même pour les règles versionnées du contexte d’exécution, comme la sélection des pixels d’une image par les régions d’intérêt. Voir <a class="reference external" href="https://sigima.readthedocs.io/en/latest/user_guide/contracts.html">Contrats d’opération et versions</a> dans la documentation de Sigima.</p>
+<p>Les empreintes scientifiques couvrent les données numériques, les types, les coordonnées et les unités ; les ROI sont contrôlées séparément. Les titres, les paramètres d’affichage et les autres métadonnées ne sont pas automatiquement couverts. Seules les dépendances déclarées, telles que les options globales, l’alignement en X ou les métadonnées lues par le calcul, sont reproduites. Par exemple, modifier les paramètres d’ajustement nécessaires à <code class="docutils literal notranslate"><span class="pre">evaluate_fit</span></code> peut entraîner un refus de rejeu même si les valeurs du signal sont inchangées.</p>
+<p>Consultez les <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/rules.md">règles communes</a> et le <a class="reference external" href="https://github.com/DataLab-Platform/DataLab-Capsule/blob/develop/doc/interoperability.md">périmètre de capture et d’interopérabilité</a> pour les conditions et les parcours couverts. Les limites d’échange, de confidentialité et de révision sont décrites dans <a class="reference internal" href="capsules.html#capsules"><span class="std std-ref">Capsules d’espace de travail</span></a>.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="historypanel.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Panneau d’historique</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="capsules.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Capsules d’espace de travail</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#consulting-the-provenance-of-an-object">Consulter la provenance d’un objet</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#states-and-messages">États et messages</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#applying-a-processing-again">Appliquer à nouveau un traitement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#link-with-the-history-panel">Lien avec le panneau Historique</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#appending-a-workspace">Ajouter un espace de travail</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-the-provenance-does-not-do">Ce que la provenance ne fait pas</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#capture-scope-and-verification-conditions">Périmètre de capture et conditions de vérification</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
