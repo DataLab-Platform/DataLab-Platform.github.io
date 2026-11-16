@@ -12,7 +12,7 @@
 <meta property="og:type" content="website" />
 <meta property="og:url" content="https://datalab-platform.com/intro/tutorials/spectrum.html" />
 <meta property="og:site_name" content="DataLab" />
-<meta property="og:description" content="Spectrum analysis: denoising, baseline correction and peak fitting: This example shows how to analyze a spectrum with DataLab: Read the spectrum from a file, Apply a filter to the spectrum, Extract..." />
+<meta property="og:description" content="This example shows how to analyze a spectrum with DataLab: Read the spectrum from a file, Apply a filter to the spectrum, Extract a region of interest, Fit a model to the spectrum, Save the workspa..." />
 <meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
 <meta property="og:image:alt" content="DataLab" />
 
@@ -53,7 +53,7 @@
 
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../../_static/sphinx-design.min.css?v=6a604523" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
@@ -61,12 +61,12 @@
   <link rel="preload" as="script" href="../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../../_static/documentation_options.js?v=9172181d"></script>
+    <script src="../../_static/documentation_options.js?v=350a9c04"></script>
     <script src="../../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../../_static/copybutton.js?v=f281be69"></script>
-    <script src="../../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../_static/design-tabs.js?v=fcb327ea"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'intro/tutorials/spectrum';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://datalab-platform.com/intro/tutorials/spectrum.html" />
@@ -123,7 +123,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 and at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">Meet DataLab at the CODRA booth at <a href='https://datalab-platform.com/en/outreach/compute2026.html'>Compute! Paris 2026</a> (November 25–26) and at the <a href='https://datalab-platform.com/en/outreach/osxp2026.html'>OSXP 2026 talk</a> (December 9).</div>
 </aside>
 
   
@@ -157,7 +157,7 @@
     <img src="../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.4.0</p>
+    <p class="title logo__title">v1.4.1</p>
   
 </a></div>
     
@@ -256,6 +256,17 @@
           
           
           <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
         </li>
         <li class="nav-item">
             
@@ -409,6 +420,17 @@
           <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
+        </li>
+        <li class="nav-item">
             
           
           
@@ -469,6 +491,7 @@
 <li class="toctree-l2"><a class="reference internal" href="laser_beam.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Laser beam profiling: measuring beam size along the propagation axis</a></li>
 <li class="toctree-l2"><a class="reference internal" href="history_panel.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Recording and replaying a processing chain</a></li>
 <li class="toctree-l2"><a class="reference internal" href="custom_func.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Prototyping a custom processing pipeline</a></li>
+<li class="toctree-l2"><a class="reference internal" href="plugin_catalog.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> From an idea to the plugin catalog</a></li>
 <li class="toctree-l2"><a class="reference internal" href="work_with_spyder.html"><svg aria-hidden="true" class="sd-octicon sd-octicon-book sd-text-info" height="1.0em" version="1.1" viewbox="0 0 16 16" width="1.0em"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> DataLab and Spyder: a perfect match</a></li>
 </ul>
 </details></li>
@@ -535,8 +558,8 @@
 <div id="searchbox"></div>
                 <article class="bd-article">
                   
-  <section id="svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-spectrum-analysis-denoising-baseline-correction-and-peak-fitting">
-<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Spectrum analysis: denoising, baseline correction and peak fitting<a class="headerlink" href="#svg-version-1-1-width-1-0em-height-1-0em-class-sd-octicon-sd-octicon-book-sd-text-info-viewbox-0-0-16-16-aria-hidden-true-path-d-m0-1-75a-75-75-0-0-1-75-1h4-253c1-227-0-2-317-59-3-1-501a3-743-3-743-0-0-1-11-006-1h4-245a-75-75-0-0-1-75-75v10-5a-75-75-0-0-1-75-75h-4-507a2-25-2-25-0-0-0-1-591-659l-622-621a-75-75-0-0-1-1-06-0l-622-621a2-25-2-25-0-0-0-5-258-13h-75a-75-75-0-0-1-75-75zm7-251-10-324-004-5-073-002-2-253a2-25-2-25-0-0-0-5-003-2-5h1-5v9h3-757a3-75-3-75-0-0-1-1-994-574zm8-755-4-75l-004-7-322a3-752-3-752-0-0-1-1-992-572h14-5v-9h-3-495a2-25-2-25-0-0-0-2-25-2-25z-path-svg-spectrum-analysis-denoising-baseline-correction-and-peak-fitting" title="Link to this heading">#</a></h1>
+  <section id="spectrum-analysis-denoising-baseline-correction-and-peak-fitting">
+<h1><svg version="1.1" width="1.0em" height="1.0em" class="sd-octicon sd-octicon-book sd-text-info" viewBox="0 0 16 16" aria-hidden="true"><path d="M0 1.75A.75.75 0 0 1 .75 1h4.253c1.227 0 2.317.59 3 1.501A3.743 3.743 0 0 1 11.006 1h4.245a.75.75 0 0 1 .75.75v10.5a.75.75 0 0 1-.75.75h-4.507a2.25 2.25 0 0 0-1.591.659l-.622.621a.75.75 0 0 1-1.06 0l-.622-.621A2.25 2.25 0 0 0 5.258 13H.75a.75.75 0 0 1-.75-.75Zm7.251 10.324.004-5.073-.002-2.253A2.25 2.25 0 0 0 5.003 2.5H1.5v9h3.757a3.75 3.75 0 0 1 1.994.574ZM8.755 4.75l-.004 7.322a3.752 3.752 0 0 1 1.992-.572H14.5v-9h-3.495a2.25 2.25 0 0 0-2.25 2.25Z"></path></svg> Spectrum analysis: denoising, baseline correction and peak fitting<a class="headerlink" href="#spectrum-analysis-denoising-baseline-correction-and-peak-fitting" title="Link to this heading">#</a></h1>
 <p>This example shows how to analyze a spectrum with DataLab:</p>
 <ul class="simple">
 <li><p>Read the spectrum from a file</p></li>
@@ -548,14 +571,14 @@
 <p>DataLab menus change depending on the context. Since we are going to work with a
 spectrum, a 1D signal, we need to select the Signal Panel before proceeding.</p>
 <p>In a typical workflow, we would open DataLab and read the spectrum from a file using
-“File &gt; Open…”, the <img alt="fileopen_sig" class="dark-light no-scaled-link" src="../../_images/fileopen_sig.svg" style="width: 24px; height: 24px;" /> button in the toolbar, or by dragging and
+“File &gt; Open signal…”, the <img alt="fileopen_sig" class="dark-light no-scaled-link" src="../../_images/fileopen_sig.svg" style="width: 24px; height: 24px;" /> button in the toolbar, or by dragging and
 dropping the file into the panel on the right. However, for this tutorial,
 we will use the “Plugins &gt; Test data &gt; Load spectrum of paracetamol” feature to
 generate a test spectrum, which is convenient for demonstration purposes.</p>
 <figure class="align-default" id="id1">
 <img alt="../../_images/015.png" src="../../_images/015.png" />
 <figcaption>
-<p><span class="caption-text">The “File &gt; Open…” menu to open a spectrum file.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
+<p><span class="caption-text">The “File &gt; Open signal…” menu to open a spectrum file.</span><a class="headerlink" href="#id1" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id2">
@@ -566,8 +589,8 @@ test spectrum for this tutorial.</span><a class="headerlink" href="#id2" title="
 </figcaption>
 </figure>
 <p>Once opened, the spectrum is displayed in the main window. It is a 1D signal, so it is
-displayed as a curve. The horizontal axis is the energy axis, and the vertical axis
-is the intensity axis.</p>
+displayed as a curve. The horizontal axis is the diffraction angle 2θ (in degrees),
+and the vertical axis is the intensity axis.</p>
 <figure class="align-default" id="id3">
 <img alt="../../_images/035.png" src="../../_images/035.png" />
 <figcaption>
@@ -577,11 +600,11 @@ is the intensity axis.</p>
 <p>The signal is quite clean. However, to demonstrate DataLab’s filtering capabilities,
 we will apply a Wiener filter to reduce any residual noise while
 preserving the spectral features. This is available under
-“Processing &gt; Noise Reduction &gt; Wiener filter”.</p>
+“Processing &gt; Noise reduction &gt; Wiener filter”.</p>
 <figure class="align-default" id="id4">
 <img alt="../../_images/045.png" src="../../_images/045.png" />
 <figcaption>
-<p><span class="caption-text">The “Processing &gt; Noise Reduction &gt; Wiener filter” menu option.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
+<p><span class="caption-text">The “Processing &gt; Noise reduction &gt; Wiener filter” menu option.</span><a class="headerlink" href="#id4" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id5">
@@ -594,12 +617,13 @@ preserving the spectral features. This is available under
 we define a region of interest (ROI) around the feature we want to analyze
 and use the “ROI &gt; Extract…” menu to extract it.
 The “Regions of interest” dialog box will be displayed. Select an area and click “OK”.
-A confirmation window will appear—click “Yes” to extract the region of interest.
+A confirmation window (“Regions of Interest”) will appear—click “OK” to extract the
+region of interest.
 A new signal containing the ROI will be created and displayed in the main window.</p>
 <figure class="align-default" id="id6">
 <img alt="../../_images/065.png" src="../../_images/065.png" />
 <figcaption>
-<p><span class="caption-text">The “Operations &gt; ROI extraction” menu.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
+<p><span class="caption-text">The “ROI &gt; Extract…” menu.</span><a class="headerlink" href="#id6" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id7">
@@ -617,7 +641,9 @@ A new signal containing the ROI will be created and displayed in the main window
 <figure class="align-default" id="id9">
 <img alt="../../_images/094.png" src="../../_images/094.png" />
 <figcaption>
-<p><span class="caption-text">Open the model fitting window with “Processing &gt; Fitting &gt; Gaussian fit”.</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
+<p><span class="caption-text">Fit a Gaussian model to the extracted peak with “Processing &gt; Fitting &gt; Gaussian
+fit” (automatic fit, without dialog box; an interactive version is available in
+the “Processing &gt; Fitting &gt; Interactive fitting” submenu).</span><a class="headerlink" href="#id9" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <figure class="align-default" id="id10">
@@ -627,7 +653,7 @@ A new signal containing the ROI will be created and displayed in the main window
 </figcaption>
 </figure>
 <figure class="align-default" id="id11">
-<img alt="../../_images/124.png" src="../../_images/124.png" />
+<img alt="../../_images/123.png" src="../../_images/123.png" />
 <figcaption>
 <p><span class="caption-text">Both the full spectrum and the fit are selected in the “Signals” panel, so that
 both are displayed in the visualization panel on the left. This allows for easy
@@ -732,7 +758,7 @@ provide a more accurate baseline estimation and a better detrended signal.</p>
 <h2>Automatic peak detection<a class="headerlink" href="#automatic-peak-detection" title="Link to this heading">#</a></h2>
 <p>We can use DataLab’s “Multi-Gaussian fit” function to automatically identify
 and fit multiple peaks in the spectrum by selecting
-“Processing &gt; Fitting &gt; Multi-Gaussian fit” from the menu.</p>
+“Processing &gt; Fitting &gt; Interactive fitting &gt; Multi-Gaussian fit” from the menu.</p>
 <figure class="align-default" id="id22">
 <img alt="../../_images/162.png" src="../../_images/162.png" />
 <figcaption>
@@ -764,15 +790,17 @@ attached to the signal.</p>
 <figure class="align-default" id="id25">
 <img alt="../../_images/191.png" src="../../_images/191.png" />
 <figcaption>
-<p><span class="caption-text">Open the “Peak detection” window with “Analysis &gt; Peak detection”.</span><a class="headerlink" href="#id25" title="Link to this image">#</a></p>
+<p><span class="caption-text">Open the “Peak detection” window with “Analysis &gt; Peak detection…”.</span><a class="headerlink" href="#id25" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<figure class="align-default" id="id26">
-<img alt="../../_images/211.png" src="../../_images/211.png" />
-<figcaption>
-<p><span class="caption-text">After adjusting the peak detection parameters (using the same dialog as
+<p>After adjusting the peak detection parameters (using the same dialog as
 for the multi-Gaussian fit), click “OK”. The detected peak positions are
-stored as an XY-markers result and overlayed on the spectrum.</span><a class="headerlink" href="#id26" title="Link to this image">#</a></p>
+stored as an XY-markers result and overlayed on the spectrum.</p>
+<figure class="align-default" id="id26">
+<img alt="../../_images/201.png" src="../../_images/201.png" />
+<figcaption>
+<p><span class="caption-text">The detected peak positions are shown as XY markers on the spectrum, with
+their coordinates in the result label. No additional signal is created.</span><a class="headerlink" href="#id26" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
 <p>To rebuild the historical <em>sticks</em> signal — a delta function at each detected
@@ -792,7 +820,7 @@ visualization settings (such as curve colors).</p>
 or the <img alt="filesave_h5" class="dark-light no-scaled-link" src="../../_images/filesave_h5.svg" style="width: 24px; height: 24px;" /> button in the toolbar.</span><a class="headerlink" href="#id27" title="Link to this image">#</a></p>
 </figcaption>
 </figure>
-<p>If you want to load the workspace again, you can use the “File &gt; Open HDF5 file…”
+<p>If you want to load the workspace again, you can use the “File &gt; Open HDF5 files…”
 (or the <img alt="fileopen_h5" class="dark-light no-scaled-link" src="../../_images/fileopen_h5.svg" style="width: 24px; height: 24px;" /> button in the toolbar) to load the whole workspace, or the
 “File &gt; Browse HDF5 file…” (or the <img alt="h5browser" class="dark-light no-scaled-link" src="../../_images/h5browser.svg" style="width: 24px; height: 24px;" /> button in the toolbar) to load
 only a selection of data sets from the workspace.</p>

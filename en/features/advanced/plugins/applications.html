@@ -1,0 +1,1041 @@
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Application plugins for DataLab: headless recipes, packaged examples, tools, instruments and welcome page tiles" name="description" />
+<meta content="DataLab, plugin, application, recipe, workflow, example, tool, instrument, acquisition, welcome page" name="keywords" />
+<meta property="og:title" content="Application plugins" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/advanced/plugins/applications.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="An application plugin, declaring the APPLICATION capability, provides complete workflows, such as the characterization of a camera or of pulsed signals, or the analysis of X-ray radiographs: its me..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Application plugins &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../../../_static/documentation_options.js?v=350a9c04"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/plugins/applications';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/plugins/applications.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Search" href="../../../search.html" />
+    <link rel="next" title="Public API" href="api.html" />
+    <link rel="prev" title="Developing plugins" href="developing.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="en"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Meet DataLab at the CODRA booth at <a href='https://datalab-platform.com/en/outreach/compute2026.html'>Compute! Paris 2026</a> (November 25–26) and at the <a href='https://datalab-platform.com/en/outreach/osxp2026.html'>OSXP 2026 talk</a> (December 9).</div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Site navigation" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.4.1</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Use cases
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="On this page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Getting started
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Use cases
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Features
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contributing
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Release notes
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Talks & Events
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Color mode">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Color mode" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="System Settings"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>System Settings</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Light</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Dark</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Collapse Sidebar</span>
+  <span class="pst-expand-sidebar-label">Expand Sidebar</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Section Navigation">
+  <p class="bd-links__title" role="heading" aria-level="1">Section Navigation</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Overview &amp; Common features:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../common/overview.html">Overview</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/settings.html">Settings</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/h5browser.html">HDF5 Browser</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/historypanel.html">History Panel</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/provenance.html">Provenance of results</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/capsules.html">Workspace capsules</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Signal processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_file.html">Open and save Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_create.html">Create Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_operations.html">Operations on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_processing.html">Processing Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_analysis.html">Analysis features on Signals</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_view.html">View options for Signals</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Image processing:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_file.html">Open and save Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_create.html">Create Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_edit.html">Manipulate metadata and annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_roi.html">Regions Of Interest (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_operations.html">Operations on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_processing.html">Processing Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_analysis.html">Analysis features on Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_view.html">View options for Images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/2d_peak_detection.html">2D Peak Detection</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/contour_detection.html">Contour Detection</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation:</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../validation/technical.html">Technical Validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/functional.html">Functional validation</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/status.html">Validation Status of DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Advanced features:</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../plugins.html">Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="using.html">Installing and managing plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploying.html">Deploying plugins in an organization</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing.html">Developing plugins</a></li>
+<li class="toctree-l2 current active"><a aria-current="page" class="current reference internal" href="#">Application plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">Public API</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration_v020_to_v100.html">Migrating from DataLab v0.20 to v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_assistant.html">AI Assistant</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webapi.html">Web API</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../remote.html">Remote controlling (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Internal data model</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logviewer.html">Log viewer</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instviewer.html">Installation and Configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command.html">Command line features</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../proxy.html">Proxy objects (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/index.html">GUI</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Breadcrumb" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Home">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Features</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../plugins.html" class="nav-link">Plugins</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Application plugins</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="application-plugins">
+<span id="plugins-applications"></span><h1>Application plugins<a class="headerlink" href="#application-plugins" title="Link to this heading">#</a></h1>
+<p>An application plugin, declaring the <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> capability, provides complete workflows, such as the characterization of a camera or of pulsed signals, or the analysis of X-ray radiographs: its methods are presented in the <a class="reference internal" href="../../common/overview.html#applications-panel"><span class="std std-ref">Applications panel</span></a>, and its tiles on the <a class="reference internal" href="../../common/overview.html#welcome-page"><span class="std std-ref">Welcome page</span></a>. This page describes what a plugin may declare for this purpose: headless recipes and packaged examples, which any plugin may provide, then tools, instruments and welcome page tiles, which require the <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> capability. The <a class="reference external" href="https://github.com/DataLab-Platform/datalab-camera-characterization">Camera &amp; Detector Characterization</a>, <a class="reference external" href="https://github.com/DataLab-Platform/datalab-pulse-characterization">Pulse &amp; Transient Characterization</a> and <a class="reference external" href="https://github.com/DataLab-Platform/datalab-radiography">X-ray Radiography &amp; NDT</a> plugins of the <a class="reference external" href="https://datalab-platform.com/plugins/">DataLab plugin catalog</a> are complete examples.</p>
+<p>This page describes DataLab Desktop. DataLab-Web runs the headless recipes, examples and tools declared by a distinct plugin class, but it does not support the Desktop methods launching recipes and examples, nor welcome page tiles (see <a class="reference internal" href="developing.html#plugins-web"><span class="std std-ref">Plugins and DataLab-Web</span></a>).</p>
+<section id="headless-recipes">
+<h2>Headless recipes<a class="headerlink" href="#headless-recipes" title="Link to this heading">#</a></h2>
+<p>Plugins may expose versioned scientific workflows through the class-level
+<code class="docutils literal notranslate"><span class="pre">RECIPES</span></code> tuple. Each <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeDescriptor" title="datalab.plugins.recipes.RecipeDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeDescriptor</span></code></a> declares a
+stable ID namespaced by the plugin ID, typed input slots, an optional guidata
+<code class="docutils literal notranslate"><span class="pre">DataSet</span></code> parameter class, and a headless callable:</p>
+<p>Recipe descriptors remain owned by the current plugin class and are read
+through <a class="reference internal" href="api.html#datalab.plugins.PluginBase.get_recipes" title="datalab.plugins.PluginBase.get_recipes"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.get_recipes()</span></code></a>; they are not copied into
+a separate mutable registry. Reloading the plugin class therefore replaces its
+recipe declarations together with its implementation.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span><span class="p">,</span> <span class="n">PluginInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+  <span class="n">RecipeDescriptor</span><span class="p">,</span>
+  <span class="n">RecipeInputSlot</span><span class="p">,</span>
+  <span class="n">RecipeObjectOutput</span><span class="p">,</span>
+  <span class="n">RecipeOutcome</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">run_quick_check</span><span class="p">(</span><span class="n">inputs</span><span class="p">,</span> <span class="n">parameters</span><span class="p">,</span> <span class="n">context</span><span class="p">):</span>
+  <span class="n">source</span> <span class="o">=</span> <span class="n">inputs</span><span class="p">[</span><span class="s2">"source"</span><span class="p">][</span><span class="mi">0</span><span class="p">]</span>
+  <span class="n">context</span><span class="o">.</span><span class="n">raise_if_cancelled</span><span class="p">()</span>
+  <span class="n">output</span> <span class="o">=</span> <span class="n">source</span><span class="o">.</span><span class="n">copy</span><span class="p">()</span>
+  <span class="n">context</span><span class="o">.</span><span class="n">report_progress</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="s2">"Quick check complete"</span><span class="p">)</span>
+  <span class="k">return</span> <span class="n">RecipeOutcome</span><span class="p">(</span>
+    <span class="n">objects</span><span class="o">=</span><span class="p">(</span><span class="n">RecipeObjectOutput</span><span class="p">(</span><span class="s2">"checked-signal"</span><span class="p">,</span> <span class="n">output</span><span class="p">),),</span>
+  <span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+  <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"org.example.my-plugin"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"My Plugin"</span><span class="p">,</span>
+    <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+  <span class="p">)</span>
+  <span class="n">RECIPES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">RecipeDescriptor</span><span class="p">(</span>
+      <span class="n">recipe_id</span><span class="o">=</span><span class="s2">"org.example.my-plugin:quick-check"</span><span class="p">,</span>
+      <span class="n">plugin_version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">"Quick check"</span><span class="p">,</span>
+      <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+      <span class="n">inputs</span><span class="o">=</span><span class="p">(</span><span class="n">RecipeInputSlot</span><span class="p">(</span><span class="s2">"source"</span><span class="p">,</span> <span class="s2">"signal"</span><span class="p">,</span> <span class="s2">"one"</span><span class="p">),),</span>
+      <span class="n">run</span><span class="o">=</span><span class="n">run_quick_check</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The descriptor’s <code class="docutils literal notranslate"><span class="pre">plugin_version</span></code> must match <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO.version</span></code>. Keeping
+the plugin and recipe versions explicit lets execution records identify both
+the installed implementation and the independently versioned workflow.</p>
+<p>DataLab validates the declarations of a plugin when loading it: recipes, recipe
+launchers, examples, tools and welcome tiles, described below. A plugin with an
+invalid declaration, for example a recipe whose <code class="docutils literal notranslate"><span class="pre">plugin_version</span></code> no longer
+matches the plugin version, is not loaded: its error is shown in the internal
+console and written to the log file, and the plugin is listed with this error in
+the <strong>Installed plugins</strong> tab of <strong>Configure plugins…</strong> (<em>Plugins with errors</em>
+filter). The other plugins are loaded normally.</p>
+<p>The recipe callable receives a mapping from slot IDs to tuples of Sigima
+<code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> or <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code> instances, the parameter <code class="docutils literal notranslate"><span class="pre">DataSet</span></code> instance (or
+<code class="docutils literal notranslate"><span class="pre">None</span></code>), and a <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeExecutionContext" title="datalab.plugins.recipes.RecipeExecutionContext"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeExecutionContext</span></code></a>. The context
+provides technology-neutral progress and cancellation callbacks and has no Qt
+dependency.</p>
+<p>When <code class="docutils literal notranslate"><span class="pre">parameter_class</span></code> is <code class="docutils literal notranslate"><span class="pre">None</span></code>, the recipe declares no parameters and the
+callable receives <code class="docutils literal notranslate"><span class="pre">None</span></code>. Otherwise, consumers must provide an instance of the
+declared <code class="docutils literal notranslate"><span class="pre">DataSet</span></code> subclass. The recipe runner enforces this rule before
+execution.</p>
+<p>A <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeOutcome" title="datalab.plugins.recipes.RecipeOutcome"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeOutcome</span></code></a> contains named object outputs,
+structured diagnostics, and optional scalar results. A <code class="docutils literal notranslate"><span class="pre">TableResult</span></code> or
+<code class="docutils literal notranslate"><span class="pre">GeometryResult</span></code> is wrapped in <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeResultOutput" title="datalab.plugins.recipes.RecipeResultOutput"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeResultOutput</span></code></a> and
+uses <code class="docutils literal notranslate"><span class="pre">anchor_id</span></code> to reference the named object output that will own it. The
+contract validates these references without assigning DataLab workspace UUIDs.
+Workspace mutation and atomic commit are responsibilities of the recipe runner,
+not of the recipe callable.</p>
+<section id="describing-recipe-inputs">
+<h3>Describing recipe inputs<a class="headerlink" href="#describing-recipe-inputs" title="Link to this heading">#</a></h3>
+<p>DataLab shows users what each recipe expects and whether the current selection suits it. Describe every input slot accordingly:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeInputSlot</span><span class="p">,</span> <span class="n">RecipeMetadataRequirement</span>
+
+<span class="n">FLAT_FRAMES</span> <span class="o">=</span> <span class="n">RecipeInputSlot</span><span class="p">(</span>
+  <span class="s2">"flat_frames"</span><span class="p">,</span>
+  <span class="s2">"image"</span><span class="p">,</span>
+  <span class="s2">"many"</span><span class="p">,</span>
+  <span class="n">title</span><span class="o">=</span><span class="s2">"Flat frames"</span><span class="p">,</span>
+  <span class="n">description</span><span class="o">=</span><span class="s2">"Uniformly illuminated frames, two or more per exposure level"</span><span class="p">,</span>
+  <span class="n">min_count</span><span class="o">=</span><span class="mi">4</span><span class="p">,</span>
+  <span class="n">metadata</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">RecipeMetadataRequirement</span><span class="p">(</span>
+      <span class="s2">"org.example.my-plugin.exposure_time_s"</span><span class="p">,</span> <span class="s2">"Exposure time in seconds"</span>
+    <span class="p">),</span>
+    <span class="n">RecipeMetadataRequirement</span><span class="p">(</span>
+      <span class="s2">"org.example.my-plugin.frame_role"</span><span class="p">,</span> <span class="s2">"dark or flat"</span><span class="p">,</span> <span class="n">required</span><span class="o">=</span><span class="kc">False</span>
+    <span class="p">),</span>
+  <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">min_count</span></code> is the minimum number of objects bound to a <code class="docutils literal notranslate"><span class="pre">many</span></code> slot. Required metadata keys must be present on every bound object; optional keys are hints shown to the user. The recipe runner enforces both rules before the recipe callable is called.</p>
+<p>Two optional hooks of <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeDescriptor" title="datalab.plugins.recipes.RecipeDescriptor"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeDescriptor</span></code></a> refine these declarations:</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">suggest_bindings(candidates)</span></code> returns a mapping from slot IDs to some of the candidate objects, for example to split frames by role from their metadata. Without it, compatible candidates go to the only slot accepting their type, and slots sharing a type are left for the user to assign.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">check_inputs(inputs,</span> <span class="pre">parameters)</span></code> returns a list of <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeDiagnostic" title="datalab.plugins.recipes.RecipeDiagnostic"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeDiagnostic</span></code></a> values for fast, recipe-specific checks such as shapes, counts per level, or units. It must not compute results. Error diagnostics block the run and warnings are shown before it. An exception raised by the hook is reported as an <code class="docutils literal notranslate"><span class="pre">input-check-failed</span></code> error.</p></li>
+</ul>
+<p><a class="reference internal" href="api.html#datalab.plugins.recipe_binding.assess_recipe_inputs" title="datalab.plugins.recipe_binding.assess_recipe_inputs"><code class="xref py py-func docutils literal notranslate"><span class="pre">datalab.plugins.recipe_binding.assess_recipe_inputs()</span></code></a> combines the slot declarations and both hooks. It returns a <a class="reference internal" href="api.html#datalab.plugins.recipe_binding.RecipeReadiness" title="datalab.plugins.recipe_binding.RecipeReadiness"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipe_binding.RecipeReadiness</span></code></a> with a status (<code class="docutils literal notranslate"><span class="pre">no_input</span></code>, <code class="docutils literal notranslate"><span class="pre">needs_assignment</span></code>, <code class="docutils literal notranslate"><span class="pre">not_ready</span></code>, <code class="docutils literal notranslate"><span class="pre">warnings</span></code> or <code class="docutils literal notranslate"><span class="pre">ready</span></code>), the proposed bindings, structured issues that hosts translate, and the recipe diagnostics. The module has no Qt dependency, so DataLab-Web uses the same code.</p>
+</section>
+<section id="running-a-recipe-on-desktop">
+<h3>Running a recipe on Desktop<a class="headerlink" href="#running-a-recipe-on-desktop" title="Link to this heading">#</a></h3>
+<p>Most plugins do not call the runner directly. <a class="reference internal" href="api.html#datalab.plugins.PluginBase.start_recipe" title="datalab.plugins.PluginBase.start_recipe"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.start_recipe()</span></code></a> runs a recipe on the current selection with DataLab’s generic launcher. It assesses the selection, opens an input assignment dialog only when the bindings are ambiguous or invalid, edits the declared parameters, and then calls the runner. A plugin menu action therefore only needs:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">run_quick_check</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+  <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">start_recipe</span><span class="p">(</span><span class="s2">"org.example.my-plugin:quick-check"</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>The <strong>Run…</strong> buttons of the <a class="reference internal" href="../../common/overview.html#applications-panel"><span class="std std-ref">Applications panel</span></a> use the same launcher. A plugin that needs a dedicated interface for one recipe may map its recipe ID to a plugin method name in the class-level <code class="docutils literal notranslate"><span class="pre">RECIPE_LAUNCHERS</span></code> mapping; the panel then calls this method, without arguments, instead of the generic launcher.</p>
+<p>Use <a class="reference internal" href="api.html#datalab.gui.plugins.recipe_runner.RecipeRunner" title="datalab.gui.plugins.recipe_runner.RecipeRunner"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.gui.plugins.recipe_runner.RecipeRunner</span></code></a> from the GUI thread to run a recipe on explicit inputs. It validates inputs and parameters, executes the headless callable, and commits its outcome to the DataLab workspace:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.gui.plugins.recipe_runner</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeRunner</span>
+
+<span class="n">descriptor</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">get_recipes</span><span class="p">()[</span><span class="mi">0</span><span class="p">]</span>
+<span class="n">outcome</span> <span class="o">=</span> <span class="n">RecipeRunner</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">main</span><span class="p">)</span><span class="o">.</span><span class="n">run</span><span class="p">(</span>
+  <span class="n">descriptor</span><span class="p">,</span>
+  <span class="n">inputs</span><span class="o">=</span><span class="p">{</span><span class="s2">"source"</span><span class="p">:</span> <span class="p">(</span><span class="n">source_signal</span><span class="p">,)},</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p>The runner rejects missing, extra, mistyped, or incorrectly sized input slots
+before recipe code is called. It also enforces <code class="docutils literal notranslate"><span class="pre">min_count</span></code>, required metadata and the error diagnostics of <code class="docutils literal notranslate"><span class="pre">check_inputs</span></code>, validates the optional <code class="docutils literal notranslate"><span class="pre">DataSet</span></code>
+instance and checks cancellation before execution, after execution, and
+immediately before commit. Recipe code must remain headless and must not mutate
+the workspace itself.</p>
+<p>Only a validated <a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeOutcome" title="datalab.plugins.recipes.RecipeOutcome"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeOutcome</span></code></a> reaches the commit
+phase. The Desktop runner creates one group per output panel, using the recipe
+title by default, then adds all signal and image outputs. Scalar result IDs are
+persisted as <code class="docutils literal notranslate"><span class="pre">&lt;recipe-id&gt;:&lt;result-id&gt;</span></code> function names on their named anchor
+objects, so several tables or geometries may coexist without metadata-key
+collisions. A failure during insertion removes every object and group created
+by that invocation and restores the previous workspace modified state and
+current panel.</p>
+</section>
+<section id="local-execution-provenance">
+<h3>Local execution provenance<a class="headerlink" href="#local-execution-provenance" title="Link to this heading">#</a></h3>
+<p>After successful headless execution, the Desktop runner stores the same
+<a class="reference internal" href="api.html#datalab.plugins.recipes.RecipeRunRecord" title="datalab.plugins.recipes.RecipeRunRecord"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.recipes.RecipeRunRecord</span></code></a> in every output object’s metadata.
+Its versioned, JSON-compatible payload contains a shared run UUID, plugin and
+recipe IDs and versions, resolved parameters as JSON, named input and output
+UUIDs, DataLab and Sigima versions, the completed status, and UTC start and
+finish timestamps.</p>
+<p>The metadata survives JSON export and HDF5 workspace round-trips. The shared
+run UUID links outputs across the Signal and Image panels without adding group
+metadata or a global workflow history. Failed or cancelled invocations do not
+commit outputs and therefore leave no run record in the workspace.</p>
+</section>
+</section>
+<section id="packaged-examples">
+<h2>Packaged examples<a class="headerlink" href="#packaged-examples" title="Link to this heading">#</a></h2>
+<p>Plugins may expose native DataLab workspaces through the class-level
+<code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code> tuple. Each <a class="reference internal" href="api.html#datalab.plugins.examples.PluginExample" title="datalab.plugins.examples.PluginExample"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.examples.PluginExample</span></code></a> uses a
+<code class="docutils literal notranslate"><span class="pre">package:relative/path</span></code> resource instead of a development filesystem path:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.examples</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginExample</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+  <span class="n">EXAMPLES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PluginExample</span><span class="p">(</span>
+      <span class="nb">id</span><span class="o">=</span><span class="s2">"quickstart"</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">"Quick start"</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s2">"Small deterministic workspace"</span><span class="p">,</span>
+      <span class="n">resource</span><span class="o">=</span><span class="s2">"datalab_my_plugin:examples/quickstart.h5"</span><span class="p">,</span>
+      <span class="n">recipe_ids</span><span class="o">=</span><span class="p">(</span><span class="s2">"org.example.my-plugin:quick-check"</span><span class="p">,),</span>
+      <span class="n">expected_checks</span><span class="o">=</span><span class="p">(</span><span class="s2">"summary-table"</span><span class="p">,),</span>
+    <span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>The package must include the resource in its wheel. <code class="docutils literal notranslate"><span class="pre">resolve()</span></code> returns an
+<code class="docutils literal notranslate"><span class="pre">importlib.resources</span></code> traversable that also works for packages imported from
+a ZIP archive. For APIs requiring a filesystem path, use <code class="docutils literal notranslate"><span class="pre">as_file()</span></code> as a
+context manager and do not retain the returned path after the context exits.</p>
+<p><a class="reference internal" href="api.html#datalab.plugins.PluginBase.get_examples" title="datalab.plugins.PluginBase.get_examples"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.get_examples()</span></code></a> validates unique local IDs and
+recipe references. A registered plugin may call <code class="docutils literal notranslate"><span class="pre">open_example(&quot;quickstart&quot;)</span></code>
+to materialize and load a native DataLab HDF5 workspace. Opening clears the
+current workspace by default; pass <code class="docutils literal notranslate"><span class="pre">reset_all=False</span></code> to merge it instead.</p>
+<p><code class="docutils literal notranslate"><span class="pre">recipe_ids</span></code> lists the recipes an example is designed for. One example may serve several recipes, for instance a dark ramp analyzed by two methods. A plugin may also generate an example in memory by overriding <code class="docutils literal notranslate"><span class="pre">materialize_example()</span></code> to return a <a class="reference internal" href="api.html#datalab.plugins.examples.PluginExampleData" title="datalab.plugins.examples.PluginExampleData"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.examples.PluginExampleData</span></code></a>; its <code class="docutils literal notranslate"><span class="pre">parameter_values</span></code> mapping gives, for each recipe ID, the parameter values suited to the generated objects.</p>
+<p>The <a class="reference internal" href="../../common/overview.html#applications-panel"><span class="std std-ref">Applications panel</span></a> presents each recipe as a method with a live status for the current selection and a <strong>Run…</strong> button; its details give the expected inputs and the examples designed for it. <strong>Try with this example</strong> calls <a class="reference internal" href="api.html#datalab.plugins.PluginBase.try_example" title="datalab.plugins.PluginBase.try_example"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.try_example()</span></code></a>: it opens the example, prefills the recipe parameters with the example values, and runs the recipe once the user accepts them. Examples without <code class="docutils literal notranslate"><span class="pre">recipe_ids</span></code> are listed as datasets, which only open.</p>
+</section>
+<section id="plugin-tools">
+<h2>Plugin tools<a class="headerlink" href="#plugin-tools" title="Link to this heading">#</a></h2>
+<p>A recipe covers a headless analysis run by DataLab. Any other interaction owned by an application plugin, such as a wizard, an interactive editor, a data preparation step or a simulated instrument, is a tool. Declare tools in the class-level <code class="docutils literal notranslate"><span class="pre">TOOLS</span></code> tuple of <a class="reference internal" href="api.html#datalab.plugins.tools.PluginTool" title="datalab.plugins.tools.PluginTool"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.tools.PluginTool</span></code></a> values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.recipes</span><span class="w"> </span><span class="kn">import</span> <span class="n">RecipeObjectType</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.tools</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginTool</span><span class="p">,</span> <span class="n">ToolSelection</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+  <span class="n">TOOLS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PluginTool</span><span class="p">(</span>
+      <span class="nb">id</span><span class="o">=</span><span class="s2">"annotate"</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">"Annotate frames..."</span><span class="p">,</span>
+      <span class="n">launcher</span><span class="o">=</span><span class="s2">"annotate_frames"</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s2">"Set the acquisition metadata of the selected frames"</span><span class="p">,</span>
+      <span class="n">object_type</span><span class="o">=</span><span class="n">RecipeObjectType</span><span class="o">.</span><span class="n">IMAGE</span><span class="p">,</span>
+      <span class="n">selection</span><span class="o">=</span><span class="n">ToolSelection</span><span class="o">.</span><span class="n">AT_LEAST_ONE</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">annotate_frames</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="o">...</span>
+</pre></div>
+</div>
+<p>DataLab lists each tool in two places: in the <strong>Tools</strong> section of the <a class="reference internal" href="../../common/overview.html#applications-panel"><span class="std std-ref">Applications panel</span></a>, and in the plugin’s submenu of the <strong>Plugins</strong> menu, after the plugin’s own actions. <code class="docutils literal notranslate"><span class="pre">object_type</span></code> gives the panel whose menu shows the tool; with <code class="docutils literal notranslate"><span class="pre">None</span></code>, both panels show it. <code class="docutils literal notranslate"><span class="pre">selection</span></code> states which selection the tool needs: <code class="docutils literal notranslate"><span class="pre">NONE</span></code> (the default), <code class="docutils literal notranslate"><span class="pre">EXACTLY_ONE</span></code>, <code class="docutils literal notranslate"><span class="pre">AT_LEAST_ONE</span></code> or <code class="docutils literal notranslate"><span class="pre">AT_LEAST_TWO</span></code> objects of <code class="docutils literal notranslate"><span class="pre">object_type</span></code>. When the selection does not match, DataLab disables the menu entry and the button of the Applications panel, and the button tooltip tells what to select. <code class="docutils literal notranslate"><span class="pre">icon</span></code> takes a <code class="docutils literal notranslate"><span class="pre">package:path</span></code> resource, a <code class="docutils literal notranslate"><span class="pre">module:filename</span></code> image registered with guidata (e.g. <code class="docutils literal notranslate"><span class="pre">datalab:delete.svg</span></code>) or a DataLab icon file name; by default, the tool uses the plugin icon. With <code class="docutils literal notranslate"><span class="pre">menu=False</span></code> (DataLab 1.4.1 or later), DataLab does not add the tool to the plugin’s submenu: the plugin places it in one of its own submenus, and the tool is still listed in the Applications panel.</p>
+<p>The launcher is called without arguments. <a class="reference internal" href="api.html#datalab.plugins.PluginBase.get_tools" title="datalab.plugins.PluginBase.get_tools"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.get_tools()</span></code></a> validates unique local IDs and the tool methods, and rejects tools declared by plugins without the <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> capability. <a class="reference internal" href="api.html#datalab.plugins.PluginBase.assess_tool" title="datalab.plugins.PluginBase.assess_tool"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.assess_tool()</span></code></a> returns the reason why a tool cannot be opened for the current selection, or <code class="docutils literal notranslate"><span class="pre">None</span></code>.</p>
+<section id="instruments">
+<span id="plugins-instruments"></span><h3>Instruments<a class="headerlink" href="#instruments" title="Link to this heading">#</a></h3>
+<p>A tool may name an <code class="docutils literal notranslate"><span class="pre">instrument</span></code> method instead of a <code class="docutils literal notranslate"><span class="pre">launcher</span></code>. This method returns a <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument" title="datalab.plugins.instruments.PluginInstrument"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.instruments.PluginInstrument</span></code></a>, and DataLab opens a window for it: a live view on the left, the instrument settings on the right, a <strong>Live</strong> button that refreshes the view continuously, a <strong>New group</strong> option and an <strong>Acquire</strong> button. The plugin writes no user interface code:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">guidata.dataset</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">gds</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.objects</span><span class="w"> </span><span class="kn">import</span> <span class="n">create_signal</span>
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.instruments</span><span class="w"> </span><span class="kn">import</span> <span class="p">(</span>
+  <span class="n">InstrumentAcquisition</span><span class="p">,</span>
+  <span class="n">InstrumentFrame</span><span class="p">,</span>
+  <span class="n">PluginInstrument</span><span class="p">,</span>
+<span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">SourceSettings</span><span class="p">(</span><span class="n">gds</span><span class="o">.</span><span class="n">DataSet</span><span class="p">):</span>
+  <span class="n">amplitude</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">FloatItem</span><span class="p">(</span><span class="s2">"Amplitude"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mf">1.0</span><span class="p">,</span> <span class="n">unit</span><span class="o">=</span><span class="s2">"V"</span><span class="p">)</span>
+  <span class="n">count</span> <span class="o">=</span> <span class="n">gds</span><span class="o">.</span><span class="n">IntItem</span><span class="p">(</span><span class="s2">"Signals per acquisition"</span><span class="p">,</span> <span class="n">default</span><span class="o">=</span><span class="mi">10</span><span class="p">,</span> <span class="nb">min</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">Source</span><span class="p">(</span><span class="n">PluginInstrument</span><span class="p">):</span>
+  <span class="n">live_interval_ms</span> <span class="o">=</span> <span class="mi">200</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">SourceSettings</span><span class="p">())</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">make_signal</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mi">500</span><span class="p">)</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">amplitude</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="mi">2</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span> <span class="o">*</span> <span class="mi">5</span> <span class="o">*</span> <span class="n">x</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">create_signal</span><span class="p">(</span><span class="s2">"Source"</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">+</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">normal</span><span class="p">(</span><span class="mf">0.0</span><span class="p">,</span> <span class="mf">0.05</span><span class="p">,</span> <span class="n">x</span><span class="o">.</span><span class="n">size</span><span class="p">))</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">preview</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">signal</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">make_signal</span><span class="p">()</span>
+    <span class="k">return</span> <span class="n">InstrumentFrame</span><span class="p">([</span><span class="n">signal</span><span class="p">],</span> <span class="n">summary</span><span class="o">=</span><span class="s2">"..."</span><span class="p">,</span> <span class="n">value_range</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">2.0</span><span class="p">))</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">acquire</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="n">signals</span> <span class="o">=</span> <span class="p">[</span><span class="bp">self</span><span class="o">.</span><span class="n">make_signal</span><span class="p">()</span> <span class="k">for</span> <span class="n">_</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">settings</span><span class="o">.</span><span class="n">count</span><span class="p">)]</span>
+    <span class="k">return</span> <span class="n">InstrumentAcquisition</span><span class="p">(</span><span class="s2">"Source - acquisition 001"</span><span class="p">,</span> <span class="n">signals</span><span class="p">)</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+  <span class="n">TOOLS</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">PluginTool</span><span class="p">(</span>
+      <span class="nb">id</span><span class="o">=</span><span class="s2">"source"</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">"Signal source..."</span><span class="p">,</span>
+      <span class="n">instrument</span><span class="o">=</span><span class="s2">"signal_source"</span><span class="p">,</span>
+      <span class="n">object_type</span><span class="o">=</span><span class="n">RecipeObjectType</span><span class="o">.</span><span class="n">SIGNAL</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">signal_source</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">Source</span><span class="p">()</span>
+</pre></div>
+</div>
+<p>DataLab edits <code class="xref py py-attr docutils literal notranslate"><span class="pre">settings</span></code> in place, with the active state, groups and tabs of the guidata DataSet, then calls <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument.preview" title="datalab.plugins.instruments.PluginInstrument.preview"><code class="xref py py-meth docutils literal notranslate"><span class="pre">preview()</span></code></a> after each change and, in live mode, every <code class="docutils literal notranslate"><span class="pre">live_interval_ms</span></code> milliseconds. An <a class="reference internal" href="api.html#datalab.plugins.instruments.InstrumentFrame" title="datalab.plugins.instruments.InstrumentFrame"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentFrame</span></code></a> holds signals drawn together or a single image, a short summary shown below the view, and an optional fixed Y range (signals) or color range (image). <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument.acquire" title="datalab.plugins.instruments.PluginInstrument.acquire"><code class="xref py py-meth docutils literal notranslate"><span class="pre">acquire()</span></code></a> returns an <a class="reference internal" href="api.html#datalab.plugins.instruments.InstrumentAcquisition" title="datalab.plugins.instruments.InstrumentAcquisition"><code class="xref py py-class docutils literal notranslate"><span class="pre">InstrumentAcquisition</span></code></a>: DataLab adds its objects to a new group of the matching panel, titled after the acquisition, and selects them, so that a recipe can run on them at once. Both methods raise <code class="docutils literal notranslate"><span class="pre">ValueError</span></code> with a user-facing message when the settings cannot be used; DataLab shows the message in the window.</p>
+<p>When the user turns off the <strong>New group</strong> option of the window, DataLab adds the acquired objects to the current group of the panel instead: as they are selected, the next acquisitions go to the same group, until the user selects another group. The option and the current group are taken when <strong>Acquire</strong> is clicked: changing them while the acquisition is running does not change its destination, and a new group is created if the group was removed meanwhile. A new group is still created when the panel has no current group, for example when it is empty. The <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument.new_group" title="datalab.plugins.instruments.PluginInstrument.new_group"><code class="xref py py-attr docutils literal notranslate"><span class="pre">new_group</span></code></a> class attribute sets the default state of the option (<code class="docutils literal notranslate"><span class="pre">True</span></code> by default): an instrument whose acquisitions are usually single objects, such as a device attribute read on demand, may set it to <code class="docutils literal notranslate"><span class="pre">False</span></code>. The choice of the user, once made, is remembered for each instrument and prevails over this default.</p>
+<p>DataLab creates the instrument once per tool and keeps it until the plugins are reloaded, so the settings remain from one opening to the next.</p>
+<p>DataLab Desktop calls the instrument outside the user interface thread, one call at a time, even when its window is closed and opened again while a call is running, and changes its settings only between two calls: a slow instrument, such as a device waiting for its data, does not freeze DataLab. The optional <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument.open" title="datalab.plugins.instruments.PluginInstrument.open"><code class="xref py py-meth docutils literal notranslate"><span class="pre">open()</span></code></a> and <a class="reference internal" href="api.html#datalab.plugins.instruments.PluginInstrument.close" title="datalab.plugins.instruments.PluginInstrument.close"><code class="xref py py-meth docutils literal notranslate"><span class="pre">close()</span></code></a> methods are called when the window opens and closes, including when plugins are reloaded or DataLab quits, for example to connect to a device and to release it. If <code class="docutils literal notranslate"><span class="pre">open</span></code> raises an error, its message stays in the window and the instrument is not called: the next refresh or acquisition, for example after a settings change, calls <code class="docutils literal notranslate"><span class="pre">open</span></code> again first. <code class="docutils literal notranslate"><span class="pre">close</span></code> is called even if <code class="docutils literal notranslate"><span class="pre">open</span></code> failed, and must release only what is still held. Data received by the instrument in its own threads, such as device events, is kept by the instrument for its next <code class="docutils literal notranslate"><span class="pre">preview</span></code> or <code class="docutils literal notranslate"><span class="pre">acquire</span></code> call.</p>
+<p>Instrument connectors should attach an <code class="docutils literal notranslate"><span class="pre">experimental_source</span></code> metadata entry to acquired objects before returning them; DataLab does not fill it automatically. Use Sigima’s <code class="docutils literal notranslate"><span class="pre">make_experimental_source</span></code> and <code class="docutils literal notranslate"><span class="pre">set_experimental_source</span></code> helpers to record the device address, attribute, selection and timestamps as appropriate. This identifies the measurement origin, not a reproducible acquisition. See the <a class="reference external" href="https://sigima.readthedocs.io/en/latest/user_guide/overview.html#experimental-data-origin">Sigima experimental data guide</a> for an example and the portable metadata format.</p>
+<p>DataLab-Web supports tools too: it lists them in the same places, opens instruments in the same window, and calls launchers in the plugin’s Pyodide host.</p>
+</section>
+</section>
+<section id="welcome-page-tiles">
+<h2>Welcome page tiles<a class="headerlink" href="#welcome-page-tiles" title="Link to this heading">#</a></h2>
+<p>Every active plugin declaring the <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> capability adds a tile to the <strong>Applications</strong> section, at the top of the <a class="reference internal" href="../../common/overview.html#welcome-page"><span class="std std-ref">Welcome page</span></a>. By default, this tile is built from the plugin’s <code class="docutils literal notranslate"><span class="pre">PluginInfo</span></code> name, description and icon. Clicking this tile shows the plugin page in the <a class="reference internal" href="../../common/overview.html#applications-panel"><span class="std std-ref">Applications panel</span></a>.</p>
+<p>The plugin icon is declared with <code class="docutils literal notranslate"><span class="pre">PluginInfo.icon</span></code>, either as a <code class="docutils literal notranslate"><span class="pre">package:relative/path</span></code> resource (SVG or bitmap image shipped in the plugin wheel), as a <code class="docutils literal notranslate"><span class="pre">module:filename</span></code> image registered by a module with guidata (e.g. <code class="docutils literal notranslate"><span class="pre">datalab:delete.svg</span></code>), or as the file name of a DataLab icon. It is shown on the default tile, in the <strong>Applications</strong> panel and in the plugin configuration dialog; plugins without icon use a generic plugin icon. To offer other entry points, for example to open an example directly, declare the class-level <code class="docutils literal notranslate"><span class="pre">WELCOME_TILES</span></code> tuple of <a class="reference internal" href="api.html#datalab.plugins.tiles.WelcomeTile" title="datalab.plugins.tiles.WelcomeTile"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.tiles.WelcomeTile</span></code></a> values:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginBase</span><span class="p">,</span> <span class="n">PluginCapability</span><span class="p">,</span> <span class="n">PluginInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins.tiles</span><span class="w"> </span><span class="kn">import</span> <span class="n">WelcomeTile</span>
+
+<span class="k">class</span><span class="w"> </span><span class="nc">MyPlugin</span><span class="p">(</span><span class="n">PluginBase</span><span class="p">):</span>
+  <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+    <span class="nb">id</span><span class="o">=</span><span class="s2">"org.example.my-plugin"</span><span class="p">,</span>
+    <span class="n">name</span><span class="o">=</span><span class="s2">"My Plugin"</span><span class="p">,</span>
+    <span class="n">icon</span><span class="o">=</span><span class="s2">"datalab_my_plugin:icons/my_plugin.svg"</span><span class="p">,</span>
+    <span class="n">capabilities</span><span class="o">=</span><span class="p">(</span><span class="n">PluginCapability</span><span class="o">.</span><span class="n">APPLICATION</span><span class="p">,),</span>
+  <span class="p">)</span>
+  <span class="n">WELCOME_TILES</span> <span class="o">=</span> <span class="p">(</span>
+    <span class="n">WelcomeTile</span><span class="p">(</span><span class="nb">id</span><span class="o">=</span><span class="s2">"application"</span><span class="p">,</span> <span class="n">title</span><span class="o">=</span><span class="s2">"My Plugin"</span><span class="p">),</span>
+    <span class="n">WelcomeTile</span><span class="p">(</span>
+      <span class="nb">id</span><span class="o">=</span><span class="s2">"quickstart"</span><span class="p">,</span>
+      <span class="n">title</span><span class="o">=</span><span class="s2">"Open quick start"</span><span class="p">,</span>
+      <span class="n">description</span><span class="o">=</span><span class="s2">"Open the packaged quick start workspace"</span><span class="p">,</span>
+      <span class="n">icon</span><span class="o">=</span><span class="s2">"datalab_my_plugin:icons/quickstart.svg"</span><span class="p">,</span>
+      <span class="n">launcher</span><span class="o">=</span><span class="s2">"open_quickstart"</span><span class="p">,</span>
+    <span class="p">),</span>
+  <span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">open_quickstart</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="bp">self</span><span class="o">.</span><span class="n">launch_example</span><span class="p">(</span><span class="s2">"quickstart"</span><span class="p">)</span>
+
+  <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+    <span class="k">pass</span>
+</pre></div>
+</div>
+<p>Declared tiles replace the default tile. The first one is the main tile of the plugin; the others are shown next to it when the <strong>Applications</strong> section has room for them, and otherwise become actions of its menu, opened from its “…” button or by right-clicking it. A tile without <code class="docutils literal notranslate"><span class="pre">launcher</span></code> shows the plugin page in the <strong>Applications</strong> panel; otherwise, the named plugin method is called without arguments. A tile without <code class="docutils literal notranslate"><span class="pre">icon</span></code> uses the plugin icon. <a class="reference internal" href="api.html#datalab.plugins.PluginBase.get_welcome_tiles" title="datalab.plugins.PluginBase.get_welcome_tiles"><code class="xref py py-meth docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase.get_welcome_tiles()</span></code></a> validates unique local IDs and launcher methods, and rejects tiles declared by plugins without the <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> capability. The welcome page refreshes its tiles when plugins are loaded, reloaded or disabled, and reports errors raised by a launcher without closing DataLab.</p>
+<p>The user decides which applications are shown and in which order: the welcome page shows a limited number of tile rows, pinned applications first, then recently used ones, then the others by name (see <a class="reference internal" href="../../common/overview.html#welcome-page"><span class="std std-ref">Welcome page</span></a>). A plugin therefore cannot rely on its tile being visible: its features must remain available from the <strong>Applications</strong> panel.</p>
+<p>Welcome page tiles are specific to DataLab Desktop. DataLab-Web provides the <code class="docutils literal notranslate"><span class="pre">datalab.plugins.tiles</span></code> module for portable declarations, but ignores the tiles and reports a warning.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="developing.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title">Developing plugins</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="api.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title">Public API</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> On this page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#headless-recipes">Headless recipes</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#describing-recipe-inputs">Describing recipe inputs</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#running-a-recipe-on-desktop">Running a recipe on Desktop</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#local-execution-provenance">Local execution provenance</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#packaged-examples">Packaged examples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-tools">Plugin tools</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#instruments">Instruments</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#welcome-page-tiles">Welcome page tiles</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Created using <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Built with the <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">PyData Sphinx Theme</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

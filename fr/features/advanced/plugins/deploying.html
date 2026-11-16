@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Distribuer des plugins DataLab au sein d'une organisation avec des catalogues locaux de plugins, y compris sur des ordinateurs sans accès à Internet" name="description" translated="True" />
+<meta content="DataLab, plugin, catalogue local de plugins, installation hors ligne, partage réseau, dépendances, déploiement" name="keywords" translated="True" />
+<meta property="og:title" content="Déployer des plugins dans une organisation" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/advanced/plugins/deploying.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Une organisation peut distribuer ses propres plugins, ou les versions de plugins publics qu’elle a approuvées, depuis un dossier partagé sur le réseau ou copié sur des ordinateurs sans accès à Inte..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Déployer des plugins dans une organisation &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../../../_static/documentation_options.js?v=bd867006"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=e6b791cb"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/plugins/deploying';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/plugins/deploying.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" />
+    <link rel="next" title="Développer des plugins" href="developing.html" />
+    <link rel="prev" title="Installer et gérer des plugins" href="using.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Retrouvez DataLab sur le stand CODRA à <a href='https://datalab-platform.com/fr/outreach/compute2026.html'>Compute! Paris 2026</a> (25–26 novembre) et en conférence à <a href='https://datalab-platform.com/fr/outreach/osxp2026.html'>OSXP 2026</a> (9 décembre).</div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.4.1</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Catalogue de plugins" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Catalogue de plugins</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Catalogue de plugins" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Catalogue de plugins</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Réduire barre latérale</span>
+  <span class="pst-expand-sidebar-label">Développer barre latérale</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../common/overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/historypanel.html">Panneau d’historique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/provenance.html">Provenance des résultats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/capsules.html">Capsules d’espace de travail</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../plugins.html">Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="using.html">Installer et gérer des plugins</a></li>
+<li class="toctree-l2 current active"><a aria-current="page" class="current reference internal" href="#">Déployer des plugins dans une organisation</a></li>
+<li class="toctree-l2"><a class="reference internal" href="developing.html">Développer des plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Plugins d’application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API publique</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_assistant.html">Assistant IA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../proxy.html">Objets proxy (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../plugins.html" class="nav-link">Plugins</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Déployer des plugins dans une organisation</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="deploying-plugins-in-an-organization">
+<span id="plugins-deploying"></span><h1>Déployer des plugins dans une organisation<a class="headerlink" href="#deploying-plugins-in-an-organization" title="Lien vers cette rubrique">#</a></h1>
+<p>Une organisation peut distribuer ses propres plugins, ou les versions de plugins publics qu’elle a approuvées, depuis un dossier partagé sur le réseau ou copié sur des ordinateurs sans accès à Internet. Cette page décrit les catalogues locaux de plugins, les plugins nécessitant des paquets supplémentaires et le déploiement hors ligne. Les utilisateurs installent ces plugins depuis l’onglet <strong>Catalogue</strong>, comme ceux du catalogue de plugins DataLab (voir <a class="reference internal" href="using.html#plugin-catalog"><span class="std std-ref">Onglet Catalogue</span></a>).</p>
+<section id="local-plugin-catalogs">
+<span id="plugin-local-catalogs"></span><h2>Catalogues locaux de plugins<a class="headerlink" href="#local-plugin-catalogs" title="Lien vers cette rubrique">#</a></h2>
+<p>Un catalogue local de plugins est un dossier, généralement partagé sur le réseau (par exemple <code class="docutils literal notranslate"><span class="pre">\\fileserver\datalab\plugins</span></code>), à partir duquel une organisation diffuse ses propres plugins, ou les versions de plugins publics qu’elle a validées, sans les publier. Les catalogues locaux complètent le catalogue de plugins DataLab et sont prioritaires sur lui : lorsque plusieurs catalogues proposent le même plugin (même nom de distribution ou même identifiant de plugin), seul le premier est affiché, afin que les utilisateurs installent la version choisie par l’organisation. Si le catalogue de plugins DataLab retire un plugin ainsi masqué, l’onglet le signale.</p>
+<p>Les catalogues locaux sont déclarés :</p>
+<ul class="simple">
+<li><p>dans l’onglet <strong>Avancé</strong> (voir <a class="reference internal" href="using.html#plugin-search-paths"><span class="std std-ref">Onglet Avancé</span></a>) : ces dossiers sont enregistrés dans la configuration de DataLab (option <code class="docutils literal notranslate"><span class="pre">plugins_catalog_path_list</span></code>) ;</p></li>
+<li><p>par la variable d’environnement <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS_CATALOG</span></code>, par exemple pour configurer tous les ordinateurs d’une organisation : les dossiers sont séparés par le séparateur de chemins du système (<code class="docutils literal notranslate"><span class="pre">;</span></code> sous Windows, <code class="docutils literal notranslate"><span class="pre">:</span></code> sous Linux/macOS) et sont prioritaires sur les dossiers de la configuration. Contrairement à <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS</span></code>, les dossiers indisponibles au démarrage de DataLab ne sont pas ignorés : ils sont signalés dans l’onglet <strong>Catalogue</strong>, et utilisés dès qu’ils deviennent disponibles et que les catalogues sont actualisés.</p></li>
+</ul>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Windows</span>
+<span class="k">set</span> <span class="nv">DATALAB_PLUGINS_CATALOG</span><span class="p">=</span>\\fileserver\datalab\plugins;D:\approved_plugins
+</pre></div>
+</div>
+<p>Un dossier de catalogue local contient :</p>
+<ul class="simple">
+<li><p><strong>des fichiers de plugins sans index</strong> : DataLab recherche les wheels en Python pur déclarant un point d’entrée <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code> et les fichiers source nommés <code class="docutils literal notranslate"><span class="pre">datalab_&lt;nom&gt;.py</span></code> à la racine du dossier, sans parcourir les sous-dossiers. Les wheels sont regroupés par distribution et version ; chaque module constitue un fichier installable, même s’il déclare plusieurs classes de plugins. Les métadonnées des modules sont lues statiquement lorsque c’est possible ; un nom inconnu est remplacé par le nom du module et une version inconnue reste vide, avec un suivi par empreinte. Les fichiers invalides sont signalés. Copier un module modifié ou une nouvelle version d’un wheel suffit pour le proposer ;</p></li>
+<li><p><strong>soit un fichier</strong> <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code>, au format du catalogue de plugins DataLab, dont les URL des versions sont relatives au dossier : seuls les plugins qu’il liste sont affichés. Il peut s’agir d’une copie du catalogue de plugins DataLab avec ses wheels, ou d’un catalogue construit à partir des wheels du dossier avec <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">catalog</span> <span class="pre">build</span></code>, puis modifié pour donner un nom d’affichage aux plugins, les déprécier ou les révoquer (champs <code class="docutils literal notranslate"><span class="pre">status</span></code> et <code class="docutils literal notranslate"><span class="pre">status_reason</span></code>), ou retirer une version (champ <code class="docutils literal notranslate"><span class="pre">yanked</span></code>).</p></li>
+</ul>
+<p>Quel que soit le catalogue, DataLab vérifie la taille et l’empreinte SHA-256 du fichier avant son installation, l’inspecte sans l’exécuter et demande confirmation ; la boîte de dialogue indique le dossier du catalogue comme source. Pour un module, la validité du nom importable, l’encodage Python et la syntaxe sont vérifiés, avec une taille maximale de 4 Mio. L’inspection n’importe pas le code et ne certifie pas son comportement. L’organisation responsable d’un catalogue partagé doit en contrôler le contenu et limiter les droits d’écriture.</p>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code> gère le fichier <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code> d’un dossier :</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span><span class="p">:</span><span class="c1">: Write catalog.json, listing the plugin files of the folder</span>
+datalab-plugin catalog build \\fileserver\datalab\plugins
+
+<span class="p">:</span><span class="c1">: Check catalog.json against the plugin files of the folder</span>
+datalab-plugin catalog check \\fileserver\datalab\plugins
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">build</span></code> vérifie les wheels et les modules source sans les exécuter et n’écrit pas l’index si un fichier est refusé. Les wheels conservent leurs vérifications de Python pur, de points d’entrée et de dépendances ; les modules suivent les règles ci-dessous. Les métadonnées administrées, les motifs de retrait et les entrées révoquées sont conservés. Le fichier JSON est remplacé de manière atomique. <code class="docutils literal notranslate"><span class="pre">check</span></code> signale les fichiers de plugins et de dépendances manquants, modifiés, refusés ou non listés. Relancez <code class="docutils literal notranslate"><span class="pre">build</span></code> après modification des fichiers à la racine. Les deux commandes renvoient un code de sortie non nul si elles détectent un problème.</p>
+</section>
+<section id="single-file-modules-in-a-catalog">
+<span id="plugin-module-catalog"></span><h2>Modules en fichier unique dans un catalogue<a class="headerlink" href="#single-file-modules-in-a-catalog" title="Lien vers cette rubrique">#</a></h2>
+<p>Pour un catalogue hors ligne simple, placez le fichier <code class="docutils literal notranslate"><span class="pre">datalab_&lt;nom&gt;.py</span></code> inchangé à sa racine et ajoutez ce dossier dans <strong>Catalogues locaux de plugins</strong>. Aucun <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code>, wheel ou accès à Internet n’est nécessaire. Pour générer un index administrable, exécutez <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">catalog</span> <span class="pre">build</span> <span class="pre">&lt;dossier&gt;</span></code>, puis <code class="docutils literal notranslate"><span class="pre">check</span></code>. Un dossier mixte peut contenir des modules et des wheels :</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>approved_plugins\
+    datalab_spectroscopy.py
+    datalab_other_plugin-1.0-py3-none-any.whl
+    catalog.json
+    dependencies\
+        additional_wheel_dependency-1.0-py3-none-any.whl
+</pre></div>
+</div>
+<p>Le JSON généré utilise <code class="docutils literal notranslate"><span class="pre">kind:</span> <span class="pre">&quot;module&quot;</span></code> et le vrai nom d’importation dans <code class="docutils literal notranslate"><span class="pre">module</span></code> ; il n’attribue pas de distribution Python fictive au script. Sa version contient <code class="docutils literal notranslate"><span class="pre">filename</span></code>, une <code class="docutils literal notranslate"><span class="pre">url</span></code> relative, <code class="docutils literal notranslate"><span class="pre">size</span></code>, <code class="docutils literal notranslate"><span class="pre">sha256</span></code>, <code class="docutils literal notranslate"><span class="pre">targets:</span> <span class="pre">[&quot;desktop&quot;]</span></code> et <code class="docutils literal notranslate"><span class="pre">version</span></code> (éventuellement une chaîne vide). <code class="docutils literal notranslate"><span class="pre">kind</span></code> est omis ou vaut <code class="docutils literal notranslate"><span class="pre">&quot;wheel&quot;</span></code> pour les entrées wheel existantes. Ajoutez une contrainte facultative <code class="docutils literal notranslate"><span class="pre">requires_python</span></code> à une version de module lorsque sa compatibilité est connue.</p>
+<p>Un administrateur peut modifier le nom d’affichage, le résumé, la licence et les autres champs descriptifs du JSON, et fournir une identité de catalogue et une version lorsqu’elles ne sont pas accessibles statiquement dans le code source. <code class="docutils literal notranslate"><span class="pre">build</span></code> conserve ces champs. Une identité ou une version connue dans le code source doit correspondre au catalogue. En présence de métadonnées dynamiques ou de plusieurs classes de plugins, le catalogue décrit le module complet sans l’exécuter. Son identité de catalogue ne réécrit pas le <code class="docutils literal notranslate"><span class="pre">PluginInfo</span></code> utilisé à l’exécution et n’impose pas de modifier un fichier historique.</p>
+<p>Si un module n’a pas de version exploitable, laissez <code class="docutils literal notranslate"><span class="pre">version</span></code> vide : DataLab compare alors les empreintes SHA-256. La confirmation et la liste des fichiers installés distinguent une version connue d’une révision. Un fichier sans version modifié, ou un contenu différent portant la même version déclarée, demande un accord explicite via <strong>Remplacer…</strong> ; il n’est pas présenté comme une version plus récente. Les modules déjà installés manuellement par DataLab sont aussi reconnus. Les fichiers des répertoires de développement ne sont pas écrasés ; résolvez un conflit de nom ou retirez la copie non gérée avant d’utiliser l’installation gérée.</p>
+<p>Les modules en fichier unique utilisent les paquets déjà disponibles dans DataLab. Leurs instructions <code class="docutils literal notranslate"><span class="pre">import</span></code> ne sont pas interprétées comme des exigences de paquets, aucune dépendance n’est téléchargée et un sous-dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> n’est pas installé pour eux. <code class="docutils literal notranslate"><span class="pre">prepare</span></code> inclut les modules dans le catalogue, mais ne télécharge de dépendances que pour les wheels. Les importations qui ne peuvent pas être vérifiées statiquement peuvent encore échouer au chargement du plugin ; ces erreurs sont alors affichées dans l’onglet <strong>Installés</strong>.</p>
+<p>Pour le catalogue public, publiez le fichier inchangé comme fichier joint nommé d’une release GitHub et indiquez sa version, sa licence, sa description et son SHA-256 dans la fiche YAML. Le code source n’est pas obligé d’exposer ces valeurs statiquement. Une fiche a la structure suivante (remplacez le dépôt, le fichier et l’empreinte d’exemple par les informations de la release réelle) :</p>
+<div class="highlight-yaml notranslate"><div class="highlight"><pre><span></span><span class="nt">id</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">io.github.alice.spectroscopy</span>
+<span class="nt">name</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">Spectroscopy tools</span>
+<span class="nt">kind</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">module</span>
+<span class="nt">summary</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">A single-file Desktop plugin</span>
+<span class="nt">license</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">BSD-3-Clause</span>
+<span class="nt">repository</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">https://github.com/alice/spectroscopy</span>
+<span class="nt">capabilities</span><span class="p">:</span><span class="w"> </span><span class="p p-Indicator">[</span><span class="nv">processing</span><span class="p p-Indicator">]</span>
+<span class="nt">releases</span><span class="p">:</span>
+<span class="w">  </span><span class="p p-Indicator">-</span><span class="w"> </span><span class="nt">version</span><span class="p">:</span><span class="w"> </span><span class="s">"1.0.0"</span>
+<span class="w">    </span><span class="nt">filename</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">datalab_spectroscopy.py</span>
+<span class="w">    </span><span class="nt">sha256</span><span class="p">:</span><span class="w"> </span><span class="l l-Scalar l-Scalar-Plain">&lt;SHA-256 of the released file&gt;</span>
+<span class="w">    </span><span class="nt">requires_python</span><span class="p">:</span><span class="w"> </span><span class="s">"&gt;=3.10"</span>
+</pre></div>
+</div>
+<p>Le catalogue public vérifie le script et le met en miroir dans <code class="docutils literal notranslate"><span class="pre">modules/&lt;sha256&gt;/...</span></code>. Pour utiliser ce catalogue publié hors ligne, copiez son JSON et toute son arborescence relative, y compris <code class="docutils literal notranslate"><span class="pre">modules</span></code> et <code class="docutils literal notranslate"><span class="pre">wheels</span></code> lorsqu’ils sont présents. Ne reconstruisez pas un miroir inchangé dont les fichiers se trouvent dans ces sous-dossiers : les commandes locales de préparation parcourent la racine. Les URL sources, les vérifications de révision, les retraits et la priorité des catalogues locaux suivent les mêmes règles pour les deux formats. Les modules ciblent uniquement Desktop, pas DataLab-Web ni PyPI.</p>
+</section>
+<section id="additional-dependencies-and-offline-installation">
+<span id="plugin-dependencies"></span><h2>Dépendances supplémentaires et installation hors ligne<a class="headerlink" href="#additional-dependencies-and-offline-installation" title="Lien vers cette rubrique">#</a></h2>
+<p>Les plugins Desktop peuvent nécessiter des paquets qui ne sont pas fournis avec DataLab. Conservez le plugin lui-même sous forme de paquet wheel en Python pur et fournissez les paquets supplémentaires, y compris toutes leurs dépendances transitives, sous forme de wheels ordinaires dans un sous-dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> du catalogue local. Ces paquets de dépendances peuvent contenir des bibliothèques natives, à condition de correspondre à la version de Python, à l’ABI et à la plateforme de l’environnement hôte. Ils n’ont pas besoin de point d’entrée de plugin DataLab.</p>
+<p>Sur un ordinateur disposant d’un accès à Internet, la commande de préparation constitue le dépôt de paquets wheel et écrit le catalogue :</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>datalab-plugin catalog prepare D:\approved_plugins
+</pre></div>
+</div>
+<p>La commande télécharge les paquets wheel pour l’environnement courant sans les installer ni modifier ses paquets. Elle utilise les dépendances d’exécution déclarées de DataLab comme référence : les plugins sans rapport déjà installés sur l’ordinateur de l’auteur ne sont donc pas confondus avec les paquets livrés avec DataLab. Préparez les paquets dans chaque environnement cible lorsque des versions de Python ou des plateformes différentes nécessitent des fichiers différents, puis copiez le dossier complet sur l’ordinateur hors ligne ou le partage réseau. Les commandes <code class="docutils literal notranslate"><span class="pre">build</span></code> et <code class="docutils literal notranslate"><span class="pre">check</span></code> ne téléchargent pas elles-mêmes les paquets manquants.</p>
+<p>Par exemple, un catalogue pour CPython 3.11 sous Windows peut contenir :</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>approved_plugins\
+    catalog.json
+    datalab_tango-0.1.0-py3-none-any.whl
+    dependencies\
+        pytango-10.3.1-cp311-cp311-win_amd64.whl
+        docstring_parser-0.18.0-py3-none-any.whl
+</pre></div>
+</div>
+<p>L’onglet <strong>Catalogue</strong> copie les fichiers de dépendances vérifiés de la version choisie. Pour <strong>Installer depuis un fichier…</strong>, placez le dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> à côté du paquet wheel du plugin. DataLab résout l’installation à partir de ces seuls fichiers locaux, sans repli vers un index de paquets et sans compilation. Avant confirmation, il affiche les paquets supplémentaires, leurs versions, leurs tailles, le dossier source et leurs empreintes SHA-256.</p>
+<p>Les paquets déjà fournis par l’environnement Python ou par DataLab ne sont jamais remplacés, mis à jour ou rétrogradés. Les paquets supplémentaires sont partagés entre les plugins d’un même environnement d’exécution Python. Une version installée incompatible, un paquet transitif manquant ou un paquet natif non pris en charge entraîne un refus explicite ; aucune installation partielle n’est activée. Les vérifications des métadonnées du catalogue ne remplacent pas cette résolution dans l’environnement hôte réel.</p>
+<p>Une version d’un catalogue peut aussi lister des paquets que les utilisateurs installent eux-mêmes dans l’environnement Python de DataLab (<code class="docutils literal notranslate"><span class="pre">environment_requirements</span></code>), par exemple une volumineuse bibliothèque native installée avec <code class="docutils literal notranslate"><span class="pre">pip</span></code> ou <code class="docutils literal notranslate"><span class="pre">conda</span></code> : DataLab ne les télécharge jamais. L’onglet <strong>Catalogue</strong> affiche ces prérequis et ne propose d’installer le plugin qu’une fois que l’environnement Python les satisfait. L’application autonome ne dispose pas d’un tel environnement : ces plugins y sont signalés comme non disponibles, et ne peuvent être installés que depuis un fichier, avec les wheels des paquets manquants dans un dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>. Lorsqu’un wheel nécessite des paquets manquants et qu’aucun dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> n’est disponible, DataLab nomme les paquets manquants et n’installe rien.</p>
+<p>Une installation qui ajoute des dépendances est activée après le redémarrage de DataLab. Un plugin nouvellement installé est alors activé, y compris lorsqu’une liste explicite de plugins autorisés est configurée. Désinstaller le plugin conserve les dépendances partagées. Les environnements Python/ABI/plateforme différents utilisent des répertoires de dépendances séparés ; les dépendances incompatibles avec un environnement hôte modifié sont signalées plutôt que réparées par téléchargement.</p>
+<p>Il n’y a pas d’environnement par plugin : des plugins exigeant des versions contradictoires ne peuvent pas coexister. Les paquets nécessitant des bibliothèques système ou des pilotes externes exigent toujours l’installation séparée de ces prérequis. Dans l’application autonome, les dépendances sont destinées à être importées comme bibliothèques ; elles ne fournissent pas d’interpréteur Python externe et le fonctionnement indépendant de leurs scripts en ligne de commande n’est pas garanti. L’installateur Web reste inchangé.</p>
+<p>Sous Windows, les chemins des bibliothèques natives doivent également respecter la limite du chargeur de DLL. DataLab utilise des noms courts pour les répertoires de générations et refuse une installation dont les chemins de DLL resteraient trop longs, avant de la publier ; utilisez alors un répertoire de configuration dont le chemin est plus court.</p>
+</section>
+<section id="offline-deployment-step-by-step">
+<span id="plugin-offline-deployment"></span><h2>Déploiement hors ligne, pas à pas<a class="headerlink" href="#offline-deployment-step-by-step" title="Lien vers cette rubrique">#</a></h2>
+<p>Cette procédure est autonome : l’ordinateur déconnecté n’a besoin ni d’un index de paquets, ni d’un environnement de développement Python, ni d’un accès au site public des plugins. Un partage réseau local, une clé USB ou un simple dossier local convient. Préparer les dépendances manquantes des wheels nécessite un ordinateur de référence connecté ; un catalogue ne contenant que des modules source peut être constitué entièrement hors ligne (voir <a class="reference internal" href="#plugin-module-catalog"><span class="std std-ref">Modules en fichier unique dans un catalogue</span></a>).</p>
+<div class="admonition important">
+<p class="admonition-title">Important</p>
+<p>Un catalogue de plugins est une <strong>source de fichiers d’installation</strong>, pas un répertoire de recherche de plugins. Ajoutez-le dans <strong>Catalogues locaux de plugins</strong>, et non dans <strong>Répertoires supplémentaires de plugins</strong>. <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS_CATALOG</span></code> indique des catalogues ; <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS</span></code> indique du code chargé directement. L’installation copie les fichiers approuvés dans le répertoire de configuration DataLab de l’utilisateur : le dossier source ou le partage réseau n’est donc plus nécessaire pour exécuter ensuite le plugin installé.</p>
+</div>
+<section id="prepare-a-complete-catalog-on-a-connected-computer">
+<h3>1. Préparer un catalogue complet sur un ordinateur connecté<a class="headerlink" href="#prepare-a-complete-catalog-on-a-connected-computer" title="Lien vers cette rubrique">#</a></h3>
+<p>Le fournisseur doit disposer de DataLab installé dans un environnement Python, avec la commande <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code> disponible. L’application autonome ne fournit pas cette commande de préparation ; ses utilisateurs n’ont besoin que des fichiers préparés. Utilisez un environnement de référence correspondant à la version de DataLab, à la version de Python, au système d’exploitation, à l’architecture et aux versions des paquets de l’ordinateur cible. <strong>? &gt; Installation et configuration…</strong> permet d’identifier l’installation cible. Un paquet pour CPython 3.11 sous Windows 64 bits n’est pas interchangeable avec un paquet pour Linux, une architecture 32 bits ou CPython 3.12.</p>
+<p>Créez un dossier, placez le fichier <code class="docutils literal notranslate"><span class="pre">.whl</span></code> ou <code class="docutils literal notranslate"><span class="pre">datalab_*.py</span></code> du plugin à sa racine, puis exécutez :</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="n">datalab-plugin</span> <span class="n">catalog</span> <span class="n">prepare</span> <span class="n">D</span><span class="p">:\</span><span class="n">approved_plugins</span>
+<span class="n">datalab-plugin</span> <span class="n">catalog</span> <span class="n">check</span> <span class="n">D</span><span class="p">:\</span><span class="n">approved_plugins</span>
+</pre></div>
+</div>
+<p>Pour les wheels, <code class="docutils literal notranslate"><span class="pre">prepare</span></code> résout les exigences manquantes par rapport à l’environnement hôte de référence, télécharge leurs wheels et dépendances transitives dans <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>, puis écrit <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code>. La commande ne les installe pas dans l’environnement de référence et ne compile pas de distributions source. Les modules sont inclus sans téléchargement de dépendances. Utilisez <code class="docutils literal notranslate"><span class="pre">build</span></code> pour un catalogue reposant uniquement sur des fichiers ; si la préparation signale un wheel manquant ou un conflit, corrigez le catalogue avant de le transférer.</p>
+<p>Conservez tous les fichiers produits, y compris les paquets de dépendances. Ne copiez pas uniquement <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code> ou uniquement le paquet wheel du plugin. Pour desservir plusieurs environnements cibles, préparez leurs paquets dans des environnements de référence correspondants, rassemblez les fichiers nécessaires, puis exécutez <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">catalog</span> <span class="pre">build</span> <span class="pre">D:\approved_plugins</span></code>, suivi de <code class="docutils literal notranslate"><span class="pre">check</span></code>. Un paquet en Python pur peut lui aussi restreindre les versions de Python prises en charge dans ses métadonnées.</p>
+<p><code class="docutils literal notranslate"><span class="pre">check</span></code> vérifie les fichiers du catalogue, leur intégrité et leurs métadonnées. Cette commande ne remplace pas un essai d’installation sur la cible réelle : la résolution complète des dépendances se fait lors de l’installation. Avant un déploiement plus large, testez le dossier complet sur une installation équivalente dont l’accès à Internet est indisponible.</p>
+</section>
+<section id="transfer-the-folder-preserving-its-layout">
+<h3>2. Transférer le dossier en conservant son organisation<a class="headerlink" href="#transfer-the-folder-preserving-its-layout" title="Lien vers cette rubrique">#</a></h3>
+<p>Copiez le dossier complet sur une clé USB, un disque local ou un partage réseau accessible depuis l’ordinateur cible. Conservez les chemins relatifs et les noms de fichiers. Un miroir public peut stocker les fichiers dans <code class="docutils literal notranslate"><span class="pre">wheels\&lt;digest&gt;\...</span></code> et <code class="docutils literal notranslate"><span class="pre">modules\&lt;digest&gt;\...</span></code> : conservez aussi ces répertoires, car <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code> les référence. Le seul fichier JSON n’est pas un miroir et DataLab n’exporte pas automatiquement un catalogue en ligne pour un usage hors ligne.</p>
+<p>Pour un catalogue JSON strictement hors ligne, l’URL d’installation (champ <code class="docutils literal notranslate"><span class="pre">url</span></code>) de chaque version et de chaque fichier de dépendance doit désigner un fichier local existant. Une URL absolue <code class="docutils literal notranslate"><span class="pre">https://</span></code> entraîne toujours un téléchargement depuis son serveur, même si le catalogue est local ; placer un paquet wheel à côté de ce JSON ne remplace pas son URL. Les liens informatifs tels que <code class="docutils literal notranslate"><span class="pre">repository</span></code>, <code class="docutils literal notranslate"><span class="pre">documentation</span></code> et <code class="docutils literal notranslate"><span class="pre">source_url</span></code> ne remplacent pas les fichiers d’installation. Les catalogues générés par <code class="docutils literal notranslate"><span class="pre">build</span></code> utilisent des URL de fichiers relatives ; les miroirs publiés doivent conserver l’arborescence relative correspondante.</p>
+<p>L’utilisateur doit disposer d’un accès en lecture à cette source, et d’un accès en écriture à ses propres répertoires de configuration et de fichiers temporaires. Les privilèges d’administrateur ne sont pas nécessaires pour installer un plugin de cette manière. Réservez l’accès en écriture au catalogue partagé à ses responsables ; une vérification SHA-256 détecte les fichiers modifiés, mais ne certifie pas l’innocuité d’un plugin ou d’une dépendance.</p>
+</section>
+<section id="configure-the-disconnected-computer">
+<h3>3. Configurer l’ordinateur déconnecté<a class="headerlink" href="#configure-the-disconnected-computer" title="Lien vers cette rubrique">#</a></h3>
+<p>Ouvrez <strong>Plugins &gt; Configurer les plugins… &gt; Avancé</strong>. Dans <strong>Catalogues locaux de plugins</strong>, cliquez sur <strong>Ajouter</strong>, sélectionnez la racine du catalogue (le dossier contenant <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code> ou les paquets des plugins), puis appliquez la configuration. Ne sélectionnez pas le sous-dossier <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>. Ouvrez l’onglet <strong>Catalogue</strong> et cliquez sur <strong>Actualiser</strong> si nécessaire.</p>
+<p>Les administrateurs peuvent aussi définir la variable d’environnement suivante avant de lancer DataLab :</p>
+<div class="highlight-powershell notranslate"><div class="highlight"><pre><span></span><span class="nv">$env:DATALAB_PLUGINS_CATALOG</span> <span class="p">=</span> <span class="s1">'D:\approved_plugins;\\fileserver\datalab\plugins'</span>
+</pre></div>
+</div>
+<p>Cet exemple s’applique à DataLab démarré depuis la même fenêtre PowerShell ; un raccourci lancé séparément n’hérite pas de l’environnement de cette fenêtre. Une organisation peut également déployer la variable par son mécanisme habituel de configuration des postes. Les dossiers de la variable d’environnement sont prioritaires sur ceux enregistrés dans les paramètres de DataLab ; les deux sont prioritaires sur le catalogue en ligne. Le premier identifiant de plugin ou nom de distribution correspondant l’emporte : les versions de sources différentes ne sont pas fusionnées.</p>
+<div class="admonition warning">
+<p class="admonition-title">Avertissement</p>
+<p>Ajouter un catalogue local ne désactive <strong>pas</strong> le catalogue en ligne. Si son URL reste configurée, DataLab tente toujours de le lire lors de l’actualisation, ce qui peut entraîner une attente réseau et une erreur sur un ordinateur déconnecté. Les autres catalogues restent utilisables après cette erreur.</p>
+</div>
+<p>Pour désactiver cette recherche, fermez DataLab, sauvegardez son fichier de configuration et donnez une valeur vide à <code class="docutils literal notranslate"><span class="pre">plugins_catalog_url</span></code> dans la section <code class="docutils literal notranslate"><span class="pre">[main]</span></code> existante. Avec le profil utilisateur Windows standard, DataLab 1.3 et les versions suivantes utilisent <code class="docutils literal notranslate"><span class="pre">%USERPROFILE%\.DataLab_v1\DataLab_v1_typed.ini</span></code> (sous Linux/macOS, normalement <code class="docutils literal notranslate"><span class="pre">~/.DataLab_v1/DataLab_v1_typed.ini</span></code>). Les profils personnalisés peuvent utiliser un autre dossier de base. Ne modifiez pas à sa place l’ancien fichier <code class="docutils literal notranslate"><span class="pre">DataLab_v1.ini</span></code>.</p>
+<div class="highlight-ini notranslate"><div class="highlight"><pre><span></span><span class="k">[main]</span>
+<span class="na">plugins_catalog_url</span><span class="w"> </span><span class="o">=</span>
+</pre></div>
+</div>
+<p>Conservez le reste du fichier. Ne supprimez pas cette option pour la désactiver : une option absente rétablit l’URL publique par défaut. Redémarrez DataLab après modification. Une URL HTTPS privée nécessite toujours un accès à son serveur ; pour une installation hors ligne reposant uniquement sur des fichiers, utilisez un dossier de catalogue local.</p>
+</section>
+<section id="install-confirm-and-restart-when-requested">
+<h3>4. Installer, confirmer et redémarrer si nécessaire<a class="headerlink" href="#install-confirm-and-restart-when-requested" title="Lien vers cette rubrique">#</a></h3>
+<p>Dans l’onglet <strong>Catalogue</strong>, trouvez le plugin et cliquez sur <strong>Installer</strong>. DataLab choisit la version la plus récente proposée pour Desktop et pour la version de Python utilisée, vérifie la taille et les empreintes SHA-256 du plugin et des fichiers de dépendances compatibles listés, puis prépare toute installation supplémentaire à partir des seuls fichiers locaux. La sélection d’une version ne garantit pas que toutes ses dépendances puissent être installées : ce point est vérifié dans l’environnement hôte réel avant confirmation.</p>
+<p>Lisez la confirmation : elle indique l’identité du plugin, ses classes, ses exigences et son empreinte, ainsi que les paquets supplémentaires, leurs versions, leurs tailles, leurs empreintes et le dossier source si nécessaire. Annuler laisse l’installation inchangée. Après accord, DataLab installe les fichiers dans son stockage utilisateur privé ; il ne modifie pas les versions des paquets de l’environnement et ne recharge pas le code depuis le catalogue partagé à chaque démarrage.</p>
+<p>Redémarrez DataLab si des dépendances ont été ajoutées ou si vous remplacez un paquet déjà chargé. Sinon, DataLab peut proposer de recharger les plugins. Après redémarrage, vérifiez l’état du plugin et les éventuelles erreurs d’importation dans l’onglet <strong>Installés</strong>, puis essayez l’une de ses actions. Le catalogue source peut être déconnecté après une installation réussie. Pour installer un fichier ponctuellement, <strong>Depuis un fichier &gt; Installer depuis un fichier…</strong> effectue les mêmes vérifications ; conservez <code class="docutils literal notranslate"><span class="pre">dependencies</span></code> à côté du paquet wheel du plugin.</p>
+</section>
+<section id="maintain-and-troubleshoot-the-offline-catalog">
+<h3>5. Maintenir et dépanner le catalogue hors ligne<a class="headerlink" href="#maintain-and-troubleshoot-the-offline-catalog" title="Lien vers cette rubrique">#</a></h3>
+<p>Lorsque <code class="docutils literal notranslate"><span class="pre">catalog.json</span></code> existe, il fait autorité : DataLab ne liste et ne copie que les versions et fichiers de dépendances qui y sont déclarés. Pour un catalogue géré à partir de fichiers à sa racine, relancez <code class="docutils literal notranslate"><span class="pre">build</span></code> et <code class="docutils literal notranslate"><span class="pre">check</span></code> après ajout ou modification d’un module, d’un wheel de plugin ou de dépendance, puis redistribuez le dossier complet. Copier un nouveau fichier à côté d’un JSON existant ne met pas cet index à jour. <code class="docutils literal notranslate"><span class="pre">prepare</span></code> peut nécessiter Internet pour les dépendances des wheels ; <code class="docutils literal notranslate"><span class="pre">build</span></code> et <code class="docutils literal notranslate"><span class="pre">check</span></code> ne récupèrent jamais les paquets manquants.</p>
+<p>N’exécutez pas <code class="docutils literal notranslate"><span class="pre">build</span></code> sur un miroir inchangé dont les plugins se trouvent uniquement dans <code class="docutils literal notranslate"><span class="pre">wheels\&lt;digest&gt;\...</span></code> ou <code class="docutils literal notranslate"><span class="pre">modules\&lt;digest&gt;\...</span></code> : la commande parcourt la racine du catalogue, pas l’arborescence récursive, et supprimerait les entrées non représentées. Mettez à jour un miroir en transférant un catalogue publié complet et cohérent avec ses fichiers. Pour le gérer avec les commandes locales de préparation, disposez d’abord les wheels et modules des plugins à la racine et les paquets supplémentaires dans <code class="docutils literal notranslate"><span class="pre">dependencies</span></code>.</p>
+<p>Les utilisateurs actualisent l’onglet <strong>Catalogue</strong> pour découvrir les mises à jour, puis cliquent explicitement sur <strong>Mettre à jour vers…</strong>. Les mises à jour ne sont pas installées automatiquement. Les plugins installés avec <code class="docutils literal notranslate"><span class="pre">pip</span></code> dans l’environnement Python sont identifiés, mais ne sont pas mis à jour par cette boîte de dialogue. Les dépendances supplémentaires partagées sont conservées lorsqu’un plugin est désinstallé, et leurs versions existantes restent protégées lors des installations suivantes.</p>
+<p>Si une installation échoue, lisez l’erreur dans la boîte de dialogue des plugins avant de modifier les fichiers :</p>
+<ul class="simple">
+<li><p><strong>Catalogue introuvable ou inaccessible :</strong> vérifiez la racine sélectionnée, la lettre de lecteur, la clé USB, la connexion réseau et les droits de lecture. Un partage manquant n’est pas un problème d’accès à Internet. Actualisez lorsqu’il est de nouveau disponible.</p></li>
+<li><p><strong>Taille ou SHA-256 incorrect :</strong> les fichiers copiés diffèrent du catalogue. Demandez au fournisseur une copie complète et cohérente ou régénérez le catalogue à partir des paquets souhaités ; ne contournez pas cette vérification.</p></li>
+<li><p><strong>Aucun paquet compatible ou exigence manquante :</strong> le dépôt peut ne pas contenir une dépendance transitive ou le paquet correspondant à ce Python, à cette ABI ou à cette plateforme. Demandez au fournisseur d’exécuter <code class="docutils literal notranslate"><span class="pre">prepare</span></code> dans un environnement de référence correspondant. L’installateur ne se replie jamais vers PyPI.</p></li>
+<li><p><strong>Version installée incompatible :</strong> l’environnement hôte ou un autre plugin fournit déjà une version de paquet en conflit. Demandez une version ou une installation de référence compatible ; ne forcez pas de mise à jour ou de rétrogradation pour contourner le refus.</p></li>
+<li><p><strong>Chemin de DLL Windows trop long :</strong> utilisez un chemin de configuration plus court. <strong>Erreur d’importation de DLL ou bibliothèque système manquante :</strong> vérifiez les prérequis externes du paquet natif avec le fournisseur ; DataLab n’installe ni pilotes ni paquets système.</p></li>
+<li><p><strong>Installé mais inactif :</strong> redémarrez si cela est demandé, vérifiez l’activation globale et individuelle des plugins et consultez l’erreur d’importation affichée dans l’onglet <strong>Installés</strong>. Un simple rechargement ne remplace pas une bibliothèque native déjà importée.</p></li>
+</ul>
+<p>Pour l’aide locale, utilisez <strong>? &gt; Documentation PDF</strong>, puis recherchez <em>Déploiement hors ligne, pas à pas</em> ou <code class="docutils literal notranslate"><span class="pre">DATALAB_PLUGINS_CATALOG</span></code>. Ce PDF est un fichier local et ne nécessite pas Internet. <strong>Documentation en ligne</strong>, le lien vers la documentation de la page d’accueil et les liens externes vers le code source ou la documentation ouvrent, eux, des sites web. L’action de menu du PDF n’apparaît que si un PDF local est présent ; DataLab essaie d’abord la langue du système, puis l’anglais. S’il est absent ou illisible, demandez à l’administrateur le PDF livré avec la version correspondante de DataLab plutôt que de dépendre d’un lien en ligne.</p>
+</section>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="using.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Installer et gérer des plugins</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="developing.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Développer des plugins</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#local-plugin-catalogs">Catalogues locaux de plugins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#single-file-modules-in-a-catalog">Modules en fichier unique dans un catalogue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#additional-dependencies-and-offline-installation">Dépendances supplémentaires et installation hors ligne</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#offline-deployment-step-by-step">Déploiement hors ligne, pas à pas</a><ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#prepare-a-complete-catalog-on-a-connected-computer">1. Préparer un catalogue complet sur un ordinateur connecté</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#transfer-the-folder-preserving-its-layout">2. Transférer le dossier en conservant son organisation</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#configure-the-disconnected-computer">3. Configurer l’ordinateur déconnecté</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#install-confirm-and-restart-when-requested">4. Installer, confirmer et redémarrer si nécessaire</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#maintain-and-troubleshoot-the-offline-catalog">5. Maintenir et dépanner le catalogue hors ligne</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>

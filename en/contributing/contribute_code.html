@@ -52,7 +52,7 @@
 
     <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=8f2a1f02" />
     <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
-    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=6a604523" />
   
   <!-- So that users can add custom icons -->
   <script defer src="../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
@@ -60,12 +60,12 @@
   <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
 <link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
 
-    <script src="../_static/documentation_options.js?v=9172181d"></script>
+    <script src="../_static/documentation_options.js?v=350a9c04"></script>
     <script src="../_static/doctools.js?v=fd6eb6e6"></script>
     <script src="../_static/sphinx_highlight.js?v=6ffebe34"></script>
     <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
     <script src="../_static/copybutton.js?v=f281be69"></script>
-    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../_static/design-tabs.js?v=fcb327ea"></script>
     <script>DOCUMENTATION_OPTIONS.pagename = 'contributing/contribute_code';</script>
     <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
     <link rel="canonical" href="https://datalab-platform.com/contributing/contribute_code.html" />
@@ -122,7 +122,7 @@
   <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
 </div>
 <aside class="bd-header-announcement" aria-label="Announcement">
-  <div class="bd-header-announcement__content">DataLab has been presented at <a href='https://pretalx.com/euroscipy-2026/talk/E3X9EX/'>EuroSciPy 2026</a> 🇵🇱 and at <a href='https://datalab-platform.com/en/outreach/osxp2025.html'>OSXP 2025</a> 🇫🇷 🚀 — <a href='https://datalab-platform.com/en/outreach/index.html'>Learn more</a></div>
+  <div class="bd-header-announcement__content">Meet DataLab at the CODRA booth at <a href='https://datalab-platform.com/en/outreach/compute2026.html'>Compute! Paris 2026</a> (November 25–26) and at the <a href='https://datalab-platform.com/en/outreach/osxp2026.html'>OSXP 2026 talk</a> (December 9).</div>
 </aside>
 
   
@@ -156,7 +156,7 @@
     <img src="../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
   
   
-    <p class="title logo__title">v1.4.0</p>
+    <p class="title logo__title">v1.4.1</p>
   
 </a></div>
     
@@ -255,6 +255,17 @@
           
           
           <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
         </li>
         <li class="nav-item">
             
@@ -408,6 +419,17 @@
           <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
         </li>
         <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Plugin catalog" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Plugin catalog</span></a>
+        </li>
+        <li class="nav-item">
             
           
           
@@ -554,13 +576,21 @@ to fix it before your pull request can be merged.</p>
 <p>A few maintenance tasks are intentionally <strong>not</strong> run by the release CI and must be performed locally on a Windows workstation by a project maintainer. They produce committed assets that the CI then consumes as-is.</p>
 <section id="refreshing-documentation-screenshots">
 <h3>Refreshing documentation screenshots<a class="headerlink" href="#refreshing-documentation-screenshots" title="Link to this heading">#</a></h3>
-<p>The PNG files under <code class="docutils literal notranslate"><span class="pre">doc/images/</span></code> are versioned. They are regenerated by launching DataLab and capturing its dialogs / panels — a step that requires a real desktop session (the Xvfb-based CI runner hangs on DataLab’s GUI startup and the rendering depends on system fonts/theme, making it non-deterministic across runners).</p>
+<p>The PNG files under <code class="docutils literal notranslate"><span class="pre">doc/images/</span></code> are versioned. The screenshot generator renders actual Qt windows, dialogs and menus offscreen: it does not capture the desktop, drive the mouse or require Computer Use. Run it from a source checkout with the development environment configured in <code class="docutils literal notranslate"><span class="pre">.env</span></code>, including Sigima’s test data, Qt and OpenCV. The reference captures are generated on Windows with the Segoe UI font.</p>
 <p>The screenshot pipeline produces <strong>per-language</strong> files (<code class="docutils literal notranslate"><span class="pre">foo.fr.png</span></code> / <code class="docutils literal notranslate"><span class="pre">foo.en.png</span></code>) thanks to Sphinx’s <code class="docutils literal notranslate"><span class="pre">figure_language_filename</span></code> configuration. RST sources reference the unsuffixed name (<code class="docutils literal notranslate"><span class="pre">foo.png</span></code>); each language build automatically picks the matching suffix when available and falls back to the unsuffixed file otherwise.</p>
 <p>Re-run this whenever a change affects the rendered UI (menus, dialogs, panels, themes):</p>
 <div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>scripts\update_screenshots.bat
 </pre></div>
 </div>
-<p>or via the <strong>🖼️ Refresh doc screenshots</strong> VS Code task. Commit the new / updated PNGs under <code class="docutils literal notranslate"><span class="pre">doc/images/shots/</span></code> in a dedicated commit (e.g. <code class="docutils literal notranslate"><span class="pre">docs:</span> <span class="pre">refresh</span> <span class="pre">screenshots</span></code>). Once a <code class="docutils literal notranslate"><span class="pre">foo.fr.png</span></code> + <code class="docutils literal notranslate"><span class="pre">foo.en.png</span></code> pair exists for a given asset, the unsuffixed <code class="docutils literal notranslate"><span class="pre">foo.png</span></code> becomes a pure fallback and can be removed in a follow-up cleanup commit.</p>
+<p>or via the <strong>🖼️ Refresh doc screenshots</strong> VS Code task. Each language runs in its own process with a disposable home directory and in-memory default settings: personal preferences and installed plugins are not changed. The theme, scale, window sizes and tutorial data are fixed. Native window decorations are intentionally absent; popup menus are rendered by Qt and composited over their parent window.</p>
+<p>To update only the interface and a tutorial, or render previews outside the source tree:</p>
+<div class="highlight-bat notranslate"><div class="highlight"><pre><span></span>scripts\update_screenshots.bat --group interface spectrum
+scripts\update_screenshots.bat --group blobs --language en --output-dir build\screenshot-preview
+</pre></div>
+</div>
+<p>Available groups are <code class="docutils literal notranslate"><span class="pre">interface</span></code> (startup, settings and History), <code class="docutils literal notranslate"><span class="pre">gallery</span></code> (the existing demonstration scenes), <code class="docutils literal notranslate"><span class="pre">metadata</span></code> (signal and image metadata dialogs), <code class="docutils literal notranslate"><span class="pre">fabry-perot</span></code>, <code class="docutils literal notranslate"><span class="pre">spectrum</span></code> and <code class="docutils literal notranslate"><span class="pre">blobs</span></code>. All groups and both languages are selected by default. Tutorial figures remain shared English PNGs under <code class="docutils literal notranslate"><span class="pre">doc/images/tutorials/</span></code>; interface figures are localized under <code class="docutils literal notranslate"><span class="pre">doc/images/shots/</span></code>. The blob tutorial executes the example plugin with seeded random data; its plugin-directory figure uses illustrative paths rather than personal or temporary directories.</p>
+<p>The scenarios are in <code class="docutils literal notranslate"><span class="pre">datalab/tests/scenarios/tutorial_screenshots.py</span></code>. They check that annotations are stored separately from metadata, peak detection creates XY markers rather than another signal, and the blob detector’s color filter is disabled. Generation stops on errors; the focused regression tests also check PNG output and protection of an existing configuration.</p>
+<p>Inspect the resulting figures and build the English and French documentation before committing the updated PNGs. Once a <code class="docutils literal notranslate"><span class="pre">foo.fr.png</span></code> + <code class="docutils literal notranslate"><span class="pre">foo.en.png</span></code> pair exists for a given asset, the unsuffixed <code class="docutils literal notranslate"><span class="pre">foo.png</span></code> becomes a pure fallback and can be removed in a follow-up cleanup commit.</p>
 </section>
 <section id="regenerating-graphical-resources">
 <h3>Regenerating graphical resources<a class="headerlink" href="#regenerating-graphical-resources" title="Link to this heading">#</a></h3>

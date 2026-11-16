@@ -1,0 +1,1273 @@
+<!DOCTYPE html>
+
+
+<html lang="fr" data-content_root="../../../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+<meta content="Développer des plugins DataLab : démarrage rapide, générateur de plugins, API des plugins, exemples et publication dans le catalogue de plugins" name="description" translated="True" />
+<meta content="DataLab, plugin, développement, datalab-plugin, générateur, PluginBase, rechargement à chaud, catalogue de plugins, Sigima" name="keywords" translated="True" />
+<meta property="og:title" content="Développer des plugins" />
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://datalab-platform.com/features/advanced/plugins/developing.html" />
+<meta property="og:site_name" content="DataLab" />
+<meta property="og:description" content="Cette page explique comment écrire un plugin, d’un simple fichier Python à un projet installable, et comment le publier dans le catalogue de plugins DataLab. Pour un parcours pas à pas, voir le tut..." />
+<meta property="og:image" content="https://raw.githubusercontent.com/DataLab-Platform/DataLab/main/doc/images/DataLab-banner.png" />
+<meta property="og:image:alt" content="DataLab" />
+
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-G8M9T0EGN0"></script>
+<script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag() { dataLayer.push(arguments); }
+    gtag('js', new Date());
+
+    gtag('config', 'G-G8M9T0EGN0');
+</script>
+
+
+    <title>Développer des plugins &#8212; DataLab</title>
+
+
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  <!--
+    this give us a css class that will be invisible only if js is disabled
+  -->
+  <noscript>
+    <style>
+      .pst-js-only { display: none !important; }
+
+    </style>
+  </noscript>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../../../_static/styles/theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+<link href="../../../_static/styles/pydata-sphinx-theme.css?digest=75c7c72ae941e8b558d8" rel="stylesheet" />
+
+    <link rel="stylesheet" type="text/css" href="../../../_static/pygments.css?v=8f2a1f02" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../../../_static/sphinx-design.min.css?v=6a604523" />
+  
+  <!-- So that users can add custom icons -->
+  <script defer src="../../../_static/scripts/fontawesome.js?digest=75c7c72ae941e8b558d8"></script>
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8" />
+<link rel="preload" as="script" href="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8" />
+
+    <script src="../../../_static/documentation_options.js?v=bd867006"></script>
+    <script src="../../../_static/doctools.js?v=fd6eb6e6"></script>
+    <script src="../../../_static/sphinx_highlight.js?v=6ffebe34"></script>
+    <script src="../../../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../../../_static/copybutton.js?v=f281be69"></script>
+    <script src="../../../_static/translations.js?v=e6b791cb"></script>
+    <script data-sd-tabs-storage-prefix="sphinx-design-tab-id-" src="../../../_static/design-tabs.js?v=fcb327ea"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'features/advanced/plugins/developing';</script>
+    <script>DOCUMENTATION_OPTIONS.search_as_you_type = false;</script>
+    <link rel="canonical" href="https://datalab-platform.com/features/advanced/plugins/developing.html" />
+    <link rel="icon" href="../../../_static/favicon.ico"/>
+    <link rel="index" title="Index" href="../../../genindex.html" />
+    <link rel="search" title="Recherche" href="../../../search.html" />
+    <link rel="next" title="Plugins d’application" href="applications.html" />
+    <link rel="prev" title="Déployer des plugins dans une organisation" href="deploying.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="color-scheme" content="light dark"/>
+  <meta name="docsearch:language" content="fr"/>
+  <meta name="docsearch:version" content="" />
+  
+    
+    <script src="../../../_static/searchtools.js"></script>
+    <script src="../../../_static/language_data.js"></script>
+    <script src="../../../searchindex.js"></script>
+  
+  </head>
+  <body data-default-mode="">
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Passer au contenu principal</a></div>
+
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Haut de page</button>
+  
+  
+  
+  
+  <dialog id="pst-search-dialog">
+    
+<form class="bd-search d-flex align-items-center"
+      action="../../../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         placeholder="Search the docs ..."
+         aria-label="Search the docs ..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form>
+  </dialog>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Alerte de version"></aside>
+</div>
+<aside class="bd-header-announcement" aria-label="Announcement">
+  <div class="bd-header-announcement__content">Retrouvez DataLab sur le stand CODRA à <a href='https://datalab-platform.com/fr/outreach/compute2026.html'>Compute! Paris 2026</a> (25–26 novembre) et en conférence à <a href='https://datalab-platform.com/fr/outreach/osxp2026.html'>OSXP 2026</a> (9 décembre).</div>
+</aside>
+
+  
+    <header id="pst-header" class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+<div class="bd-header__inner bd-page-width">
+  <button type="button" class="pst-navbar-icon sidebar-toggle primary-toggle" aria-label="Navigation dans le site" aria-expanded="false" aria-controls="pst-primary-sidebar-modal">
+    <span class="fa-solid fa-bars"></span>
+  </button>
+  
+  
+  <div class="col-lg-3 navbar-header-items__start">
+    
+      <div class="navbar-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../../../index.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-light" alt=""/>
+    <img src="../../../_static/DataLab-Title.svg" class="logo__image only-dark pst-js-only" alt=""/>
+  
+  
+    <p class="title logo__title">v1.4.1</p>
+  
+</a></div>
+    
+  </div>
+  
+  <div class="col-lg-9 navbar-header-items">
+    
+    <div class="me-auto navbar-header-items__center">
+      
+        <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+      
+    </div>
+    
+    
+    <div class="navbar-header-items__end">
+      
+        <div class="navbar-item navbar-persistent--container">
+          
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+        </div>
+      
+      
+        <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+      
+        <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Catalogue de plugins" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Catalogue de plugins</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+      
+    </div>
+    
+  </div>
+  
+  
+    <div class="navbar-persistent--mobile">
+
+<button type="button" class="btn btn-sm pst-navbar-icon search-button search-button__button pst-js-only" title="Recherche" aria-label="Recherche" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+</button>
+    </div>
+  
+
+  
+    <button type="button" class="pst-navbar-icon sidebar-toggle secondary-toggle" aria-label="Sur cette page" aria-expanded="false" aria-controls="pst-secondary-sidebar-modal">
+      <span class="fa-solid fa-outdent"></span>
+    </button>
+  
+</div>
+
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <dialog id="pst-primary-sidebar-modal" tabindex="-1"></dialog>
+      <div id="pst-primary-sidebar" class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+      <div class="sidebar-header-items__center">
+        
+          
+          
+            <div class="navbar-item">
+<nav>
+  <ul class="bd-navbar-elements navbar-nav">
+    
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../intro/index.html">
+    Premiers pas
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../use_cases/index.html">
+    Cas d’usage
+  </a>
+</li>
+
+
+<li class="nav-item current active">
+  <a class="nav-link nav-internal" href="../../index.html">
+    Fonctionnalités
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../contributing/index.html">
+    Contribuer
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../release_notes/index.html">
+    Notes de version
+  </a>
+</li>
+
+
+<li class="nav-item ">
+  <a class="nav-link nav-internal" href="../../../outreach/index.html">
+    Événements
+  </a>
+</li>
+
+  </ul>
+</nav></div>
+          
+        
+      </div>
+    
+    
+    
+      <div class="sidebar-header-items__end">
+        
+          <div class="navbar-item">
+
+<div class="theme-switch-container dropdown pst-js-only" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Thème">
+  <button type="button" class="btn btn-sm nav-link pst-navbar-icon theme-switch-button dropdown-toggle" aria-label="Thème" data-bs-toggle="dropdown">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light" title="Clair"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark" title="Sombre"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto" title="Paramètres système"></i>
+  </button>
+  <ul class="dropdown-menu dropdown-menu-end">
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="auto"><i class="fa-solid fa-circle-half-stroke fa-lg me-1"></i>Paramètres système</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="light"><i class="fa-solid fa-sun fa-lg me-1"></i>Clair</button></li>
+    <li><button type="button" class="dropdown-item d-flex align-items-center theme-change-button" data-mode="dark"><i class="fa-solid fa-moon fa-lg me-1"></i>Sombre</button></li>
+  </ul>
+</div></div>
+        
+          <div class="navbar-item"><ul class="navbar-icon-links"
+    aria-label="Icon Links">
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://github.com/DataLab-Platform/DataLab/" title="GitHub" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-brands fa-square-github fa-lg" aria-hidden="true"></i><span class="visually-hidden">GitHub</span></a>
+        </li>
+        <li class="nav-item">
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://datalab-platform.com/plugins/" title="Catalogue de plugins" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><i class="fa-solid fa-puzzle-piece fa-lg" aria-hidden="true"></i><span class="visually-hidden">Catalogue de plugins</span></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://pypi.org/project/datalab-platform" title="PyPI" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/pypi.svg" class="icon-link-image" alt="PyPI"/></a>
+        </li>
+        <li class="nav-item">
+            
+          
+          
+          
+          
+          
+          
+          
+          
+          
+          <a href="https://codra.net" title="CODRA" class="nav-link pst-navbar-icon" rel="noopener" target="_blank" data-bs-toggle="tooltip" data-bs-placement="bottom"><img src="../../../_static/codra.png" class="icon-link-image" alt="CODRA"/></a>
+        </li>
+</ul></div>
+        
+      </div>
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item pst-sidebar-collapse"><button type="button" id="pst-collapse-sidebar-button" aria-expanded="true" aria-controls="pst-primary-sidebar">
+  <svg class="pst-icon" role="img" aria-hidden="true" focusable="false" viewBox="0 0 16 16" xmlns="http://www.w3.org/2000/svg">
+    <path fill="currentColor" d="M3 15.5C2.36232 15.5 1.74874 15.2564 1.28478 14.8189C0.820828 14.3815 0.541576 13.7832 0.504167 13.1467L0.5 13L0.5 3C0.499965 2.36232 0.743605 1.74874 1.18107 1.28478C1.61854 0.820828 2.21676 0.541576 2.85333 0.504167L3 0.5L13 0.5C13.6377 0.499965 14.2513 0.743605 14.7152 1.18107C15.1792 1.61854 15.4584 2.21676 15.4958 2.85333L15.5 3L15.5 13C15.5 13.6377 15.2564 14.2513 14.8189 14.7152C14.3815 15.1792 13.7832 15.4584 13.1467 15.4958L13 15.5L3 15.5ZM3 13.8333L10.5 13.8333L10.5 2.16667L3 2.16667C2.79589 2.16669 2.59889 2.24163 2.44636 2.37726C2.29383 2.5129 2.19638 2.69979 2.1725 2.9025L2.16667 3L2.16667 13C2.16669 13.2041 2.24163 13.4011 2.37726 13.5536C2.5129 13.7062 2.69979 13.8036 2.9025 13.8275L3 13.8333ZM6.65583 10.325L6.5775 10.2558L4.91083 8.58917C4.76735 8.44567 4.68116 8.25476 4.66843 8.05223C4.65569 7.84971 4.71729 7.6495 4.84167 7.48917L4.91083 7.41083L6.5775 5.74417C6.72747 5.59471 6.9287 5.50794 7.14032 5.50148C7.35194 5.49502 7.55809 5.56935 7.7169 5.70937C7.8757 5.8494 7.97525 6.04463 7.99533 6.25539C8.01541 6.46616 7.95451 6.67667 7.825 6.84417L7.75583 6.9225L6.67917 8L7.75583 9.0775C7.89931 9.22099 7.98551 9.41191 7.99824 9.61443C8.01097 9.81695 7.94938 10.0172 7.825 10.1775L7.75583 10.2558C7.61234 10.3993 7.42142 10.4855 7.2189 10.4982C7.01638 10.511 6.81617 10.4494 6.65583 10.325Z"/>
+  </svg>
+  <span class="pst-collapse-sidebar-label">Réduire barre latérale</span>
+  <span class="pst-expand-sidebar-label">Développer barre latérale</span>
+</button></div>
+        <div class="sidebar-primary-item">
+
+<nav class="bd-docs-nav bd-links"
+     aria-label="Navigation dans la section">
+  <p class="bd-links__title" role="heading" aria-level="1">Navigation dans la section</p>
+  <div class="bd-toc-item navbar-nav"><p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités communes :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../common/overview.html">Vue d’ensemble</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/settings.html">Préférences</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/h5browser.html">Explorateur HDF5</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/historypanel.html">Panneau d’historique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/provenance.html">Provenance des résultats</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../common/capsules.html">Capsules d’espace de travail</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement du signal :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_file.html">Ouvrir et enregistrer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_create.html">Créer des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_operations.html">Opérations sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_processing.html">Traitement des signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_analysis.html">Analyse sur les signaux</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../signal/menu_view.html">Options d’affichage pour les signaux</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Traitement d'image :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_file.html">Ouvrir et enregistrer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_create.html">Créer des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_edit.html">Manipuler les métadonnées et les annotations</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_roi.html">Régions d’intérêt (ROI)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_operations.html">Opérations sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_processing.html">Traitement des images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_analysis.html">Analyse sur les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/menu_view.html">Options d’affichage pour les images</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/2d_peak_detection.html">Détection de pics 2D</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../image/contour_detection.html">Détection de contours</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Validation :</span></p>
+<ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../../validation/technical.html">Validation technique</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/functional.html">Validation fonctionnelle</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../validation/status.html">Etat de validation de DataLab</a></li>
+</ul>
+<p aria-level="2" class="caption" role="heading"><span class="caption-text">Fonctionnalités avancées :</span></p>
+<ul class="current nav bd-sidenav">
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="../plugins.html">Plugins</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="using.html">Installer et gérer des plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="deploying.html">Déployer des plugins dans une organisation</a></li>
+<li class="toctree-l2 current active"><a aria-current="page" class="current reference internal" href="#">Développer des plugins</a></li>
+<li class="toctree-l2"><a class="reference internal" href="applications.html">Plugins d’application</a></li>
+<li class="toctree-l2"><a class="reference internal" href="api.html">API publique</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1"><a class="reference internal" href="../migration_v020_to_v100.html">Migration de DataLab v0.20 vers v1.0</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../macros.html">Macros</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../ai_assistant.html">Assistant IA</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../webapi.html">API Web</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../remote.html">Contrôle à distance (XML-RPC)</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../model.html">Modèle de données interne</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../logviewer.html">Journaux de bord</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../instviewer.html">Installation et configuration</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../command.html">Fonctionnalités de la ligne de commande</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../api.html">API</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../proxy.html">Objets proxy (<code class="xref py py-mod docutils literal notranslate"><span class="pre">datalab.control.proxy</span></code>)</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/index.html">IHM</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/main.html">Main window</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/panel.html">Panel</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/actionhandler.html">Action handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectmodel.html">Object model</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/objectview.html">Object view</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/plothandler.html">Plot handler</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/roieditor.html">ROI editor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/processor.html">Processor</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/docks.html">Docks</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../api/h5io.html">HDF5 I/O</a></li>
+</ul>
+</details></li>
+</ul>
+</div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+      <div class="sidebar-primary-item">
+<div id="ethical-ad-placement"
+      class="flat"
+      data-ea-publisher="readthedocs"
+      data-ea-type="readthedocs-sidebar"
+      data-ea-manual="true">
+</div></div>
+  </div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item">
+
+<nav aria-label="Fil d'Ariane" class="d-print-none">
+  <ul class="bd-breadcrumbs">
+    
+    <li class="breadcrumb-item breadcrumb-home">
+      <a href="../../../index.html" class="nav-link" aria-label="Accueil">
+        <i class="fa-solid fa-house"></i>
+      </a>
+    </li>
+    
+    <li class="breadcrumb-item"><a href="../../index.html" class="nav-link">Fonctionnalités</a></li>
+    
+    
+    <li class="breadcrumb-item"><a href="../plugins.html" class="nav-link">Plugins</a></li>
+    
+    <li class="breadcrumb-item active" aria-current="page"><span class="ellipsis">Développer des plugins</span></li>
+  </ul>
+</nav>
+</div>
+      
+    </div>
+  
+  
+</div>
+</div>
+              
+              
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section id="developing-plugins">
+<span id="plugins-developing"></span><h1>Développer des plugins<a class="headerlink" href="#developing-plugins" title="Lien vers cette rubrique">#</a></h1>
+<p>Cette page explique comment écrire un plugin, d’un simple fichier Python à un projet installable, et comment le publier dans le <a class="reference external" href="https://datalab-platform.com/plugins/">catalogue de plugins DataLab</a>. Pour un parcours pas à pas, voir le tutoriel <a class="reference internal" href="../../../intro/tutorials/plugin_catalog.html#tutorial-plugin-catalog"><span class="std std-ref"> De l’idée au catalogue de plugins</span></a>.</p>
+<section id="your-first-plugin-in-five-minutes">
+<span id="plugin-quickstart"></span><h2>Votre premier plugin en cinq minutes<a class="headerlink" href="#your-first-plugin-in-five-minutes" title="Lien vers cette rubrique">#</a></h2>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code>, installée avec DataLab en tant que paquet Python, crée un plugin fonctionnel en un seul fichier :</p>
+<ol class="arabic">
+<li><p>Installez DataLab dans un environnement Python, par exemple avec <code class="docutils literal notranslate"><span class="pre">pip</span> <span class="pre">install</span> <span class="pre">datalab-platform</span></code> (voir <a class="reference internal" href="../../../intro/installation.html#installation"><span class="std std-ref">Installation</span></a>). La version autonome de DataLab ne fournit pas la commande <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code>.</p></li>
+<li><p>Créez le plugin, en indiquant son nom et une description d’une ligne lorsqu’ils sont demandés :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>datalab-plugin<span class="w"> </span>create
+</pre></div>
+</div>
+<p>La commande écrit un fichier <code class="docutils literal notranslate"><span class="pre">datalab_&lt;name&gt;.py</span></code> dans le répertoire des plugins utilisateur.</p>
+</li>
+<li><p>Démarrez DataLab, ou sélectionnez <strong>Plugins &gt; Recharger les plugins</strong> s’il est déjà lancé. Le menu <strong>Plugins</strong> contient alors un sous-menu portant le nom du plugin, avec un exemple de traitement des signaux sélectionnés.</p></li>
+<li><p>Ouvrez le fichier dans votre éditeur et modifiez la fonction <code class="docutils literal notranslate"><span class="pre">sample_processing</span></code>, qui reçoit les valeurs Y d’un signal sous forme de tableau NumPy et en renvoie de nouvelles. Sélectionnez <strong>Plugins &gt; Recharger les plugins</strong> pour essayer vos modifications, sans redémarrer DataLab.</p></li>
+</ol>
+<p>Ensuite, vous pouvez :</p>
+<ul class="simple">
+<li><p>partager le fichier avec vos collègues, qui l’installent avec <strong>Plugins &gt; Configurer les plugins… &gt; Depuis un fichier</strong> (voir <a class="reference internal" href="using.html#plugin-install-from-file"><span class="std std-ref">Onglet Depuis un fichier</span></a>) ;</p></li>
+<li><p>le publier dans le catalogue de plugins DataLab (voir <a class="reference internal" href="#plugin-publishing"><span class="std std-ref">Publier un plugin dans le catalogue</span></a>) ;</p></li>
+<li><p>pour un plugin plus important, avec packaging et tests, créer un projet structuré en couches (voir <a class="reference internal" href="#plugin-project"><span class="std std-ref">Créer un projet de plugin structuré en couches</span></a>).</p></li>
+</ul>
+</section>
+<section id="what-is-a-plugin">
+<h2>Qu’est-ce qu’un plugin ?<a class="headerlink" href="#what-is-a-plugin" title="Lien vers cette rubrique">#</a></h2>
+<p>Un plugin est du code Python qui est automatiquement chargé par DataLab au démarrage. Il peut définir de nouvelles fonctionnalités ou modifier des fonctionnalités existantes.</p>
+<p>Un plugin définit une classe qui <strong>hérite de</strong> <a class="reference internal" href="api.html#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a>, comporte un attribut de classe nommé <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> (une instance de <a class="reference internal" href="api.html#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></a>) et implémente la méthode <code class="docutils literal notranslate"><span class="pre">create_actions</span></code>. DataLab trouve cette classe dans un répertoire de plugins (voir <a class="reference internal" href="using.html#plugin-locations"><span class="std std-ref">Où est positionné un plugin ?</span></a>), sous l’une de ces deux formes :</p>
+<ul class="simple">
+<li><p><strong>Un fichier unique</strong> dont le nom <strong>commence par</strong> <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> (par exemple <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>) et qui contient la classe. C’est la forme la plus simple, recommandée pour débuter : <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span></code> crée un tel fichier, prêt à l’emploi (voir <a class="reference internal" href="#plugin-generator"><span class="std std-ref">Créer un plugin avec datalab-plugin create</span></a>).</p></li>
+<li><p><strong>Un dossier</strong> dont le nom commence par <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> et qui contient un fichier <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code> (un paquet Python, par exemple <code class="docutils literal notranslate"><span class="pre">datalab_myplugin/</span></code>). DataLab charge le dossier, puis son fichier <code class="docutils literal notranslate"><span class="pre">adapters/desktop.py</span></code> s’il existe : c’est là que les projets créés par <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span> <span class="pre">--project</span></code> définissent la classe (voir <a class="reference internal" href="#plugin-project"><span class="std std-ref">Créer un projet de plugin structuré en couches</span></a>). Sinon, la classe est définie dans <code class="docutils literal notranslate"><span class="pre">__init__.py</span></code>.</p></li>
+</ul>
+<p>Rien n’a besoin d’être installé : le fichier ou le dossier est chargé tel quel.</p>
+<p>Les plugins distribués sous forme de paquets Python installés, comme les wheels du catalogue de plugins, déclarent leur sous-classe de <code class="docutils literal notranslate"><span class="pre">PluginBase</span></code> via le groupe de points d’entrée <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code>, sans dépendre du préfixe <code class="docutils literal notranslate"><span class="pre">datalab_</span></code>. Un plugin trouvé des deux façons, par exemple un projet installé dont le dossier est aussi un répertoire de plugins, n’est chargé qu’une seule fois.</p>
+<p>L’objet <code class="docutils literal notranslate"><span class="pre">PLUGIN_INFO</span></code> doit définir un <code class="docutils literal notranslate"><span class="pre">id</span></code> unique, préfixé par un espace de noms, qui reste stable lorsque le nom affiché ou la classe d’implémentation changent. DataLab utilise cet identifiant pour l’enregistrement et pour les paramètres d’activation persistants. Les plugins sans identifiant restent pris en charge grâce à un repli fondé sur le module et la classe, pour assurer la rétrocompatibilité, mais les nouveaux plugins ne doivent pas s’appuyer sur ce repli.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">datalab.plugins</span><span class="w"> </span><span class="kn">import</span> <span class="n">PluginCapability</span><span class="p">,</span> <span class="n">PluginInfo</span>
+
+<span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">PluginInfo</span><span class="p">(</span>
+  <span class="nb">id</span><span class="o">=</span><span class="s2">"org.example.my-plugin"</span><span class="p">,</span>
+  <span class="n">name</span><span class="o">=</span><span class="s2">"My Plugin"</span><span class="p">,</span>
+  <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+  <span class="n">capabilities</span><span class="o">=</span><span class="p">(</span>
+    <span class="n">PluginCapability</span><span class="o">.</span><span class="n">APPLICATION</span><span class="p">,</span>
+    <span class="n">PluginCapability</span><span class="o">.</span><span class="n">PROCESSING</span><span class="p">,</span>
+  <span class="p">),</span>
+<span class="p">)</span>
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">capabilities</span></code> déclare comment DataLab peut présenter et utiliser un plugin. Les valeurs prises en charge sont <code class="docutils literal notranslate"><span class="pre">PROCESSING</span></code>, <code class="docutils literal notranslate"><span class="pre">IO</span></code>, <code class="docutils literal notranslate"><span class="pre">VISUALIZATION</span></code> et <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code>. Un plugin peut combiner plusieurs valeurs ; les applications métier déclarent généralement <code class="docutils literal notranslate"><span class="pre">APPLICATION</span></code> avec <code class="docutils literal notranslate"><span class="pre">PROCESSING</span></code>. La boîte de dialogue de configuration des plugins affiche les capacités déclarées dans un ordre stable. Les plugins existants qui omettent ce champ restent valides et sont affichés sans libellé de capacité.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Seuls les fichiers et dossiers dont les noms commencent par <code class="docutils literal notranslate"><span class="pre">datalab_</span></code> sont analysés pour les plugins.</p>
+</div>
+<p>DataLab prend en charge trois catégories de plugins, chacune ayant son propre objectif et mécanisme d’enregistrement :</p>
+<ul class="simple">
+<li><p><strong>Plugins de traitement et de visualisation</strong> Ajoutent des actions personnalisées pour le traitement des signaux ou des images. Cela peut inclure de nouvelles fonctions de calcul, des outils de visualisation de données ou des boîtes de dialogue interactives. Intégré dans un sous-menu dédié du menu « Plugins ».</p></li>
+<li><p><strong>Plugins d’entrée/sortie</strong> Définissent de nouveaux formats de fichiers (lecture et/ou écriture) gérés de manière transparente par le framework d’entrée/sortie de DataLab. Ces plugins étendent la compatibilité avec des formats de données personnalisés ou tiers.</p></li>
+<li><p><strong>Plugins HDF5</strong> Plugins spéciaux qui prennent en charge les fichiers HDF5 avec des structures d’arbre spécifiques au domaine. Ceux-ci permettent à DataLab d’interpréter des signaux ou des images organisés de manière non standard.</p></li>
+</ul>
+</section>
+<section id="source-organization-and-distribution">
+<span id="plugin-forms"></span><h2>Organisation du code source et distribution<a class="headerlink" href="#source-organization-and-distribution" title="Lien vers cette rubrique">#</a></h2>
+<p><strong>L’organisation du code source</strong>, le <strong>format de distribution</strong> et les <strong>capacités fonctionnelles</strong> sont des notions indépendantes. Un plugin en fichier unique et un plugin organisé en paquet Python utilisent la même API <a class="reference internal" href="api.html#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a> ; aucune de ces formes ne détermine s’il fournit des fonctions de traitement, d’entrée/sortie, de visualisation ou d’application.</p>
+<ul class="simple">
+<li><p><strong>Plugin en fichier unique :</strong> un module <code class="docutils literal notranslate"><span class="pre">datalab_&lt;nom&gt;.py</span></code>, facile à modifier et à partager sans projet de packaging. Cette forme historique est aussi celle produite par défaut par <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span></code> ; elle n’est pas obsolète.</p></li>
+<li><p><strong>Paquet ou projet :</strong> des modules Python et, éventuellement, des ressources, des tests et des métadonnées de packaging. <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span> <span class="pre">--project</span></code> propose une organisation en couches, pas une architecture obligatoire pour tous les plugins.</p></li>
+<li><p><strong>Distribution wheel :</strong> une archive <code class="docutils literal notranslate"><span class="pre">.whl</span></code> installable, contenant des métadonnées normalisées et des points d’entrée de plugins. Un wheel peut contenir un seul module ou un paquet plus important ; c’est un format de distribution, pas une catégorie fonctionnelle de plugin.</p></li>
+</ul>
+<p>Les modules en fichier unique et les wheels peuvent être installés avec <strong>Installer depuis un fichier…</strong> ou distribués dans les catalogues en ligne et locaux. Les catalogues n’imposent pas le projet en couches généré par <code class="docutils literal notranslate"><span class="pre">--project</span></code>. Empaqueter un module unique en wheel reste possible, mais est facultatif pour Desktop.</p>
+<div class="pst-scrollable-table-container"><table class="table" id="id8">
+<caption><span class="caption-text">Formes de développement et distribution</span><a class="headerlink" href="#id8" title="Lien vers ce tableau">#</a></caption>
+<colgroup>
+<col style="width: 28.0%" />
+<col style="width: 36.0%" />
+<col style="width: 36.0%" />
+</colgroup>
+<thead>
+<tr class="row-odd"><th class="head"><p>Forme de développement</p></th>
+<th class="head"><p>Chargement direct du code source</p></th>
+<th class="head"><p>Distribution gérée</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Fichier Python unique</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">datalab_&lt;nom&gt;.py</span></code> dans un répertoire de plugins</p></td>
+<td><p>Fichier <code class="docutils literal notranslate"><span class="pre">.py</span></code> brut, ou wheel facultatif</p></td>
+</tr>
+<tr class="row-odd"><td><p>Paquet ou projet Python</p></td>
+<td><p>Dossier du paquet, y compris l’organisation <code class="docutils literal notranslate"><span class="pre">src</span></code> d’un projet</p></td>
+<td><p>Wheel contenant le paquet et ses ressources</p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<p>Les deux formats gérés fonctionnent dans les catalogues locaux et en ligne de Desktop. La forme historique en fichier unique n’est pas une catégorie fonctionnelle distincte et son code source n’a pas besoin d’être modifié pour être référencé dans un catalogue. Une entrée dans un catalogue Desktop n’implique pas la prise en charge de DataLab-Web.</p>
+<p>Un fichier source chargé directement reste dans son répertoire de développement. Un fichier installé par DataLab est copié dans son stockage utilisateur géré. Un plugin n’est pas une macro : un plugin enregistre des fonctions persistantes dans l’application, tandis qu’une macro est un script exécuté pour automatiser une tâche. La prise en charge de la forme historique en fichier unique n’implique pas celle des API obsolètes de DataLab v0.20.</p>
+</section>
+<section id="creating-a-plugin-with-datalab-plugin-create">
+<span id="plugin-generator"></span><h2>Créer un plugin avec <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span></code><a class="headerlink" href="#creating-a-plugin-with-datalab-plugin-create" title="Lien vers cette rubrique">#</a></h2>
+<p>La commande <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code> est installée avec DataLab sous forme de paquet Python ; la version autonome de DataLab ne la fournit pas. Exécutez-la sans option pour créer un plugin en fichier unique :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>datalab-plugin<span class="w"> </span>create
+</pre></div>
+</div>
+<p>La commande demande seulement le nom du plugin et sa description, puis écrit un fichier <code class="docutils literal notranslate"><span class="pre">datalab_&lt;nom&gt;.py</span></code> dans le répertoire de plugins de l’utilisateur (voir <a class="reference internal" href="using.html#plugin-locations"><span class="std std-ref">Où est positionné un plugin ?</span></a>). Sélectionnez <strong>Plugins &gt; Recharger les plugins</strong> dans DataLab, ou redémarrez DataLab : le plugin ajoute son sous-menu au menu <strong>Plugins</strong>, avec un traitement d’exemple des signaux sélectionnés. Pour réaliser votre propre traitement, modifiez la fonction <code class="docutils literal notranslate"><span class="pre">sample_processing</span></code> du fichier, qui reçoit les valeurs Y d’un signal sous forme de tableau NumPy et en renvoie de nouvelles, puis rechargez les plugins.</p>
+<p>Des options adaptent le fichier généré :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">--object-kind</span> <span class="pre">image</span></code> : le traitement d’exemple s’applique aux images, et sa fonction reçoit les données de l’image.</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--capability</span></code> : sans la capacité <code class="docutils literal notranslate"><span class="pre">processing</span></code>, le sous-menu contient une action affichant un message, à remplacer par la vôtre.</p></li>
+<li><p>Un dossier de destination, donné en argument : il doit alors être ajouté aux répertoires de plugins (voir <a class="reference internal" href="using.html#plugin-search-paths"><span class="std std-ref">Onglet Avancé</span></a>).</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">--package</span></code> et <code class="docutils literal notranslate"><span class="pre">--plugin-id</span></code> : à défaut, le nom du module et l’ID du plugin sont déduits du nom du plugin. Le nom du module doit commencer par <code class="docutils literal notranslate"><span class="pre">datalab_</span></code>.</p></li>
+</ul>
+<p>Un fichier existant n’est jamais écrasé. Pour partager le plugin, envoyez son fichier : les autres utilisateurs l’installent avec <strong>Plugins &gt; Configurer les plugins… &gt; Depuis un fichier</strong> (voir <a class="reference internal" href="using.html#plugin-install-from-file"><span class="std std-ref">Onglet Depuis un fichier</span></a>).</p>
+<p>Le plugin brut en fichier unique et le wheel peuvent tous deux être publiés dans un catalogue Desktop (voir <a class="reference internal" href="deploying.html#plugin-module-catalog"><span class="std std-ref">Modules en fichier unique dans un catalogue</span></a>). Pour développer un plugin plus important avec le packaging et les tests déjà configurés, créez plutôt un projet structuré en couches avec <code class="docutils literal notranslate"><span class="pre">--project</span></code> (voir <a class="reference internal" href="#plugin-project"><span class="std std-ref">Créer un projet de plugin structuré en couches</span></a>).</p>
+</section>
+<section id="creating-a-layered-plugin-project">
+<span id="plugin-project"></span><h2>Créer un projet de plugin structuré en couches<a class="headerlink" href="#creating-a-layered-plugin-project" title="Lien vers cette rubrique">#</a></h2>
+<p>Avec <code class="docutils literal notranslate"><span class="pre">--project</span></code>, la commande installée <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span></code> crée un petit projet installable qui respecte les contrats stables des plugins et de propriété des fonctionnalités. Exécutez-la sans autre option pour une configuration interactive :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>datalab-plugin<span class="w"> </span>create<span class="w"> </span>--project
+</pre></div>
+</div>
+<p>La commande demande le nom d’affichage et le compte GitHub (utilisateur ou organisation) qui hébergera le projet, et propose des valeurs par défaut pour le package Python, l’ID de plugin en notation de domaine inversé, la description et la destination. L’ID de plugin par défaut est <code class="docutils literal notranslate"><span class="pre">io.github.&lt;compte&gt;.&lt;nom&gt;</span></code> ; les ID <code class="docutils literal notranslate"><span class="pre">org.datalab.</span></code> sont réservés à l’organisation DataLab-Platform, et <code class="docutils literal notranslate"><span class="pre">org.example.</span></code> est utilisé lorsqu’aucun compte n’est indiqué. Pour les scripts ou une configuration reproductible, indiquez explicitement les valeurs :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>datalab-plugin<span class="w"> </span>create<span class="w"> </span>--project<span class="w"> </span>datalab-camera-characterization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--name<span class="w"> </span><span class="s2">"Camera Characterization"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--github-account<span class="w"> </span>DataLab-Platform<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--package<span class="w"> </span>datalab_camera_characterization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--plugin-id<span class="w"> </span>org.datalab.camera-characterization<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--description<span class="w"> </span><span class="s2">"Characterize scientific cameras"</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--capability<span class="w"> </span>application<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--capability<span class="w"> </span>processing<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--object-kind<span class="w"> </span>image
+</pre></div>
+</div>
+<p>Le projet généré avec une organisation <code class="docutils literal notranslate"><span class="pre">src</span></code> applique l’architecture validée par le pilote Camera :</p>
+<div class="highlight-text notranslate"><div class="highlight"><pre><span></span>package root (host-independent identity)
+├── core
+├── workflow
+└── adapters
+    ├── desktop.py
+    └── web.py
+</pre></div>
+</div>
+<p><code class="docutils literal notranslate"><span class="pre">core</span></code> contient le comportement métier indépendant de l’hôte, <code class="docutils literal notranslate"><span class="pre">workflow</span></code> peut utiliser les contrats de recettes sans interface de DataLab et <code class="docutils literal notranslate"><span class="pre">adapters</span></code> gère l’intégration aux hôtes. Le point d’entrée <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code> cible l’adaptateur Desktop ; la prise en charge Web démarre explicitement avec le statut <code class="docutils literal notranslate"><span class="pre">unsupported</span></code> (voir <a class="reference internal" href="#plugins-web"><span class="std std-ref">Plugins et DataLab-Web</span></a>). Un test AST généré empêche <code class="docutils literal notranslate"><span class="pre">core</span></code> et <code class="docutils literal notranslate"><span class="pre">workflow</span></code> d’importer des modules d’interface graphique, de navigateur ou d’adaptateur.</p>
+<p>Le projet comprend également un <a class="reference internal" href="api.html#datalab.plugins.PluginInfo" title="datalab.plugins.PluginInfo"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginInfo</span></code></a> stable, un traitement d’exemple possédé lorsque la capacité <code class="docutils literal notranslate"><span class="pre">processing</span></code> est sélectionnée, une configuration Ruff, une documentation de l’architecture et des contributions, un changelog, un README et une licence BSD-3-Clause. La commande refuse d’écraser une destination existante.</p>
+<p>Le modèle reste volontairement réduit. Ajoutez des recettes métier, des paramètres DataSet, des exemples empaquetés et une intégration continue spécialisée uniquement lorsque le plugin en a besoin.</p>
+<p>Pour essayer le plugin, ajoutez le répertoire généré comme répertoire de plugins (voir <a class="reference internal" href="using.html#plugin-search-paths"><span class="std std-ref">Onglet Avancé</span></a>) et rechargez les plugins : DataLab charge la classe du plugin depuis <code class="docutils literal notranslate"><span class="pre">adapters/desktop.py</span></code> sans installer le projet. Pour valider le projet, installez-le avec ses dépendances de test et lancez ses vérifications depuis le répertoire généré :</p>
+<div class="highlight-bash notranslate"><div class="highlight"><pre><span></span>python<span class="w"> </span>-m<span class="w"> </span>pip<span class="w"> </span>install<span class="w"> </span>-e<span class="w"> </span><span class="s2">".[test]"</span>
+python<span class="w"> </span>-m<span class="w"> </span>pytest
+python<span class="w"> </span>-m<span class="w"> </span>ruff<span class="w"> </span>check<span class="w"> </span>.
+</pre></div>
+</div>
+<p>Le <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> généré exige Python 3.10 ou ultérieur et la version majeure courante de DataLab (par exemple <code class="docutils literal notranslate"><span class="pre">datalab-platform</span> <span class="pre">&gt;=</span> <span class="pre">1.4,</span> <span class="pre">&lt;</span> <span class="pre">2</span></code>), et déclare les URL du projet lorsque le compte GitHub est connu. Le fichier <code class="docutils literal notranslate"><span class="pre">.github/workflows/release.yml</span></code> généré publie le plugin sans compte PyPI : pousser une étiquette comme <code class="docutils literal notranslate"><span class="pre">v0.1.0</span></code> vérifie que l’étiquette correspond à la version de <code class="docutils literal notranslate"><span class="pre">pyproject.toml</span></code> et à celle du package, exécute les tests, construit le wheel, le publie dans une release GitHub avec sa somme de contrôle SHA-256 et son attestation de provenance, et affiche la fiche à soumettre au <a class="reference external" href="https://github.com/DataLab-Platform/plugins">catalogue de plugins DataLab</a>, avec l’empreinte SHA-256 du wheel. Une étiquette comme <code class="docutils literal notranslate"><span class="pre">v0.2.0-rc1</span></code> (version <code class="docutils literal notranslate"><span class="pre">0.2.0rc1</span></code>) publie une version candidate sous forme de pré-release GitHub, sans fiche pour le catalogue. Les utilisateurs installent ensuite le wheel avec <strong>Plugins &gt; Configurer les plugins… &gt; Depuis un fichier</strong> (voir <a class="reference internal" href="using.html#plugin-install-from-file"><span class="std std-ref">Onglet Depuis un fichier</span></a>). L’inscription du plugin au catalogue est facultative ; une fois inscrit, il peut aussi être installé depuis l’onglet <strong>Catalogue</strong> (voir <a class="reference internal" href="using.html#plugin-catalog"><span class="std std-ref">Onglet Catalogue</span></a>).</p>
+</section>
+<section id="hot-reload-workflow-for-plugin-development">
+<h2>Rechargement à chaud pour le développement de plugins<a class="headerlink" href="#hot-reload-workflow-for-plugin-development" title="Lien vers cette rubrique">#</a></h2>
+<p>La fonctionnalité de rechargement à chaud est conçue pour accélérer le cycle de développement des plugins. Voici le workflow recommandé :</p>
+<ol class="arabic simple">
+<li><p>Démarrer DataLab normalement.</p></li>
+<li><p>Créer ou modifier votre fichier plugin (par exemple <code class="docutils literal notranslate"><span class="pre">datalab_myplugin.py</span></code>) dans l’un des répertoires de plugins (par exemple <code class="docutils literal notranslate"><span class="pre">~/.DataLab_v1/plugins</span></code>).</p></li>
+<li><p>Dans DataLab, utiliser <strong>Plugins &gt; Recharger les plugins</strong> pour prendre en compte les modifications instantanément.</p></li>
+<li><p>Tester les actions du plugin directement dans l’application en cours d’exécution.</p></li>
+<li><p>Itérer : modifier le fichier, recharger, tester — sans redémarrer DataLab.</p></li>
+</ol>
+<p>Pour activer ou désactiver sélectivement des plugins pendant le développement, utiliser <strong>Plugins &gt; Configurer les plugins…</strong> et son bouton <strong>Appliquer et recharger les plugins</strong>, afin que les modifications prennent effet sans quitter la boîte de dialogue.</p>
+</section>
+<section id="plugin-api-helpers">
+<h2>Aides de l’API plugin<a class="headerlink" href="#plugin-api-helpers" title="Lien vers cette rubrique">#</a></h2>
+<p>Les plugins qui héritent de <a class="reference internal" href="api.html#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a> ont un accès direct à des aides utiles :</p>
+<ul class="simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">self.signalpanel</span></code> et <code class="docutils literal notranslate"><span class="pre">self.imagepanel</span></code> : accès aux API de panneaux et aux gestionnaires d’actions,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">self.proxy</span></code> : une instance de <a class="reference internal" href="../proxy.html#datalab.control.proxy.LocalProxy" title="datalab.control.proxy.LocalProxy"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.control.proxy.LocalProxy</span></code></a> pour créer des objets et lancer des traitements,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">show_warning</span></code>, <code class="docutils literal notranslate"><span class="pre">show_error</span></code>, <code class="docutils literal notranslate"><span class="pre">show_info</span></code>, <code class="docutils literal notranslate"><span class="pre">ask_yesno</span></code> : méthodes pratiques pour les boîtes de dialogue,</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">edit_new_signal_parameters</span></code> et <code class="docutils literal notranslate"><span class="pre">edit_new_image_parameters</span></code> : aides pour les boîtes de dialogue de paramètres d’objet.</p></li>
+</ul>
+<p>Ces aides simplifient le code des plugins et le maintiennent cohérent avec le comportement de DataLab.</p>
+<p>Les plugins de traitement doivent surcharger <code class="docutils literal notranslate"><span class="pre">register_computations()</span></code> et enregistrer chaque fonctionnalité avec un <code class="docutils literal notranslate"><span class="pre">feature_id</span></code> stable de la forme <code class="docutils literal notranslate"><span class="pre">&lt;plugin_id&gt;:&lt;local_id&gt;</span></code> et <code class="docutils literal notranslate"><span class="pre">owner_plugin_id=self.plugin_id</span></code>. DataLab appelle cette méthode une fois les panneaux Signal et Image créés. Les fonctionnalités détenues par le plugin sont supprimées automatiquement lorsque celui-ci est désactivé, rechargé ou désinstallé. <code class="docutils literal notranslate"><span class="pre">create_actions()</span></code> peut ensuite faire référence à la fonctionnalité enregistrée par son identifiant stable.</p>
+<p>Une fonctionnalité enregistrée exécute une fonction de calcul Sigima, décorée par <a class="reference external" href="https://sigima.readthedocs.io/en/latest/api/proc.html#sigima.proc.decorator.computation_function" title="(dans Sigima)"><code class="xref py py-func docutils literal notranslate"><span class="pre">sigima.proc.decorator.computation_function()</span></code></a>. Pour une fonctionnalité 1 vers 1 sans paramètre, le plus simple est d’envelopper une fonction traitant des tableaux NumPy avec <a class="reference external" href="https://sigima.readthedocs.io/en/latest/api/proc.html#sigima.proc.signal.Wrap1to1Func" title="(dans Sigima)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sigima.proc.signal.Wrap1to1Func</span></code></a> (valeurs Y d’un signal) ou <a class="reference external" href="https://sigima.readthedocs.io/en/latest/api/proc.html#sigima.proc.image.Wrap1to1Func" title="(dans Sigima)"><code class="xref py py-class docutils literal notranslate"><span class="pre">sigima.proc.image.Wrap1to1Func</span></code></a> (données d’une image), comme dans l’exemple de plugin de traitement (voir <a class="reference internal" href="#plugin-example-processing"><span class="std std-ref">Exemple : plugin de traitement</span></a>). DataLab refuse les autres fonctions dès leur enregistrement.</p>
+</section>
+<section id="live-preview-compatibility">
+<h2>Compatibilité avec l’aperçu interactif<a class="headerlink" href="#live-preview-compatibility" title="Lien vers cette rubrique">#</a></h2>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Les fonctions paramétrées standard enregistrées avec <code class="docutils literal notranslate"><span class="pre">register_1_to_1</span></code> peuvent utiliser l’aperçu interactif sans moteur de rendu personnalisé. Elles doivent retourner un <code class="docutils literal notranslate"><span class="pre">SignalObj</span></code> ou un <code class="docutils literal notranslate"><span class="pre">ImageObj</span></code>, être importables dans un processus démarré par spawn et accepter des copies sérialisables des sources et paramètres. L’aperçu utilise un processus privé et ne publie aucun résultat dans l’espace de travail. Il ne protège pas des effets externes sur les fichiers, le réseau ou d’autres ressources. Enregistrez les fonctions qui ne doivent pas être exécutées provisoirement avec <code class="docutils literal notranslate"><span class="pre">preview_enabled=False</span></code>. Les erreurs de sérialisation ou de calcul sont signalées dans l’aperçu ; le chemin normal via OK reste disponible. Les implémentations personnalisées de <code class="docutils literal notranslate"><span class="pre">DataSet.edit</span></code> non prises en charge et les backends alternatifs de guidata ne sont pas remplacés.</p>
+<p>Le processus dédié à l’aperçu peut être réutilisé entre les boîtes de dialogue. Les fonctions des plugins ne doivent pas supposer qu’un nouvel interpréteur Python est créé pour chaque aperçu : l’état local des modules dans le processus peut persister jusqu’à ce qu’un aperçu en cours soit annulé, que les plugins soient rechargés ou que DataLab se ferme.</p>
+</div>
+</section>
+<section id="how-to-develop-a-plugin">
+<h2>Comment développer un plugin ?<a class="headerlink" href="#how-to-develop-a-plugin" title="Lien vers cette rubrique">#</a></h2>
+<p>La méthode recommandée pour développer un plugin est de dériver d’un exemple existant et de l’adapter à vos besoins. Vous pouvez explorer le code source dans le dossier <cite>datalab/plugins/builtin</cite>, les exemples ci-dessous ou les plugins du catalogue de plugins DataLab (voir <a class="reference internal" href="#plugin-catalog-examples"><span class="std std-ref">Plugins du catalogue</span></a>).</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>La plupart des fonctionnalités de traitement des signaux et des images de DataLab ont été externalisées dans une bibliothèque dédiée appelée <strong>Sigima</strong> (<a class="reference external" href="https://sigima.readthedocs.io/fr/latest/">https://sigima.readthedocs.io/fr/latest/</a>). Lors du développement de plugins DataLab, vous importerez et utiliserez généralement de nombreuses fonctions et fonctionnalités de Sigima pour effectuer des tâches de traitement, d’analyse et de visualisation des données. Sigima fournit un ensemble complet d’outils pour la manipulation des données scientifiques qui peut être exploité directement dans vos plugins.</p>
+</div>
+<p>Pour développer dans votre environnement Python habituel (par exemple, avec un IDE comme <a class="reference external" href="https://www.spyder-ide.org/">Spyder</a>), vous pouvez :</p>
+<ol class="arabic simple">
+<li><p><strong>Installer DataLab dans votre environnement Python</strong>, en utilisant l’une des méthodes suivantes :</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="../../../intro/installation.html#install-conda"><span class="std std-ref">Paquet Conda</span></a></p></li>
+<li><p><a class="reference internal" href="../../../intro/installation.html#install-pip"><span class="std std-ref">Gestionnaire de paquets pip</span></a></p></li>
+<li><p><a class="reference internal" href="../../../intro/installation.html#install-wheel"><span class="std std-ref">Paquet Wheel</span></a></p></li>
+<li><p><a class="reference internal" href="../../../intro/installation.html#install-source"><span class="std std-ref">Paquet source</span></a></p></li>
+</ul>
+</li>
+<li><p><strong>Ou ajoutez manuellement le package `datalab` à votre chemin Python</strong> :</p>
+<ul class="simple">
+<li><p>Téléchargez le code source depuis la <a class="reference external" href="https://pypi.org/project/datalab-platform/">page PyPI</a>,</p></li>
+<li><p>Décompressez l’archive,</p></li>
+<li><p>Ajoutez le répertoire parent contenant le paquet <cite>datalab</cite> à votre PYTHONPATH (par exemple avec le <em>Gestionnaire PYTHONPATH</em> de Spyder). Installez séparément les dépendances du projet.</p></li>
+</ul>
+</li>
+</ol>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>Même si vous avez installé <cite>datalab</cite> dans votre environnement, vous ne pouvez pas exécuter l’application DataLab complète directement depuis un IDE. Vous devez lancer DataLab via la ligne de commande ou en utilisant le raccourci créé par l’installateur pour tester correctement votre plugin.</p>
+</div>
+</section>
+<section id="plugins-of-the-catalog">
+<span id="plugin-catalog-examples"></span><h2>Plugins du catalogue<a class="headerlink" href="#plugins-of-the-catalog" title="Lien vers cette rubrique">#</a></h2>
+<p>Les plugins du <a class="reference external" href="https://datalab-platform.com/plugins/">catalogue de plugins DataLab</a> sont open source et montrent des implémentations complètes et testées :</p>
+<ul class="simple">
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/datalab-camera-characterization">Camera &amp; Detector Characterization</a>, <a class="reference external" href="https://github.com/DataLab-Platform/datalab-pulse-characterization">Pulse &amp; Transient Characterization</a> et <a class="reference external" href="https://github.com/DataLab-Platform/datalab-radiography">X-ray Radiography &amp; NDT</a> : plugins d’application avec recettes sans interface graphique, exemples packagés, simulateurs et tuiles de la page d’accueil (voir <a class="reference internal" href="applications.html#plugins-applications"><span class="std std-ref">Plugins d’application</span></a>), pour DataLab Desktop et DataLab-Web. Leurs couches <code class="docutils literal notranslate"><span class="pre">core</span></code>, <code class="docutils literal notranslate"><span class="pre">workflow</span></code> et <code class="docutils literal notranslate"><span class="pre">adapters</span></code> sont celles générées par <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span> <span class="pre">--project</span></code> (voir <a class="reference internal" href="#plugin-project"><span class="std std-ref">Créer un projet de plugin structuré en couches</span></a>).</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/datalab-synchrotron">Synchrotron Beamline Data</a> : un plugin de démonstration ajoutant des formats de fichiers (fichiers SPEC et XDI) et une analyse de données de ligne de lumière.</p></li>
+<li><p><a class="reference external" href="https://github.com/DataLab-Platform/datalab-tango">TANGO Instruments</a> : un plugin de démonstration acquérant les attributs d’appareils TANGO dans une fenêtre d’instrument, et nécessitant un paquet que les utilisateurs installent dans l’environnement Python de DataLab.</p></li>
+</ul>
+</section>
+<section id="example-processing-plugin">
+<span id="plugin-example-processing"></span><h2>Exemple : plugin de traitement<a class="headerlink" href="#example-processing-plugin" title="Lien vers cette rubrique">#</a></h2>
+<p>Cet exemple enregistre une fonctionnalité de traitement dotée d’une identité stable et d’un propriétaire, puis crée une action qui l’exécute via le registre du processeur :</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+
+<span class="sd">"""</span>
+<span class="sd">Custom denoising filter plugin</span>
+<span class="sd">==============================</span>
+
+<span class="sd">This is a simple example of a DataLab image processing plugin.</span>
+
+<span class="sd">It is part of the DataLab custom function tutorial.</span>
+
+<span class="sd">.. note::</span>
+
+<span class="sd">    This plugin is not installed by default. To install it, copy this file to</span>
+<span class="sd">    your DataLab plugins directory (see `DataLab documentation</span>
+<span class="sd">    &lt;https://datalab-platform.com/en/features/advanced/plugins.html&gt;`_).</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">scipy.ndimage</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">spi</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sigima.proc.image</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sipi</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">datalab.plugins</span>
+
+
+<span class="k">def</span><span class="w"> </span><span class="nf">weighted_average_denoise</span><span class="p">(</span><span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Apply a custom denoising filter to an image.</span>
+
+<span class="sd">    This filter averages the pixels in a 5x5 neighborhood, but gives less weight</span>
+<span class="sd">    to pixels that significantly differ from the central pixel.</span>
+<span class="sd">    """</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">filter_func</span><span class="p">(</span><span class="n">values</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">float</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Filter function"""</span>
+        <span class="n">central_pixel</span> <span class="o">=</span> <span class="n">values</span><span class="p">[</span><span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">//</span> <span class="mi">2</span><span class="p">]</span>
+        <span class="n">differences</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">values</span> <span class="o">-</span> <span class="n">central_pixel</span><span class="p">)</span>
+        <span class="n">mean_difference</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">differences</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">mean_difference</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">return</span> <span class="n">central_pixel</span>
+        <span class="n">weights</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">differences</span> <span class="o">/</span> <span class="n">mean_difference</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">average</span><span class="p">(</span><span class="n">values</span><span class="p">,</span> <span class="n">weights</span><span class="o">=</span><span class="n">weights</span><span class="p">)</span>
+
+    <span class="k">return</span> <span class="n">spi</span><span class="o">.</span><span class="n">generic_filter</span><span class="p">(</span><span class="n">data</span><span class="p">,</span> <span class="n">filter_func</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">5</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">CustomFilters</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""DataLab Custom Filters Plugin"""</span>
+
+    <span class="n">FEATURE_ID</span> <span class="o">=</span> <span class="s2">"org.datalab.examples.custom-filters:weighted-average-denoise"</span>
+    <span class="n">PLUGIN_INFO</span> <span class="o">=</span> <span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginInfo</span><span class="p">(</span>
+        <span class="nb">id</span><span class="o">=</span><span class="s2">"org.datalab.examples.custom-filters"</span><span class="p">,</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"My custom filters"</span><span class="p">,</span>
+        <span class="n">version</span><span class="o">=</span><span class="s2">"1.0.0"</span><span class="p">,</span>
+        <span class="n">description</span><span class="o">=</span><span class="s2">"This is an example plugin"</span><span class="p">,</span>
+        <span class="n">capabilities</span><span class="o">=</span><span class="p">(</span><span class="n">datalab</span><span class="o">.</span><span class="n">plugins</span><span class="o">.</span><span class="n">PluginCapability</span><span class="o">.</span><span class="n">PROCESSING</span><span class="p">,),</span>
+    <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">register_computations</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Register computations owned by this plugin."""</span>
+        <span class="n">wrapped_func</span> <span class="o">=</span> <span class="n">sipi</span><span class="o">.</span><span class="n">Wrap1to1Func</span><span class="p">(</span><span class="n">weighted_average_denoise</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">processor</span><span class="o">.</span><span class="n">register_1_to_1</span><span class="p">(</span>
+            <span class="n">wrapped_func</span><span class="p">,</span>
+            <span class="s2">"Weighted average denoise"</span><span class="p">,</span>
+            <span class="n">feature_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">FEATURE_ID</span><span class="p">,</span>
+            <span class="n">owner_plugin_id</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">plugin_id</span><span class="p">,</span>
+        <span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">create_actions</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Create actions"""</span>
+        <span class="n">acth</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">imagepanel</span><span class="o">.</span><span class="n">acthandler</span>
+        <span class="k">with</span> <span class="n">acth</span><span class="o">.</span><span class="n">new_menu</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">PLUGIN_INFO</span><span class="o">.</span><span class="n">name</span><span class="p">):</span>
+            <span class="n">acth</span><span class="o">.</span><span class="n">action_for</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">FEATURE_ID</span><span class="p">)</span>
+</pre></div>
+</div>
+</section>
+<section id="example-input-output-plugin">
+<h2>Exemple : plugin d’entrée/sortie<a class="headerlink" href="#example-input-output-plugin" title="Lien vers cette rubrique">#</a></h2>
+<p>Voici un exemple simple d’un plugin qui ajoute de nouveaux formats de fichiers à DataLab.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="c1"># Copyright (c) DataLab Platform Developers, BSD 3-Clause license, see LICENSE file.</span>
+
+<span class="sd">"""</span>
+<span class="sd">Image file formats Plugin for DataLab</span>
+<span class="sd">-------------------------------------</span>
+
+<span class="sd">This plugin is an example of DataLab plugin.</span>
+<span class="sd">It provides image file formats from cameras, scanners, and other acquisition devices.</span>
+<span class="sd">"""</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">struct</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">FormatInfo</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">sigima.io.image.base</span><span class="w"> </span><span class="kn">import</span> <span class="n">SingleImageFormatBase</span>
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Thales Pixium FXD file format</span>
+<span class="c1"># ==============================================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXDFile</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">"""Class implementing Thales Pixium FXD Image file reading feature</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        fname (str): path to FXD file</span>
+<span class="sd">        debug (bool): debug mode</span>
+<span class="sd">    """</span>
+
+    <span class="n">HEADER</span> <span class="o">=</span> <span class="s2">"&lt;llllllffl"</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">debug</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span> <span class="o">=</span> <span class="n">debug</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">file_format</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># float</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span> <span class="o">=</span> <span class="kc">None</span>  <span class="c1"># long</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">fname</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="kc">None</span>
+        <span class="k">if</span> <span class="n">fname</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">load</span><span class="p">(</span><span class="n">fname</span><span class="p">)</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Return a string representation of the object"""</span>
+        <span class="n">info</span> <span class="o">=</span> <span class="p">(</span>
+            <span class="p">(</span><span class="s2">"Image width"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Image Height"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Frame number"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"File format"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Pixel type"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Quantlevels"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Min. level"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Max. level"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="si">:</span><span class="s2">f</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+            <span class="p">(</span><span class="s2">"Comment length"</span><span class="p">,</span> <span class="sa">f</span><span class="s2">"</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="si">:</span><span class="s2">d</span><span class="si">}</span><span class="s2">"</span><span class="p">),</span>
+        <span class="p">)</span>
+        <span class="n">desc_len</span> <span class="o">=</span> <span class="nb">max</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">d</span><span class="p">)</span> <span class="k">for</span> <span class="n">d</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="o">*</span><span class="n">info</span><span class="p">))[</span><span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="mi">3</span>
+        <span class="n">res</span> <span class="o">=</span> <span class="s2">""</span>
+        <span class="k">for</span> <span class="n">description</span><span class="p">,</span> <span class="n">value</span> <span class="ow">in</span> <span class="n">info</span><span class="p">:</span>
+            <span class="n">res</span> <span class="o">+=</span> <span class="p">(</span><span class="s2">"{:"</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">desc_len</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"}</span><span class="si">{}</span><span class="se">\n</span><span class="s2">"</span><span class="p">)</span><span class="o">.</span><span class="n">format</span><span class="p">(</span><span class="n">description</span> <span class="o">+</span> <span class="s2">": "</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+
+        <span class="n">res</span> <span class="o">=</span> <span class="nb">object</span><span class="o">.</span><span class="fm">__repr__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">+</span> <span class="s2">"</span><span class="se">\n</span><span class="s2">"</span> <span class="o">+</span> <span class="n">res</span>
+        <span class="k">return</span> <span class="n">res</span>
+
+    <span class="k">def</span><span class="w"> </span><span class="nf">load</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">fname</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Load header and image pixel data</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            fname (str): path to FXD file</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">fname</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">data_file</span><span class="p">:</span>
+            <span class="n">header_s</span> <span class="o">=</span> <span class="n">struct</span><span class="o">.</span><span class="n">Struct</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">HEADER</span><span class="p">)</span>
+            <span class="n">record</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">9</span> <span class="o">*</span> <span class="mi">4</span><span class="p">)</span>
+            <span class="n">unpacked_rec</span> <span class="o">=</span> <span class="n">header_s</span><span class="o">.</span><span class="n">unpack</span><span class="p">(</span><span class="n">record</span><span class="p">)</span>
+            <span class="p">(</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">file_format</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">nbframes</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">quantlevels</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">maxlevel</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">minlevel</span><span class="p">,</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="p">,</span>
+            <span class="p">)</span> <span class="o">=</span> <span class="n">unpacked_rec</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">__debug</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="n">unpacked_rec</span><span class="p">)</span>
+                <span class="nb">print</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
+            <span class="n">data_file</span><span class="o">.</span><span class="n">seek</span><span class="p">(</span><span class="mi">128</span> <span class="o">+</span> <span class="bp">self</span><span class="o">.</span><span class="n">comment_length</span><span class="p">)</span>
+            <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">4</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">float32</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">2</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint16</span>
+            <span class="k">elif</span> <span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span> <span class="o">==</span> <span class="mi">2</span><span class="p">:</span>
+                <span class="n">size</span><span class="p">,</span> <span class="n">dtype</span> <span class="o">=</span> <span class="mi">1</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">uint8</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">NotImplementedError</span><span class="p">(</span><span class="sa">f</span><span class="s2">"Unsupported pixel type: </span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">pixeltype</span><span class="si">}</span><span class="s2">"</span><span class="p">)</span>
+            <span class="n">block</span> <span class="o">=</span> <span class="n">data_file</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span> <span class="o">*</span> <span class="n">size</span><span class="p">)</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">frombuffer</span><span class="p">(</span><span class="n">block</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">dtype</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">data</span><span class="o">.</span><span class="n">reshape</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">nbrows</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">nbcols</span><span class="p">)</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">FXDImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Object representing Thales Pixium (FXD) image file type"""</span>
+
+    <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Thales Pixium"</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">"*.fxd"</span><span class="p">,</span>
+        <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">writeable</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Read data and return it</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to FXD file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: image data</span>
+<span class="sd">        """</span>
+        <span class="n">fxd_file</span> <span class="o">=</span> <span class="n">FXDFile</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">fxd_file</span><span class="o">.</span><span class="n">data</span>
+
+
+<span class="c1"># ==============================================================================</span>
+<span class="c1"># Dürr NDT XYZ file format</span>
+<span class="c1"># ==============================================================================</span>
+
+
+<span class="k">class</span><span class="w"> </span><span class="nc">XYZImageFormat</span><span class="p">(</span><span class="n">SingleImageFormatBase</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">"""Object representing Dürr NDT XYZ image file type"""</span>
+
+    <span class="n">FORMAT_INFO</span> <span class="o">=</span> <span class="n">FormatInfo</span><span class="p">(</span>
+        <span class="n">name</span><span class="o">=</span><span class="s2">"Dürr NDT"</span><span class="p">,</span>
+        <span class="n">extensions</span><span class="o">=</span><span class="s2">"*.xyz"</span><span class="p">,</span>
+        <span class="n">readable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+        <span class="n">writeable</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+    <span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">read_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Read data and return it</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename (str): path to XYZ file</span>
+
+<span class="sd">        Returns:</span>
+<span class="sd">            np.ndarray: image data</span>
+<span class="sd">        """</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"rb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+            <span class="n">cols</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">rows</span> <span class="o">=</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fromfile</span><span class="p">(</span><span class="n">fdesc</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">,</span> <span class="n">count</span><span class="o">=</span><span class="n">cols</span> <span class="o">*</span> <span class="n">rows</span><span class="p">)</span>
+            <span class="n">arr</span> <span class="o">=</span> <span class="n">arr</span><span class="o">.</span><span class="n">reshape</span><span class="p">((</span><span class="n">rows</span><span class="p">,</span> <span class="n">cols</span><span class="p">))</span>
+        <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">arr</span><span class="p">)</span>
+
+    <span class="nd">@staticmethod</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">write_data</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">data</span><span class="p">:</span> <span class="n">np</span><span class="o">.</span><span class="n">ndarray</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">        </span><span class="sd">"""Write data to file</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            filename: File name</span>
+<span class="sd">            data: Image array data</span>
+<span class="sd">        """</span>
+        <span class="n">data</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">fliplr</span><span class="p">(</span><span class="n">data</span><span class="p">)</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span> <span class="s2">"wb"</span><span class="p">)</span> <span class="k">as</span> <span class="n">fdesc</span><span class="p">:</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">],</span> <span class="n">dtype</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">uint16</span><span class="p">)</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+            <span class="n">fdesc</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="n">data</span><span class="o">.</span><span class="n">tobytes</span><span class="p">())</span>
+</pre></div>
+</div>
+</section>
+<section id="example-templates-used-by-the-test-suite">
+<h2>Exemples de modèles utilisés par la suite de tests<a class="headerlink" href="#example-templates-used-by-the-test-suite" title="Lien vers cette rubrique">#</a></h2>
+<p>DataLab fournit aussi des modèles de plugins utilisés par les tests d’intégration dans <code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/templates</span></code>. Ils servent de références de développement pour :</p>
+<ul class="simple">
+<li><p>une structure de plugin valide de base,</p></li>
+<li><p>une fonctionnalité de traitement fournie par un plugin (<code class="docutils literal notranslate"><span class="pre">register_computations</span></code>),</p></li>
+<li><p>des menus de plugin imbriqués,</p></li>
+<li><p>des plugins avec actions de boîtes de dialogue,</p></li>
+<li><p>des plugins avec de nombreuses actions,</p></li>
+<li><p>des plugins avec de longues descriptions.</p></li>
+</ul>
+<p>Les tests fonctionnels correspondants sont dans <code class="docutils literal notranslate"><span class="pre">datalab/tests/features/plugins/plugins_app_test.py</span></code> et couvrent le cycle de vie des plugins, le rechargement à chaud, la gestion des erreurs, les noms en doublon et le filtrage de configuration.</p>
+</section>
+<section id="other-examples">
+<h2>Autres exemples<a class="headerlink" href="#other-examples" title="Lien vers cette rubrique">#</a></h2>
+<p>D’autres exemples de plugins peuvent être trouvés dans le répertoire <cite>plugins/examples</cite> du code source de DataLab (explorez <a class="reference external" href="https://github.com/DataLab-Platform/DataLab/tree/main/plugins/examples">ici sur GitHub</a>).</p>
+</section>
+<section id="publishing-a-plugin-in-the-catalog">
+<span id="plugin-publishing"></span><h2>Publier un plugin dans le catalogue<a class="headerlink" href="#publishing-a-plugin-in-the-catalog" title="Lien vers cette rubrique">#</a></h2>
+<p>Tout auteur peut référencer un plugin dans le <a class="reference external" href="https://datalab-platform.com/plugins/">catalogue de plugins DataLab</a>, afin que les utilisateurs de DataLab le trouvent et l’installent depuis l’onglet <strong>Catalogue</strong> (voir <a class="reference internal" href="using.html#plugin-catalog"><span class="std std-ref">Onglet Catalogue</span></a>). Aucun compte PyPI n’est nécessaire :</p>
+<ol class="arabic simple">
+<li><p>Hébergez le code source dans un dépôt GitHub public, sous une licence open source approuvée par l’OSI.</p></li>
+<li><p>Joignez le fichier du plugin à une release GitHub : le fichier <code class="docutils literal notranslate"><span class="pre">datalab_&lt;name&gt;.py</span></code> inchangé d’un plugin en un seul fichier, ou le wheel d’un projet de plugin, que le workflow de release généré par <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span> <span class="pre">--project</span></code> construit et publie.</p></li>
+<li><p>Ouvrez une pull request ajoutant un fichier YAML, qui décrit le plugin et sa release, au <a class="reference external" href="https://github.com/DataLab-Platform/plugins">dépôt du catalogue</a>. Ses vérifications automatiques téléchargent le fichier du plugin, vérifient son empreinte SHA-256 et l’inspectent sans l’exécuter.</p></li>
+</ol>
+<p>Une fois la pull request fusionnée, le plugin apparaît sur la page du catalogue et dans l’onglet <strong>Catalogue</strong> de DataLab, avec la mention <strong>Communauté</strong> : la mention <strong>Officiel</strong> est réservée aux plugins de l’équipe DataLab. Le tutoriel <a class="reference internal" href="../../../intro/tutorials/plugin_catalog.html#tutorial-plugin-catalog"><span class="std std-ref"> De l’idée au catalogue de plugins</span></a> détaille chaque étape, et le <a class="reference external" href="https://github.com/DataLab-Platform/plugins/blob/main/CONTRIBUTING.md">guide de contribution</a> en donne les règles complètes.</p>
+</section>
+<section id="plugins-and-datalab-web">
+<span id="plugins-web"></span><h2>Plugins et DataLab-Web<a class="headerlink" href="#plugins-and-datalab-web" title="Lien vers cette rubrique">#</a></h2>
+<p><a class="reference internal" href="../../../intro/ecosystem.html#ecosystem"><span class="std std-ref">DataLab-Web</span></a>, l’édition de la plateforme qui s’exécute nativement dans le navigateur, fournit sa propre implémentation de l’API <a class="reference internal" href="api.html#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a>, qui diffère de celle de DataLab Desktop. Un plugin de traitement simple utilisant l’API commune peut fonctionner dans les deux éditions ; les plugins utilisant des fonctionnalités propres à l’hôte définissent généralement une classe distincte pour chacune d’elles :</p>
+<ul>
+<li><p><strong>Un point d’entrée par édition.</strong> Un wheel déclare sa classe Desktop dans le groupe de points d’entrée <code class="docutils literal notranslate"><span class="pre">datalab.plugins</span></code> et sa classe DataLab-Web dans le groupe <code class="docutils literal notranslate"><span class="pre">datalab.web_plugins</span></code> : le navigateur n’importe que les classes du groupe <code class="docutils literal notranslate"><span class="pre">datalab.web_plugins</span></code>. Les deux points d’entrée peuvent désigner une même classe portable ou des classes distinctes, qui peuvent partager le code du plugin indépendant de l’hôte, comme les couches <code class="docutils literal notranslate"><span class="pre">core</span></code> et <code class="docutils literal notranslate"><span class="pre">workflow</span></code> d’un projet créé par <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span> <span class="pre">--project</span></code>, dont le module <code class="docutils literal notranslate"><span class="pre">adapters/web.py</span></code> démarre avec le statut non pris en charge, sans point d’entrée Web :</p>
+<div class="highlight-toml notranslate"><div class="highlight"><pre><span></span><span class="k">[project.entry-points.</span><span class="s2">"datalab.plugins"</span><span class="k">]</span>
+<span class="n">my_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"my_package.adapters.desktop:MyDesktopPlugin"</span>
+
+<span class="k">[project.entry-points.</span><span class="s2">"datalab.web_plugins"</span><span class="k">]</span>
+<span class="n">my_plugin</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="s2">"my_package.adapters.web:MyWebPlugin"</span>
+</pre></div>
+</div>
+</li>
+<li><p><strong>Enregistrement des traitements et limites du navigateur.</strong> DataLab-Web prend en charge <code class="docutils literal notranslate"><span class="pre">register_computations()</span></code> et <code class="docutils literal notranslate"><span class="pre">action_for()</span></code> pour les plugins de traitement simples, y compris ceux créés par le générateur de plugins en un seul fichier. Les tuiles de la page d’accueil Desktop (<code class="docutils literal notranslate"><span class="pre">WELCOME_TILES</span></code>) sont ignorées avec un avertissement, et les lanceurs de recettes (<code class="docutils literal notranslate"><span class="pre">RECIPE_LAUNCHERS</span></code>) empêchent le chargement du plugin. Les méthodes Desktop pour les recettes ou les exemples (<code class="docutils literal notranslate"><span class="pre">start_recipe</span></code>, <code class="docutils literal notranslate"><span class="pre">try_example</span></code>, <code class="docutils literal notranslate"><span class="pre">open_example</span></code>, etc.) ne sont pas disponibles. Une classe DataLab-Web peut déclarer des recettes sans interface graphique, des exemples et des outils (<code class="docutils literal notranslate"><span class="pre">RECIPES</span></code>, <code class="docutils literal notranslate"><span class="pre">EXAMPLES</span></code> et <code class="docutils literal notranslate"><span class="pre">TOOLS</span></code>), que DataLab-Web présente et exécute lui-même.</p></li>
+<li><p><strong>Les boîtes de dialogue asynchrones sont spécifiques à DataLab-Web.</strong> Dans le navigateur, une boîte de dialogue ne peut pas bloquer la boucle d’événements : les plugins DataLab-Web utilisent des fonctions de rappel d’action <code class="docutils literal notranslate"><span class="pre">async</span></code>, <code class="docutils literal notranslate"><span class="pre">await</span> <span class="pre">param.edit_async(self.main)</span></code> et les fonctions utilitaires <code class="docutils literal notranslate"><span class="pre">*_async</span></code> de leur classe de base (comme <code class="docutils literal notranslate"><span class="pre">show_info_async</span></code> ou <code class="docutils literal notranslate"><span class="pre">edit_new_signal_parameters_async</span></code>). DataLab Desktop n’exécute pas les fonctions de rappel d’action <code class="docutils literal notranslate"><span class="pre">async</span></code> (l’action ne fait alors rien), et sa classe <a class="reference internal" href="api.html#datalab.plugins.PluginBase" title="datalab.plugins.PluginBase"><code class="xref py py-class docutils literal notranslate"><span class="pre">datalab.plugins.PluginBase</span></code></a> ne dispose d’aucune fonction utilitaire <code class="docutils literal notranslate"><span class="pre">*_async</span></code> : les plugins Desktop utilisent des fonctions de rappel et des fonctions utilitaires synchrones.</p></li>
+<li><p><strong>Pas d’interfaces graphiques propres à Qt.</strong> Les plugins qui intègrent des widgets Qt personnalisés ou s’appuient sur les outils interactifs de PlotPy sont réservés au bureau ; leurs parties graphiques n’ont pas d’équivalent dans le navigateur.</p></li>
+<li><p><strong>L’exécution a lieu dans le navigateur</strong> (WebAssembly), sans accès natif au système de fichiers au-delà du système de fichiers en mémoire.</p></li>
+</ul>
+<p>Le <a class="reference external" href="https://datalab-platform.com/plugins/">catalogue de plugins DataLab</a> indique lesquels de ses plugins prennent également en charge DataLab-Web ; les plugins <a class="reference external" href="https://github.com/DataLab-Platform/datalab-camera-characterization">Camera &amp; Detector Characterization</a>, <a class="reference external" href="https://github.com/DataLab-Platform/datalab-pulse-characterization">Pulse &amp; Transient Characterization</a> et <a class="reference external" href="https://github.com/DataLab-Platform/datalab-radiography">X-ray Radiography &amp; NDT</a> sont des exemples de plugins dotés d’une classe DataLab-Web distincte. Consultez le <a class="reference external" href="https://github.com/DataLab-Platform/web/blob/develop/doc/plugins.md">guide des plugins DataLab-Web</a> pour l’API des plugins du navigateur et pour le chargement de plugins dans DataLab-Web.</p>
+</section>
+<section id="migrating-from-v0-20-to-v1-0">
+<h2>Migration de la v0.20 à la v1.0<a class="headerlink" href="#migrating-from-v0-20-to-v1-0" title="Lien vers cette rubrique">#</a></h2>
+<p>Si vous avez des plugins existants écrits pour DataLab v0.20, veuillez consulter le <a class="reference internal" href="../migration_v020_to_v100.html#migration-v020-to-v100"><span class="std std-ref">guide de migration</span></a> pour des instructions détaillées sur la mise à jour de vos plugins pour fonctionner avec DataLab v1.0.</p>
+</section>
+</section>
+
+
+                </article>
+              
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="deploying.html"
+       title="page précédente">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">précédent</p>
+        <p class="prev-next-title">Déployer des plugins dans une organisation</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="applications.html"
+       title="page suivante">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">suivant</p>
+        <p class="prev-next-title">Plugins d’application</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <dialog id="pst-secondary-sidebar-modal" tabindex="-1"></dialog>
+                <div id="pst-secondary-sidebar" class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+<div
+    id="pst-page-navigation-heading-2"
+    class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Sur cette page
+  </div>
+  <nav id="pst-page-toc-nav" class="page-toc" aria-labelledby="pst-page-navigation-heading-2">
+    <ul class="pst-show_toc_level nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#your-first-plugin-in-five-minutes">Votre premier plugin en cinq minutes</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-plugin">Qu’est-ce qu’un plugin ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#source-organization-and-distribution">Organisation du code source et distribution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-plugin-with-datalab-plugin-create">Créer un plugin avec <code class="docutils literal notranslate"><span class="pre">datalab-plugin</span> <span class="pre">create</span></code></a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#creating-a-layered-plugin-project">Créer un projet de plugin structuré en couches</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hot-reload-workflow-for-plugin-development">Rechargement à chaud pour le développement de plugins</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugin-api-helpers">Aides de l’API plugin</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#live-preview-compatibility">Compatibilité avec l’aperçu interactif</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-develop-a-plugin">Comment développer un plugin ?</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugins-of-the-catalog">Plugins du catalogue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-processing-plugin">Exemple : plugin de traitement</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-input-output-plugin">Exemple : plugin d’entrée/sortie</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#example-templates-used-by-the-test-suite">Exemples de modèles utilisés par la suite de tests</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#other-examples">Autres exemples</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#publishing-a-plugin-in-the-catalog">Publier un plugin dans le catalogue</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#plugins-and-datalab-web">Plugins et DataLab-Web</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#migrating-from-v0-20-to-v1-0">Migration de la v0.20 à la v1.0</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+          </footer>
+        
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script defer src="../../../_static/scripts/bootstrap.js?digest=75c7c72ae941e8b558d8"></script>
+<script defer src="../../../_static/scripts/pydata-sphinx-theme.js?digest=75c7c72ae941e8b558d8"></script>
+
+  <footer class="bd-footer">
+<div class="bd-footer__inner bd-page-width">
+  
+    <div class="footer-items__start">
+      
+        <div class="footer-item">
+
+  <p class="copyright">
+    
+      © Copyright 2023, DataLab Platform Developers.
+      <br/>
+    
+  </p>
+</div>
+      
+        <div class="footer-item">
+
+  <p class="sphinx-version">
+    Créé en utilisant <a href="https://www.sphinx-doc.org/">Sphinx</a> 9.0.4.
+  </p>
+</div>
+      
+    </div>
+  
+  
+  
+    <div class="footer-items__end">
+      
+        <div class="footer-item">
+<p class="theme-version">
+  <!-- # L10n: Setting the PST URL as an argument as this does not need to be localized -->
+  Construit avec le <a href="https://pydata-sphinx-theme.readthedocs.io/en/stable/index.html">thème PyData Sphinx</a> 0.24.0.
+</p></div>
+      
+    </div>
+  
+</div>
+
+  </footer>
+  </body>
+</html>
